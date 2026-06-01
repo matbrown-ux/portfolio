@@ -28,15 +28,25 @@ const blogModules = import.meta.glob('../content/blog/**/*.mdx', { eager: true }
 >
 
 export function getCaseStudies(): CaseStudy[] {
-  return Object.entries(caseStudyModules).map(([path, mod]) => ({
-    frontmatter: mod.frontmatter,
-    slug: parseCaseStudyPath(path),
-    Component: mod.default,
-  }))
+  return Object.entries(caseStudyModules)
+    .map(([path, mod]) => ({
+      frontmatter: mod.frontmatter,
+      slug: parseCaseStudyPath(path),
+      Component: mod.default,
+    }))
+    .sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date))
 }
 
 export function getCaseStudyBySlug(slug: string): CaseStudy | undefined {
   return getCaseStudies().find((cs) => cs.slug === slug)
+}
+
+export function getNextCaseStudy(slug: string): CaseStudy | undefined {
+  const all = getCaseStudies()
+  if (all.length < 2) return undefined
+  const i = all.findIndex((cs) => cs.slug === slug)
+  if (i === -1) return undefined
+  return all[(i + 1) % all.length]
 }
 
 export function getBlogPillars(): BlogPillar[] {

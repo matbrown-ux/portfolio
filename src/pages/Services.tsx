@@ -36,7 +36,7 @@ const services = [
     number: '03',
     title: 'Agentic Workflow Development',
     description:
-      'Custom AI-powered workflows that automate the repetitive work in your business — built on Claude, the AI SDK, and MCP tooling. Real automation, not toy demos.',
+      'Custom AI-powered workflows that automate the repetitive work in your business, built on Claude, the AI SDK, and MCP tooling. Real automation, not toy demos.',
     deliverables: [
       'Workflow design and scoping',
       'Claude API and AI SDK integration',
@@ -78,7 +78,7 @@ export function Services() {
       </section>
 
       {/* Services — numbered, not cards */}
-      <StaggerList className="divide-y divide-border-line border-y border-border-line">
+      <StaggerList className="divide-y divide-border-line border-t border-border-line">
         {services.map((service) => (
           <StaggerItem key={service.number}>
             <div className="max-w-7xl mx-auto px-6 py-16 md:py-20 grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-10 md:gap-20">

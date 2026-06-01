@@ -28,7 +28,7 @@
   --color-border-line: #1c1c1c;
 
   /* Typography */
-  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-sans: 'Poppins', system-ui, sans-serif;
 
   /* Radius */
   --radius-sm: 4px;
@@ -54,4 +54,54 @@ html {
 ::selection {
   background-color: var(--color-vermilion);
   color: var(--color-cream);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 0.75s step-end infinite;
+}
+
+/* Case study article — numbered editorial sections + pull quotes */
+.case-study-prose {
+  counter-reset: cs-section;
+}
+
+.case-study-prose h2 {
+  counter-increment: cs-section;
+  margin-top: 4rem;
+}
+
+.case-study-prose h2:first-child {
+  margin-top: 0;
+}
+
+.case-study-prose h2::before {
+  content: counter(cs-section, decimal-leading-zero);
+  display: block;
+  font-size: 0.8125rem;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  color: var(--color-vermilion);
+  margin-bottom: 0.625rem;
+}
+
+.case-study-prose blockquote {
+  border-left: 2px solid var(--color-vermilion);
+  padding: 0.25rem 0 0.25rem 1.5rem;
+  margin: 2.75rem 0;
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  line-height: 1.45;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--color-cream);
+}
+
+/* typography plugin adds decorative quote marks to blockquotes — remove them */
+.case-study-prose blockquote p::before,
+.case-study-prose blockquote p::after {
+  content: none;
 }

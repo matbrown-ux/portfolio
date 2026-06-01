@@ -11,19 +11,19 @@ keywords: ["button design", "UI states", "conversion", "UX engineering"]
 
 Most buttons have five states: default, hover, focus, active, and disabled. Most implementations only style two of them.
 
-This is a missed opportunity — not just for accessibility, but for the kind of micro-polish that separates professional interfaces from amateur ones.
+This is a missed opportunity, not just for accessibility, but for the kind of micro-polish that separates professional interfaces from amateur ones.
 
 ## The five states
 
-**Default** — the button at rest. Clean, readable, with enough visual weight to signal "this is clickable."
+**Default**: the button at rest. Clean, readable, with enough visual weight to signal "this is clickable."
 
-**Hover** — the button responding to cursor proximity. Use a subtle shift: color change, slight lift with `translateY(-2px)`, or a shadow. Not all three at once.
+**Hover**: the button responding to cursor proximity. Use a subtle shift: color change, slight lift with `translateY(-2px)`, or a shadow. Not all three at once.
 
-**Focus** — critical for keyboard navigation and accessibility. Use a visible `outline` or `ring` that passes WCAG 4.5:1 contrast against the background. Never `outline: none` without a replacement.
+**Focus**: critical for keyboard navigation and accessibility. Use a visible `outline` or `ring` that passes WCAG 4.5:1 contrast against the background. Never `outline: none` without a replacement.
 
-**Active** — the button being pressed. A slight compress (`scale(0.98)`) communicates "I heard you" to the user.
+**Active**: the button being pressed. A slight compress (`scale(0.98)`) communicates "I heard you" to the user.
 
-**Disabled** — the button that can't be clicked. Reduce opacity to 40–50%, change the cursor to `not-allowed`, and remove all hover effects.
+**Disabled**: the button that can't be clicked. Reduce opacity to 40–50%, change the cursor to `not-allowed`, and remove all hover effects.
 
 ## Implementation
 

@@ -1,10 +1,15 @@
 export interface CaseStudyFrontmatter {
   title: string
+  headline?: string
   slug: string
   summary: string
   tags: string[]
   coverImage: string
   date: string
+  liveUrl?: string
+  role?: string
+  services?: string[]
+  stack?: string[]
 }
 
 export interface CaseStudy {
@@ -18,6 +23,7 @@ export interface BlogPillarFrontmatter {
   slug: string
   description: string
   keywords: string[]
+  coverImage?: string
 }
 
 export interface BlogPillar {

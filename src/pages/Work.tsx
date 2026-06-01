@@ -13,7 +13,7 @@ export function Work() {
     <PageTransition>
       <SEO
         title="Work"
-        description="Case studies from Mathew Brown — UX/UI engineering, SEO, and agentic workflow projects."
+        description="Case studies covering UX/UI engineering, SEO, and agentic workflow projects."
       />
 
       <section className="max-w-7xl mx-auto px-6 pt-20 pb-24">
@@ -25,7 +25,7 @@ export function Work() {
             className="text-cream font-bold leading-none tracking-tight mb-20"
             style={{ fontSize: 'clamp(3rem, 7vw, 6rem)', letterSpacing: '-0.03em' }}
           >
-            Selected projects.
+            UX/UI Engineering &amp; SEO Case Studies
           </h1>
         </FadeIn>
 
@@ -47,7 +47,7 @@ export function Work() {
                   </span>
 
                   {/* Image */}
-                  <div className="w-full md:w-64 flex-shrink-0 aspect-video bg-secondary-dark overflow-hidden">
+                  <div className="w-full md:w-64 flex-shrink-0 self-start aspect-video bg-secondary-dark overflow-hidden">
                     {cs.frontmatter.coverImage ? (
                       <img
                         src={cs.frontmatter.coverImage}

@@ -6,7 +6,7 @@ import { Button } from '../components/ui/Button'
 export function NotFound() {
   return (
     <PageTransition>
-      <SEO title="404 — Not Found" description="This page doesn't exist." />
+      <SEO title="404: Not Found" description="This page doesn't exist." />
       <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center">
         <FadeIn>
           <p

@@ -12,29 +12,29 @@ colors:
   border-line: "#1c1c1c"
 typography:
   display:
-    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontFamily: "Poppins, system-ui, sans-serif"
     fontSize: "clamp(3.5rem, 9vw, 7rem)"
     fontWeight: 700
     lineHeight: 0.92
     letterSpacing: "-0.03em"
   headline:
-    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontFamily: "Poppins, system-ui, sans-serif"
     fontSize: "clamp(2rem, 5vw, 3.5rem)"
     fontWeight: 600
     lineHeight: 1.05
     letterSpacing: "-0.02em"
   title:
-    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontFamily: "Poppins, system-ui, sans-serif"
     fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)"
     fontWeight: 500
     lineHeight: 1.2
   body:
-    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontFamily: "Poppins, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.68
   label:
-    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontFamily: "Poppins, system-ui, sans-serif"
     fontSize: "0.6875rem"
     fontWeight: 500
     letterSpacing: "0.1em"
@@ -94,7 +94,7 @@ A high-contrast two-surface system — near-black and near-white — anchored by
 
 ## 3. Typography
 
-**Display Font:** DM Sans (Google Fonts, free) — geometric, precise, rational. Slightly more distinctive than Inter, less techie than Space Grotesk. Strong at display weights. Upgrade to Aktiv Grotesk or Neue Haas Grotesk if budget allows for a paid license.
+**Display Font:** Poppins (Google Fonts, free) — geometric, rounded, approachable yet precise. Strong across all weights, distinctive at display scale.
 
 **Body Font:** Same geometric sans at regular weight — single-family system. The hierarchy lives entirely in scale and weight contrast, not in a family change.
 

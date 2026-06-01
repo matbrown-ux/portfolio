@@ -9,6 +9,38 @@ type FormState = 'idle' | 'submitting' | 'success' | 'error'
 const inputClass =
   'w-full px-4 py-3 bg-secondary-dark border border-border-line text-cream text-sm placeholder:text-muted-prose focus:outline-none focus:border-cream/40 transition-colors duration-200'
 
+const labelClass = 'block text-xs tracking-widest uppercase text-muted-prose mb-2'
+
+function FormSelect({
+  id,
+  name,
+  label,
+  children,
+}: {
+  id: string
+  name: string
+  label: string
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className={labelClass}>
+        {label} <span className="text-vermilion">*</span>
+      </label>
+      <div className="relative">
+        <select id={id} name={name} required className={`${inputClass} appearance-none pr-10 cursor-pointer`}>
+          {children}
+        </select>
+        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted-prose">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2.5 4.5 L6 8 L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+      </div>
+    </div>
+  )
+}
+
 export function Contact() {
   const [formState, setFormState] = useState<FormState>('idle')
 
@@ -78,40 +110,51 @@ export function Contact() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="name" className="block text-xs tracking-widest uppercase text-muted-prose mb-2">
-                    Name
+                    Name <span className="text-vermilion">*</span>
                   </label>
                   <input id="name" name="name" type="text" required className={inputClass} />
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-xs tracking-widest uppercase text-muted-prose mb-2">
-                    Email
+                    Email <span className="text-vermilion">*</span>
                   </label>
                   <input id="email" name="email" type="email" required className={inputClass} />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="projectType" className="block text-xs tracking-widest uppercase text-muted-prose mb-2">
-                  Project type
+                <label htmlFor="company" className={labelClass}>
+                  Company <span className="text-vermilion">*</span>
                 </label>
-                <select id="projectType" name="projectType" className={inputClass}>
+                <input id="company" name="company" type="text" required className={inputClass} />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <FormSelect id="projectType" name="projectType" label="Project type">
                   <option value="">Select a service</option>
                   <option value="UX/UI Engineering">UX/UI Engineering</option>
                   <option value="SEO">SEO</option>
                   <option value="Agentic Workflow Development">Agentic Workflow Development</option>
                   <option value="Multiple services">Multiple services</option>
-                </select>
+                </FormSelect>
+                <FormSelect id="budget" name="budget" label="Budget">
+                  <option value="">Select a range</option>
+                  <option value="<$1,000">{'<$1,000'}</option>
+                  <option value="$1,000-$3,000">$1,000-$3,000</option>
+                  <option value="$3,000-$7,000">$3,000-$7,000</option>
+                  <option value="$7,000-$10,000">$7,000-$10,000</option>
+                  <option value="$10,000+">$10,000+</option>
+                </FormSelect>
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-xs tracking-widest uppercase text-muted-prose mb-2">
-                  Message
+                <label htmlFor="message" className={labelClass}>
+                  Message <span className="text-muted-prose/60 normal-case tracking-normal">(optional)</span>
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   rows={6}
-                  required
                   className={`${inputClass} resize-none`}
                 />
               </div>

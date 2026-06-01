@@ -22,16 +22,19 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-300 ${
-        scrolled ? 'bg-directors-black border-b border-border-line' : 'bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-[60] border-b transition-colors duration-500 ${
+        scrolled
+          ? 'bg-directors-black border-border-line'
+          : 'bg-directors-black/0 border-transparent'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <NavLink
-          to="/"
-          className="text-sm font-semibold tracking-[0.12em] uppercase text-cream hover:text-vermilion transition-colors duration-200"
-        >
-          MB
+        <NavLink to="/" aria-label="Home">
+          <img
+            src="/images/logo-navbar.svg"
+            alt="Mathew Brown"
+            className="h-8 w-auto"
+          />
         </NavLink>
 
         {/* Desktop nav */}

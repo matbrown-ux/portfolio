@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none" font-family="Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0 H0 V44" fill="none" stroke="#1c1c1c" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" fill="#090909"/>
+  <rect width="1600" height="900" fill="url(#grid)" opacity="0.5"/>
+  <rect x="1020" y="0" width="580" height="900" fill="#0e0e0e"/>
+  <line x1="1020" y1="0" x2="1020" y2="900" stroke="#1c1c1c" stroke-width="1"/>
+
+  <!-- logo marks motif -->
+  <g>
+    <text x="1140" y="200" fill="#7a7060" font-size="22" letter-spacing="2">MARKS</text>
+
+    <!-- circle mark -->
+    <circle cx="1200" cy="380" r="58" fill="none" stroke="#f5f0e8" stroke-width="3" opacity="0.3"/>
+    <circle cx="1200" cy="380" r="22" fill="#f5f0e8" opacity="0.3"/>
+
+    <!-- squircle mark (highlight) -->
+    <rect x="1282" y="322" width="116" height="116" rx="34" fill="#f86343"/>
+    <circle cx="1340" cy="380" r="26" fill="#090909"/>
+
+    <!-- triangle mark -->
+    <polygon points="1480,322 1538,438 1422,438" fill="none" stroke="#f5f0e8" stroke-width="3" opacity="0.3"/>
+
+    <!-- baseline tick row -->
+    <rect x="1200" y="500" width="60" height="6" rx="3" fill="#7a7060"/>
+    <rect x="1310" y="500" width="60" height="6" rx="3" fill="#f86343"/>
+    <rect x="1420" y="500" width="60" height="6" rx="3" fill="#7a7060"/>
+
+    <text x="1140" y="700" fill="#f5f0e8" font-size="40" font-weight="600">Cohesive everywhere</text>
+    <text x="1140" y="742" fill="#7a7060" font-size="24">Logo · System · Signage</text>
+  </g>
+
+  <rect x="110" y="150" width="5" height="120" fill="#f86343"/>
+  <text x="140" y="180" fill="#7a7060" font-size="24" letter-spacing="6">TOPIC</text>
+  <text x="106" y="430" fill="#f5f0e8" font-size="150" font-weight="700" letter-spacing="-5">Brand</text>
+  <text x="106" y="565" fill="#f5f0e8" font-size="150" font-weight="700" letter-spacing="-5">Identity</text>
+  <text x="112" y="650" fill="#7a7060" font-size="28">Logo · Visual systems · Signage</text>
+</svg>

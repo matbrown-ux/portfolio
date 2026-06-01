@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { motion } from 'motion/react'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
@@ -7,6 +8,14 @@ interface PageTransitionProps {
 
 export function PageTransition({ children }: PageTransitionProps) {
   const reduced = useReducedMotion()
+
+  // Reset scroll on mount — each route remounts this, so navigating
+  // to a new page always starts at the top.
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0)
+    }
+  }, [])
 
   return (
     <motion.div
