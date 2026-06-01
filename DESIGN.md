@@ -1,8 +1,54 @@
-<!-- SEED — re-run $impeccable document once there's code to capture the actual tokens and components. -->
+<!-- SEED — colors resolved from shape brief. Re-run $impeccable document once there's code to capture actual components. -->
 
 ---
 name: Mathew Brown Portfolio
 description: Premium freelance portfolio — UX/UI engineer, SEO specialist, agentic workflow developer.
+colors:
+  directors-black: "#090909"
+  secondary-dark: "#0e0e0e"
+  accent: "#f86343"
+  cream: "#f5f0e8"
+  muted-prose: "#7a7060"
+  border-line: "#1c1c1c"
+typography:
+  display:
+    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontSize: "clamp(3.5rem, 9vw, 7rem)"
+    fontWeight: 700
+    lineHeight: 0.92
+    letterSpacing: "-0.03em"
+  headline:
+    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontSize: "clamp(2rem, 5vw, 3.5rem)"
+    fontWeight: 600
+    lineHeight: 1.05
+    letterSpacing: "-0.02em"
+  title:
+    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)"
+    fontWeight: 500
+    lineHeight: 1.2
+  body:
+    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.68
+  label:
+    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontSize: "0.6875rem"
+    fontWeight: 500
+    letterSpacing: "0.1em"
+rounded:
+  sm: "4px"
+  md: "8px"
+  lg: "12px"
+  none: "0px"
+spacing:
+  xs: "8px"
+  sm: "16px"
+  md: "32px"
+  lg: "64px"
+  xl: "128px"
 ---
 
 # Design System: Mathew Brown Portfolio
@@ -30,15 +76,16 @@ The system rejects the SaaS cream aesthetic (Inter on white, identical feature c
 A high-contrast two-surface system — near-black and near-white — anchored by one committed accent in the warm register.
 
 ### Primary
-- **Director's Black** (oklch — near-black with a near-zero warm tint, [to be resolved during implementation]): The dominant surface. Used for hero sections, full-bleed backgrounds, and anywhere the work needs to announce itself. Never pure `#000` — always tinted toward the accent hue at chroma 0.006–0.010.
+- **Director's Black** (`#090909`, oklch ≈ `oklch(3.5% 0.002 60)`): The dominant surface. Hero sections, full-bleed backgrounds, the default page background. Warm-tinted near-black — not pure `#000`.
+- **Secondary Dark** (`#0e0e0e`, oklch ≈ `oklch(5.5% 0.002 60)`): Alternate section backgrounds for subtle depth. The difference from Director's Black is nearly imperceptible but structurally meaningful.
 
 ### Secondary
-- **Committed Accent** (oklch — warm register: amber, garnet, or deep vermilion family, [to be resolved during implementation]): The signature mark. Used at 30–50% visual weight — this is the "committed" color. Appears in large type, section backgrounds, active states, and the primary CTA. Must feel like a deliberate choice, not a brand color added by committee.
+- **Vermilion** (`#f86343`, oklch ≈ `oklch(65% 0.19 35)`): The one committed accent. Warm orange-red, vivid and decisive. Used at 30–50% visual weight — hero backgrounds, primary CTAs, active nav states, key typographic moments. When it appears, it commands. When it's absent, its absence is felt.
 
 ### Neutral
-- **Page White** (oklch — near-white with a near-zero warm tint, [to be resolved during implementation]): Type on dark, backgrounds on light sections. Never pure `#fff`. Tinted toward the accent hue at chroma 0.004–0.008.
-- **Muted Prose** (oklch — mid-range lightness, low chroma, [to be resolved during implementation]): Secondary text, labels, metadata. Readable without competing with primary type.
-- **Border Line** (oklch — slightly above Director's Black, [to be resolved during implementation]): Dividers and subtle containers. Barely visible on dark surfaces, structural on light.
+- **Cream** (`#f5f0e8`, oklch ≈ `oklch(95% 0.012 75)`): All body copy and headlines on dark surfaces. Warm off-white — never pure `#fff`. The warmth ties it to the Vermilion accent family.
+- **Muted Prose** (`#7a7060`, oklch ≈ `oklch(50% 0.014 75)`): Secondary text, labels, metadata, captions. Readable on `#090909` at WCAG AA for large text.
+- **Border Line** (`#1c1c1c`, oklch ≈ `oklch(11% 0.003 60)`): Dividers, input borders, card outlines on dark surfaces. Barely visible — structural, not decorative.
 
 ### Named Rules
 **The One Accent Rule.** There is one committed accent color in this system. It is used boldly — not sprinkled. When it appears, it commands attention. Introducing a second accent color is prohibited.
@@ -47,7 +94,7 @@ A high-contrast two-surface system — near-black and near-white — anchored by
 
 ## 3. Typography
 
-**Display Font:** A geometric sans-serif — precise, rational, structural. [Font pairing to be chosen at implementation — candidates: Neue Haas Grotesk, Aktiv Grotesk, Monument Grotesk, Suisse Int'l. Avoid Inter; too common.]
+**Display Font:** DM Sans (Google Fonts, free) — geometric, precise, rational. Slightly more distinctive than Inter, less techie than Space Grotesk. Strong at display weights. Upgrade to Aktiv Grotesk or Neue Haas Grotesk if budget allows for a paid license.
 
 **Body Font:** Same geometric sans at regular weight — single-family system. The hierarchy lives entirely in scale and weight contrast, not in a family change.
 
@@ -70,7 +117,7 @@ A high-contrast two-surface system — near-black and near-white — anchored by
 Flat by default on light surfaces. On dark surfaces, layering is achieved through opacity and subtle border lines rather than shadows. Shadows are reserved for interactive state response only — an element earning its lift through user action, not decoration.
 
 ### Shadow Vocabulary
-- **Hover Lift** (`0 8px 40px rgba(0,0,0,0.18)`, [accent color ambient glow at very low opacity to be resolved]): Cards and interactive elements on hover only. Not present at rest.
+- **Hover Lift** (`0 8px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(248,99,67,0.08)`): Cards and interactive elements on hover only. The faint Vermilion ambient ring is the system signature. Not present at rest.
 
 ### Named Rules
 **The Flat-By-Default Rule.** Nothing casts a shadow at rest. Shadows are a state change, not a style. A shadow at rest means the element is always asking for attention — that is the designer admitting they don't trust the layout to do the work.
