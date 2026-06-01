@@ -1,4 +1,17 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+.prose {
+  --tw-prose-body: var(--color-muted-prose);
+  --tw-prose-headings: var(--color-cream);
+  --tw-prose-links: var(--color-vermilion);
+  --tw-prose-bold: var(--color-cream);
+  --tw-prose-code: var(--color-cream);
+  --tw-prose-pre-bg: var(--color-secondary-dark);
+  --tw-prose-hr: var(--color-border-line);
+  --tw-prose-quotes: var(--color-muted-prose);
+  --tw-prose-quote-borders: var(--color-vermilion);
+}
 
 @theme {
   /* Surfaces */
