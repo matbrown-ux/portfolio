@@ -36,8 +36,9 @@ src/
 ├── pages/            # Route components
 ├── content/
 │   ├── blog/
-│   │   ├── pillars/  # Pillar page MDX content
-│   │   └── articles/ # Article MDX files nested under pillars
+│   │   └── [pillar-slug]/
+│   │       ├── index.mdx   # Pillar page content
+│   │       └── [article-slug].mdx  # Articles under this pillar
 │   └── case-studies/ # Case study MDX files
 ├── hooks/            # Custom React hooks (useSEO, useInView wrappers, etc.)
 ├── lib/              # Utilities (MDX loader, SEO helpers, structured data)
