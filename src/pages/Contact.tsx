@@ -22,7 +22,7 @@ export function Contact() {
       const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
+        body: new URLSearchParams([...data.entries()] as [string, string][]).toString(),
       })
       setFormState(res.ok ? 'success' : 'error')
     } catch {
@@ -42,7 +42,7 @@ export function Contact() {
           <p className="text-xs font-medium tracking-[0.2em] uppercase text-vermilion mb-6">Contact</p>
           <h1
             className="text-cream font-bold leading-none tracking-tight mb-4"
-            style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', letterSpacing: '-0.03em' }}
+            style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', letterSpacing: '-0.03em' }}
           >
             Let's talk.
           </h1>

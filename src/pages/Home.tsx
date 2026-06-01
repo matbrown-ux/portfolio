@@ -52,23 +52,26 @@ export function Home() {
           </p>
         </FadeIn>
 
-        <div className="overflow-hidden">
+        <h1
+          className="text-cream font-bold leading-none tracking-tight"
+          style={{
+            fontSize: 'clamp(4rem, 12vw, 9rem)',
+            letterSpacing: '-0.03em',
+          }}
+        >
           {heroLines.map(({ text, delay }) => (
-            <motion.h1
-              key={text}
-              className="block text-cream font-bold leading-none tracking-tight"
-              style={{
-                fontSize: 'clamp(4rem, 12vw, 9rem)',
-                letterSpacing: '-0.03em',
-              }}
-              initial={{ y: '110%', opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {text}
-            </motion.h1>
+            <span key={text} className="block overflow-hidden">
+              <motion.span
+                className="block"
+                initial={{ y: '110%', opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {text}
+              </motion.span>
+            </span>
           ))}
-        </div>
+        </h1>
 
         <motion.p
           className="text-muted-prose mt-8 max-w-lg leading-relaxed"
