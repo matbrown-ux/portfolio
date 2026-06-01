@@ -83,7 +83,8 @@ Pillars render alphabetically by directory name. Only UX/UI Design currently has
 - **About** — Skills section as cards with vermilion accent; centered heading + columns.
 - **Blog** — pillars converted from list to card layout; expanded to 9 pillars.
 - **Card hover** — redesigned to a `top`-based lift + vermilion border/glow to avoid a GPU compositing artifact (verified in-browser).
-- **Scroll restoration** — `PageTransition` scrolls to top on route change.
+- **Scroll restoration** — `PageTransition` resets scroll to top before paint (`useLayoutEffect`, isomorphic) on every route change, including case-study → next-project navigation, so there's no bottom-of-page flash.
+- **Responsive fix** — the case study project-meta grid stacks to one column on mobile and goes 3-across at `sm`+ (`grid-cols-1 sm:grid-cols-3`).
 - **Footer** — full redesign: contact CTA band (availability indicator, email, button), link columns (Pages/Writing/Connect with vermilion labels), bottom bar with back-to-top.
 - **Contact form** — added Company input + Budget select; everything required except Message; custom select caret with padding; vermilion `*` on required labels. Posts to Netlify.
 - **Work/Services polish** — fixed card image cropping on Work; removed trailing bottom border on Services.

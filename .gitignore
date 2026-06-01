@@ -32,3 +32,8 @@ pnpm-debug.log*
 
 # Testing
 coverage
+
+# Local tooling (agent-browser verification workflow)
+.agent-browser/
+auth.json
+*.har

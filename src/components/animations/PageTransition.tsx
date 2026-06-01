@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { motion } from 'motion/react'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
@@ -6,15 +6,16 @@ interface PageTransitionProps {
   children: React.ReactNode
 }
 
+// useLayoutEffect on the client (runs before paint), useEffect on the server (avoids SSR warning).
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
+
 export function PageTransition({ children }: PageTransitionProps) {
   const reduced = useReducedMotion()
 
-  // Reset scroll on mount — each route remounts this, so navigating
-  // to a new page always starts at the top.
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0)
-    }
+  // Reset scroll on mount, before paint — each route remounts this, so navigating
+  // to a new page always starts at the top with no bottom-of-page flash.
+  useIsomorphicLayoutEffect(() => {
+    window.scrollTo(0, 0)
   }, [])
 
   return (

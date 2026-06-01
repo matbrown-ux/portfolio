@@ -63,7 +63,7 @@ export function WorkDetail() {
 
         {(frontmatter.role || frontmatter.services || frontmatter.stack) ? (
           <FadeIn>
-            <dl className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-10 py-10 my-12 border-y border-border-line">
+            <dl className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-8 py-10 my-12 border-y border-border-line">
               {frontmatter.role && (
                 <div>
                   <dt className="text-xs font-medium tracking-[0.2em] uppercase text-muted-prose mb-3">Role</dt>
