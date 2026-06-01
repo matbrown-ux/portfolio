@@ -1,0 +1,43 @@
+---
+title: Button States That Convert
+slug: button-states-that-convert
+description: A practical guide to designing button states that communicate clearly and drive action.
+date: "2026-05-31"
+pillar: ux-ui-design
+keywords: ["button design", "UI states", "conversion", "UX engineering"]
+---
+
+## Why button states matter
+
+Most buttons have five states: default, hover, focus, active, and disabled. Most implementations only style two of them.
+
+This is a missed opportunity — not just for accessibility, but for the kind of micro-polish that separates professional interfaces from amateur ones.
+
+## The five states
+
+**Default** — the button at rest. Clean, readable, with enough visual weight to signal "this is clickable."
+
+**Hover** — the button responding to cursor proximity. Use a subtle shift: color change, slight lift with `translateY(-2px)`, or a shadow. Not all three at once.
+
+**Focus** — critical for keyboard navigation and accessibility. Use a visible `outline` or `ring` that passes WCAG 4.5:1 contrast against the background. Never `outline: none` without a replacement.
+
+**Active** — the button being pressed. A slight compress (`scale(0.98)`) communicates "I heard you" to the user.
+
+**Disabled** — the button that can't be clicked. Reduce opacity to 40–50%, change the cursor to `not-allowed`, and remove all hover effects.
+
+## Implementation
+
+```tsx
+<button
+  className="px-6 py-3 bg-vermilion text-cream
+    hover:-translate-y-0.5 hover:bg-vermilion-hover
+    focus:outline-none focus:ring-2 focus:ring-vermilion focus:ring-offset-2 focus:ring-offset-directors-black
+    active:scale-[0.98]
+    disabled:opacity-40 disabled:cursor-not-allowed disabled:translate-y-0
+    transition-all duration-200"
+>
+  Click me
+</button>
+```
+
+The key insight: each state communicates something specific. Design them as a system, not as afterthoughts.
