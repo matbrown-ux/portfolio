@@ -25,8 +25,10 @@ describe('SEO noindex', () => {
       </HelmetProvider>
     )
     await waitFor(() => {
+      // Title and meta tags are committed together, so once the title is set
+      // the absence of a robots meta is a stable assertion (no head leakage).
       expect(document.title).toContain('Work')
+      expect(document.head.querySelector('meta[name="robots"]')).toBeNull()
     })
-    expect(document.head.querySelector('meta[name="robots"]')).toBeNull()
   })
 })

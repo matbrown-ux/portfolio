@@ -47,7 +47,8 @@ export function Lab() {
         })
       })
 
-      return () => mm.revert()
+      // No manual cleanup needed: useGSAP reverts everything created in this
+      // scope, including the matchMedia instance, on unmount.
     },
     { scope: root }
   )
@@ -60,8 +61,9 @@ export function Lab() {
           `scope` limits selector text to descendants of this element. The progress
           bar is position:fixed, so nesting it here does not change its rendering. */}
       <div ref={root}>
-        {/* Fixed scroll-progress bar */}
-        <div className="fixed top-0 left-0 right-0 h-0.5 z-50 bg-border-line">
+        {/* Fixed scroll-progress bar. z above the navbar (z-[60]) so the scrub
+            stays visible once the navbar gains its scrolled background. */}
+        <div className="fixed top-0 left-0 right-0 h-0.5 z-[70] bg-border-line">
           <div className="lab-progress h-full bg-vermilion" style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }} />
         </div>
 
@@ -74,7 +76,7 @@ export function Lab() {
             GSAP sandbox.
           </h1>
           <p className="text-muted-prose leading-relaxed mt-8 max-w-prose">
-            A private space for scroll and timeline experiments. Scroll down to watch the progress bar scrub and the lines reveal.
+            A private space for scroll and timeline experiments. Scroll down to explore the current demo.
           </p>
         </section>
 
