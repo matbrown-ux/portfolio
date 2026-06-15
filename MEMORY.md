@@ -44,14 +44,16 @@ Design language: big bold display type (clamp sizing, tight tracking), uppercase
 ## Architecture / key files
 
 - `src/router.tsx` — routes (Home, About, Services, Work, Work detail, Blog, Blog pillar, Blog article, Contact, 404)
-- `src/layouts/DefaultLayout.tsx` — Navbar + `<Outlet>` + Footer; wraps routes in `AnimatePresence`
+- `src/layouts/DefaultLayout.tsx` — Navbar + `<PageCurtain>` (renders the routed page + the global page transition) + Footer.
 - `src/lib/content.ts` — content pipeline via `import.meta.glob` over `src/content/**`. **Case studies are sorted by `date` descending.** Helpers: `getCaseStudies`, `getCaseStudyBySlug`, `getNextCaseStudy`, `getBlogPillars`, `getBlogArticles`, etc.
 - `src/types/content.ts` — frontmatter interfaces (`CaseStudyFrontmatter`, `BlogPillarFrontmatter`, `BlogArticleFrontmatter`)
 - `src/content/case-studies/*.mdx` — case studies
 - `src/content/blog/<pillar>/index.mdx` — blog pillar landing pages; articles are `src/content/blog/<pillar>/<article>.mdx`
-- `src/components/animations/` — `FadeIn`, `StaggerList`/`StaggerItem`, `PageTransition`
+- `src/components/animations/` — `FadeIn`, `StaggerList`/`StaggerItem`. `PageTransition` is now a **pass-through** (no-op wrapper kept so pages don't need edits); the global transition + scroll reset live in `PageCurtain`.
+- `src/components/PageCurtain.tsx` — **global page transition** (the "curtain"). Renders the routed page via `useOutlet` (frozen during cover so the content swap is hidden) plus two GSAP panels (vermilion diagonal + directors-black) that slide down to cover, swap content + reset scroll at full cover, then lift to reveal. Replaced the Framer fade + `AnimatePresence`. Panels are `h-[130vh]` (taller than viewport so the diagonal sweeps but the bottom stays covered), ~2s, `power2.inOut`, reduced-motion = instant swap. Exposes `useEntranceDelay()` and owns scroll reset.
 - `src/lib/gsap.ts` — **single, browser-guarded** GSAP plugin-registration point (`typeof window` guard for SSR); re-exports `gsap`, `ScrollTrigger`, `useGSAP`. Import GSAP through this, not directly.
-- `src/pages/Lab.tsx` + `/lab` route — GSAP sandbox (noindex, not linked in nav). First demo: scroll-scrub progress bar + pinned text reveal, gated on `prefers-reduced-motion` via `gsap.matchMedia()`. Animated transforms kept off dark `Card` surfaces. Progress bar is `z-[70]` to sit above the `z-[60]` navbar.
+- `src/components/work/covers/` — animated inline-SVG case-study covers: one component per project (`VampNetworkCover`, `TheBookingFlowCover`, `AiwiWafflesCover`), a shared `useCoverReveal` hook (scroll-in reveal, reduced-motion gated, SSR-safe), `CoverChip` (centered category pills), and `index.ts` (slug→component map; falls back to the static `<img>` cover). Used on the `/work` cards and the case-study hero (`WorkDetail`).
+- `src/pages/Lab.tsx` + `/lab` route — GSAP sandbox (noindex, not linked in nav). Holds a hero-load-animation prototype (image grows+fades, then circle), a scroll-scrub progress bar, and a character-reveal scroll demo. `gsap.matchMedia()` reduced-motion gating; progress bar `z-[70]` above the `z-[60]` navbar.
 - `src/components/mdx/` — MDX components: `ImageCarousel`, `BeforeAfterSlider`, `AnnotatedImage`, `VideoPlayer`, `Metrics`, plus `caseStudyMdx.tsx` (scroll-animated h2/h3/p/ul/ol/blockquote, case-study only)
 - `src/components/ui/` — `Button`, `Card`, `Tag`
 - `public/images/` — hand-built SVG cover art + placeholder mockups
@@ -86,7 +88,7 @@ Pillars render alphabetically by directory name. Only UX/UI Design currently has
 - **About** — Skills section as cards with vermilion accent; centered heading + columns.
 - **Blog** — pillars converted from list to card layout; expanded to 9 pillars.
 - **Card hover** — redesigned to a `top`-based lift + vermilion border/glow to avoid a GPU compositing artifact (verified in-browser).
-- **Scroll restoration** — `PageTransition` resets scroll to top before paint (`useLayoutEffect`, isomorphic) on every route change, including case-study → next-project navigation, so there's no bottom-of-page flash.
+- **Scroll restoration** — now owned by `PageCurtain`: it resets scroll (`window.scrollTo(0,0)` + `ScrollTrigger.clearScrollMemory()`) at the covered content swap, so navigation (including case-study → next-project) lands on the hero. (Superseded the old `PageTransition`-on-mount reset.)
 - **Responsive fix** — the case study project-meta grid stacks to one column on mobile and goes 3-across at `sm`+ (`grid-cols-1 sm:grid-cols-3`).
 - **Footer** — full redesign: contact CTA band (availability indicator, email, button), link columns (Pages/Writing/Connect with vermilion labels), bottom bar with back-to-top.
 - **Contact form** — added Company input + Budget select; everything required except Message; custom select caret with padding; vermilion `*` on required labels. Posts to Netlify.
@@ -94,9 +96,16 @@ Pillars render alphabetically by directory name. Only UX/UI Design currently has
 - **Config** — disabled the Vercel Claude Code plugin in `~/.claude/settings.json` (takes effect next session).
 - **GSAP sandbox** — added `gsap` + `@gsap/react`; SSR-safe registration module (`src/lib/gsap.ts`); `noindex` prop on `SEO`; `/lab` sandbox page + route with a scroll-scrub + pinned-reveal demo (reduced-motion aware). Verified end-to-end in-browser (scrub 0→1, reveals to opacity 1, reduced-motion static, bar above navbar). Spec/plan in `docs/superpowers/`.
 - **SSG build fix** — `npm run build` was **already broken before this work** (`react-helmet-async` named-export failure in the Node ESM SSR bundle). Fixed via `ssr.noExternal: ['react-helmet-async', 'gsap', '@gsap/react']` in `vite.config.ts`. GSAP's subpath imports need the same treatment, so this config is required for the build to pass.
+- **Hero load animation** — homepage hero image grows + fades in, then the circle blooms behind it (GSAP `useGSAP`, `force3D: false`). Made the hero full-height (`min-h-[calc(100svh-4rem)]`), bottom-anchored the circle + image (fixed a tall-viewport gap), enlarged the image and stacked the CTAs full-width on mobile. Prototyped in `/lab`, then ported to `Home.tsx`; typewriter h1 + Framer text fades kept.
+- **Animated work covers** — converted the 3 case-study cover SVGs to inline React components with tailored GSAP reveals (Vamp: chart builds; Booking Flow: pipeline flows; 'Aiwi: waffle mark assembles), playing once on scroll-in (reduced-motion safe) on the `/work` cards and the case-study hero. Centered the category-pill text (`CoverChip`).
+- **Page transition (curtain)** — replaced the Framer fade with a GSAP curtain inspired by thebookingflow.com (reverse-engineered from the live DOM; that site is also Vite+React, minified, no source map). Vermilion-diagonal + directors-black panels slide down to cover, swap content while covered, then lift to reveal. ~2s, `power2.inOut`, reduced-motion = instant swap.
+- **Hero-after-reveal timing** — pages mount while covered, so entrance animations would play behind the curtain. `PageCurtain` provides an entrance delay via context (`useEntranceDelay()`): 0 on direct load, ~1.2s after a transition. `Home` applies it to the hero GSAP + text fades so the hero plays as the curtain clears.
 
 ## Known characteristics / gotchas
 
+- **GSAP `force3D: false` when animating dark elements.** GSAP's default (`force3D: "auto"`) promotes the element to a 3D GPU layer during a transform tween, which on some Chrome/GPU combos paints a dark element on a dark background as a solid black rectangle until the tween ends and the layer is dropped. Set `force3D: false` on tweens that move/scale dark surfaces (hero circle, curtain panels). Same root cause as the dark-`Card` hover-lift artifact noted in CLAUDE.md.
+- **GSAP ScrollTrigger restores scroll on route change.** It remembers the window scroll position and restores it on its post-navigation refresh, landing SPA navigation at the previous scroll (e.g. case-study → next-project at the bottom). Fix: call `ScrollTrigger.clearScrollMemory()` before `scrollTo(0,0)` (done in `PageCurtain`).
+- **Entrance animations + the curtain.** Because the curtain swaps content while covered, a new page's mount-time entrance animations play hidden behind it. Use `useEntranceDelay()` from `PageCurtain` to delay them until the reveal completes (it is 0 on a direct load). Currently only `Home`'s hero consumes it; the case-study cover reveals and other above-the-fold mount animations still play under the curtain (could be extended the same way).
 - **`react-helmet-async` SEO meta is client-side only.** It is NOT collected into the prerendered HTML for ANY page (titles, descriptions, og tags, and the new `/lab` `noindex` all inject on mount in the browser, not at build). vite-react-ssg is not wired to extract Helmet output during prerender. Prerendered `<title>` is just the static `Mathew Brown` from `index.html`. This is a meaningful SEO/AEO gap for a prerender-focused site and is worth addressing separately (e.g. wire Helmet into the SSG head, or move to vite-react-ssg's `Head`/route `entry` metadata). Not GSAP-related.
 
 ## Outstanding TODOs
