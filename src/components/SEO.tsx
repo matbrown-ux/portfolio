@@ -6,9 +6,10 @@ interface SEOProps {
   ogImage?: string
   type?: 'website' | 'article'
   schema?: object | object[]
+  noindex?: boolean
 }
 
-export function SEO({ title, description, ogImage, type = 'website', schema }: SEOProps) {
+export function SEO({ title, description, ogImage, type = 'website', schema, noindex = false }: SEOProps) {
   const fullTitle = `${title} | Mathew Brown`
   const schemas = Array.isArray(schema) ? schema : schema ? [schema] : []
 
@@ -16,6 +17,7 @@ export function SEO({ title, description, ogImage, type = 'website', schema }: S
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      {noindex && <meta name="robots" content="noindex" />}
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content={type} />
