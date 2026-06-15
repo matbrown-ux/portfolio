@@ -12,7 +12,8 @@ A personal portfolio site for **Mathew Brown** — a freelance UX/UI engineer, S
 - **React + Vite** with **vite-react-ssg** (static site generation / prerender at build)
 - **TypeScript**
 - **Tailwind CSS v4** (tokens defined via `@theme` in `src/styles/globals.css`, plus `@tailwindcss/typography`)
-- **motion** (Framer Motion) for animation
+- **motion** (Framer Motion) for animation (the established library, used site-wide)
+- **GSAP** + **@gsap/react** (`useGSAP`) for scroll/timeline experiments, currently sandboxed to `/lab`
 - **react-router-dom** for routing (`src/router.tsx`)
 - **MDX** (`@mdx-js/react`) for case study + blog content
 - **react-helmet-async** for SEO (`src/components/SEO.tsx`)
@@ -49,6 +50,8 @@ Design language: big bold display type (clamp sizing, tight tracking), uppercase
 - `src/content/case-studies/*.mdx` — case studies
 - `src/content/blog/<pillar>/index.mdx` — blog pillar landing pages; articles are `src/content/blog/<pillar>/<article>.mdx`
 - `src/components/animations/` — `FadeIn`, `StaggerList`/`StaggerItem`, `PageTransition`
+- `src/lib/gsap.ts` — **single, browser-guarded** GSAP plugin-registration point (`typeof window` guard for SSR); re-exports `gsap`, `ScrollTrigger`, `useGSAP`. Import GSAP through this, not directly.
+- `src/pages/Lab.tsx` + `/lab` route — GSAP sandbox (noindex, not linked in nav). First demo: scroll-scrub progress bar + pinned text reveal, gated on `prefers-reduced-motion` via `gsap.matchMedia()`. Animated transforms kept off dark `Card` surfaces. Progress bar is `z-[70]` to sit above the `z-[60]` navbar.
 - `src/components/mdx/` — MDX components: `ImageCarousel`, `BeforeAfterSlider`, `AnnotatedImage`, `VideoPlayer`, `Metrics`, plus `caseStudyMdx.tsx` (scroll-animated h2/h3/p/ul/ol/blockquote, case-study only)
 - `src/components/ui/` — `Button`, `Card`, `Tag`
 - `public/images/` — hand-built SVG cover art + placeholder mockups
@@ -89,6 +92,12 @@ Pillars render alphabetically by directory name. Only UX/UI Design currently has
 - **Contact form** — added Company input + Budget select; everything required except Message; custom select caret with padding; vermilion `*` on required labels. Posts to Netlify.
 - **Work/Services polish** — fixed card image cropping on Work; removed trailing bottom border on Services.
 - **Config** — disabled the Vercel Claude Code plugin in `~/.claude/settings.json` (takes effect next session).
+- **GSAP sandbox** — added `gsap` + `@gsap/react`; SSR-safe registration module (`src/lib/gsap.ts`); `noindex` prop on `SEO`; `/lab` sandbox page + route with a scroll-scrub + pinned-reveal demo (reduced-motion aware). Verified end-to-end in-browser (scrub 0→1, reveals to opacity 1, reduced-motion static, bar above navbar). Spec/plan in `docs/superpowers/`.
+- **SSG build fix** — `npm run build` was **already broken before this work** (`react-helmet-async` named-export failure in the Node ESM SSR bundle). Fixed via `ssr.noExternal: ['react-helmet-async', 'gsap', '@gsap/react']` in `vite.config.ts`. GSAP's subpath imports need the same treatment, so this config is required for the build to pass.
+
+## Known characteristics / gotchas
+
+- **`react-helmet-async` SEO meta is client-side only.** It is NOT collected into the prerendered HTML for ANY page (titles, descriptions, og tags, and the new `/lab` `noindex` all inject on mount in the browser, not at build). vite-react-ssg is not wired to extract Helmet output during prerender. Prerendered `<title>` is just the static `Mathew Brown` from `index.html`. This is a meaningful SEO/AEO gap for a prerender-focused site and is worth addressing separately (e.g. wire Helmet into the SSG head, or move to vite-react-ssg's `Head`/route `entry` metadata). Not GSAP-related.
 
 ## Outstanding TODOs
 
