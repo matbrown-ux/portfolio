@@ -5,6 +5,7 @@ import { FadeIn } from '../components/animations/FadeIn'
 import { StaggerList, StaggerItem } from '../components/animations/StaggerList'
 import { Tag } from '../components/ui/Tag'
 import { getCaseStudies } from '../lib/content'
+import { getCoverComponent } from '../components/work/covers'
 
 export function Work() {
   const caseStudies = getCaseStudies()
@@ -46,20 +47,24 @@ export function Work() {
                     {String(i + 1).padStart(2, '0')}
                   </span>
 
-                  {/* Image */}
+                  {/* Image — animated inline-SVG cover when available, else static */}
                   <div className="w-full md:w-64 flex-shrink-0 self-start aspect-video bg-secondary-dark overflow-hidden">
-                    {cs.frontmatter.coverImage ? (
-                      <img
-                        src={cs.frontmatter.coverImage}
-                        alt={cs.frontmatter.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                        width={512}
-                        height={288}
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-directors-black" />
-                    )}
+                    {(() => {
+                      const Cover = getCoverComponent(cs.slug)
+                      if (Cover) return <Cover />
+                      if (cs.frontmatter.coverImage)
+                        return (
+                          <img
+                            src={cs.frontmatter.coverImage}
+                            alt={cs.frontmatter.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                            width={512}
+                            height={288}
+                          />
+                        )
+                      return <div className="w-full h-full bg-directors-black" />
+                    })()}
                   </div>
 
                   {/* Content */}

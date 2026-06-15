@@ -7,6 +7,7 @@ import { Tag } from '../components/ui/Tag'
 import { CaseStudyLayout } from '../layouts/CaseStudyLayout'
 import { CaseStudyMDXComponents } from '../components/mdx/caseStudyMdx'
 import { getCaseStudyBySlug, getNextCaseStudy } from '../lib/content'
+import { getCoverComponent } from '../components/work/covers'
 
 export function WorkDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -16,6 +17,7 @@ export function WorkDetail() {
 
   const { frontmatter, Component } = cs
   const next = getNextCaseStudy(slug!)
+  const Cover = getCoverComponent(slug!)
 
   return (
     <PageTransition>
@@ -27,7 +29,9 @@ export function WorkDetail() {
       />
       <CaseStudyLayout
         hero={
-          frontmatter.coverImage ? (
+          Cover ? (
+            <Cover />
+          ) : frontmatter.coverImage ? (
             <img
               src={frontmatter.coverImage}
               alt={frontmatter.title}
