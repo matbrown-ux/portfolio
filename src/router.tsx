@@ -9,6 +9,7 @@ import { Blog } from './pages/Blog'
 import { BlogPillar } from './pages/BlogPillar'
 import { BlogArticle } from './pages/BlogArticle'
 import { Contact } from './pages/Contact'
+import { Lab } from './pages/Lab'
 import { NotFound } from './pages/NotFound'
 
 export const routes: RouteObject[] = [
@@ -24,6 +25,7 @@ export const routes: RouteObject[] = [
       { path: '/blog/:pillar', element: <BlogPillar /> },
       { path: '/blog/:pillar/:article', element: <BlogArticle /> },
       { path: '/contact', element: <Contact /> },
+      { path: '/lab', element: <Lab /> },
     ],
   },
   { path: '*', element: <NotFound /> },
