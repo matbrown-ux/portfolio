@@ -15,6 +15,9 @@ export default defineConfig({
     },
     react(),
   ],
+  ssr: {
+    noExternal: ['react-helmet-async', 'gsap', '@gsap/react'],
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
