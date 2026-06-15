@@ -56,12 +56,15 @@ export function Lab() {
     <PageTransition>
       <SEO title="Lab" description="GSAP animation sandbox." noindex />
 
-      {/* Fixed scroll-progress bar */}
-      <div className="fixed top-0 left-0 right-0 h-0.5 z-50 bg-border-line">
-        <div className="lab-progress h-full bg-vermilion" style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }} />
-      </div>
-
+      {/* Everything that GSAP targets must live inside `root`, because useGSAP's
+          `scope` limits selector text to descendants of this element. The progress
+          bar is position:fixed, so nesting it here does not change its rendering. */}
       <div ref={root}>
+        {/* Fixed scroll-progress bar */}
+        <div className="fixed top-0 left-0 right-0 h-0.5 z-50 bg-border-line">
+          <div className="lab-progress h-full bg-vermilion" style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }} />
+        </div>
+
         <section className="max-w-7xl mx-auto px-6 pt-20 pb-24">
           <p className="text-xs font-medium tracking-[0.2em] uppercase text-vermilion mb-6">Lab</p>
           <h1
