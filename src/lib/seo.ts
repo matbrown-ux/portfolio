@@ -28,8 +28,12 @@ export function serviceOfferSchema(input: {
   name: string
   description: string
   provider: string
-  priceRange: string
+  minPrice: number
+  priceCurrency?: string
 }) {
+  // A recurring "from $X/month" offer expressed with a numeric minPrice and a
+  // monthly reference quantity, so it validates cleanly (a free-form price
+  // string like "from $3,000/mo" is rejected by structured-data validators).
   return {
     '@context': 'https://schema.org',
     '@type': 'Service' as const,
@@ -39,9 +43,14 @@ export function serviceOfferSchema(input: {
     offers: {
       '@type': 'Offer' as const,
       priceSpecification: {
-        '@type': 'PriceSpecification' as const,
-        price: input.priceRange,
-        priceCurrency: 'USD',
+        '@type': 'UnitPriceSpecification' as const,
+        minPrice: input.minPrice,
+        priceCurrency: input.priceCurrency ?? 'USD',
+        referenceQuantity: {
+          '@type': 'QuantitativeValue' as const,
+          value: 1,
+          unitCode: 'MON',
+        },
       },
     },
   }
@@ -78,18 +87,5 @@ export function breadcrumbSchema(items: { name: string; url: string }[]) {
       name: item.name,
       item: item.url,
     })),
-  }
-}
-
-export function serviceSchema(name: string, description: string, provider: string) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Service' as const,
-    name,
-    description,
-    provider: {
-      '@type': 'Person' as const,
-      name: provider,
-    },
   }
 }

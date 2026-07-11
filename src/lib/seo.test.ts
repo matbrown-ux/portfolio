@@ -3,7 +3,6 @@ import {
   personSchema,
   articleSchema,
   breadcrumbSchema,
-  serviceSchema,
   websiteSchema,
   serviceOfferSchema,
 } from './seo'
@@ -42,15 +41,18 @@ describe('websiteSchema', () => {
 })
 
 describe('serviceOfferSchema', () => {
-  it('builds a Service node with an offer priceRange', () => {
+  it('builds a Service node with a valid recurring minPrice offer', () => {
     const s = serviceOfferSchema({
       name: 'SEO/AEO',
       description: 'x',
       provider: 'Mathew Brown',
-      priceRange: 'from $3,000/mo',
+      minPrice: 3000,
     }) as Record<string, any>
     expect(s['@type']).toBe('Service')
-    expect(s.offers.priceSpecification.price).toContain('3,000')
+    expect(s.offers.priceSpecification['@type']).toBe('UnitPriceSpecification')
+    expect(s.offers.priceSpecification.minPrice).toBe(3000)
+    expect(s.offers.priceSpecification.priceCurrency).toBe('USD')
+    expect(s.offers.priceSpecification.referenceQuantity.unitCode).toBe('MON')
   })
 })
 
@@ -78,13 +80,5 @@ describe('breadcrumbSchema', () => {
     expect(s.itemListElement).toHaveLength(2)
     expect(s.itemListElement[0].position).toBe(1)
     expect(s.itemListElement[1].name).toBe('UX/UI Design')
-  })
-})
-
-describe('serviceSchema', () => {
-  it('sets provider name', () => {
-    const s = serviceSchema('UX/UI Engineering', 'Design systems', 'Mathew Brown')
-    expect(s['@type']).toBe('Service')
-    expect(s.provider.name).toBe('Mathew Brown')
   })
 })

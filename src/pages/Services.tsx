@@ -108,7 +108,7 @@ export function Services() {
             description:
               'Productized search and answer-engine optimization: audits, structured data, and AI-accelerated content that gets you found, ranked, and cited.',
             provider: 'Mathew Brown',
-            priceRange: 'from $3,000/mo',
+            minPrice: 3000,
           }),
         ]}
       />
