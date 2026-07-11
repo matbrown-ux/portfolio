@@ -1,6 +1,6 @@
-import { Helmet } from 'react-helmet-async'
+import { Head } from 'vite-react-ssg'
 
-interface SEOProps {
+export interface SEOProps {
   title: string
   description: string
   ogImage?: string
@@ -9,12 +9,24 @@ interface SEOProps {
   noindex?: boolean
 }
 
-export function SEO({ title, description, ogImage, type = 'website', schema, noindex = false }: SEOProps) {
+export function computeSeo({
+  title,
+  description,
+  type = 'website',
+  noindex = false,
+  ogImage,
+  schema,
+}: SEOProps) {
   const fullTitle = `${title} | Mathew Brown`
   const schemas = Array.isArray(schema) ? schema : schema ? [schema] : []
+  return { fullTitle, description, type, noindex, ogImage, schemas }
+}
+
+export function SEO(props: SEOProps) {
+  const { fullTitle, description, type, noindex, ogImage, schemas } = computeSeo(props)
 
   return (
-    <Helmet>
+    <Head>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       {noindex && <meta name="robots" content="noindex" />}
@@ -30,6 +42,6 @@ export function SEO({ title, description, ogImage, type = 'website', schema, noi
           {JSON.stringify(s)}
         </script>
       ))}
-    </Helmet>
+    </Head>
   )
 }

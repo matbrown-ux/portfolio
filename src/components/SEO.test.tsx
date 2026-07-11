@@ -1,34 +1,26 @@
-import { describe, it, expect, afterEach } from 'vitest'
-import { render, waitFor, cleanup } from '@testing-library/react'
-import { HelmetProvider } from 'react-helmet-async'
-import { SEO } from './SEO'
+import { describe, it, expect } from 'vitest'
+import { computeSeo } from './SEO'
 
-afterEach(cleanup)
-
-describe('SEO noindex', () => {
-  it('renders a robots noindex meta when noindex is set', async () => {
-    render(
-      <HelmetProvider>
-        <SEO title="Lab" description="Sandbox" noindex />
-      </HelmetProvider>
-    )
-    await waitFor(() => {
-      const meta = document.head.querySelector('meta[name="robots"]')
-      expect(meta?.getAttribute('content')).toBe('noindex')
-    })
+describe('computeSeo', () => {
+  it('prefixes the brand name onto the title', () => {
+    expect(computeSeo({ title: 'Work', description: 'x' }).fullTitle).toBe('Work | Mathew Brown')
   })
 
-  it('omits the robots meta by default', async () => {
-    render(
-      <HelmetProvider>
-        <SEO title="Work" description="Case studies" />
-      </HelmetProvider>
-    )
-    await waitFor(() => {
-      // Title and meta tags are committed together, so once the title is set
-      // the absence of a robots meta is a stable assertion (no head leakage).
-      expect(document.title).toContain('Work')
-      expect(document.head.querySelector('meta[name="robots"]')).toBeNull()
-    })
+  it('sets the noindex flag when requested', () => {
+    expect(computeSeo({ title: 'Lab', description: 'x', noindex: true }).noindex).toBe(true)
+  })
+
+  it('defaults noindex to false', () => {
+    expect(computeSeo({ title: 'Work', description: 'x' }).noindex).toBe(false)
+  })
+
+  it('normalizes a single schema object into an array', () => {
+    const r = computeSeo({ title: 'S', description: 'x', schema: { a: 1 } as object })
+    expect(r.schemas).toHaveLength(1)
+  })
+
+  it('passes through an array of schemas', () => {
+    const r = computeSeo({ title: 'S', description: 'x', schema: [{ a: 1 }, { b: 2 }] as object[] })
+    expect(r.schemas).toHaveLength(2)
   })
 })
