@@ -71,7 +71,7 @@ export function VampNetworkCover() {
 
         {/* left content (static frame) */}
         <rect x="110" y="150" width="5" height="120" fill="#f86343" />
-        <text x="140" y="180" fill="#7a7060" fontSize="24" letterSpacing="6">CASE STUDY — 01</text>
+        <text x="140" y="180" fill="#7a7060" fontSize="24" letterSpacing="6">CASE STUDY / 01</text>
 
         <text x="106" y="430" fill="#f5f0e8" fontSize="140" fontWeight="700" letterSpacing="-5">Vamp</text>
         <text x="106" y="560" fill="#f5f0e8" fontSize="140" fontWeight="700" letterSpacing="-5">Network</text>

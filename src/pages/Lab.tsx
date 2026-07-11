@@ -112,12 +112,12 @@ export function Lab() {
           <div className="lab-progress h-full bg-vermilion" style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }} />
         </div>
 
-        {/* HERO prototype — page-load animation experiment */}
+        {/* HERO prototype: page-load animation experiment */}
         {/* Fill the viewport below the fixed 64px (pt-16 / 4rem) navbar on every
             breakpoint, so the section bottom IS the viewport bottom and the
             bottom-anchored image + circle sit on the viewport edge. */}
         <section className="relative min-h-[calc(100svh-4rem)] overflow-hidden bg-directors-black">
-          {/* Circle + image — full width on mobile, right half on desktop */}
+          {/* Circle + image: full width on mobile, right half on desktop */}
           <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 z-0">
             {/* Circle: positioning lives on this wrapper so GSAP can scale the inner
                 element with a clean center origin. It is bottom-anchored on every
@@ -144,10 +144,10 @@ export function Lab() {
             </div>
           </div>
 
-          {/* Mobile gradient — fades image out toward the left so text stays readable */}
+          {/* Mobile gradient: fades image out toward the left so text stays readable */}
           <div className="absolute inset-0 z-[1] lg:hidden bg-gradient-to-r from-directors-black via-directors-black/80 to-transparent" />
 
-          {/* Left — text content */}
+          {/* Left: text content */}
           <div className="relative z-[2] max-w-7xl mx-auto px-6 min-h-[calc(100svh-4rem)] flex flex-col justify-center py-24">
             <div className="lg:max-w-[50%]">
               <motion.p

@@ -86,7 +86,7 @@ export function Home() {
   return (
     <PageTransition>
       <SEO
-        title="UX/UI Engineer & SEO Specialist"
+        title="UX/UI Engineer & SEO/AEO Specialist"
         description="Freelance UX/UI engineer, SEO specialist, and agentic workflow developer. Available for high-value projects."
         schema={[
           personSchema('Mathew Brown', 'https://matbrown.io', {
@@ -113,7 +113,7 @@ export function Home() {
         ref={heroRef}
         className="relative min-h-[calc(100svh-4rem)] overflow-hidden bg-directors-black"
       >
-        {/* Circle + image — full width on mobile, right half on desktop. The image
+        {/* Circle + image: full width on mobile, right half on desktop. The image
             grows + fades in on load, then the circle blooms in behind it (see the
             useGSAP hook above). */}
         <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 z-0">
@@ -141,10 +141,10 @@ export function Home() {
           </div>
         </div>
 
-        {/* Mobile gradient — fades image out toward the left so text stays readable */}
+        {/* Mobile gradient: fades image out toward the left so text stays readable */}
         <div className="absolute inset-0 z-[1] lg:hidden bg-gradient-to-r from-directors-black via-directors-black/80 to-transparent" />
 
-        {/* Left — text content */}
+        {/* Left: text content */}
         <div className="relative z-[2] max-w-7xl mx-auto px-6 min-h-[calc(100svh-4rem)] flex flex-col justify-center py-24">
           <div className="lg:max-w-[50%]">
             <motion.p

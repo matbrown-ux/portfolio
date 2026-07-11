@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { Link } from 'react-router-dom'
 import { SEO } from '../components/SEO'
 import { PageTransition } from '../components/animations/PageTransition'
 import { FadeIn } from '../components/animations/FadeIn'
@@ -42,12 +43,27 @@ const skills = [
   },
 ]
 
+const clientWork = [
+  {
+    eyebrow: 'SEO / AEO',
+    title: 'SEO and AEO engineering that gets clients found and cited',
+    body: "I treat search as an engineering problem, not a content mill: technical audits, valid structured data, pillar and cluster architecture, and answer-engine readiness so Google and the AI assistants both surface the work. For 'Aiwi Waffles, a local SEO push paired with a Google Business Profile ranked the storefront #1 for multiple local keywords and pulled in tourist foot traffic. On platform builds like The Booking Flow and Vamp Network, that same SEO/AEO foundation ships with the product instead of being bolted on later. The Booking Flow, for example, runs on an Astro and React Islands architecture chosen specifically to maximize technical SEO and AEO: fast, crawlable, citable pages.",
+    link: { label: "Read the 'Aiwi Waffles case study", to: '/work/aiwi-waffles' },
+  },
+  {
+    eyebrow: 'UX / UI',
+    title: 'Interface design and engineering, from Figma to production React',
+    body: "I design interfaces and build them in production-quality React, so nothing is lost in a handoff, from brand-led storefronts to data-dense product dashboards. For Vamp Network I handled creative direction and built both halves of the platform: a front-facing marketing site with a custom form funnel that captures leads and pushes them into a dashboard for managing creators, managers, and brands. For The Booking Flow I designed and engineered a marketing site and lead-pipeline dashboard on Astro with React Islands, backed by Supabase. 'Aiwi Waffles got a full brand identity and a matching Shopify storefront.",
+    link: { label: 'Read the Vamp Network case study', to: '/work/vamp-network' },
+  },
+]
+
 export function About() {
   return (
     <PageTransition>
       <SEO
-        title="About"
-        description="UX/UI engineer, SEO specialist, and agentic workflow developer. Learn about what I bring to your project."
+        title="SEO/AEO & UX/UI Engineering Work"
+        description="The SEO/AEO and UX/UI engineering work behind my client projects: technical search, structured data, production React, and AI-driven automation."
       />
 
       {/* Header */}
@@ -78,7 +94,7 @@ export function About() {
           />
         </motion.div>
 
-        {/* Text — vertically centered on desktop, normal flow on mobile */}
+        {/* Text: vertically centered on desktop, normal flow on mobile */}
         <div className="relative z-[2] max-w-7xl mx-auto px-6 py-20 lg:min-h-[90vh] lg:flex lg:flex-col lg:justify-center lg:py-24">
           <div className="lg:max-w-[50%]">
             <FadeIn>
@@ -151,6 +167,45 @@ export function About() {
             ))}
           </StaggerList>
         </div>
+      </section>
+
+      {/* Client work */}
+      <section className="max-w-7xl mx-auto px-6 py-24">
+        <FadeIn className="max-w-3xl mb-14">
+          <p className="text-xs font-medium tracking-[0.2em] uppercase text-vermilion mb-4">Client work</p>
+          <h2
+            className="text-cream font-semibold tracking-tight"
+            style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', letterSpacing: '-0.02em' }}
+          >
+            SEO/AEO and UX/UI work for clients
+          </h2>
+        </FadeIn>
+
+        <StaggerList className="divide-y divide-border-line border-t border-border-line">
+          {clientWork.map((item) => (
+            <StaggerItem key={item.eyebrow}>
+              <div className="py-14 md:py-16 grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-16">
+                <p className="text-xs font-medium tracking-[0.2em] uppercase text-vermilion">{item.eyebrow}</p>
+                <div>
+                  <h3
+                    className="text-cream font-semibold tracking-tight mb-6"
+                    style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', letterSpacing: '-0.02em' }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p className="text-muted-prose leading-relaxed max-w-prose mb-8">{item.body}</p>
+                  <Link
+                    to={item.link.to}
+                    className="group inline-flex items-center gap-2 text-sm font-medium text-cream hover:text-vermilion transition-colors duration-200"
+                  >
+                    {item.link.label}
+                    <span className="text-vermilion transition-transform duration-200 group-hover:translate-x-1">→</span>
+                  </Link>
+                </div>
+              </div>
+            </StaggerItem>
+          ))}
+        </StaggerList>
       </section>
     </PageTransition>
   )

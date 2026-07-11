@@ -42,7 +42,7 @@ export function MobileMenu() {
       <AnimatePresence>
         {open && (
           <>
-            {/* Backdrop — below navbar */}
+            {/* Backdrop: below navbar */}
             <motion.div
               className="fixed inset-0 z-40 bg-directors-black/60 backdrop-blur-sm"
               initial={{ opacity: 0 }}
@@ -53,7 +53,7 @@ export function MobileMenu() {
               aria-hidden="true"
             />
 
-            {/* Drawer — below navbar (z-[55] < navbar z-[60]) */}
+            {/* Drawer: below navbar (z-[55] < navbar z-[60]) */}
             <motion.div
               className="fixed top-0 right-0 h-full w-[70%] z-[55] bg-secondary-dark border-l border-border-line flex flex-col px-6 pt-6 pb-12"
               initial={{ x: '100%' }}
@@ -75,7 +75,7 @@ export function MobileMenu() {
                 </button>
               </div>
 
-              {/* Nav items — stagger in */}
+              {/* Nav items: stagger in */}
               <nav className="flex flex-col gap-7">
                 {navItems.map(({ label, to }, i) => (
                   <motion.div

@@ -17,6 +17,7 @@
   /* Surfaces */
   --color-directors-black: #090909;
   --color-secondary-dark: #0e0e0e;
+  --color-charcoal: #2a2a2a;
 
   /* Accent */
   --color-vermilion: #f86343;
@@ -37,6 +38,7 @@
 
   /* Easing */
   --ease-out-quint: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 html {
@@ -65,7 +67,35 @@ html {
   animation: blink 0.75s step-end infinite;
 }
 
-/* Case study article — numbered editorial sections + pull quotes */
+/* Outline button: vermilion bottom border that draws up into a full frame on hover.
+   A clipped border overlay lets one clip-path transition own the whole motion,
+   so the same ease-in-out curve governs both the draw-in and the draw-out. */
+.btn-outline-draw {
+  position: relative;
+}
+
+.btn-outline-draw::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-vermilion);
+  clip-path: inset(calc(100% - 1px) 0 0 0);
+  transition: clip-path 340ms var(--ease-in-out-cubic);
+  pointer-events: none;
+}
+
+.btn-outline-draw:hover::after,
+.btn-outline-draw:focus-visible::after {
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-outline-draw::after {
+    transition: none;
+  }
+}
+
+/* Case study article: numbered editorial sections + pull quotes */
 .case-study-prose {
   counter-reset: cs-section;
 }
@@ -100,7 +130,7 @@ html {
   color: var(--color-cream);
 }
 
-/* typography plugin adds decorative quote marks to blockquotes — remove them */
+/* typography plugin adds decorative quote marks to blockquotes, remove them */
 .case-study-prose blockquote p::before,
 .case-study-prose blockquote p::after {
   content: none;

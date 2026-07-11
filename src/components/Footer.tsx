@@ -63,7 +63,7 @@ export function Footer() {
               mat@matbrown.io
               <span className="text-vermilion transition-transform duration-200 group-hover:translate-x-1">↗</span>
             </a>
-            <Button href="/contact">Start a conversation</Button>
+            <Button href="/contact" className="w-full justify-center">Start a conversation</Button>
           </div>
         </div>
 

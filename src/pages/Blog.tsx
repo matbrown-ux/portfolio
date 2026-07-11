@@ -12,7 +12,7 @@ export function Blog() {
   return (
     <PageTransition>
       <SEO
-        title="Blog"
+        title="Notes on UX/UI, SEO/AEO & AI Workflows"
         description="Articles on UX/UI engineering, technical SEO, and agentic workflow development."
       />
 

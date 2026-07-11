@@ -12,7 +12,7 @@ const foundationSprintDeliverables = [
   'On-page and meta optimization',
   'AI-answer-engine readiness, including llms.txt',
   'Keyword and question map',
-  'Two pillar content pieces',
+  'Two pillar content assets',
   'A 90-day roadmap',
 ]
 
@@ -22,9 +22,10 @@ const tiers = [
     price: 'from $1,750/mo',
     recommended: false,
     deliverables: [
-      'Monitoring',
-      'Technical hygiene',
-      'Two content pieces a month',
+      'Two AEO-optimized assets a month',
+      'Schema, FAQ, and entity markup on every asset',
+      'Technical hygiene and monitoring',
+      'Existing-page refresh and re-optimization',
       'Monthly reporting',
     ],
   },
@@ -33,11 +34,11 @@ const tiers = [
     price: 'from $3,000/mo',
     recommended: true,
     deliverables: [
-      'Four to six content pieces a month',
-      'Structured-data expansion',
+      'Four to six AEO-optimized assets a month',
+      'Published in 48 hours, not just drafted',
+      'Structured-data expansion and llms.txt upkeep',
       'AI-visibility tracking',
-      'A monthly strategy call',
-      'Full reporting',
+      'A monthly strategy call and full reporting',
     ],
   },
   {
@@ -45,11 +46,11 @@ const tiers = [
     price: 'from $5,500/mo',
     recommended: false,
     deliverables: [
-      'Eight to ten content pieces a month',
-      'Competitor displacement',
-      'Citation and link building',
-      'Biweekly calls',
-      'Priority turnaround',
+      'Eight to ten AEO-optimized assets a month',
+      'AI-citation tracking across ChatGPT, Perplexity, and AI Overviews',
+      'Competitor displacement and digital-PR link building',
+      'Priority turnaround on every asset',
+      'Biweekly strategy calls',
     ],
   },
 ]
@@ -100,7 +101,7 @@ export function Services() {
   return (
     <PageTransition>
       <SEO
-        title="Services"
+        title="SEO & AEO Engineering Services"
         description="Productized SEO and AEO engineering: audits, structured data, and AI-accelerated content that gets you found, ranked, and cited."
         schema={[
           serviceOfferSchema({
@@ -108,7 +109,7 @@ export function Services() {
             description:
               'Productized search and answer-engine optimization: audits, structured data, and AI-accelerated content that gets you found, ranked, and cited.',
             provider: 'Mathew Brown',
-            minPrice: 3000,
+            minPrice: 1750,
           }),
         ]}
       />
@@ -138,12 +139,12 @@ export function Services() {
         <FadeIn delay={0.24}>
           <p className="flex items-center gap-4 text-sm text-cream mt-8">
             <span className="w-px h-3 bg-vermilion flex-shrink-0" aria-hidden="true" />
-            Retainers from $3,000/mo. Foundation Sprint from $3,000.
+            Retainers from $1,750/mo. Foundation Sprint from $3,000.
           </p>
         </FadeIn>
         <FadeIn delay={0.3}>
           <div className="mt-8">
-            <Button href="/contact">Book a call</Button>
+            <Button href="/contact" className="w-full justify-center md:w-auto">Book a call</Button>
           </div>
         </FadeIn>
       </section>
@@ -164,8 +165,9 @@ export function Services() {
               style={{ fontSize: 'clamp(1.0625rem, 1.6vw, 1.25rem)' }}
             >
               AI-accelerated, human-directed. I run audits and generate validated schema in hours, not weeks, and
-              produce more optimized content per month than an agency will at the same price, because my systems do
-              the heavy lifting and I do the strategy. You get agency-level output at freelancer speed.
+              every content asset ships optimized for both search and AI answer engines, then goes live in days
+              instead of sitting in a draft queue. My systems do the heavy lifting so I can focus on strategy, so you
+              get agency-level depth at freelancer speed.
             </p>
           </FadeIn>
 
@@ -187,13 +189,19 @@ export function Services() {
                   </li>
                 ))}
               </ul>
-              <Button href="/contact" variant="outline">Start with a Sprint</Button>
+              <Button href="/contact" variant="outline" className="w-full justify-center md:w-auto">Start with a Sprint</Button>
             </Card>
           </FadeIn>
 
           {/* Growth Retainer tiers */}
           <FadeIn delay={0.05}>
-            <h3 className="text-cream font-semibold text-xl mb-8">Growth Retainer</h3>
+            <div className="mb-8 max-w-2xl">
+              <h3 className="text-cream font-semibold text-xl mb-2">Growth Retainer</h3>
+              <p className="text-sm text-muted-prose leading-relaxed">
+                An asset is more than a blog post: each one ships optimized for both search and AI answer engines,
+                with structured data, FAQ and entity markup, and internal linking built in.
+              </p>
+            </div>
           </FadeIn>
           <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {tiers.map((tier) => (
@@ -217,7 +225,7 @@ export function Services() {
                       </li>
                     ))}
                   </ul>
-                  <Button href="/contact" variant={tier.recommended ? 'primary' : 'outline'}>Book a call</Button>
+                  <Button href="/contact" variant={tier.recommended ? 'primary' : 'outline'} className="w-full justify-center md:w-auto">Book a call</Button>
                 </Card>
               </StaggerItem>
             ))}
@@ -265,7 +273,7 @@ export function Services() {
                     </li>
                   ))}
                 </ul>
-                <Button href="/contact" variant="outline">{service.cta}</Button>
+                <Button href="/contact" variant="outline" className="w-full justify-center md:w-auto">{service.cta}</Button>
               </div>
             </div>
           </StaggerItem>
