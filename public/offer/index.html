@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mathew Brown, SEO and AEO Engineering, Offer</title>
+<meta name="description" content="Productized SEO and AEO engineering offer: Foundation Sprint and Growth Retainer pricing from Mathew Brown." />
+<meta name="robots" content="noindex, nofollow" />
+<style>
+  :root {
+    --bg: #090909;
+    --panel: #0e0e0e;
+    --cream: #f5f0e8;
+    --vermilion: #f86343;
+    --vermilion-hover: #f9764a;
+    --muted: #7a7060;
+    --border: #1c1c1c;
+    --sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--cream);
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  body {
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .sheet {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 4.5rem 2rem 5rem;
+  }
+
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--vermilion);
+    margin: 0 0 0.75rem;
+  }
+
+  .eyebrow.muted {
+    color: var(--muted);
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-bottom: 1.75rem;
+    margin-bottom: 2.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand-name {
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-tag {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin-top: 0.2rem;
+  }
+
+  .contact {
+    font-size: 0.8125rem;
+    color: var(--cream);
+    text-align: right;
+  }
+
+  .contact a {
+    text-decoration: none;
+  }
+
+  .contact a:hover {
+    color: var(--vermilion-hover);
+  }
+
+  .contact .dot {
+    color: var(--muted);
+    margin: 0 0.4em;
+  }
+
+  /* Hero */
+  .hero {
+    margin-bottom: 3.25rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 4.6vw, 2.85rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin: 0 0 1.5rem;
+    max-width: 34ch;
+  }
+
+  .positioning {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--cream);
+    max-width: 60ch;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--vermilion);
+  }
+
+  /* Card base */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Foundation Sprint */
+  .sprint {
+    padding: 2rem 2.25rem;
+    margin-bottom: 3.25rem;
+  }
+
+  .sprint-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sprint-head h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.3rem;
+  }
+
+  .sprint-duration {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--vermilion);
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  .price-note {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--muted);
+    text-align: right;
+    margin-top: 0.2rem;
+  }
+
+  .sprint-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.75rem 2rem;
+  }
+
+  .sprint-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .sprint-list li::before {
+    content: "";
+    width: 1px;
+    height: 0.8rem;
+    background: var(--vermilion);
+    flex-shrink: 0;
+    margin-top: 0.35rem;
+  }
+
+  /* Growth Retainer */
+  .retainer {
+    margin-bottom: 3.25rem;
+  }
+
+  .retainer h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.5rem;
+  }
+
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .tier {
+    position: relative;
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tier.recommended {
+    border-color: var(--vermilion);
+  }
+
+  .tier.recommended::before,
+  .tier.recommended::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--vermilion);
+  }
+
+  .tier.recommended::before {
+    top: -1px;
+    left: -1px;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .tier.recommended::after {
+    bottom: -1px;
+    right: -1px;
+    border-left: none;
+    border-top: none;
+  }
+
+  .badge {
+    display: inline-block;
+    align-self: flex-start;
+    background: var(--vermilion);
+    color: var(--cream);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+  }
+
+  .tier h3 {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+  }
+
+  .tier-price {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--vermilion);
+    margin-bottom: 1.1rem;
+  }
+
+  .tier-price span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .tier ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .tier li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .tier li::before {
+    content: "";
+    width: 1px;
+    height: 0.75rem;
+    background: var(--vermilion);
+    flex-shrink: 0;
+    margin-top: 0.3rem;
+  }
+
+  .footnote {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    margin-top: 1.25rem;
+  }
+
+  /* Proof */
+  .proof {
+    margin-bottom: 3.25rem;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--vermilion);
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .proof .quote {
+    font-size: 1.125rem;
+    line-height: 1.55;
+    color: var(--cream);
+    max-width: 62ch;
+  }
+
+  .proof .quote-source {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Process */
+  .process {
+    margin-bottom: 3.5rem;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .process h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.5rem;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+  }
+
+  .step {
+    min-width: 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .step-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--vermilion);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.6rem;
+  }
+
+  .step h4 {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+  }
+
+  .step p {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* CTA footer */
+  .cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2rem 2.25rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .cta-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .cta h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: var(--vermilion);
+    color: var(--bg);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    padding: 0.85rem 1.75rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .cta-button:hover {
+    background: var(--vermilion-hover);
+  }
+
+  .page-footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 2.5rem;
+  }
+
+  /* Print */
+  @page {
+    size: Letter;
+    margin: 0.45in 0.5in;
+  }
+
+  @media print {
+    html, body {
+      background: var(--bg) !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      color-adjust: exact;
+    }
+
+    .sheet {
+      max-width: 100%;
+      padding: 0;
+    }
+
+    .header {
+      margin-bottom: 1.15rem;
+      padding-bottom: 0.85rem;
+    }
+
+    h1 {
+      font-size: 1.65rem;
+    }
+
+    .positioning {
+      font-size: 0.9375rem;
+    }
+
+    .hero {
+      margin-bottom: 1.15rem;
+    }
+
+    .sprint,
+    .retainer,
+    .proof,
+    .process {
+      margin-bottom: 1.1rem;
+    }
+
+    .sprint {
+      padding: 1rem 1.35rem;
+    }
+
+    .sprint-head {
+      padding-bottom: 0.9rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .sprint-list {
+      gap: 0.5rem 2rem;
+    }
+
+    .retainer h2 {
+      margin-bottom: 0.9rem;
+    }
+
+    .tiers {
+      gap: 0.9rem;
+    }
+
+    .tier {
+      padding: 1rem 1rem;
+    }
+
+    .tier ul {
+      gap: 0.4rem;
+    }
+
+    .cta {
+      padding: 1.1rem 1.5rem;
+    }
+
+    a[href]::after {
+      content: "";
+    }
+  }
+
+  /* Small screens (mobile preview) */
+  @media (max-width: 720px) {
+    .sheet {
+      padding: 3rem 1.25rem 3.5rem;
+    }
+
+    .sprint-list {
+      grid-template-columns: 1fr;
+    }
+
+    .tiers {
+      grid-template-columns: 1fr;
+    }
+
+    .steps {
+      grid-template-columns: 1fr;
+    }
+
+    .cta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="header">
+    <div>
+      <div class="brand-name">Mathew Brown</div>
+      <div class="brand-tag">SEO and AEO Engineering</div>
+    </div>
+    <div class="contact">
+      <a href="mailto:mat@matbrown.io">mat@matbrown.io</a>
+      <span class="dot">&middot;</span>
+      <a href="https://matbrown.io">matbrown.io</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">The offer</p>
+    <h1>Get found, ranked, and cited: by Google and the AI assistants quoting it.</h1>
+    <p class="positioning">AI-accelerated, human-directed. I run audits and generate validated schema in hours, not weeks, and produce more optimized content per month than an agency will at the same price, because my systems do the heavy lifting and I do the strategy. You get agency-level output at freelancer speed.</p>
+  </section>
+
+  <section class="sprint card">
+    <div class="sprint-head">
+      <div>
+        <p class="eyebrow muted">One-time</p>
+        <h2>Foundation Sprint</h2>
+        <p class="sprint-duration">2 to 3 weeks</p>
+      </div>
+      <p class="price">$3,000<span class="price-note">one-time</span></p>
+    </div>
+    <ul class="sprint-list">
+      <li>Technical and AEO audit</li>
+      <li>Keyword and question map</li>
+      <li>JSON-LD structured data</li>
+      <li>Two pillar content pieces</li>
+      <li>On-page and meta optimization</li>
+      <li>A 90-day roadmap</li>
+      <li>AI-answer-engine readiness, including llms.txt</li>
+    </ul>
+  </section>
+
+  <section class="retainer">
+    <p class="eyebrow muted">Monthly retainer</p>
+    <h2>Growth Retainer</h2>
+    <div class="tiers">
+      <div class="tier card">
+        <h3>Maintain</h3>
+        <p class="tier-price">$1,750<span>/mo</span></p>
+        <ul>
+          <li>2 content pieces/mo</li>
+          <li>Monitoring</li>
+          <li>Technical hygiene</li>
+          <li>Monthly report</li>
+        </ul>
+      </div>
+      <div class="tier card recommended">
+        <span class="badge">Recommended</span>
+        <h3>Growth</h3>
+        <p class="tier-price">$3,000<span>/mo</span></p>
+        <ul>
+          <li>4 to 6 content pieces/mo</li>
+          <li>Schema expansion</li>
+          <li>AI-visibility tracking</li>
+          <li>Monthly strategy call</li>
+          <li>Full reporting</li>
+        </ul>
+      </div>
+      <div class="tier card">
+        <h3>Dominate</h3>
+        <p class="tier-price">$5,500<span>/mo</span></p>
+        <ul>
+          <li>8 to 10 content pieces/mo</li>
+          <li>Competitor displacement</li>
+          <li>Citations and links</li>
+          <li>Biweekly calls</li>
+          <li>Priority turnaround</li>
+        </ul>
+      </div>
+    </div>
+    <p class="footnote">Annual prepay: two months free.</p>
+  </section>
+
+  <section class="proof">
+    <p class="quote">Local SEO and Google Business Profile work ranked &#39;Aiwi Waffles #1 on Google for multiple keywords, turning online searches into walk-in customers.</p>
+    <span class="quote-source">'Aiwi Waffles, aiwiwaffles.com</span>
+  </section>
+
+  <section class="process">
+    <p class="eyebrow muted">How it works</p>
+    <div class="steps">
+      <div class="step">
+        <p class="step-num">01</p>
+        <h4>Audit and Foundation Sprint</h4>
+        <p>Technical and AEO audit, then a 2 to 3 week sprint that ships schema, on-page fixes, and pillar content.</p>
+      </div>
+      <div class="step">
+        <p class="step-num">02</p>
+        <h4>Pick a Growth tier</h4>
+        <p>Maintain, Growth, or Dominate, matched to how fast you want to move.</p>
+      </div>
+      <div class="step">
+        <p class="step-num">03</p>
+        <h4>Compound</h4>
+        <p>Monthly content, reporting, and AI-visibility tracking that build month over month.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="cta">
+    <div>
+      <p class="cta-label">Ready to move</p>
+      <h2>Book a call</h2>
+    </div>
+    <a class="cta-button" href="mailto:mat@matbrown.io">mat@matbrown.io</a>
+  </footer>
+
+  <p class="page-footer">Mathew Brown &middot; matbrown.io &middot; mat@matbrown.io</p>
+
+</div>
+</body>
+</html>

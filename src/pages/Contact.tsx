@@ -65,7 +65,7 @@ export function Contact() {
   return (
     <PageTransition>
       <SEO
-        title="Contact"
+        title="Start an SEO/AEO or UX/UI Project"
         description="Get in touch with Mathew Brown to discuss your UX/UI, SEO, or agentic workflow project."
       />
 

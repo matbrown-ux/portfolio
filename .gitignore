@@ -37,3 +37,6 @@ coverage
 .agent-browser/
 auth.json
 *.har
+
+# graphify knowledge graph (generated locally, auto-rebuilt by post-commit hook)
+graphify-out/

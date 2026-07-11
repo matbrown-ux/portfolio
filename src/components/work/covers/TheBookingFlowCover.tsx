@@ -80,7 +80,7 @@ export function TheBookingFlowCover() {
 
         {/* left content (static frame) */}
         <rect x="110" y="150" width="5" height="120" fill="#f86343" />
-        <text x="140" y="180" fill="#7a7060" fontSize="24" letterSpacing="6">CASE STUDY — 02</text>
+        <text x="140" y="180" fill="#7a7060" fontSize="24" letterSpacing="6">CASE STUDY / 02</text>
 
         <text x="106" y="430" fill="#f5f0e8" fontSize="130" fontWeight="700" letterSpacing="-5">The Booking</text>
         <text x="106" y="560" fill="#f5f0e8" fontSize="130" fontWeight="700" letterSpacing="-5">Flow</text>

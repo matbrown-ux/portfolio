@@ -17,7 +17,7 @@ type AnyProps = { children?: React.ReactNode } & Record<string, unknown>
 // Wrap an intrinsic block element so it fades + slides in as it scrolls into view.
 // Renders the real tag (motion.<tag>), so the prose + .case-study-prose styles still apply.
 function reveal(tag: 'h2' | 'h3' | 'p' | 'ul' | 'ol' | 'blockquote') {
-  const Motion = (motion as Record<string, ComponentType<AnyProps>>)[tag]
+  const Motion = (motion as unknown as Record<string, ComponentType<AnyProps>>)[tag]
   function Revealed({ children, ...rest }: AnyProps) {
     const reduced = useReducedMotion()
     if (reduced) {

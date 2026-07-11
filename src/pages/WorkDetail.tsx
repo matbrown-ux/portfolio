@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react'
 import { useParams, Navigate, Link } from 'react-router-dom'
 import { MDXProvider } from '@mdx-js/react'
 import { SEO } from '../components/SEO'
@@ -97,7 +98,7 @@ export function WorkDetail() {
         )}
 
         <div className="case-study-prose prose prose-lg max-w-none">
-          <MDXProvider components={CaseStudyMDXComponents}>
+          <MDXProvider components={CaseStudyMDXComponents as unknown as ComponentProps<typeof MDXProvider>['components']}>
             <Component />
           </MDXProvider>
         </div>

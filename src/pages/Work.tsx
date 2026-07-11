@@ -13,7 +13,7 @@ export function Work() {
   return (
     <PageTransition>
       <SEO
-        title="Work"
+        title="UX/UI Engineering & SEO/AEO Case Studies"
         description="Case studies covering UX/UI engineering, SEO, and agentic workflow projects."
       />
 
@@ -47,7 +47,7 @@ export function Work() {
                     {String(i + 1).padStart(2, '0')}
                   </span>
 
-                  {/* Image — animated inline-SVG cover when available, else static */}
+                  {/* Image: animated inline-SVG cover when available, else static */}
                   <div className="w-full md:w-64 flex-shrink-0 self-start aspect-video bg-secondary-dark overflow-hidden">
                     {(() => {
                       const Cover = getCoverComponent(cs.slug)

@@ -83,7 +83,7 @@ export function PageCurtain() {
     const [back, front] = panels
     // Normalize the off-screen start so GSAP drives position purely via yPercent.
     gsap.set(panels, { yPercent: -100, y: 0 })
-    const D = 0.85 // per-panel duration — slow enough for a smooth diagonal sweep
+    const D = 0.85 // per-panel duration, slow enough for a smooth diagonal sweep
     const tl = gsap.timeline({ defaults: { ease: 'power2.inOut', duration: D, force3D: false } })
     // Cover: vermilion leads (diagonal sweep), black covers fully (~0.78s in).
     tl.to(back, { yPercent: 0 }, 0)
