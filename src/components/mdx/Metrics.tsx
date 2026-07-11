@@ -7,12 +7,20 @@ interface MetricsProps {
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
+const isPlaceholder = (v: string) => {
+  const t = v.trim()
+  return t === '' || /^0+$/.test(t)
+}
+
 export function Metrics({ items }: MetricsProps) {
   const reduced = useReducedMotion()
+  const real = items.filter((item) => !isPlaceholder(item.value))
+
+  if (real.length === 0) return null
 
   return (
     <div className="my-12 grid grid-cols-1 sm:grid-cols-3 gap-px bg-border-line border border-border-line not-prose">
-      {items.map((item, i) => (
+      {real.map((item, i) => (
         <motion.div
           key={item.label}
           className="bg-secondary-dark p-8"
