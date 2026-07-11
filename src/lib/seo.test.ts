@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest'
-import { personSchema, articleSchema, breadcrumbSchema, serviceSchema } from './seo'
+import {
+  personSchema,
+  articleSchema,
+  breadcrumbSchema,
+  serviceSchema,
+  websiteSchema,
+  serviceOfferSchema,
+} from './seo'
 
 describe('personSchema', () => {
   it('returns correct type and fields', () => {
@@ -7,6 +14,43 @@ describe('personSchema', () => {
     expect(s['@type']).toBe('Person')
     expect(s.name).toBe('Mathew Brown')
     expect(s.url).toBe('https://matbrown.io')
+  })
+
+  it('includes extras when provided', () => {
+    const s = personSchema('Mathew Brown', 'https://matbrown.io', {
+      jobTitle: 'UX/UI Engineer',
+      sameAs: ['https://example.com'],
+      knowsAbout: ['SEO'],
+    }) as Record<string, unknown>
+    expect(s.jobTitle).toBe('UX/UI Engineer')
+    expect(s.sameAs).toEqual(['https://example.com'])
+    expect(s.knowsAbout).toEqual(['SEO'])
+  })
+
+  it('omits extras when not provided', () => {
+    const s = personSchema('Mathew Brown', 'https://matbrown.io') as Record<string, unknown>
+    expect('jobTitle' in s).toBe(false)
+  })
+})
+
+describe('websiteSchema', () => {
+  it('builds a WebSite node', () => {
+    const s = websiteSchema('Mathew Brown', 'https://matbrown.io') as Record<string, unknown>
+    expect(s['@type']).toBe('WebSite')
+    expect(s.url).toBe('https://matbrown.io')
+  })
+})
+
+describe('serviceOfferSchema', () => {
+  it('builds a Service node with an offer priceRange', () => {
+    const s = serviceOfferSchema({
+      name: 'SEO/AEO',
+      description: 'x',
+      provider: 'Mathew Brown',
+      priceRange: 'from $3,000/mo',
+    }) as Record<string, any>
+    expect(s['@type']).toBe('Service')
+    expect(s.offers.priceSpecification.price).toContain('3,000')
   })
 })
 

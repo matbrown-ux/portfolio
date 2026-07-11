@@ -11,7 +11,7 @@ import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { Tag } from '../components/ui/Tag'
 import { getCaseStudies } from '../lib/content'
-import { personSchema } from '../lib/seo'
+import { personSchema, websiteSchema } from '../lib/seo'
 import { useTypewriter } from '../hooks/useTypewriter'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
@@ -88,7 +88,21 @@ export function Home() {
       <SEO
         title="UX/UI Engineer & SEO Specialist"
         description="Freelance UX/UI engineer, SEO specialist, and agentic workflow developer. Available for high-value projects."
-        schema={personSchema('Mathew Brown', 'https://matbrown.io')}
+        schema={[
+          personSchema('Mathew Brown', 'https://matbrown.io', {
+            jobTitle: 'UX/UI Engineer, SEO/AEO & AI Automation Developer',
+            knowsAbout: [
+              'UX/UI Engineering',
+              'SEO',
+              'Answer Engine Optimization',
+              'Agentic Workflows',
+              'AI Automation',
+              'Brand Development',
+              'SaaS Development',
+            ],
+          }),
+          websiteSchema('Mathew Brown', 'https://matbrown.io'),
+        ]}
       />
 
       {/* Hero */}
