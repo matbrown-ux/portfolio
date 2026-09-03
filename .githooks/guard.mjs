@@ -44,8 +44,9 @@ export function decidePreCommit({ stagedPaths }) {
 }
 
 export function getStagedPaths(cwd) {
-  const out = execFileSync('git', ['diff', '--cached', '--name-only', '--diff-filter=ACMR'], { cwd, encoding: 'utf8' })
-  return out.split('\n').filter(Boolean)
+  // -z: NUL-separated and never quoted, so non-ASCII and spaced paths arrive verbatim.
+  const out = execFileSync('git', ['diff', '--cached', '--name-only', '--diff-filter=ACMR', '-z'], { cwd, encoding: 'utf8' })
+  return out.split('\0').filter(Boolean)
 }
 
 export function isMerging(cwd) {

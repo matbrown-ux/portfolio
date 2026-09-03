@@ -65,7 +65,7 @@ This repo is gated by the TDD kit. The rules below are enforced by git hooks in 
 
 **Escape hatch:** a commit that changes source without a test is refused unless the message carries a `Test-Exempt: <reason>` trailer (reason of 10+ characters). Claude may add this trailer only when the user has explicitly approved it in the current session, and never for logic changes. Audit with `git log --grep='^Test-Exempt:'`.
 
-**Never** use `git commit --no-verify`, `git commit -n`, `HUSKY=0`, or change `core.hooksPath`. The Claude Code hook blocks these commands.
+**Never** use `git commit --no-verify` (or any abbreviation of it), `git commit -n` (alone or inside a combined flag group), `HUSKY=0`, or change `core.hooksPath`. The Claude Code hook blocks these commands.
 
 **Keep logic out of `.astro` frontmatter and data-only modules:** anything with a branch or a calculation belongs in a `.ts` file, where it is source and testable.
 <!-- tdd-kit:end -->

@@ -11,12 +11,21 @@ export function normalize(command) {
   return command.replace(MESSAGE_ARG, '$1 ""').replace(/["']/g, '')
 }
 
+// git accepts any unambiguous long-option prefix, and --no-veri is the shortest
+// prefix that resolves to --no-verify, so every abbreviation of it is caught.
+// Short flags combine, so any git-commit flag group containing an `n` is -n.
 export const BYPASS_PATTERNS = [
-  { re: /--no-verify\b/, why: '--no-verify skips the git hooks' },
-  { re: /\bgit\s+commit\b[^|&;\n]*\s-[a-zA-Z]*n\b/, why: 'git commit -n skips the git hooks' },
+  { re: /--no-veri\w*/, why: '--no-verify (or an abbreviation of it) skips the git hooks' },
+  { re: /\bgit\s+commit\b[^|&;\n]*\s-[a-zA-Z]*n[a-zA-Z]*\b/, why: 'git commit -n skips the git hooks' },
   { re: /core\.hookspath/i, why: 'changing core.hooksPath disables the commit guard' },
   { re: /\bHUSKY=0\b/, why: 'HUSKY=0 disables git hooks' },
+  { re: /\b(rm|mv|chmod|truncate|cp)\b[^|&;\n]*\.githooks\//, why: 'removing or altering .githooks/ would disable the commit guard' },
 ]
+
+// The hook files are the gate itself, so no Claude session may rewrite them in place.
+// Re-run the installer to refresh them instead.
+const EDIT_TOOLS = new Set(['Edit', 'Write', 'MultiEdit', 'NotebookEdit'])
+const GITHOOKS_PATH = /(^|\/)\.githooks\//
 
 export function findBypass(command) {
   const normalized = normalize(command)
@@ -27,7 +36,13 @@ export function findBypass(command) {
 }
 
 export function evaluate(input) {
-  if (!input || input.tool_name !== 'Bash') return null
+  if (!input) return null
+  if (EDIT_TOOLS.has(input.tool_name)) {
+    const filePath = input.tool_input?.file_path
+    if (typeof filePath !== 'string') return null
+    return GITHOOKS_PATH.test(filePath.replace(/\\/g, '/')) ? 'editing .githooks/ would disable the commit guard' : null
+  }
+  if (input.tool_name !== 'Bash') return null
   const command = input.tool_input?.command
   if (typeof command !== 'string') return null
   return findBypass(command)
@@ -52,4 +67,8 @@ export async function main(stdin = process.stdin) {
 }
 
 const invokedDirectly = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]
-if (invokedDirectly) main().then((code) => process.exit(code))
+if (invokedDirectly) {
+  main()
+    .then((code) => process.exit(code))
+    .catch(() => process.exit(2))
+}
