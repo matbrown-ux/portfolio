@@ -1,1 +1,1 @@
-export const pilot = () => 2
+export const pilot = () => 2 // renamed nothing
