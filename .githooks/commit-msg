@@ -1,0 +1,7 @@
+#!/bin/sh
+# tdd-kit: commit-msg gate. Refuses source changes with no test file unless a Test-Exempt trailer is present.
+command -v node >/dev/null 2>&1 || {
+  echo "tdd-kit: node is not on PATH, cannot run the commit guard. Install Node or fix PATH." >&2
+  exit 1
+}
+exec node "$(dirname "$0")/guard.mjs" commit-msg "$1"

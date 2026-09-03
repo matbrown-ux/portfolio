@@ -1,0 +1,18 @@
+# Repo-owned (not refreshed by tdd-kit): the typecheck step is omitted until the
+# pre-existing TypeScript errors in src/ are fixed under TDD; restore `npm run typecheck` then.
+name: test
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
