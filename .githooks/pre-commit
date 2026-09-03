@@ -1,0 +1,8 @@
+#!/bin/sh
+# tdd-kit: pre-commit gate. Runs the unit suite when source or test files are staged.
+# Do not bypass with --no-verify; use a "Test-Exempt: <reason>" trailer with approval instead.
+command -v node >/dev/null 2>&1 || {
+  echo "tdd-kit: node is not on PATH, cannot run the commit guard. Install Node or fix PATH." >&2
+  exit 1
+}
+exec node "$(dirname "$0")/guard.mjs" pre-commit
