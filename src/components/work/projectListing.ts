@@ -17,6 +17,12 @@ export function projectNumber(index: number, total: number): string {
   return `${pad(index + 1)} / ${pad(total)}`
 }
 
+/**
+ * Stack mode needs the two-column lg layout and enough height that a whole
+ * panel (title, result, cover) fits under the navbar.
+ */
+export const STACK_QUERY = '(min-width: 1024px) and (min-height: 700px)'
+
 /** Sticky stacking only on desktop with motion allowed; cards otherwise. */
 export function showcaseMode(desktop: boolean, reduced: boolean): ShowcaseMode {
   return desktop && !reduced ? 'stack' : 'cards'

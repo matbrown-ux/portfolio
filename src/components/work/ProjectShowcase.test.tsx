@@ -1,8 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { TestRouter } from '../../test/TestRouter'
 import { ScrollTrigger } from '../../lib/gsap'
 import { ProjectShowcase } from './ProjectShowcase'
+import { STACK_QUERY } from './projectListing'
 import { makeCaseStudy } from '../../test/caseStudyFixture'
 import { installMatchMedia, DESKTOP_QUERY, REDUCED_QUERY } from '../../test/matchMedia'
 
@@ -27,22 +28,28 @@ describe('ProjectShowcase', () => {
   })
 
   it('stacks on desktop: every panel but the last is sticky', () => {
-    installMatchMedia({ [DESKTOP_QUERY]: true })
+    installMatchMedia({ [STACK_QUERY]: true })
     const { container } = render(<ProjectShowcase caseStudies={three} />, { wrapper: TestRouter })
     expect(container.querySelector('[data-showcase-mode]')).toHaveAttribute('data-showcase-mode', 'stack')
     const panels = [...container.querySelectorAll('[data-project-panel]')]
     expect(panels.map((p) => p.className.includes('sticky'))).toEqual([true, true, false])
   })
 
+  it('stays in cards mode on a 768px-wide viewport that is not tall enough for the stack', () => {
+    installMatchMedia({ [DESKTOP_QUERY]: true })
+    const { container } = render(<ProjectShowcase caseStudies={three} />, { wrapper: TestRouter })
+    expect(container.querySelector('[data-showcase-mode]')).toHaveAttribute('data-showcase-mode', 'cards')
+  })
+
   it('falls back to cards under reduced motion at desktop width', () => {
-    installMatchMedia({ [DESKTOP_QUERY]: true, [REDUCED_QUERY]: true })
+    installMatchMedia({ [STACK_QUERY]: true, [REDUCED_QUERY]: true })
     const { container } = render(<ProjectShowcase caseStudies={three} />, { wrapper: TestRouter })
     expect(container.querySelector('[data-showcase-mode]')).toHaveAttribute('data-showcase-mode', 'cards')
     expect(container.querySelector('[data-panel-overlay]')).toBeNull()
   })
 
   it('shows a single case study as one non-sticky panel', () => {
-    installMatchMedia({ [DESKTOP_QUERY]: true })
+    installMatchMedia({ [STACK_QUERY]: true })
     const { container } = render(<ProjectShowcase caseStudies={[makeCaseStudy('solo')]} />, { wrapper: TestRouter })
     const panels = container.querySelectorAll('[data-project-panel]')
     expect(panels).toHaveLength(1)
@@ -55,7 +62,7 @@ describe('ProjectShowcase', () => {
   })
 
   it('does not accumulate ScrollTriggers when the stack re-initialises', () => {
-    installMatchMedia({ [DESKTOP_QUERY]: true })
+    installMatchMedia({ [STACK_QUERY]: true })
     const { container, rerender } = render(<ProjectShowcase caseStudies={three} />, { wrapper: TestRouter })
     expect(container.querySelectorAll('[data-panel-overlay]').length).toBeGreaterThan(0)
     const fresh = ScrollTrigger.getAll().length
@@ -63,5 +70,34 @@ describe('ProjectShowcase', () => {
     rerender(<ProjectShowcase caseStudies={three.slice(0, 2)} />)
     rerender(<ProjectShowcase caseStudies={three} />)
     expect(ScrollTrigger.getAll().length).toBe(fresh)
+  })
+
+  it('in stack mode, focusing a covered panel scrolls its natural position under the navbar', () => {
+    installMatchMedia({ [STACK_QUERY]: true })
+    const { container } = render(<ProjectShowcase caseStudies={three} />, { wrapper: TestRouter })
+    const scrollTo = vi.mocked(window.scrollTo)
+    scrollTo.mockClear()
+    expect(container.querySelectorAll('[data-panel-anchor]')).toHaveLength(3)
+    fireEvent.focus(container.querySelectorAll('[data-project-panel]')[1])
+    expect(scrollTo).toHaveBeenCalledTimes(1)
+    expect(typeof (scrollTo.mock.calls[0][0] as ScrollToOptions).top).toBe('number')
+  })
+
+  it('in stack mode, focusing the last panel does not scroll', () => {
+    installMatchMedia({ [STACK_QUERY]: true })
+    const { container } = render(<ProjectShowcase caseStudies={three} />, { wrapper: TestRouter })
+    const scrollTo = vi.mocked(window.scrollTo)
+    scrollTo.mockClear()
+    fireEvent.focus(container.querySelectorAll('[data-project-panel]')[2])
+    expect(scrollTo).not.toHaveBeenCalled()
+  })
+
+  it('in cards mode, focus never scrolls and there are no anchors', () => {
+    const { container } = render(<ProjectShowcase caseStudies={three} />, { wrapper: TestRouter })
+    const scrollTo = vi.mocked(window.scrollTo)
+    scrollTo.mockClear()
+    fireEvent.focus(container.querySelectorAll('[data-project-panel]')[0])
+    expect(scrollTo).not.toHaveBeenCalled()
+    expect(container.querySelector('[data-panel-anchor]')).toBeNull()
   })
 })
