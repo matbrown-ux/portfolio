@@ -25,19 +25,21 @@ interface DisciplineRotatorProps {
 /**
  * A display line that cycles through the disciplines with a masked slide-up.
  * Decorative (aria-hidden) with a single sr-only sentence; pauses while the tab
- * is hidden; holds the first line under reduced motion.
+ * is hidden or when the visitor presses the pause toggle (WCAG 2.2.2); holds the
+ * first line, with no toggle, under reduced motion.
  */
 export function DisciplineRotator({ srLabel, lines = ROTATOR_LINES, interval = 2800, className = '' }: DisciplineRotatorProps) {
   const reduced = useReducedMotion()
   const [index, setIndex] = useState(0)
+  const [paused, setPaused] = useState(false)
 
   useEffect(() => {
-    if (reduced || lines.length < 2) return
+    if (reduced || paused || lines.length < 2) return
     const id = window.setInterval(() => {
       if (document.visibilityState === 'visible') setIndex((i) => nextRotatorIndex(i, lines.length))
     }, interval)
     return () => window.clearInterval(id)
-  }, [reduced, lines.length, interval])
+  }, [reduced, paused, lines.length, interval])
 
   const shown = reduced ? 0 : index
   const line = lines[shown]
@@ -48,23 +50,45 @@ export function DisciplineRotator({ srLabel, lines = ROTATOR_LINES, interval = 2
   return (
     <p className={className}>
       <span className="sr-only">{srLabel}</span>
-      <span aria-hidden="true" data-rotator-index={shown} className="relative grid overflow-hidden pb-[0.1em]">
-        <span data-rotator-sizer className="invisible col-start-1 row-start-1">
-          {longest}
+      <span className="flex items-center gap-4">
+        <span aria-hidden="true" data-rotator-index={shown} className="relative grid min-w-0 overflow-hidden pb-[0.1em]">
+          <span data-rotator-sizer className="invisible col-start-1 row-start-1">
+            {longest}
+          </span>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={line}
+              data-rotator-line
+              className="col-start-1 row-start-1 block"
+              initial={reduced ? false : { y: '110%' }}
+              animate={{ y: '0%' }}
+              exit={reduced ? undefined : { y: '-110%' }}
+              transition={{ duration: DURATION.base, ease: EASE.outQuint }}
+            >
+              {line}
+            </motion.span>
+          </AnimatePresence>
         </span>
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={line}
-            data-rotator-line
-            className="col-start-1 row-start-1 block"
-            initial={reduced ? false : { y: '110%' }}
-            animate={{ y: '0%' }}
-            exit={reduced ? undefined : { y: '-110%' }}
-            transition={{ duration: DURATION.base, ease: EASE.outQuint }}
+        {!reduced && lines.length > 1 && (
+          <button
+            type="button"
+            aria-label="Pause animation"
+            aria-pressed={paused}
+            onClick={() => setPaused((p) => !p)}
+            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border-line text-muted-prose transition-colors duration-200 hover:border-vermilion hover:text-vermilion focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vermilion focus-visible:ring-offset-2 focus-visible:ring-offset-directors-black"
           >
-            {line}
-          </motion.span>
-        </AnimatePresence>
+            {paused ? (
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true">
+                <path d="M2.5 1.5 L8.5 5 L2.5 8.5 Z" />
+              </svg>
+            ) : (
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true">
+                <rect x="2" y="1.5" width="2" height="7" />
+                <rect x="6" y="1.5" width="2" height="7" />
+              </svg>
+            )}
+          </button>
+        )}
       </span>
     </p>
   )
