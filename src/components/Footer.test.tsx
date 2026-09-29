@@ -11,7 +11,9 @@ afterEach(() => {
 describe('Footer', () => {
   it('keeps the CTA band with a revealed heading and the contact button', () => {
     render(<Footer />, { wrapper: TestRouter })
-    expect(screen.getByRole('heading', { level: 2, name: "Let's build something sharp." })).toBeInTheDocument()
+    const heading = screen.getByRole('heading', { level: 2, name: "Let's build something sharp." })
+    // 15ch keeps it to two lines ("Let's build / something sharp."); 12ch wrapped to three.
+    expect(heading).toHaveClass('max-w-[15ch]')
     expect(screen.getByRole('link', { name: 'Start a conversation' })).toHaveAttribute('href', '/contact')
   })
 

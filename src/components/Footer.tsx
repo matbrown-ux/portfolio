@@ -53,7 +53,7 @@ export function Footer() {
             <RevealText
               as="h2"
               text="Let's build something sharp."
-              className="max-w-[12ch] font-bold tracking-tight text-cream"
+              className="max-w-[15ch] font-bold tracking-tight text-cream"
               style={{ fontSize: 'clamp(2.25rem, 5vw, 4rem)', letterSpacing: '-0.03em', lineHeight: 0.98 }}
             />
           </div>
