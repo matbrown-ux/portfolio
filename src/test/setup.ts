@@ -26,3 +26,8 @@ if (!('IntersectionObserver' in window)) {
 // "no-preference" false, so GSAP matchMedia animations stay off and every
 // component renders its static final state). Tests opt in per case.
 beforeEach(() => installMatchMedia({}))
+
+// GSAP's ScrollTrigger registers at import time (src/lib/gsap.ts) and calls
+// matchMedia then, which is before any beforeEach runs. Install the default
+// stub at module load too.
+installMatchMedia({})
