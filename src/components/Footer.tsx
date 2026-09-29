@@ -1,11 +1,15 @@
 import { Link } from 'react-router-dom'
 import { Button } from './ui/Button'
+import { RevealText } from './interaction/RevealText'
+import { Magnetic } from './interaction/Magnetic'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 
 const pages = [
-  { label: 'Work', to: '/work' },
-  { label: 'Services', to: '/services' },
-  { label: 'Blog', to: '/blog' },
+  { label: 'Home', to: '/' },
   { label: 'About', to: '/about' },
+  { label: 'Services', to: '/services' },
+  { label: 'Work', to: '/work' },
+  { label: 'Blog', to: '/blog' },
   { label: 'Contact', to: '/contact' },
 ]
 
@@ -29,6 +33,7 @@ const labelClass =
 
 export function Footer() {
   const year = new Date().getFullYear()
+  const reduced = useReducedMotion()
 
   return (
     <footer className="border-t border-border-line mt-32">
@@ -38,21 +43,19 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-7">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-vermilion opacity-60" />
+                <span className="absolute inline-flex h-full w-full animate-ping motion-reduce:animate-none rounded-full bg-vermilion opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-vermilion" />
               </span>
               <span className="text-xs tracking-[0.2em] uppercase text-muted-prose">
                 Available for freelance work
               </span>
             </div>
-            <h2
-              className="text-cream font-bold tracking-tight"
+            <RevealText
+              as="h2"
+              text="Let's build something sharp."
+              className="max-w-[12ch] font-bold tracking-tight text-cream"
               style={{ fontSize: 'clamp(2.25rem, 5vw, 4rem)', letterSpacing: '-0.03em', lineHeight: 0.98 }}
-            >
-              Let&apos;s build
-              <br />
-              something sharp.
-            </h2>
+            />
           </div>
 
           <div className="flex flex-col gap-5 md:items-end">
@@ -61,9 +64,11 @@ export function Footer() {
               className="group inline-flex items-center gap-3 text-cream text-lg md:text-xl font-medium hover:text-vermilion transition-colors duration-200"
             >
               mat@matbrown.io
-              <span className="text-vermilion transition-transform duration-200 group-hover:translate-x-1">↗</span>
+              <span aria-hidden="true" className="text-vermilion transition-transform motion-reduce:transition-none duration-200 group-hover:translate-x-1">↗</span>
             </a>
-            <Button href="/contact">Start a conversation</Button>
+            <Magnetic>
+              <Button href="/contact">Start a conversation</Button>
+            </Magnetic>
           </div>
         </div>
 
@@ -110,7 +115,7 @@ export function Footer() {
                     className={`group inline-flex items-center gap-1.5 ${linkClass}`}
                   >
                     {label}
-                    <span className="text-vermilion opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">↗</span>
+                    <span aria-hidden="true" className="text-vermilion opacity-0 -translate-x-1 transition-all motion-reduce:transition-none duration-200 group-hover:opacity-100 group-hover:translate-x-0">↗</span>
                   </a>
                 </li>
               ))}
@@ -122,11 +127,11 @@ export function Footer() {
         <div className="py-8 border-t border-border-line flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <p className="text-xs text-muted-prose">© {year} Mathew Brown. All rights reserved.</p>
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })}
             className="group text-xs font-medium tracking-widest uppercase text-muted-prose hover:text-cream transition-colors duration-200 inline-flex items-center gap-2"
           >
             Back to top
-            <span className="text-vermilion transition-transform duration-200 group-hover:-translate-y-0.5">↑</span>
+            <span aria-hidden="true" className="text-vermilion transition-transform motion-reduce:transition-none duration-200 group-hover:-translate-y-0.5">↑</span>
           </button>
         </div>
       </div>
