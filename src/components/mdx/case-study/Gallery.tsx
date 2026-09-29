@@ -70,7 +70,7 @@ export function Gallery({ images, width = 'wide' }: { images: GalleryImage[]; wi
           dragElastic={0.08}
           onDragTransitionEnd={onDragSettle}
           style={{ x }}
-          className="flex cursor-grab gap-6 active:cursor-grabbing"
+          className="flex w-max cursor-grab gap-6 active:cursor-grabbing"
         >
           {images.map((img, i) => (
             <li key={i} className="w-[80vw] max-w-[56rem] shrink-0">

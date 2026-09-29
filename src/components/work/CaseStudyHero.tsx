@@ -23,8 +23,8 @@ export function CaseStudyHero({ frontmatter: fm, cover }: { frontmatter: CaseStu
   const meta = [...(fm.services ?? []), ...(fm.stack ?? [])]
   return (
     <header>
-      <div className="mx-auto max-w-6xl px-6 pb-14 pt-16 md:pt-24">
-        <div className="mb-8 flex flex-wrap gap-2">
+      <div className="mx-auto max-w-6xl px-6 pb-14 pt-16 md:pt-16">
+        <div className="mb-6 flex flex-wrap gap-2">
           {fm.tags.map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
@@ -32,12 +32,12 @@ export function CaseStudyHero({ frontmatter: fm, cover }: { frontmatter: CaseStu
         <RevealText
           as="h1"
           text={fm.headline || fm.title}
-          className="max-w-5xl font-bold leading-[1.05] text-cream"
-          style={{ fontSize: 'clamp(2.25rem, 5.5vw, 4.5rem)', letterSpacing: '-0.03em' }}
+          className="max-w-6xl font-bold leading-[1.05] text-cream"
+          style={{ fontSize: 'clamp(2.25rem, 5vw, 4.25rem)', letterSpacing: '-0.03em' }}
         />
-        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-prose">{fm.summary}</p>
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-prose">{fm.summary}</p>
 
-        <dl className="mt-12 grid grid-cols-2 gap-8 border-y border-border-line py-8 md:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,2fr)]">
+        <dl className="mt-8 grid grid-cols-2 gap-8 border-y border-border-line py-6 md:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,2fr)]">
           <Glance label="Client" value={fm.client ?? fm.title} />
           <Glance label="Role" value={fm.role} />
           <Glance label="Year" value={fm.year} />
@@ -47,10 +47,10 @@ export function CaseStudyHero({ frontmatter: fm, cover }: { frontmatter: CaseStu
           </div>
         </dl>
 
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-6">
-          {meta.length > 0 && <p className="text-xs uppercase tracking-[0.15em] text-muted-prose">{meta.join(' · ')}</p>}
+        <div className="mt-6 flex items-center justify-between gap-6">
+          {meta.length > 0 && <p className="min-w-0 flex-1 text-xs uppercase leading-relaxed tracking-[0.15em] text-muted-prose">{meta.join(' · ')}</p>}
           {fm.liveUrl && (
-            <div data-cursor="visit">
+            <div data-cursor="visit" className="shrink-0">
               <Magnetic>
                 <Button href={fm.liveUrl} external>
                   Visit live site <span aria-hidden="true">↗</span>

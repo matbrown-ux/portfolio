@@ -26,4 +26,10 @@ describe('Gallery', () => {
     expect(screen.getByText('03 / 03')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Next image' })).toBeDisabled()
   })
+
+  it('sizes the drag track to its content so drag constraints have room to travel', () => {
+    render(<Gallery images={images} />)
+    const track = screen.getByRole('list')
+    expect(track).toHaveClass('w-max')
+  })
 })
