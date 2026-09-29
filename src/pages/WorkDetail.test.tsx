@@ -33,3 +33,11 @@ describe('WorkDetail', () => {
     expect(screen.getByText('Next project')).toBeInTheDocument()
   })
 })
+
+describe('migrated case studies', () => {
+  it.each(['vamp-network', 'the-booking-flow', 'aiwi-waffles'])('%s is built from chapters with an outcome', (slug) => {
+    const { container } = renderAt(`/work/${slug}`)
+    expect(container.querySelectorAll('section.chapter').length).toBeGreaterThanOrEqual(3)
+    expect(screen.getByRole('link', { name: 'Start a project' })).toBeInTheDocument()
+  })
+})
