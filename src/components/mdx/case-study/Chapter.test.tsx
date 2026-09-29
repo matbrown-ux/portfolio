@@ -1,9 +1,10 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, afterEach, vi } from 'vitest'
 import { useRef } from 'react'
 import { render, screen } from '@testing-library/react'
 import { ChapterProvider } from './ChapterContext'
 import { Chapter } from './Chapter'
 import { ChapterNav } from './ChapterNav'
+import { ScrollTrigger } from '../../../lib/gsap'
 
 function Article({ titles }: { titles: string[] }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -22,6 +23,19 @@ function Article({ titles }: { titles: string[] }) {
 }
 
 describe('Chapter + ChapterNav', () => {
+  afterEach(() => {
+    ScrollTrigger.getAll().forEach((t) => t.kill())
+    vi.restoreAllMocks()
+  })
+
+  it('keeps exactly one rail ScrollTrigger as chapters register', () => {
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    const { rerender } = render(<Article titles={['One']} />)
+    rerender(<Article titles={['One', 'Two']} />)
+    rerender(<Article titles={['One', 'Two', 'Three']} />)
+    expect(ScrollTrigger.getAll()).toHaveLength(1)
+  })
+
   it('renders keyword h2s and a rail link per chapter', () => {
     render(<Article titles={['The challenge', 'The approach']} />)
     expect(screen.getByRole('heading', { level: 2, name: 'The challenge' })).toBeInTheDocument()

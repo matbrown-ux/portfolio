@@ -44,7 +44,7 @@ export function ChapterNav({ articleRef }: { articleRef: RefObject<HTMLElement> 
         },
       })
     },
-    { dependencies: [chapters] }
+    { dependencies: [chapters], revertOnUpdate: true }
   )
 
   if (chapters.length === 0) return null

@@ -41,7 +41,7 @@ export function ProjectShowcase({ caseStudies }: { caseStudies: CaseStudy[] }) {
       // taller stack layout is in place so triggers below stay accurate.
       ScrollTrigger.refresh()
     },
-    { scope: rootRef, dependencies: [mode, caseStudies.length] }
+    { scope: rootRef, dependencies: [mode, caseStudies.length], revertOnUpdate: true }
   )
 
   if (caseStudies.length === 0) {

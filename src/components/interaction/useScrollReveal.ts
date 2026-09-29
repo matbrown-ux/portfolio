@@ -43,7 +43,7 @@ export function useScrollReveal<T extends HTMLElement>(
         })
       })
     },
-    { scope: ref, dependencies: [entranceDelay, start, ...deps] }
+    { scope: ref, dependencies: [entranceDelay, start, ...deps], revertOnUpdate: true }
   )
 
   return ref

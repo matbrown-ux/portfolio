@@ -1,6 +1,7 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { TestRouter } from '../../test/TestRouter'
+import { ScrollTrigger } from '../../lib/gsap'
 import { ProjectShowcase } from './ProjectShowcase'
 import { makeCaseStudy } from '../../test/caseStudyFixture'
 import { installMatchMedia, DESKTOP_QUERY, REDUCED_QUERY } from '../../test/matchMedia'
@@ -11,6 +12,11 @@ describe('ProjectShowcase', () => {
   beforeEach(() => {
     // ScrollTrigger.refresh() scrolls to restore position; jsdom does not implement it.
     vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    ScrollTrigger.getAll().forEach((t) => t.kill())
+    vi.restoreAllMocks()
   })
 
   it('renders cards by default (server/mobile)', () => {
@@ -46,5 +52,16 @@ describe('ProjectShowcase', () => {
   it('shows an empty state with no case studies', () => {
     render(<ProjectShowcase caseStudies={[]} />, { wrapper: TestRouter })
     expect(screen.getByText('Case studies coming soon.')).toBeInTheDocument()
+  })
+
+  it('does not accumulate ScrollTriggers when the stack re-initialises', () => {
+    installMatchMedia({ [DESKTOP_QUERY]: true })
+    const { container, rerender } = render(<ProjectShowcase caseStudies={three} />, { wrapper: TestRouter })
+    expect(container.querySelectorAll('[data-panel-overlay]').length).toBeGreaterThan(0)
+    const fresh = ScrollTrigger.getAll().length
+    expect(fresh).toBe(2)
+    rerender(<ProjectShowcase caseStudies={three.slice(0, 2)} />)
+    rerender(<ProjectShowcase caseStudies={three} />)
+    expect(ScrollTrigger.getAll().length).toBe(fresh)
   })
 })

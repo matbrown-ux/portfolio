@@ -89,7 +89,7 @@ function Pinned({ steps, frame, url }: InnerProps) {
         },
       })
     },
-    { scope: ref, dependencies: [steps.length] }
+    { scope: ref, dependencies: [steps.length], revertOnUpdate: true }
   )
 
   return (
