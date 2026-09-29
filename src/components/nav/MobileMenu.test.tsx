@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen, fireEvent, within } from '@testing-library/react'
+import { render, screen, fireEvent, within, waitFor } from '@testing-library/react'
 import { Route, Routes, Link } from 'react-router-dom'
 import { TestRouter } from '../../test/TestRouter'
 import { MobileMenu } from './MobileMenu'
@@ -73,5 +73,17 @@ describe('MobileMenu', () => {
     fireEvent.click(toggle())
     fireEvent.click(screen.getByText('outside link'))
     expect(document.activeElement).toBe(toggle())
+  })
+
+  it('closes when the Start a project CTA is tapped while already on /contact', async () => {
+    render(
+      <TestRouter initialEntries={['/contact']}>
+        <MobileMenu />
+      </TestRouter>
+    )
+    fireEvent.click(toggle())
+    fireEvent.click(screen.getByRole('link', { name: 'Start a project' }))
+    expect(toggle()).toHaveAttribute('aria-expanded', 'false')
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
   })
 })

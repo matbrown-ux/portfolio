@@ -134,7 +134,10 @@ export function MobileMenu() {
             </nav>
 
             <div className="mt-auto flex items-center justify-between gap-6">
-              <Button href="/contact">Start a project</Button>
+              {/* Closes on click so tapping the CTA while already on /contact still dismisses the menu. */}
+              <div onClick={() => setOpen(false)}>
+                <Button href="/contact">Start a project</Button>
+              </div>
               <SocialLinks />
             </div>
           </motion.div>
