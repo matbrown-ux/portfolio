@@ -77,12 +77,36 @@ html {
 
 .case-study-prose h2 {
   counter-increment: cs-section;
-  margin-top: 4rem;
-}
-
-.case-study-prose h2:first-child {
   margin-top: 0;
 }
+
+/* Case study width system: prose sits in `content`; modules opt into `wide`
+   or `full` (see src/components/mdx/case-study/width.ts). Chapters span the
+   full grid and redefine it, so their children use the same columns. */
+.cs-grid {
+  --cs-content: 680px;
+  --cs-wide: 64rem;
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(1.5rem, 1fr)
+    [wide-start] minmax(0, calc((var(--cs-wide) - var(--cs-content)) / 2))
+    [content-start] min(var(--cs-content), 100% - 3rem) [content-end]
+    minmax(0, calc((var(--cs-wide) - var(--cs-content)) / 2)) [wide-end]
+    minmax(1.5rem, 1fr) [full-end];
+}
+.cs-grid > * { grid-column: content; }
+.cs-grid > .cs-wide { grid-column: wide; }
+.cs-grid > .cs-full,
+.cs-grid > .chapter { grid-column: full; }
+
+.case-study-prose .chapter + .chapter { margin-top: 7rem; }
+
+/* The content layer sits above the chapter rail (so wide modules cover it
+   while passing) but lets clicks through its empty gutters to the rail. */
+.cs-layer,
+.cs-layer .chapter { pointer-events: none; }
+.cs-layer > :not(.chapter),
+.cs-layer .chapter > * { pointer-events: auto; }
 
 .case-study-prose h2::before {
   content: counter(cs-section, decimal-leading-zero);
