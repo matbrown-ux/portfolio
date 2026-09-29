@@ -34,7 +34,7 @@ The stack is **React + Vite + vite-react-ssg** with **react-router-dom**. There 
 
 ## 5. Content pipeline
 
-- New case study: add `src/content/case-studies/<slug>.mdx` with full frontmatter (`title`, `headline`, `slug`, `summary`, `tags`, `coverImage`, `date`, optional `liveUrl`, `role`, `services`, `stack`). It auto-appears, sorted by `date` desc.
+- New case study: add `src/content/case-studies/<slug>.mdx` with full frontmatter (`title`, `headline`, `slug`, `summary`, `tags`, `coverImage`, `date`, `year`, `result`, optional `client`, `ogImage`, `liveUrl`, `role`, `services`, `stack`). It auto-appears, sorted by `date` desc. Case study bodies are built from `<Chapter>` sections with `<Walkthrough>`, `<Gallery>`, `<BeforeAfter>`, `<Outcome>`, and `<PullQuote>` (see `src/components/mdx/case-study/`).
 - New blog pillar: add `src/content/blog/<slug>/index.mdx`; articles go in the same folder. Give each a `coverImage`.
 - Frontmatter shapes live in `src/types/content.ts` — update the interface when adding fields.
 
