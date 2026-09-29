@@ -15,9 +15,10 @@ interface RevealTextProps {
 }
 
 /**
- * Masked word-by-word reveal for display text. The real element holds an
- * sr-only copy of the full string (crawlers and screen readers get one clean
- * string); the split words are aria-hidden. Same DOM on server and client.
+ * Masked word-by-word reveal for display text. The element holds a single copy
+ * of the text: the words are real text nodes (wrapped in mask spans) separated
+ * by plain spaces, so textContent and the accessible name both equal `text`.
+ * Same DOM on server and client.
  */
 export function RevealText({ as: Tag = 'h2', text, className, style, id }: RevealTextProps) {
   const ref = useScrollReveal<HTMLElement>(
@@ -35,19 +36,16 @@ export function RevealText({ as: Tag = 'h2', text, className, style, id }: Revea
 
   return (
     <Tag ref={ref as never} id={id} className={className} style={style}>
-      <span className="sr-only">{text}</span>
-      <span aria-hidden="true">
-        {words.map((word, i) => (
-          <Fragment key={i}>
-            <span className="inline-block overflow-hidden pb-[0.08em] align-bottom">
-              <span data-word className="inline-block">
-                {word}
-              </span>
+      {words.map((word, i) => (
+        <Fragment key={i}>
+          <span className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+            <span data-word className="inline-block">
+              {word}
             </span>
-            {i < words.length - 1 ? ' ' : null}
-          </Fragment>
-        ))}
-      </span>
+          </span>
+          {i < words.length - 1 ? ' ' : null}
+        </Fragment>
+      ))}
     </Tag>
   )
 }

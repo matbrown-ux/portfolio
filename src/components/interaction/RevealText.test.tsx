@@ -8,10 +8,9 @@ describe('RevealText', () => {
     expect(screen.getByRole('heading', { level: 1, name: "UX/UI Engineering & SEO for 'Aiwi Waffles" })).toBeInTheDocument()
   })
 
-  it('hides the split words from assistive tech', () => {
+  it('renders exactly one copy of the text for crawlers', () => {
     const { container } = render(<RevealText as="h2" text="Two words" />)
-    const words = container.querySelectorAll('[data-word]')
-    expect(words).toHaveLength(2)
-    expect(words[0].closest('[aria-hidden="true"]')).not.toBeNull()
+    expect(container.firstElementChild?.textContent).toBe('Two words')
+    expect(container.querySelectorAll('[data-word]')).toHaveLength(2)
   })
 })
