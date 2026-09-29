@@ -2,6 +2,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import { Navbar } from '../components/nav/Navbar'
 import { Footer } from '../components/Footer'
 import { PageCurtain } from '../components/PageCurtain'
+import { Cursor } from '../components/interaction/Cursor'
 
 export function DefaultLayout() {
   return (
@@ -14,6 +15,7 @@ export function DefaultLayout() {
           <PageCurtain />
         </main>
         <Footer />
+        <Cursor />
       </div>
     </HelmetProvider>
   )
