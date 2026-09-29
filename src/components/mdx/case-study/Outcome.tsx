@@ -1,6 +1,5 @@
 import { CountUp } from '../../interaction/CountUp'
-import { Magnetic } from '../../interaction/Magnetic'
-import { Button } from '../../ui/Button'
+import { ProjectCta } from '../../work/ProjectCta'
 import { widthClass, type ModuleWidth } from './width'
 
 interface OutcomeProps {
@@ -34,12 +33,7 @@ export function Outcome({ metrics, quote, cite, width = 'wide' }: OutcomeProps) 
         </figure>
       )}
 
-      <div className="mt-16 flex flex-col items-start justify-between gap-6 border-t border-border-line pt-10 sm:flex-row sm:items-center">
-        <p className="text-2xl font-semibold tracking-tight text-cream">Have a project like this in mind?</p>
-        <Magnetic>
-          <Button href="/contact">Start a project</Button>
-        </Magnetic>
-      </div>
+      <ProjectCta className="mt-16" />
     </div>
   )
 }
