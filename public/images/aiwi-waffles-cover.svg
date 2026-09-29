@@ -31,7 +31,7 @@
 
   <!-- left content -->
   <rect x="110" y="150" width="5" height="120" fill="#f86343"/>
-  <text x="140" y="180" fill="#7a7060" font-size="24" letter-spacing="6">CASE STUDY — 03</text>
+  <text x="140" y="180" fill="#7a7060" font-size="24" letter-spacing="6">CASE STUDY · 03</text>
 
   <text x="106" y="430" fill="#f5f0e8" font-size="140" font-weight="700" letter-spacing="-5">&#8217;Aiwi</text>
   <text x="106" y="560" fill="#f5f0e8" font-size="140" font-weight="700" letter-spacing="-5">Waffles</text>
