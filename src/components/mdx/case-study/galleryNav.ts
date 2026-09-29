@@ -26,3 +26,14 @@ export function nearestIndex(offsets: number[], shift: number): number {
   })
   return best
 }
+
+/** Index for a resting track shift; offsets are clamped to the reachable range, ties at the max go to the last item. */
+export function indexAtShift(offsets: number[], trackWidth: number, viewportWidth: number, shift: number): number {
+  if (offsets.length === 0) return 0
+  const max = Math.max(0, trackWidth - viewportWidth)
+  if (shift >= max) return offsets.length - 1
+  return nearestIndex(
+    offsets.map((o) => clampShift(o, trackWidth, viewportWidth)),
+    shift,
+  )
+}

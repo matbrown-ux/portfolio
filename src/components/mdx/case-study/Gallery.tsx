@@ -4,7 +4,7 @@ import { useReducedMotion } from '../../../hooks/useReducedMotion'
 import { SPRING } from '../../../lib/motion'
 import { CaptureMedia } from './CaptureMedia'
 import { widthClass, type ModuleWidth } from './width'
-import { nextIndex, clampShift, nearestIndex } from './galleryNav'
+import { nextIndex, clampShift, indexAtShift } from './galleryNav'
 
 export interface GalleryImage {
   src?: string
@@ -44,7 +44,12 @@ export function Gallery({ images, width = 'wide' }: { images: GalleryImage[]; wi
     goTo(next)
   }
 
-  const onDragEnd = () => setIndex(nearestIndex(items().map((el) => el.offsetLeft), -x.get()))
+  const onDragSettle = () => {
+    const track = trackRef.current
+    const viewport = viewportRef.current
+    if (!track || !viewport) return
+    setIndex(indexAtShift(items().map((el) => el.offsetLeft), track.scrollWidth, viewport.clientWidth, -x.get()))
+  }
 
   return (
     <div className={`not-prose my-16 ${widthClass(width)}`}>
@@ -63,7 +68,7 @@ export function Gallery({ images, width = 'wide' }: { images: GalleryImage[]; wi
           drag="x"
           dragConstraints={viewportRef}
           dragElastic={0.08}
-          onDragEnd={onDragEnd}
+          onDragTransitionEnd={onDragSettle}
           style={{ x }}
           className="flex cursor-grab gap-6 active:cursor-grabbing"
         >

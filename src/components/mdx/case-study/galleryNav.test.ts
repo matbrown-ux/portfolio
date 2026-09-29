@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { nextIndex, clampShift, nearestIndex } from './galleryNav'
+import { nextIndex, clampShift, nearestIndex, indexAtShift } from './galleryNav'
 
 describe('nextIndex', () => {
   it('moves with arrows and clamps at the ends', () => {
@@ -31,5 +31,21 @@ describe('nearestIndex', () => {
     expect(nearestIndex([0, 800, 1600], 700)).toBe(1)
     expect(nearestIndex([0, 800, 1600], 100)).toBe(0)
     expect(nearestIndex([], 100)).toBe(0)
+  })
+})
+
+describe('indexAtShift', () => {
+  const offsets = [0, 800, 1600, 2400]
+  it('reaches the last item when dragged to the max shift', () => {
+    expect(indexAtShift(offsets, 3000, 1000, 2000)).toBe(3)
+  })
+  it('finds the nearest item for mid shifts', () => {
+    expect(indexAtShift(offsets, 3000, 1000, 700)).toBe(1)
+  })
+  it('is 0 for an empty list', () => {
+    expect(indexAtShift([], 3000, 1000, 500)).toBe(0)
+  })
+  it('resolves ties at the max shift to the last tied item', () => {
+    expect(indexAtShift(offsets, 2000, 1000, 1000)).toBe(3)
   })
 })
