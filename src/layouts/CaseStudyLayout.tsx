@@ -1,13 +1,25 @@
+import { useRef, type ReactNode } from 'react'
+import { ChapterProvider, ChapterNav } from '../components/mdx/case-study'
+
 interface CaseStudyLayoutProps {
-  children: React.ReactNode
-  hero?: React.ReactNode
+  hero: ReactNode
+  children: ReactNode
+  /** Rendered after the article body (the next-project band). */
+  after?: ReactNode
 }
 
-export function CaseStudyLayout({ children, hero }: CaseStudyLayoutProps) {
+export function CaseStudyLayout({ hero, children, after }: CaseStudyLayoutProps) {
+  const bodyRef = useRef<HTMLDivElement>(null)
   return (
-    <article>
-      {hero && <div className="w-full max-h-[65vh] overflow-hidden bg-secondary-dark">{hero}</div>}
-      <div className="max-w-3xl mx-auto px-6 py-16">{children}</div>
-    </article>
+    <ChapterProvider>
+      <article>
+        {hero}
+        <div ref={bodyRef} className="relative pb-24 pt-20">
+          <ChapterNav articleRef={bodyRef} />
+          <div className="case-study-prose prose prose-lg cs-grid cs-layer relative z-10 max-w-none">{children}</div>
+        </div>
+        {after}
+      </article>
+    </ChapterProvider>
   )
 }
