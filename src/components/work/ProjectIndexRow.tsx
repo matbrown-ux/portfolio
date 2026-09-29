@@ -9,7 +9,8 @@ interface ProjectIndexRowProps {
   index: number
   /** Inline thumbnails replace the floating preview on touch / reduced motion. */
   showThumb: boolean
-  onHover?: (slug: string) => void
+  /** Called with the slug on pointer enter, and null when the row is clicked. */
+  onHover?: (slug: string | null) => void
 }
 
 /** One editorial row in the Home project index. Named by title + result. */
@@ -24,7 +25,8 @@ export function ProjectIndexRow({ caseStudy, index, showThumb, onHover }: Projec
         data-cursor="view"
         aria-labelledby={`${titleId} ${resultId}`}
         onPointerEnter={onHover ? () => onHover(slug) : undefined}
-        className="group grid gap-6 py-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vermilion lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-center lg:gap-10"
+        onClick={onHover ? () => onHover(null) : undefined}
+        className="group grid gap-6 py-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vermilion focus-visible:ring-offset-4 focus-visible:ring-offset-directors-black lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-center lg:gap-10"
       >
         {showThumb && <ProjectCover caseStudy={caseStudy} variant="static" className="md:hidden" />}
         <div className="flex min-w-0 items-center gap-6 md:gap-10">

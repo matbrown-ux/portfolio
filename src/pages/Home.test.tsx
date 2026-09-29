@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { HelmetProvider } from 'react-helmet-async'
 import { TestRouter } from '../test/TestRouter'
 import { Home } from './Home'
+import { getCaseStudies } from '../lib/content'
 
 function renderHome() {
   return render(
@@ -20,14 +21,14 @@ describe('Home selected work', () => {
     expect(screen.getByRole('heading', { level: 2, name: 'Featured UX/UI Engineering & SEO Projects' })).toBeInTheDocument()
   })
 
-  it('lists the three newest case studies as an editorial index', () => {
+  it('lists the newest case studies (up to three) as an editorial index', () => {
     const { container } = renderHome()
     const rows = container.querySelectorAll('[data-project-index] ol > li a')
-    expect([...rows].map((a) => a.getAttribute('href'))).toEqual([
-      '/work/vamp-network',
-      '/work/the-booking-flow',
-      '/work/aiwi-waffles',
-    ])
+    expect([...rows].map((a) => a.getAttribute('href'))).toEqual(
+      getCaseStudies()
+        .slice(0, 3)
+        .map((cs) => `/work/${cs.slug}`)
+    )
   })
 
   it('links to all work', () => {

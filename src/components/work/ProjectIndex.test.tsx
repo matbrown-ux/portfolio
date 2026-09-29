@@ -42,6 +42,23 @@ describe('ProjectIndex', () => {
     expect(preview).toHaveAttribute('data-active', '')
   })
 
+  it('clears the preview when a row is clicked', () => {
+    installMatchMedia({ [FINE_POINTER_QUERY]: true })
+    render(<ProjectIndex caseStudies={list} />, { wrapper: TestRouter })
+    const link = screen.getByRole('link', { name: 'Beta Result B.' })
+    fireEvent.pointerEnter(link)
+    expect(screen.getByTestId('hover-preview')).toHaveAttribute('data-active', 'beta')
+    fireEvent.click(link)
+    expect(screen.getByTestId('hover-preview')).toHaveAttribute('data-active', '')
+  })
+
+  it('gives the row focus ring an offset so it is not flush against the number', () => {
+    render(<ProjectIndex caseStudies={list} />, { wrapper: TestRouter })
+    const cls = screen.getByRole('link', { name: 'Alpha Result A.' }).className
+    expect(cls).toContain('focus-visible:ring-offset-4')
+    expect(cls).toContain('focus-visible:ring-offset-directors-black')
+  })
+
   it('does not summon the preview on keyboard focus', () => {
     installMatchMedia({ [FINE_POINTER_QUERY]: true })
     render(<ProjectIndex caseStudies={list} />, { wrapper: TestRouter })

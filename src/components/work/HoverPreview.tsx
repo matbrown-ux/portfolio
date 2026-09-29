@@ -51,7 +51,7 @@ export function HoverPreview({ caseStudies, activeSlug }: HoverPreviewProps) {
       aria-hidden="true"
       data-testid="hover-preview"
       data-active={activeSlug ?? ''}
-      className="pointer-events-none fixed left-0 top-0 z-50 overflow-hidden rounded-md border border-border-line bg-directors-black"
+      className="pointer-events-none fixed left-0 top-0 z-50 overflow-hidden rounded-md border border-border-line"
       style={{ x: sx, y: sy, width: SIZE.w, height: SIZE.h }}
       initial={false}
       animate={{ opacity: activeSlug ? 1 : 0 }}

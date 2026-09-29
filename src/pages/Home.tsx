@@ -212,7 +212,7 @@ export function Home() {
               to="/services"
               className="text-xs font-medium tracking-widest uppercase text-muted-prose hover:text-cream transition-colors duration-200 inline-flex items-center gap-3"
             >
-              All services <span className="text-vermilion">→</span>
+              All services <span aria-hidden="true" className="text-vermilion">→</span>
             </Link>
           </FadeIn>
         </div>
@@ -237,7 +237,7 @@ export function Home() {
               data-cursor="view"
               className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-muted-prose transition-colors duration-200 hover:text-cream"
             >
-              All work <span className="text-vermilion">→</span>
+              All work <span aria-hidden="true" className="text-vermilion">→</span>
             </Link>
           </div>
         </section>

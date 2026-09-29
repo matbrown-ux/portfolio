@@ -14,6 +14,13 @@ describe('HoverPreview', () => {
     expect(preview).toHaveAttribute('data-active', '')
   })
 
+  it('is a light bordered frame, not a dark card surface', () => {
+    render(<HoverPreview caseStudies={list} activeSlug="a" />)
+    const cls = screen.getByTestId('hover-preview').className
+    expect(cls).toContain('border-border-line')
+    expect(cls).not.toContain('bg-directors-black')
+  })
+
   it('shows only the active project cover', () => {
     const { container } = render(<HoverPreview caseStudies={list} activeSlug="b" />)
     expect(screen.getByTestId('hover-preview')).toHaveAttribute('data-active', 'b')
