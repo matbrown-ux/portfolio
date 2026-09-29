@@ -2,7 +2,7 @@ import { useRef, useState, type RefObject, type MouseEvent } from 'react'
 import { ScrollTrigger, useGSAP } from '../../../lib/gsap'
 import { useReducedMotion } from '../../../hooks/useReducedMotion'
 import { useChapters } from './ChapterContext'
-import { activeChapter } from './chapters'
+import { activeChapter, measureTops } from './chapters'
 
 const pad = (n: number) => String(n).padStart(2, '0')
 
@@ -17,24 +17,31 @@ export function ChapterNav({ articleRef }: { articleRef: RefObject<HTMLElement> 
   const [active, setActive] = useState(-1)
   const railFill = useRef<HTMLSpanElement>(null)
   const barFill = useRef<HTMLSpanElement>(null)
+  const tops = useRef<number[]>([])
 
   useGSAP(
     () => {
       const article = articleRef.current
       if (!article || chapters.length === 0) return
-      const update = (progress: number) => {
+      const write = (progress: number) => {
         const pct = `${Math.round(progress * 1000) / 10}%`
         if (railFill.current) railFill.current.style.height = pct
         if (barFill.current) barFill.current.style.width = pct
-        const tops = chapters.map((c) => c.el.getBoundingClientRect().top + window.scrollY)
-        setActive(activeChapter(tops, window.scrollY, window.innerHeight))
+        setActive(activeChapter(tops.current, window.scrollY, window.innerHeight))
       }
       ScrollTrigger.create({
         trigger: article,
         start: 'top top',
         end: 'bottom bottom',
-        onUpdate: (self) => update(self.progress),
-        onRefresh: (self) => update(self.progress),
+        onUpdate: (self) => write(self.progress),
+        onRefresh: (self) => {
+          // Measure once per refresh; scroll frames read only the cache.
+          tops.current = measureTops(
+            chapters.map((c) => c.el),
+            window.scrollY
+          )
+          write(self.progress)
+        },
       })
     },
     { dependencies: [chapters] }

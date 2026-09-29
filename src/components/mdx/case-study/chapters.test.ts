@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { slugifyChapter, uniqueSlug, activeChapter } from './chapters'
+import { slugifyChapter, uniqueSlug, activeChapter, measureTops } from './chapters'
 
 describe('slugifyChapter', () => {
   it.each([
@@ -33,5 +33,13 @@ describe('activeChapter', () => {
   })
   it('handles no chapters', () => {
     expect(activeChapter([], 500, 1000)).toBe(-1)
+  })
+})
+
+describe('measureTops', () => {
+  it('returns absolute tops (viewport top plus scroll offset)', () => {
+    const el = (top: number) => ({ getBoundingClientRect: () => ({ top }) }) as unknown as HTMLElement
+    expect(measureTops([el(-200), el(300)], 500)).toEqual([300, 800])
+    expect(measureTops([], 500)).toEqual([])
   })
 })

@@ -26,3 +26,8 @@ export function activeChapter(tops: number[], scrollY: number, viewportH: number
   })
   return active
 }
+
+/** Absolute document tops for chapter elements (one layout read each; cache the result). */
+export function measureTops(els: readonly HTMLElement[], scrollY: number): number[] {
+  return els.map((el) => el.getBoundingClientRect().top + scrollY)
+}
