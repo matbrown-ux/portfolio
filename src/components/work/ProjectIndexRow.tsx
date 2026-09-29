@@ -24,10 +24,10 @@ export function ProjectIndexRow({ caseStudy, index, showThumb, onHover }: Projec
         data-cursor="view"
         aria-labelledby={`${titleId} ${resultId}`}
         onPointerEnter={onHover ? () => onHover(slug) : undefined}
-        className="group grid gap-6 py-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vermilion md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] md:items-center md:gap-10"
+        className="group grid gap-6 py-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vermilion lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-center lg:gap-10"
       >
         {showThumb && <ProjectCover caseStudy={caseStudy} variant="static" className="md:hidden" />}
-        <div className="flex items-center gap-6 md:gap-10">
+        <div className="flex min-w-0 items-center gap-6 md:gap-10">
           <div className="w-10 shrink-0">
             <span className="font-mono text-xs tracking-[0.2em] text-vermilion">{String(index + 1).padStart(2, '0')}</span>
             <span
@@ -38,7 +38,7 @@ export function ProjectIndexRow({ caseStudy, index, showThumb, onHover }: Projec
           {showThumb && <ProjectCover caseStudy={caseStudy} variant="static" className="hidden w-40 shrink-0 md:block" />}
           <h3
             id={titleId}
-            className="font-bold leading-none text-cream transition-colors duration-200 group-hover:text-vermilion group-focus-visible:text-vermilion"
+            className="min-w-0 break-words font-bold leading-none text-cream transition-colors duration-200 group-hover:text-vermilion group-focus-visible:text-vermilion"
             style={{ fontSize: 'clamp(2rem, 4.5vw, 4rem)', letterSpacing: '-0.03em' }}
           >
             {fm.title}

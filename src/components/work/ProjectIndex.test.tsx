@@ -48,4 +48,13 @@ describe('ProjectIndex', () => {
     screen.getByRole('link', { name: 'Alpha Result A.' }).focus()
     expect(screen.getByTestId('hover-preview')).toHaveAttribute('data-active', '')
   })
+
+  it('keeps the two-column grid to lg so titles do not overflow at tablet width', () => {
+    render(<ProjectIndex caseStudies={list} />, { wrapper: TestRouter })
+    const link = screen.getByRole('link', { name: 'Alpha Result A.' })
+    expect(link.className).toContain('lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]')
+    expect(link.className).not.toContain('md:grid-cols-')
+    expect(screen.getByRole('heading', { level: 3, name: 'Alpha' }).className).toContain('min-w-0')
+    expect(screen.getByRole('list')).toHaveAttribute('role', 'list')
+  })
 })

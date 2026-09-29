@@ -18,7 +18,7 @@ export function ProjectIndex({ caseStudies }: { caseStudies: CaseStudy[] }) {
 
   return (
     <div data-project-index onPointerLeave={() => setActive(null)}>
-      <ol className="border-t border-border-line">
+      <ol role="list" className="border-t border-border-line">
         {caseStudies.map((cs, i) => (
           <ProjectIndexRow
             key={cs.slug}
