@@ -16,7 +16,8 @@ const navItems = [
 ]
 
 /**
- * Full-screen mobile navigation under the navbar. Keyboard-safe: focus is
+ * Full-screen mobile navigation under the navbar, built as a disclosure: the
+ * toggle's aria-controls points at the #mobile-menu region. Keyboard-safe: focus is
  * trapped between the toggle and the menu, Escape closes, focus returns to the
  * toggle, page scroll is locked while open, and route changes close it.
  */
@@ -97,9 +98,6 @@ export function MobileMenu() {
             ref={panelRef}
             key="mobile-menu"
             id="mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Menu"
             className="fixed inset-0 z-[55] flex flex-col bg-directors-black px-6 pb-12 pt-24"
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}

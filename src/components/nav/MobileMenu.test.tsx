@@ -19,16 +19,16 @@ function renderMenu() {
 const toggle = () => screen.getByRole('button', { name: /menu/i })
 
 describe('MobileMenu', () => {
-  it('opens a labelled dialog with the five pages', () => {
+  it('opens a disclosure menu with the five pages', () => {
     renderMenu()
     expect(toggle()).toHaveAttribute('aria-expanded', 'false')
     expect(toggle()).toHaveAttribute('aria-controls', 'mobile-menu')
     fireEvent.click(toggle())
     expect(toggle()).toHaveAttribute('aria-expanded', 'true')
     expect(toggle()).toHaveAccessibleName('Close menu')
-    const dialog = screen.getByRole('dialog', { name: 'Menu' })
+    const nav = screen.getByRole('navigation', { name: 'Mobile' })
     for (const name of ['About', 'Services', 'Work', 'Blog', 'Contact']) {
-      expect(within(dialog).getByRole('link', { name })).toBeInTheDocument()
+      expect(within(nav).getByRole('link', { name })).toBeInTheDocument()
     }
   })
 
@@ -51,8 +51,8 @@ describe('MobileMenu', () => {
   it('traps Tab focus inside the menu and the toggle', () => {
     renderMenu()
     fireEvent.click(toggle())
-    const dialog = screen.getByRole('dialog', { name: 'Menu' })
-    const focusables = [toggle(), ...within(dialog).getAllByRole('link')]
+    const menu = document.getElementById('mobile-menu') as HTMLElement
+    const focusables = [toggle(), ...within(menu).getAllByRole('link')]
     focusables[focusables.length - 1].focus()
     fireEvent.keyDown(document, { key: 'Tab' })
     expect(document.activeElement).toBe(toggle())
@@ -84,6 +84,16 @@ describe('MobileMenu', () => {
     fireEvent.click(toggle())
     fireEvent.click(screen.getByRole('link', { name: 'Start a project' }))
     expect(toggle()).toHaveAttribute('aria-expanded', 'false')
-    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+    await waitFor(() => expect(document.getElementById('mobile-menu')).not.toBeInTheDocument())
+  })
+
+  it('is a disclosure, not a modal dialog: the toggle controls an existing region', () => {
+    renderMenu()
+    fireEvent.click(toggle())
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(document.querySelector('[aria-modal]')).toBeNull()
+    const controlled = document.getElementById(toggle().getAttribute('aria-controls') ?? '')
+    expect(controlled).not.toBeNull()
+    expect(within(controlled as HTMLElement).getByRole('navigation', { name: 'Mobile' })).toBeInTheDocument()
   })
 })
