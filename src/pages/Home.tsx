@@ -8,8 +8,8 @@ import { PageTransition } from '../components/animations/PageTransition'
 import { FadeIn } from '../components/animations/FadeIn'
 import { StaggerList, StaggerItem } from '../components/animations/StaggerList'
 import { Button } from '../components/ui/Button'
-import { Card } from '../components/ui/Card'
-import { Tag } from '../components/ui/Tag'
+import { RevealText } from '../components/interaction/RevealText'
+import { ProjectIndex } from '../components/work/ProjectIndex'
 import { getCaseStudies } from '../lib/content'
 import { personSchema } from '../lib/seo'
 import { useTypewriter } from '../hooks/useTypewriter'
@@ -220,53 +220,26 @@ export function Home() {
 
       {/* Featured work */}
       {featuredWork.length > 0 && (
-        <section className="max-w-7xl mx-auto px-6 py-24">
-          <FadeIn className="text-center">
-            <p className="text-xs font-medium tracking-[0.2em] uppercase text-muted-prose mb-4">Selected work</p>
-            <h2
-              className="text-cream font-semibold tracking-tight mb-16 max-w-2xl mx-auto"
+        <section className="mx-auto max-w-7xl px-6 py-24">
+          <div className="text-center">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-prose">Selected work</p>
+            <RevealText
+              as="h2"
+              text="Featured UX/UI Engineering & SEO Projects"
+              className="mx-auto mb-16 max-w-2xl font-semibold tracking-tight text-cream"
               style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', letterSpacing: '-0.02em' }}
-            >
-              Featured UX/UI Engineering &amp; SEO Projects
-            </h2>
-          </FadeIn>
-          <StaggerList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredWork.map((cs) => (
-              <StaggerItem key={cs.slug}>
-                <Link to={`/work/${cs.slug}`}>
-                  <Card hover className="h-full">
-                    <div className="bg-directors-black aspect-video overflow-hidden">
-                      {cs.frontmatter.coverImage && (
-                        <img
-                          src={cs.frontmatter.coverImage}
-                          alt={cs.frontmatter.title}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                          width={800}
-                          height={450}
-                        />
-                      )}
-                    </div>
-                    <div className="p-6">
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {cs.frontmatter.tags.map((tag) => <Tag key={tag} label={tag} />)}
-                      </div>
-                      <h3 className="text-cream font-semibold mb-2">{cs.frontmatter.title}</h3>
-                      <p className="text-muted-prose text-sm">{cs.frontmatter.summary}</p>
-                    </div>
-                  </Card>
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerList>
-          <FadeIn className="mt-14 text-center">
+            />
+          </div>
+          <ProjectIndex caseStudies={featuredWork} />
+          <div className="mt-14 text-center">
             <Link
               to="/work"
-              className="text-xs font-medium tracking-widest uppercase text-muted-prose hover:text-cream transition-colors duration-200 inline-flex items-center gap-3"
+              data-cursor="view"
+              className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-muted-prose transition-colors duration-200 hover:text-cream"
             >
               All work <span className="text-vermilion">→</span>
             </Link>
-          </FadeIn>
+          </div>
         </section>
       )}
     </PageTransition>
