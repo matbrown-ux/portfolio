@@ -31,7 +31,7 @@ export function ProjectPanel({ caseStudy, index, total, mode, sticky }: ProjectP
       data-cursor="view"
       aria-labelledby={`${titleId} ${resultId}`}
       style={stack ? { zIndex: index + 1 } : undefined}
-      className={`group relative block overflow-hidden border border-border-line bg-secondary-dark transition-[border-color,box-shadow] duration-300 hover:border-vermilion/40 hover:shadow-[0_4px_22px_-4px_rgba(248,99,67,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vermilion ${
+      className={`group relative block overflow-hidden border border-border-line bg-secondary-dark transition-[border-color,box-shadow] duration-300 hover:border-vermilion/40 hover:shadow-[0_4px_22px_-4px_rgba(248,99,67,0.28)] focus-visible:border-vermilion/40 focus-visible:shadow-[0_4px_22px_-4px_rgba(248,99,67,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vermilion ${
         stack ? 'min-h-[calc(100svh-4rem)]' : ''
       } ${stack && sticky ? 'sticky top-16' : ''}`}
     >
@@ -44,7 +44,7 @@ export function ProjectPanel({ caseStudy, index, total, mode, sticky }: ProjectP
           <p className="font-mono text-xs tracking-[0.2em] text-vermilion">{projectNumber(index, total)}</p>
           <h2
             id={titleId}
-            className="mt-4 font-bold leading-none text-cream transition-colors duration-200 group-hover:text-vermilion"
+            className="mt-4 font-bold leading-none text-cream transition-colors duration-200 group-hover:text-vermilion group-focus-visible:text-vermilion"
             style={{ fontSize: 'clamp(2.25rem, 5vw, 4.5rem)', letterSpacing: '-0.03em' }}
           >
             {fm.title}
@@ -64,7 +64,7 @@ export function ProjectPanel({ caseStudy, index, total, mode, sticky }: ProjectP
           )}
           <p
             aria-hidden="true"
-            className="mt-8 text-xs uppercase tracking-widest text-muted-prose transition-colors duration-200 group-hover:text-cream"
+            className="mt-8 text-xs uppercase tracking-widest text-muted-prose transition-colors duration-200 group-hover:text-cream group-focus-visible:text-cream"
           >
             View case study →
           </p>

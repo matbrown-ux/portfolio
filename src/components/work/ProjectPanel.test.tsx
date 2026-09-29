@@ -44,4 +44,10 @@ describe('ProjectPanel', () => {
     rerender(<ProjectPanel caseStudy={cs} index={2} total={3} mode="stack" sticky={false} />)
     expect(container.querySelector('[data-project-panel]')!.className).not.toContain('sticky')
   })
+
+  it('reacts to keyboard focus like hover', () => {
+    render(<ProjectPanel caseStudy={cs} index={0} total={3} mode="cards" sticky={false} />, { wrapper: TestRouter })
+    expect(screen.getByRole('link').className).toContain('focus-visible:border-vermilion/40')
+    expect(screen.getByRole('heading', { level: 2 }).className).toContain('group-focus-visible:text-vermilion')
+  })
 })
