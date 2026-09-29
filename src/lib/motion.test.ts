@@ -6,6 +6,9 @@ import { EASE, DURATION, SPRING, GSAP_EASE, toCssBezier } from './motion'
 const css = readFileSync(resolve(process.cwd(), 'src/styles/globals.css'), 'utf8')
 
 describe('motion tokens', () => {
+  it('has a preview spring softer than the cursor', () => {
+    expect(SPRING.preview.stiffness).toBeLessThan(SPRING.cursor.stiffness)
+  })
   it('keeps the house ease', () => {
     expect(EASE.outQuint).toEqual([0.16, 1, 0.3, 1])
   })

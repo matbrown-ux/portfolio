@@ -28,6 +28,7 @@ export const DURATION = {
 export const SPRING = {
   cursor: { stiffness: 500, damping: 40, mass: 0.4 },
   magnetic: { stiffness: 180, damping: 14, mass: 0.3 },
+  preview: { stiffness: 220, damping: 30, mass: 0.6 },
 } as const
 
 export function toCssBezier(e: readonly number[]): string {
