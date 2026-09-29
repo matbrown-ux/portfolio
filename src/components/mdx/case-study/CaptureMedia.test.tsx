@@ -1,13 +1,24 @@
-import { describe, it, expect, beforeAll } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach, type MockInstance } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { CaptureMedia } from './CaptureMedia'
 import { DeviceFrame } from './DeviceFrame'
+import { installMatchMedia, REDUCED_QUERY } from '../../../test/matchMedia'
+
+vi.mock('motion/react', async (orig) => ({
+  ...(await orig<typeof import('motion/react')>()),
+  useInView: () => true,
+}))
 
 describe('CaptureMedia', () => {
-  beforeAll(() => {
-    // jsdom does not implement media playback; stub so it does not log noise.
-    HTMLMediaElement.prototype.play = () => Promise.resolve()
-    HTMLMediaElement.prototype.pause = () => {}
+  // jsdom does not implement media playback; spy so it does not log noise.
+  let play: MockInstance<() => Promise<void>>
+  let pause: MockInstance<() => void>
+  beforeEach(() => {
+    play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined)
+    pause = vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
+  })
+  afterEach(() => {
+    vi.restoreAllMocks()
   })
 
   it('renders the image with alt text', () => {
@@ -31,6 +42,52 @@ describe('CaptureMedia', () => {
     const { container } = render(<CaptureMedia video="/missing.mp4" alt="Flow" aspect="16 / 10" />)
     fireEvent.error(container.querySelector('source:last-of-type')!)
     expect(screen.getByRole('img', { name: 'Flow (capture coming soon)' })).toBeInTheDocument()
+  })
+
+  it('detects an image that already failed before hydration', () => {
+    const complete = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'complete')!
+    const width = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'naturalWidth')!
+    Object.defineProperty(HTMLImageElement.prototype, 'complete', { configurable: true, get: () => true })
+    Object.defineProperty(HTMLImageElement.prototype, 'naturalWidth', { configurable: true, get: () => 0 })
+    try {
+      render(<CaptureMedia src="/missing.webp" alt="Dashboard" aspect="16 / 10" />)
+      expect(screen.getByRole('img', { name: 'Dashboard (capture coming soon)' })).toBeInTheDocument()
+    } finally {
+      Object.defineProperty(HTMLImageElement.prototype, 'complete', complete)
+      Object.defineProperty(HTMLImageElement.prototype, 'naturalWidth', width)
+    }
+  })
+
+  it('detects a video with no usable source before hydration', () => {
+    const ns = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'networkState')!
+    Object.defineProperty(HTMLMediaElement.prototype, 'networkState', {
+      configurable: true,
+      get: () => HTMLMediaElement.NETWORK_NO_SOURCE,
+    })
+    try {
+      render(<CaptureMedia video="/missing.mp4" alt="Flow" aspect="16 / 10" />)
+      expect(screen.getByRole('img', { name: 'Flow (capture coming soon)' })).toBeInTheDocument()
+    } finally {
+      Object.defineProperty(HTMLMediaElement.prototype, 'networkState', ns)
+    }
+  })
+
+  it('plays the video when active and in view', () => {
+    render(<CaptureMedia video="/a.mp4" alt="Flow" aspect="16 / 10" />)
+    expect(play).toHaveBeenCalled()
+  })
+
+  it('pauses and does not play when inactive', () => {
+    render(<CaptureMedia video="/a.mp4" alt="Flow" aspect="16 / 10" active={false} />)
+    expect(pause).toHaveBeenCalled()
+    expect(play).not.toHaveBeenCalled()
+  })
+
+  it('never plays under reduced motion and shows native controls', () => {
+    installMatchMedia({ [REDUCED_QUERY]: true })
+    const { container } = render(<CaptureMedia video="/a.mp4" alt="Flow" aspect="16 / 10" />)
+    expect(play).not.toHaveBeenCalled()
+    expect(container.querySelector('video')).toHaveAttribute('controls')
   })
 })
 

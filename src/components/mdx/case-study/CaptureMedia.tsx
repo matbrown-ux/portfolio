@@ -19,7 +19,17 @@ export function CaptureMedia({ src, video, videoWebm, poster, alt, aspect, activ
   const reduced = useReducedMotion()
   const wrapRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const imgRef = useRef<HTMLImageElement>(null)
   const inView = useInView(wrapRef, { amount: 0.4 })
+
+  // Prerendered markup can fail to load before React attaches onError, so
+  // check for an already-failed load on mount.
+  useEffect(() => {
+    const img = imgRef.current
+    if (img && img.complete && img.naturalWidth === 0) setFailed(true)
+    const v = videoRef.current
+    if (v && v.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) setFailed(true)
+  }, [])
 
   useEffect(() => {
     const v = videoRef.current
@@ -63,6 +73,7 @@ export function CaptureMedia({ src, video, videoWebm, poster, alt, aspect, activ
   } else {
     content = (
       <img
+        ref={imgRef}
         src={src}
         alt={alt}
         className={media}
