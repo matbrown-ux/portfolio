@@ -34,10 +34,12 @@ installMatchMedia({})
 
 // ScrollTrigger and the GSAP ticker keep timers alive after a file's tests
 // finish; one firing after jsdom teardown throws "requestAnimationFrame is not
-// defined". Stop them once per test file. Imported lazily so ScrollTrigger
+// defined". Stop them once per test file: killAll() removes the triggers but
+// not ScrollTrigger's 250ms sync interval, which disable() clears. Imported lazily so ScrollTrigger
 // registers after the matchMedia stub above, and only runs after every test.
 afterAll(async () => {
   const { gsap, ScrollTrigger } = await import('../lib/gsap')
   ScrollTrigger.killAll()
+  ScrollTrigger.disable()
   gsap.ticker.sleep()
 })
