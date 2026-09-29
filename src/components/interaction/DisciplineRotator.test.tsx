@@ -21,6 +21,17 @@ describe('DisciplineRotator', () => {
     expect(screen.getByText(ROTATOR_LINES[0])).toBeInTheDocument()
   })
 
+  it('reserves the height of the longest line so wrapping never shifts the content below', () => {
+    const lines = ['Short.', 'A much longer line that may wrap.', 'Mid line.']
+    const { container } = render(<DisciplineRotator srLabel={label} lines={lines} />)
+    const box = container.querySelector('[data-rotator-index]')
+    expect(box).toHaveClass('grid')
+    const sizer = container.querySelector('[data-rotator-sizer]')
+    expect(sizer).toHaveTextContent(lines[1])
+    expect(sizer).toHaveClass('invisible', 'col-start-1', 'row-start-1')
+    expect(box?.querySelector('[data-rotator-line]')).toHaveClass('col-start-1', 'row-start-1')
+  })
+
   it('advances to the next line on its interval', () => {
     const { container } = render(<DisciplineRotator srLabel={label} interval={1000} />)
     act(() => {

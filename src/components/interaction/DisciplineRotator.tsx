@@ -41,15 +41,22 @@ export function DisciplineRotator({ srLabel, lines = ROTATOR_LINES, interval = 2
 
   const shown = reduced ? 0 : index
   const line = lines[shown]
+  // The longest line sits invisibly in the same grid cell so the box keeps its
+  // tallest height and a wrapping line never shifts the content below.
+  const longest = lines.reduce((a, b) => (b.length > a.length ? b : a), '')
 
   return (
     <p className={className}>
       <span className="sr-only">{srLabel}</span>
-      <span aria-hidden="true" data-rotator-index={shown} className="relative block overflow-hidden pb-[0.1em]">
+      <span aria-hidden="true" data-rotator-index={shown} className="relative grid overflow-hidden pb-[0.1em]">
+        <span data-rotator-sizer className="invisible col-start-1 row-start-1">
+          {longest}
+        </span>
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={line}
-            className="block"
+            data-rotator-line
+            className="col-start-1 row-start-1 block"
             initial={reduced ? false : { y: '110%' }}
             animate={{ y: '0%' }}
             exit={reduced ? undefined : { y: '-110%' }}
