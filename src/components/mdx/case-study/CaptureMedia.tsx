@@ -28,7 +28,15 @@ export function CaptureMedia({ src, video, videoWebm, poster, alt, aspect, activ
     const img = imgRef.current
     if (img && img.complete && img.naturalWidth === 0) setFailed(true)
     const v = videoRef.current
-    if (v && v.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) setFailed(true)
+    if (!v) return
+    // Inserting the first <source> reports NO_SOURCE until resource selection
+    // finishes, so defer the check and require evidence of failure.
+    const id = window.setTimeout(() => {
+      if (v.networkState === HTMLMediaElement.NETWORK_NO_SOURCE && v.readyState === HTMLMediaElement.HAVE_NOTHING) {
+        setFailed(true)
+      }
+    }, 0)
+    return () => window.clearTimeout(id)
   }, [])
 
   useEffect(() => {

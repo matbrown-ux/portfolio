@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach, type MockInstance } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import { CaptureMedia } from './CaptureMedia'
 import { DeviceFrame } from './DeviceFrame'
 import { installMatchMedia, REDUCED_QUERY } from '../../../test/matchMedia'
@@ -58,18 +58,40 @@ describe('CaptureMedia', () => {
     }
   })
 
-  it('detects a video with no usable source before hydration', () => {
-    const ns = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'networkState')!
-    Object.defineProperty(HTMLMediaElement.prototype, 'networkState', {
-      configurable: true,
-      get: () => HTMLMediaElement.NETWORK_NO_SOURCE,
+  describe('video pre-hydration detection', () => {
+    const proto = HTMLMediaElement.prototype
+    let state: number
+    let saved: PropertyDescriptor
+    beforeEach(() => {
+      vi.useFakeTimers()
+      saved = Object.getOwnPropertyDescriptor(proto, 'networkState')!
+      Object.defineProperty(proto, 'networkState', { configurable: true, get: () => state })
     })
-    try {
+    afterEach(() => {
+      Object.defineProperty(proto, 'networkState', saved)
+      vi.useRealTimers()
+    })
+
+    it('marks a video with no usable source as failed after resource selection', () => {
+      state = HTMLMediaElement.NETWORK_NO_SOURCE
       render(<CaptureMedia video="/missing.mp4" alt="Flow" aspect="16 / 10" />)
+      expect(screen.queryByRole('img', { name: 'Flow (capture coming soon)' })).not.toBeInTheDocument()
+      act(() => {
+        vi.advanceTimersByTime(0)
+      })
       expect(screen.getByRole('img', { name: 'Flow (capture coming soon)' })).toBeInTheDocument()
-    } finally {
-      Object.defineProperty(HTMLMediaElement.prototype, 'networkState', ns)
-    }
+    })
+
+    it('does not mark a video failed when it starts loading before the check', () => {
+      state = HTMLMediaElement.NETWORK_NO_SOURCE
+      const { container } = render(<CaptureMedia video="/a.mp4" alt="Flow" aspect="16 / 10" />)
+      state = HTMLMediaElement.NETWORK_LOADING
+      act(() => {
+        vi.advanceTimersByTime(0)
+      })
+      expect(container.querySelector('video')).toBeInTheDocument()
+      expect(screen.queryByRole('img', { name: 'Flow (capture coming soon)' })).not.toBeInTheDocument()
+    })
   })
 
   it('plays the video when active and in view', () => {
