@@ -1,46 +1,12 @@
-import { motion } from 'motion/react'
 import { SEO } from '../components/SEO'
 import { PageTransition } from '../components/animations/PageTransition'
-import { FadeIn } from '../components/animations/FadeIn'
-import { StaggerList, StaggerItem } from '../components/animations/StaggerList'
+import { RevealText } from '../components/interaction/RevealText'
+import { Reveal } from '../components/interaction/Reveal'
+import { Magnetic } from '../components/interaction/Magnetic'
+import { PortraitMedia } from '../components/portrait/PortraitMedia'
 import { Button } from '../components/ui/Button'
-import { Card } from '../components/ui/Card'
-
-const skills = [
-  {
-    pillar: 'UX/UI Engineering',
-    items: [
-      'Design systems & component libraries',
-      'Production-quality React',
-      'Figma-to-code',
-      'Accessibility (WCAG AA)',
-      'Interaction design',
-      'Responsive layout',
-    ],
-  },
-  {
-    pillar: 'SEO',
-    items: [
-      'Technical SEO audits',
-      'Core Web Vitals',
-      'Pillar/cluster architecture',
-      'Schema markup',
-      'Keyword strategy',
-      'Content architecture',
-    ],
-  },
-  {
-    pillar: 'Agentic Workflows',
-    items: [
-      'Claude API & AI SDK',
-      'MCP server development',
-      'Prompt engineering',
-      'Automation pipelines',
-      'Tool integration',
-      'Workflow design',
-    ],
-  },
-]
+import { Tag } from '../components/ui/Tag'
+import { disciplines } from '../content/disciplines'
 
 export function About() {
   return (
@@ -52,50 +18,26 @@ export function About() {
 
       {/* Header */}
       <section className="relative overflow-hidden bg-directors-black lg:min-h-[90vh]">
+        {/* Desktop: portrait + circle on the right */}
+        <PortraitMedia
+          src="/images/about-image.png"
+          className="absolute bottom-0 right-0 z-0 hidden h-[63vh] w-1/2 lg:block"
+          circleWrapperClassName="absolute left-1/2 top-1/2 aspect-square w-[130%] -translate-x-1/2 -translate-y-[45%]"
+          imageWrapperClassName="absolute inset-0 z-10"
+          imageClassName="h-full w-full object-cover object-top"
+        />
 
-        {/* Desktop only: circle + image absolutely positioned on right */}
-        <motion.div
-          className="hidden lg:block absolute right-0 bottom-0 h-[63vh] w-1/2 z-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {/* Circle */}
-          <div
-            className="absolute rounded-full bg-secondary-dark"
-            style={{
-              width: '130%',
-              aspectRatio: '1',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -45%)',
-            }}
-          />
-          <img
-            src="/images/about-image.png"
-            alt="Mathew Brown"
-            className="absolute inset-0 z-10 w-full h-full object-cover object-top"
-          />
-        </motion.div>
-
-        {/* Text — vertically centered on desktop, normal flow on mobile */}
-        <div className="relative z-[2] max-w-7xl mx-auto px-6 py-20 lg:min-h-[90vh] lg:flex lg:flex-col lg:justify-center lg:py-24">
+        <div className="relative z-[2] mx-auto max-w-7xl px-6 py-20 lg:flex lg:min-h-[90vh] lg:flex-col lg:justify-center lg:py-24">
           <div className="lg:max-w-[50%]">
-            <FadeIn>
-              <p className="text-xs font-medium tracking-[0.2em] uppercase text-vermilion mb-6">About</p>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <h1
-                className="text-cream font-bold leading-none tracking-tight mb-10"
-                style={{ fontSize: 'clamp(3rem, 7vw, 6rem)', letterSpacing: '-0.03em' }}
-              >
-                The person
-                <br />
-                behind the work
-              </h1>
-            </FadeIn>
-            <FadeIn delay={0.15}>
-              <div className="space-y-5 text-muted-prose leading-relaxed max-w-prose mb-10">
+            <p className="mb-6 text-xs font-medium uppercase tracking-[0.2em] text-vermilion">The person behind the work</p>
+            <RevealText
+              as="h1"
+              text="About Mathew Brown: UX/UI Engineer & SEO Specialist"
+              className="mb-10 font-bold leading-[1.02] tracking-tight text-cream"
+              style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.75rem)', letterSpacing: '-0.03em' }}
+            />
+            <Reveal>
+              <div className="mb-10 max-w-prose space-y-5 leading-relaxed text-muted-prose">
                 <p>
                   I'm a UX/UI engineer with a combination of skills that's hard to find in one person: I design interfaces, build them in production-quality React, optimize them for search engines, and wire them up with AI-powered workflows that save clients hours every week.
                 </p>
@@ -106,50 +48,53 @@ export function About() {
                   When I'm not building, I write about design engineering, technical SEO, and the practical side of agentic tooling on my blog.
                 </p>
               </div>
-              <Button href="/contact">Work with me</Button>
-            </FadeIn>
+              <Magnetic>
+                <Button href="/contact">Work with me</Button>
+              </Magnetic>
+            </Reveal>
           </div>
         </div>
 
-        {/* Mobile only: image below text, full width */}
-        <FadeIn className="lg:hidden">
+        {/* Mobile: portrait below the text */}
+        <Reveal className="lg:hidden">
           <div className="h-[55vh] overflow-hidden">
-            <img
-              src="/images/about-image.png"
-              alt="Mathew Brown"
-              className="w-full h-full object-cover object-top"
-            />
+            <img src="/images/about-image.png" alt="Mathew Brown" className="h-full w-full object-cover object-top" />
           </div>
-        </FadeIn>
+        </Reveal>
       </section>
 
       {/* Skills */}
-      <section className="bg-secondary-dark border-y border-border-line py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <FadeIn className="text-center">
-            <p className="text-xs font-medium tracking-[0.2em] uppercase text-muted-prose mb-4">Areas of expertise</p>
-            <h2
-              className="text-cream font-semibold tracking-tight mb-16 max-w-2xl mx-auto"
+      <section className="border-y border-border-line bg-secondary-dark py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-prose">Areas of expertise</p>
+            <RevealText
+              as="h2"
+              text="UX/UI, SEO, AI Workflow, Brand & SaaS Skills"
+              className="mx-auto mb-16 max-w-2xl font-semibold tracking-tight text-cream"
               style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', letterSpacing: '-0.02em' }}
-            >
-              UX/UI Engineering, SEO &amp; Agentic Workflow Skills
-            </h2>
-          </FadeIn>
-          <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {skills.map((group) => (
-              <StaggerItem key={group.pillar}>
-                <Card hover className="h-full p-8">
-                  <span className="block w-10 h-0.5 bg-vermilion mb-5" aria-hidden="true" />
-                  <h3 className="text-cream font-semibold mb-6">{group.pillar}</h3>
-                  <ul className="space-y-3">
-                    {group.items.map((item) => (
-                      <li key={item} className="text-sm text-muted-prose">{item}</li>
-                    ))}
-                  </ul>
-                </Card>
-              </StaggerItem>
+            />
+          </div>
+          <ol role="list" className="border-t border-border-line">
+            {disciplines.map((d, i) => (
+              <Reveal
+                as="li"
+                key={d.slug}
+                delay={i * 0.05}
+                className="grid gap-4 border-b border-border-line py-8 md:grid-cols-[3rem_minmax(0,16rem)_minmax(0,1fr)] md:items-start md:gap-10"
+              >
+                <span className="font-mono text-xs tracking-[0.2em] text-vermilion">{d.number}</span>
+                <h3 className="text-xl font-semibold text-cream">{d.title}</h3>
+                <ul role="list" className="flex flex-wrap gap-2">
+                  {d.skills.map((skill) => (
+                    <li key={skill}>
+                      <Tag label={skill} />
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
             ))}
-          </StaggerList>
+          </ol>
         </div>
       </section>
     </PageTransition>
