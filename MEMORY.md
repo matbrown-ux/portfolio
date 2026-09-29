@@ -11,10 +11,10 @@ The site is mid-way through a 5-part semi-redesign focused on high-end UX and in
 |---|-------------|------------------|-------------|--------|
 | 1+2 | Interaction foundation + case study system | `feat/interaction-case-studies` (from `main` @ 6387ede) | `docs/superpowers/specs/2026-09-28-interaction-foundation-case-studies-design.md`, `docs/superpowers/plans/2026-09-28-interaction-foundation-case-studies.md` | Built, reviewed, fixed. Not merged. |
 | 3 | Work index + Home "Selected work" | `feat/work-index` (from `feat/interaction-case-studies`) | `docs/superpowers/specs/2026-09-29-work-index-design.md`, `docs/superpowers/plans/2026-09-29-work-index.md` | Built, reviewed, fixed. Not merged. |
-| 4 | Site-wide pass: Home hero + "What I do", About, Services, Contact, navbar, mobile menu, footer | `feat/site-pass` (from `feat/work-index`; spec committed as 5080f4b) | `docs/superpowers/specs/2026-09-29-site-pass-design.md`, `docs/superpowers/plans/2026-09-29-site-pass.md` | Built (15 tasks incl. browser pass and fixes). **Pending final whole-branch review.** Not merged. |
+| 4 | Site-wide pass: Home hero + "What I do", About, Services, Contact, navbar, mobile menu, footer | `feat/site-pass` (from `feat/work-index`; spec committed as 5080f4b) | `docs/superpowers/specs/2026-09-29-site-pass-design.md`, `docs/superpowers/plans/2026-09-29-site-pass.md` | Built, reviewed, fixed (15 tasks + final review fix wave). Not merged. |
 | 5 | Launch hardening | not started | none yet | See "Launch hardening backlog" below. |
 
-**Sub-project 4 status:** all 15 tasks are built on `feat/site-pass`; next is the final whole-branch review (strongest model) and one fix wave, then the owner decides merge/keep. The ledger is in `.superpowers/sdd/2026-09-29-site-pass/` (git-ignored). Give every implementer the rules below.
+**Sub-project 4 status:** done on `feat/site-pass` (final review "with fixes"; one fix wave applied and re-reviewed clean). Next: owner decides merge/keep, then sub-project 5. Give every implementer the rules below.
 
 ### Rules every implementer must follow (learned the hard way)
 
@@ -32,12 +32,14 @@ The site is mid-way through a 5-part semi-redesign focused on high-end UX and in
 - Real one-sentence `result` for Vamp Network and The Booking Flow (both show "Result pending: headline outcome to be supplied").
 - Real screenshots/recordings and metrics for all three case studies (`00` placeholders; only 'Aiwi's `#1` is real).
 - Review of drafted copy in sub-project 4: Brand Development and SaaS Development discipline copy, the hero rotator lines, and the four new keyword `h1`s (all in the site-pass spec).
+- Design call: placement of the hero rotator's pause button (at 1440 it sits after the reserved longest-line width, so it floats right of short lines).
 
 ### Launch hardening backlog (sub-project 5)
 
 - SSG prerenders only 7 routes: `/work/<slug>` and blog pillar/article routes are not prerendered.
 - `react-helmet-async` head tags are client-only; `og:image` is relative and there is no `twitter:image` (raster OG PNGs already exist per case study).
 - Deferred polish: `/work` panel focus-scroll also fires on mouse-click focus (guard with `:focus-visible`); em dashes remain in 8 blog pillar descriptions and the blog breadcrumb separator; placeholder `result` strings are shown prominently until replaced.
+- Site-pass deferred minors: Contact errors clear only on blur; uncontrolled project-type select ignores a `?service` change on the same mounted page; Contact SEO description lists three disciplines; duplicate nav item lists in Navbar and MobileMenu; rotator swap takes ~1.0s (spec ~0.6s) and reserves height by character count; bloom durations in PortraitMedia are literals, not tokens; several test gaps (hidden-tab rotator pause, reduced-motion scroll, blur-clears-error, dialog unmount).
 - Performance, accessibility, and reduced-motion audit; swap in real assets; deploy.
 
 ## What this is
