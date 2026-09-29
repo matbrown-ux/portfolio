@@ -1,11 +1,10 @@
 import { motion } from 'motion/react'
+import { EASE } from '../../lib/motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 interface MetricsProps {
   items: { value: string; label: string }[]
 }
-
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 export function Metrics({ items }: MetricsProps) {
   const reduced = useReducedMotion()
@@ -19,7 +18,7 @@ export function Metrics({ items }: MetricsProps) {
           initial={reduced ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-10%' }}
-          transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
+          transition={{ duration: 0.5, delay: i * 0.08, ease: EASE.outQuint }}
         >
           <span className="block w-8 h-0.5 bg-vermilion mb-5" aria-hidden="true" />
           <div
