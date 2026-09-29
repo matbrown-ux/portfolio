@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { beforeEach } from 'vitest'
+import { afterAll, beforeEach } from 'vitest'
 import { installMatchMedia } from './matchMedia'
 
 // jsdom has no IntersectionObserver; Motion's whileInView/useInView need one.
@@ -31,3 +31,13 @@ beforeEach(() => installMatchMedia({}))
 // matchMedia then, which is before any beforeEach runs. Install the default
 // stub at module load too.
 installMatchMedia({})
+
+// ScrollTrigger and the GSAP ticker keep timers alive after a file's tests
+// finish; one firing after jsdom teardown throws "requestAnimationFrame is not
+// defined". Stop them once per test file. Imported lazily so ScrollTrigger
+// registers after the matchMedia stub above, and only runs after every test.
+afterAll(async () => {
+  const { gsap, ScrollTrigger } = await import('../lib/gsap')
+  ScrollTrigger.killAll()
+  gsap.ticker.sleep()
+})

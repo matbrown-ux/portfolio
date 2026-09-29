@@ -10,8 +10,21 @@ function renderIndex() {
   return render(<DisciplineIndex />, { wrapper: TestRouter })
 }
 
+// jsdom has no Element.prototype.scrollIntoView, so vi.spyOn cannot wrap it;
+// tests install a stub with stubScrollIntoView and afterEach always restores it.
+const originalScrollIntoView = Element.prototype.scrollIntoView
+
+function stubScrollIntoView(fn: (this: Element) => void = () => {}) {
+  const spy = vi.fn(fn)
+  Element.prototype.scrollIntoView = spy
+  // jsdom has no window.scrollTo; Motion calls it while measuring the panel.
+  vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+  return spy
+}
+
 afterEach(() => {
   window.history.replaceState(null, '', '/')
+  Element.prototype.scrollIntoView = originalScrollIntoView
   vi.restoreAllMocks()
 })
 
@@ -84,19 +97,14 @@ describe('DisciplineIndex', () => {
     // Motion restores the pre-measure scroll position while it measures a
     // height: auto panel, which cancels a scroll started before the panel opens.
     const expandedAtScroll: (string | null)[] = []
-    const spy = vi.fn(function (this: Element) {
+    const spy = stubScrollIntoView(function (this: Element) {
       expandedAtScroll.push(this.querySelector('button[aria-controls]')?.getAttribute('aria-expanded') ?? null)
     })
-    const original = Element.prototype.scrollIntoView
-    Element.prototype.scrollIntoView = spy
-    // jsdom has no window.scrollTo; Motion calls it while measuring the panel.
-    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
     window.history.replaceState(null, '', '/services#saas-development')
     const { container } = renderIndex()
     await waitFor(() => expect(spy).toHaveBeenCalledTimes(1))
     expect(spy.mock.contexts[0]).toBe(container.querySelector('li#saas-development'))
     expect(expandedAtScroll).toEqual(['true'])
-    Element.prototype.scrollIntoView = original
   })
 
   it('links each discipline to its proof case study with a clean name and unique ids', () => {
