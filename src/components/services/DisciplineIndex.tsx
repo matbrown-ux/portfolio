@@ -65,7 +65,11 @@ export function DisciplineIndex({ items = allDisciplines }: { items?: Discipline
           discipline={d}
           open={open === d.slug}
           reduced={reduced}
-          onToggle={() => setOpen((current) => (current === d.slug ? null : d.slug))}
+          onToggle={() => {
+            // A manual toggle supersedes any hash scroll still waiting on a panel.
+            pendingScroll.current = null
+            setOpen((current) => (current === d.slug ? null : d.slug))
+          }}
           onOpened={() => handleOpened(d.slug)}
         />
       ))}

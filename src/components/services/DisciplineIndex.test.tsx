@@ -107,6 +107,19 @@ describe('DisciplineIndex', () => {
     expect(expandedAtScroll).toEqual(['true'])
   })
 
+  it('drops a pending hash scroll when the visitor toggles a row before it finishes opening', async () => {
+    const spy = stubScrollIntoView()
+    window.history.replaceState(null, '', '/services#saas-development')
+    renderIndex()
+    // Before the hash row's panel finishes opening, pick another row, then
+    // reopen the hash row by hand: that manual open must not scroll the page.
+    fireEvent.click(screen.getByRole('button', { name: /Brand Development/ }))
+    fireEvent.click(screen.getByRole('button', { name: /SaaS Development/ }))
+    expect(screen.getByRole('button', { name: /SaaS Development/ })).toHaveAttribute('aria-expanded', 'true')
+    await new Promise((resolve) => setTimeout(resolve, 900))
+    expect(spy).not.toHaveBeenCalled()
+  })
+
   it('links each discipline to its proof case study with a clean name and unique ids', () => {
     const { container } = renderIndex()
     const seo = container.querySelector('#discipline-seo-aeo-panel')!
