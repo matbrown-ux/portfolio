@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import { HelmetProvider } from 'react-helmet-async'
 import { TestRouter } from '../test/TestRouter'
 import { Contact } from './Contact'
@@ -48,6 +49,25 @@ describe('Contact page', () => {
       'Multiple services',
     ])
     expect(select.value).toBe('Brand Development')
+  })
+
+  it('applies the ?service= preselect when hydrating prerendered HTML that had no query string', async () => {
+    const tree = (path: string) => (
+      <HelmetProvider context={{}}>
+        <TestRouter initialEntries={[path]}>
+          <Contact />
+        </TestRouter>
+      </HelmetProvider>
+    )
+    const container = document.createElement('div')
+    // renderToString under jsdom warns about useLayoutEffect; that is a test-only artifact.
+    const quiet = vi.spyOn(console, 'error').mockImplementation(() => {})
+    container.innerHTML = renderToString(tree('/contact'))
+    quiet.mockRestore()
+    document.body.appendChild(container)
+    render(tree('/contact?service=brand-development'), { container, hydrate: true })
+    const select = container.querySelector('select[name="projectType"]') as HTMLSelectElement
+    await waitFor(() => expect(select.value).toBe('Brand Development'))
   })
 
   it('does not preselect an unknown service', () => {

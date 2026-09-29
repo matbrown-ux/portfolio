@@ -1,4 +1,4 @@
-import { useState, type FocusEvent, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type FocusEvent, type FormEvent, type ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { SEO } from '../components/SEO'
 import { PageTransition } from '../components/animations/PageTransition'
@@ -41,6 +41,15 @@ export function Contact() {
   const preselected = serviceFromQuery(location.search, disciplines) ?? ''
   const [formState, setFormState] = useState<FormState>('idle')
   const [errors, setErrors] = useState<Errors>({})
+  const projectTypeRef = useRef<HTMLSelectElement>(null)
+
+  // The prerendered page has no query string, and hydration keeps the server's
+  // selection, so apply ?service= after mount (and when it changes) unless the
+  // visitor has already picked something.
+  useEffect(() => {
+    const el = projectTypeRef.current
+    if (el && preselected && el.value === '') el.value = preselected
+  }, [preselected])
 
   const a11y = (field: ContactField) => ({
     'aria-invalid': errors[field] ? (true as const) : undefined,
@@ -88,6 +97,7 @@ export function Contact() {
       </label>
       <div className="relative">
         <select
+          ref={field === 'projectType' ? projectTypeRef : undefined}
           id={field}
           name={field}
           required
