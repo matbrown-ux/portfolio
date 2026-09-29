@@ -1,4 +1,4 @@
-import type { CaseStudy, BlogPillar, BlogArticle } from '../types/content'
+import type { CaseStudy, CaseStudyFrontmatter, BlogPillar, BlogArticle } from '../types/content'
 
 export function parseCaseStudyPath(path: string): string {
   return path.split('/').pop()!.replace('.mdx', '')
@@ -93,4 +93,20 @@ export function getBlogArticleBySlug(pillarSlug: string, slug: string): BlogArti
 
 export function getArticlesForPillar(pillarSlug: string): BlogArticle[] {
   return getBlogArticles().filter((a) => a.pillarSlug === pillarSlug)
+}
+
+/** The only non-factual `result` allowed; replace with a real outcome before launch. */
+export const RESULT_PLACEHOLDER = 'Result pending: headline outcome to be supplied'
+
+const REQUIRED_FIELDS = ['title', 'slug', 'summary', 'coverImage', 'date', 'year', 'result'] as const
+
+export function validateCaseStudyFrontmatter(fm: Partial<CaseStudyFrontmatter>): string[] {
+  const errors: string[] = []
+  for (const key of REQUIRED_FIELDS) {
+    const value = fm[key]
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`missing ${key}`)
+  }
+  if (fm.year && !/^\d{4}$/.test(fm.year)) errors.push('year must be a 4-digit string')
+  if (fm.result && fm.result.includes('—')) errors.push('result contains an em dash')
+  return errors
 }

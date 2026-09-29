@@ -3,6 +3,9 @@ import {
   parseCaseStudyPath,
   parsePillarPath,
   parseArticlePath,
+  getCaseStudies,
+  validateCaseStudyFrontmatter,
+  RESULT_PLACEHOLDER,
 } from './content'
 
 describe('parseCaseStudyPath', () => {
@@ -30,5 +33,44 @@ describe('parseArticlePath', () => {
     const result = parseArticlePath('../content/blog/ux-ui-design/button-states-that-convert.mdx')
     expect(result.pillarSlug).toBe('ux-ui-design')
     expect(result.slug).toBe('button-states-that-convert')
+  })
+})
+
+const valid = {
+  title: 'X',
+  slug: 'x',
+  summary: 'S',
+  tags: [],
+  coverImage: '/c.svg',
+  date: '2026-01-01',
+  year: '2026',
+  result: 'Ranked #1 for local search.',
+}
+
+describe('validateCaseStudyFrontmatter', () => {
+  it('accepts complete frontmatter', () => {
+    expect(validateCaseStudyFrontmatter(valid)).toEqual([])
+  })
+
+  it('accepts the exact result placeholder', () => {
+    expect(validateCaseStudyFrontmatter({ ...valid, result: RESULT_PLACEHOLDER })).toEqual([])
+  })
+
+  it('requires year and result', () => {
+    const { year, result, ...rest } = valid
+    expect(validateCaseStudyFrontmatter(rest)).toEqual(['missing year', 'missing result'])
+  })
+
+  it('rejects a non 4-digit year and em dashes in result', () => {
+    expect(validateCaseStudyFrontmatter({ ...valid, year: '26', result: 'Fast — cheap' })).toEqual([
+      'year must be a 4-digit string',
+      'result contains an em dash',
+    ])
+  })
+})
+
+describe('case study content', () => {
+  it.each(getCaseStudies().map((cs) => [cs.slug, cs.frontmatter] as const))('%s has valid frontmatter', (_slug, fm) => {
+    expect(validateCaseStudyFrontmatter(fm)).toEqual([])
   })
 })

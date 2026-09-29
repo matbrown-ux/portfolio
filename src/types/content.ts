@@ -10,6 +10,14 @@ export interface CaseStudyFrontmatter {
   role?: string
   services?: string[]
   stack?: string[]
+  /** 4-digit year shown in the case study hero. */
+  year: string
+  /** One real sentence: the headline outcome. Exactly RESULT_PLACEHOLDER until supplied. */
+  result: string
+  /** Client name; defaults to title. */
+  client?: string
+  /** Raster social image (1200x630), e.g. /images/case-studies/<slug>/og.png */
+  ogImage?: string
 }
 
 export interface CaseStudy {
