@@ -50,6 +50,7 @@ html {
   color: var(--color-cream);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-padding-top: 4rem;
 }
 
 * {
