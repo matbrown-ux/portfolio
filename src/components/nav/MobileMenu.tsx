@@ -5,7 +5,11 @@ import { SocialLinks } from './SocialLinks'
 import { Button } from '../ui/Button'
 import { nextFocusIndex } from './focusTrap'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { DURATION, EASE } from '../../lib/motion'
+
+/** Matches Tailwind's md breakpoint, where this menu is hidden by md:hidden. */
+const DESKTOP_QUERY = '(min-width: 768px)'
 
 const navItems = [
   { label: 'About', to: '/about' },
@@ -19,7 +23,8 @@ const navItems = [
  * Full-screen mobile navigation under the navbar, built as a disclosure: the
  * toggle's aria-controls points at the #mobile-menu region. Keyboard-safe: focus is
  * trapped between the toggle and the menu, Escape closes, focus returns to the
- * toggle, page scroll is locked while open, and route changes close it.
+ * toggle, page scroll is locked while open, and route changes (or widening to
+ * the desktop breakpoint) close it.
  */
 export function MobileMenu() {
   const [open, setOpen] = useState(false)
@@ -28,10 +33,16 @@ export function MobileMenu() {
   const toggleRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const wasOpen = useRef(false)
+  const isDesktop = useMediaQuery(DESKTOP_QUERY)
 
   useEffect(() => {
     setOpen(false)
   }, [pathname])
+
+  // The overlay is hidden at md+, so an open menu would keep the page locked.
+  useEffect(() => {
+    if (isDesktop) setOpen(false)
+  }, [isDesktop])
 
   useEffect(() => {
     if (!open) {

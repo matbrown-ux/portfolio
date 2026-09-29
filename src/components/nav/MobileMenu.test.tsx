@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen, fireEvent, within, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, within, waitFor, act } from '@testing-library/react'
 import { Route, Routes, Link } from 'react-router-dom'
 import { TestRouter } from '../../test/TestRouter'
 import { MobileMenu } from './MobileMenu'
+import { changeMatchMedia, DESKTOP_QUERY } from '../../test/matchMedia'
 
 function renderMenu() {
   return render(
@@ -95,5 +96,14 @@ describe('MobileMenu', () => {
     const controlled = document.getElementById(toggle().getAttribute('aria-controls') ?? '')
     expect(controlled).not.toBeNull()
     expect(within(controlled as HTMLElement).getByRole('navigation', { name: 'Mobile' })).toBeInTheDocument()
+  })
+
+  it('closes and releases the scroll lock when the viewport reaches the desktop breakpoint', () => {
+    renderMenu()
+    fireEvent.click(toggle())
+    expect(document.body.style.overflow).toBe('hidden')
+    act(() => changeMatchMedia({ [DESKTOP_QUERY]: true }))
+    expect(toggle()).toHaveAttribute('aria-expanded', 'false')
+    expect(document.body.style.overflow).toBe('')
   })
 })
