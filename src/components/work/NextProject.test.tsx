@@ -26,6 +26,20 @@ describe('NextProject', () => {
     expect(link).toHaveAttribute('href', '/work/no-cover')
     expect(link).toHaveAttribute('data-cursor', 'view')
     expect(screen.getByText('A real result.')).toBeInTheDocument()
-    expect(screen.getByRole('img', { name: 'Next Thing' })).toHaveAttribute('src', '/images/x.svg')
+    expect(link.querySelector('img')).toHaveAttribute('src', '/images/x.svg')
+  })
+
+  it('hides decorative cover media from assistive tech, keeping the link name clean', () => {
+    const animated: CaseStudy = { ...cs, slug: 'the-booking-flow', frontmatter: { ...cs.frontmatter, slug: 'the-booking-flow' } }
+    const { container } = render(<NextProject caseStudy={animated} />, { wrapper: TestRouter })
+    expect(container.querySelector('[data-next-media]')).toHaveAttribute('aria-hidden', 'true')
+    expect(screen.getByRole('link', { name: /Next Thing/ })).toBeInTheDocument()
+    // accessible name computation must skip aria-hidden subtrees
+    expect(screen.queryByRole('link', { name: /LEAD PIPELINE|CASE STUDY/ })).toBeNull()
+  })
+
+  it('uses an empty alt on the fallback image', () => {
+    const { container } = render(<NextProject caseStudy={cs} />, { wrapper: TestRouter })
+    expect(container.querySelector('img')).toHaveAttribute('alt', '')
   })
 })

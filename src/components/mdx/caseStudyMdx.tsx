@@ -2,7 +2,6 @@ import { motion } from 'motion/react'
 import type { ElementType, ComponentType } from 'react'
 import { EASE } from '../../lib/motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
-import { MDXComponents } from './index'
 import { CaseStudyModules } from './case-study'
 
 const revealProps = {
@@ -44,7 +43,6 @@ function reveal<T extends RevealTag>(tag: T): ComponentType<JSX.IntrinsicElement
 }
 
 export const CaseStudyMDXComponents = {
-  ...MDXComponents,
   ...CaseStudyModules,
   // h2s come from <Chapter>; a stray markdown `##` renders as a plain h2.
   h3: reveal('h3'),

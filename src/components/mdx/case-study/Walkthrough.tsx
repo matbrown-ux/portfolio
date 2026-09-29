@@ -83,7 +83,8 @@ function Pinned({ steps, frame, url }: InnerProps) {
         start: 'top center',
         end: 'bottom center',
         onUpdate: (self) => {
-          if (!ref.current?.offsetHeight) return // no layout (jsdom, hidden)
+          // Zero-length trigger (hidden ancestor, no layout): nothing to scrub. Reads no layout.
+          if (self.end - self.start < 1) return
           setActive(stepForProgress(self.progress, steps.length))
         },
       })

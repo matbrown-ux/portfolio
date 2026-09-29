@@ -7,8 +7,8 @@ import { activeChapter, measureTops } from './chapters'
 const pad = (n: number) => String(n).padStart(2, '0')
 
 /**
- * Chapter progress UI. xl+: sticky rail in the left gutter (numbers, titles,
- * vermilion progress line). Below xl: thin fixed progress bar under the navbar
+ * Chapter progress UI. 1440px+: sticky rail in the left gutter (numbers, titles,
+ * vermilion progress line). Below 1440px: thin fixed progress bar under the navbar
  * with the current chapter name. Scroll state comes from one ScrollTrigger.
  */
 export function ChapterNav({ articleRef }: { articleRef: RefObject<HTMLElement> }) {
@@ -52,12 +52,12 @@ export function ChapterNav({ articleRef }: { articleRef: RefObject<HTMLElement> 
   const jump = (e: MouseEvent<HTMLAnchorElement>, el: HTMLElement, id: string) => {
     e.preventDefault()
     el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
-    history.replaceState(null, '', `#${id}`)
+    history.replaceState(history.state, '', `#${id}`)
   }
 
   return (
     <>
-      <nav aria-label="Case study chapters" className="absolute inset-y-0 left-8 hidden w-40 xl:block">
+      <nav aria-label="Case study chapters" className="absolute inset-y-0 left-8 hidden w-40 min-[1440px]:block">
         <div className="sticky top-32">
           <div className="relative pl-5">
             <span aria-hidden="true" className="absolute left-0 top-0 h-full w-px bg-border-line" />
@@ -83,7 +83,7 @@ export function ChapterNav({ articleRef }: { articleRef: RefObject<HTMLElement> 
         </div>
       </nav>
 
-      <div aria-hidden="true" className={`fixed inset-x-0 top-16 z-[55] xl:hidden ${active < 0 ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
+      <div aria-hidden="true" className={`fixed inset-x-0 top-16 z-[55] min-[1440px]:hidden ${active < 0 ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
         <div className="flex h-8 items-center gap-3 border-b border-border-line bg-directors-black/90 px-6 text-[0.7rem] uppercase tracking-[0.15em] text-muted-prose backdrop-blur">
           <span className="font-mono text-vermilion">{pad(Math.max(active, 0) + 1)}</span>
           <span className="truncate text-cream">{chapters[Math.max(active, 0)]?.title}</span>

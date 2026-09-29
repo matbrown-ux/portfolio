@@ -92,18 +92,18 @@ export function Gallery({ images, width = 'wide' }: { images: GalleryImage[]; wi
           <button
             type="button"
             aria-label="Previous image"
-            disabled={index === 0}
-            onClick={() => goTo(index - 1)}
-            className="border border-border-line px-4 py-2 text-cream transition-colors duration-200 hover:border-vermilion disabled:opacity-30"
+            aria-disabled={index === 0}
+            onClick={() => index > 0 && goTo(index - 1)}
+            className="border border-border-line px-4 py-2 text-cream transition-colors duration-200 hover:border-vermilion aria-disabled:opacity-30"
           >
             ←
           </button>
           <button
             type="button"
             aria-label="Next image"
-            disabled={index === images.length - 1}
-            onClick={() => goTo(index + 1)}
-            className="border border-border-line px-4 py-2 text-cream transition-colors duration-200 hover:border-vermilion disabled:opacity-30"
+            aria-disabled={index === images.length - 1}
+            onClick={() => index < images.length - 1 && goTo(index + 1)}
+            className="border border-border-line px-4 py-2 text-cream transition-colors duration-200 hover:border-vermilion aria-disabled:opacity-30"
           >
             →
           </button>

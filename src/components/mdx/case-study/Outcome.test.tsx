@@ -18,6 +18,13 @@ describe('Outcome', () => {
     expect(screen.getByRole('link', { name: 'Start a project' })).toHaveAttribute('href', '/contact')
   })
 
+  it('keeps the decorative rule inside the dd, not as a direct child of the dl group', () => {
+    const { container } = render(<Outcome metrics={metrics} />, { wrapper: TestRouter })
+    for (const group of container.querySelectorAll('dl > div')) {
+      expect([...group.children].every((c) => c.tagName === 'DT' || c.tagName === 'DD')).toBe(true)
+    }
+  })
+
   it('renders a quote only when one is given', () => {
     const { rerender } = render(<Outcome metrics={metrics} />, { wrapper: TestRouter })
     expect(screen.queryByText('Owner')).toBeNull()
@@ -37,6 +44,12 @@ describe('CaseStudyMDXComponents', () => {
   it('registers the case study modules', () => {
     for (const name of ['Chapter', 'Walkthrough', 'Gallery', 'BeforeAfter', 'Outcome', 'PullQuote']) {
       expect(CaseStudyMDXComponents).toHaveProperty(name)
+    }
+  })
+
+  it('does not carry the legacy case study components', () => {
+    for (const name of ['ImageCarousel', 'BeforeAfterSlider', 'AnnotatedImage', 'VideoPlayer', 'Metrics']) {
+      expect(CaseStudyMDXComponents).not.toHaveProperty(name)
     }
   })
 })

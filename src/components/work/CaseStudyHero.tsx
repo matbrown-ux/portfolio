@@ -23,7 +23,7 @@ export function CaseStudyHero({ frontmatter: fm, cover }: { frontmatter: CaseStu
   const meta = [...(fm.services ?? []), ...(fm.stack ?? [])]
   return (
     <header>
-      <div className="mx-auto max-w-6xl px-6 pb-14 pt-16 md:pt-16">
+      <div className="mx-auto max-w-6xl px-6 pb-14 pt-16">
         <div className="mb-6 flex flex-wrap gap-2">
           {fm.tags.map((tag) => (
             <Tag key={tag} label={tag} />
@@ -47,20 +47,21 @@ export function CaseStudyHero({ frontmatter: fm, cover }: { frontmatter: CaseStu
           </div>
         </dl>
 
-        <div className="mt-6 flex items-center justify-between gap-6">
+        <div className="mt-6 flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
           {meta.length > 0 && <p className="min-w-0 flex-1 text-xs uppercase leading-relaxed tracking-[0.15em] text-muted-prose">{meta.join(' · ')}</p>}
           {fm.liveUrl && (
             <div data-cursor="visit" className="shrink-0">
               <Magnetic>
                 <Button href={fm.liveUrl} external>
                   Visit live site <span aria-hidden="true">↗</span>
+                  <span className="sr-only">(opens in a new tab)</span>
                 </Button>
               </Magnetic>
             </div>
           )}
         </div>
       </div>
-      {cover && <div className="aspect-video max-h-[85svh] w-full overflow-hidden bg-secondary-dark">{cover}</div>}
+      {cover && <div aria-hidden="true" className="aspect-video max-h-[85svh] w-full overflow-hidden bg-secondary-dark">{cover}</div>}
     </header>
   )
 }

@@ -21,7 +21,7 @@ export function WorkDetail() {
   const cover = Cover ? (
     <Cover />
   ) : frontmatter.coverImage ? (
-    <img src={frontmatter.coverImage} alt={frontmatter.title} className="h-full w-full object-cover" width={1600} height={900} />
+    <img src={frontmatter.coverImage} alt="" className="h-full w-full object-cover" width={1600} height={900} />
   ) : undefined
 
   return (

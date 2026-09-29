@@ -48,15 +48,15 @@ export function NextProject({ caseStudy }: { caseStudy: CaseStudy }) {
           </h2>
           <p className="mt-4 max-w-xl text-muted-prose">{fm.result}</p>
         </div>
-        <span aria-hidden="true" className="text-4xl text-vermilion transition-transform duration-200 group-hover:translate-x-1">
+        <span aria-hidden="true" className="text-4xl text-vermilion transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
           →
         </span>
       </div>
-      <div data-next-media className="aspect-video max-h-[90svh] w-full overflow-hidden bg-secondary-dark">
+      <div data-next-media aria-hidden="true" className="aspect-video max-h-[90svh] w-full overflow-hidden bg-secondary-dark">
         {Cover ? (
           <Cover />
         ) : (
-          <img src={fm.coverImage} alt={fm.title} className="h-full w-full object-cover" loading="lazy" width={1600} height={900} />
+          <img src={fm.coverImage} alt="" className="h-full w-full object-cover" loading="lazy" width={1600} height={900} />
         )}
       </div>
     </Link>

@@ -18,9 +18,9 @@ export function Outcome({ metrics, quote, cite, width = 'wide' }: OutcomeProps) 
       <dl className="grid grid-cols-1 gap-px border border-border-line bg-border-line sm:grid-cols-3">
         {metrics.map((m) => (
           <div key={m.label} className="flex flex-col bg-secondary-dark p-8 lg:p-10">
-            <span aria-hidden="true" className="mb-5 block h-0.5 w-8 bg-vermilion" />
             <dt className="order-2 mt-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-prose">{m.label}</dt>
             <dd className="order-1 font-bold leading-none tracking-tight text-cream" style={{ fontSize: 'clamp(2.25rem, 4vw, 3.5rem)', letterSpacing: '-0.03em' }}>
+              <span aria-hidden="true" className="mb-5 block h-0.5 w-8 bg-vermilion" />
               <CountUp value={m.value} />
             </dd>
           </div>
