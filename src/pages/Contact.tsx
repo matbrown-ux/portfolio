@@ -14,6 +14,8 @@ import {
   type ContactField,
 } from '../components/contact/contactValidation'
 
+const SUCCESS_HEADING_ID = 'contact-success-heading'
+
 type FormState = 'idle' | 'submitting' | 'success' | 'error'
 type Errors = Partial<Record<ContactField, string>>
 
@@ -50,6 +52,12 @@ export function Contact() {
     const el = projectTypeRef.current
     if (el && preselected && el.value === '') el.value = preselected
   }, [preselected])
+
+  // The form unmounts on success, which would drop focus to <body>. Move it to
+  // the confirmation heading so keyboard and screen reader users land on it.
+  useEffect(() => {
+    if (formState === 'success') document.getElementById(SUCCESS_HEADING_ID)?.focus()
+  }, [formState])
 
   const a11y = (field: ContactField) => ({
     'aria-invalid': errors[field] ? (true as const) : undefined,
@@ -136,7 +144,13 @@ export function Contact() {
 
         {formState === 'success' ? (
           <div role="status" className="border border-border-line p-12">
-            <RevealText as="h2" text="Message received." className="mb-2 text-xl font-semibold text-cream" />
+            <RevealText
+              as="h2"
+              id={SUCCESS_HEADING_ID}
+              tabIndex={-1}
+              text="Message received."
+              className="mb-2 text-xl font-semibold text-cream focus:outline-none"
+            />
             <p className="text-sm text-muted-prose">I'll be in touch soon.</p>
             <Link
               to="/work"
@@ -226,7 +240,7 @@ export function Contact() {
               </div>
 
               {formState === 'error' && (
-                <p className="text-sm text-vermilion">
+                <p role="alert" className="text-sm text-vermilion">
                   Something went wrong. Email me directly at{' '}
                   <a href="mailto:mat@matbrown.io" className="underline">
                     mat@matbrown.io

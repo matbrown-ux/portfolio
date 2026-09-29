@@ -108,4 +108,37 @@ describe('Contact page', () => {
     expect(screen.getByText("I'll be in touch soon.")).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /See recent work/ })).toHaveAttribute('href', '/work')
   })
+
+  function fillAndSubmit() {
+    fireEvent.change(screen.getByLabelText(/Name/), { target: { value: 'Mat' } })
+    fireEvent.change(screen.getByLabelText(/Email/), { target: { value: 'mat@matbrown.io' } })
+    fireEvent.change(screen.getByLabelText(/Company/), { target: { value: 'Acme' } })
+    fireEvent.change(screen.getByLabelText(/Project type/), { target: { value: 'SEO/AEO' } })
+    fireEvent.change(screen.getByLabelText(/Budget/), { target: { value: '$1,000-$3,000' } })
+    fireEvent.submit(screen.getByRole('button', { name: 'Send message' }).closest('form')!)
+  }
+
+  it('moves focus to the success heading after a successful submit', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(null, { status: 200 }))
+    renderContact()
+    fillAndSubmit()
+    const heading = await screen.findByRole('heading', { name: 'Message received.' })
+    await waitFor(() => expect(document.activeElement).toBe(heading))
+    expect(heading).toHaveAttribute('tabindex', '-1')
+  })
+
+  it('announces a failed send with an alert', async () => {
+    vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('offline'))
+    renderContact()
+    fillAndSubmit()
+    const alert = await screen.findByRole('alert')
+    expect(alert).toHaveTextContent('Something went wrong. Email me directly at mat@matbrown.io')
+  })
+
+  it('announces a non-ok response with an alert', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(null, { status: 500 }))
+    renderContact()
+    fillAndSubmit()
+    expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong.')
+  })
 })

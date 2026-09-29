@@ -12,6 +12,7 @@ interface RevealTextProps {
   className?: string
   style?: CSSProperties
   id?: string
+  tabIndex?: number
 }
 
 /**
@@ -20,7 +21,7 @@ interface RevealTextProps {
  * by plain spaces, so textContent and the accessible name both equal `text`.
  * Same DOM on server and client.
  */
-export function RevealText({ as: Tag = 'h2', text, className, style, id }: RevealTextProps) {
+export function RevealText({ as: Tag = 'h2', text, className, style, id, tabIndex }: RevealTextProps) {
   const ref = useScrollReveal<HTMLElement>(
     (el) =>
       gsap.from(el.querySelectorAll('[data-word]'), {
@@ -35,7 +36,7 @@ export function RevealText({ as: Tag = 'h2', text, className, style, id }: Revea
   const words = splitWords(text)
 
   return (
-    <Tag ref={ref as never} id={id} className={className} style={style}>
+    <Tag ref={ref as never} id={id} tabIndex={tabIndex} className={className} style={style}>
       {words.map((word, i) => (
         <Fragment key={i}>
           <span className="inline-block overflow-hidden pb-[0.08em] align-bottom">
