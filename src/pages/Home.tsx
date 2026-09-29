@@ -1,87 +1,24 @@
-import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'motion/react'
 import { SEO } from '../components/SEO'
-import { gsap, useGSAP } from '../lib/gsap'
-import { useEntranceDelay } from '../components/PageCurtain'
 import { PageTransition } from '../components/animations/PageTransition'
-import { FadeIn } from '../components/animations/FadeIn'
-import { StaggerList, StaggerItem } from '../components/animations/StaggerList'
 import { Button } from '../components/ui/Button'
+import { Magnetic } from '../components/interaction/Magnetic'
 import { RevealText } from '../components/interaction/RevealText'
+import { Reveal } from '../components/interaction/Reveal'
+import { DisciplineRotator } from '../components/interaction/DisciplineRotator'
+import { PortraitMedia } from '../components/portrait/PortraitMedia'
 import { ProjectIndex } from '../components/work/ProjectIndex'
+import { disciplines } from '../content/disciplines'
 import { getCaseStudies } from '../lib/content'
 import { personSchema } from '../lib/seo'
-import { useTypewriter } from '../hooks/useTypewriter'
-import { useReducedMotion } from '../hooks/useReducedMotion'
 
-const heroServices = ['UX/UI Engineer.', 'SEO Specialist.', 'AI Workflows.']
-
-const services = [
-  {
-    label: '01',
-    title: 'UX/UI Engineering',
-    description: 'Interfaces that close deals. Designed with precision, built in production-quality React.',
-  },
-  {
-    label: '02',
-    title: 'SEO',
-    description: 'Technical and content SEO that compounds. Rankings earned through architecture, not tricks.',
-  },
-  {
-    label: '03',
-    title: 'Agentic Workflows',
-    description: 'AI-powered systems built on Claude and the AI SDK. Real automation, not toy demos.',
-  },
-]
+const HERO_H1 = 'UX/UI Engineer, SEO Specialist & AI Workflow Developer'
+// TODO: owner review
+const ROTATOR_SR =
+  'I design interfaces, rank sites in search and AI answers, automate workflows, build brands, and ship SaaS products.'
 
 export function Home() {
   const featuredWork = getCaseStudies().slice(0, 3)
-  const reduced = useReducedMotion()
-  const { displayText, phase } = useTypewriter(
-    reduced ? heroServices : heroServices,
-    { typingSpeed: 70, deletingSpeed: 30, pauseTime: 2400 }
-  )
-
-  const heroRef = useRef<HTMLElement>(null)
-  // When arriving via the page-curtain transition, hold the hero entrance until
-  // the curtain has lifted (0 on a direct load, ~0.8s after a transition).
-  const entranceDelay = useEntranceDelay()
-
-  // Hero load animation. Scoped to the hero so useGSAP only touches .hero-image /
-  // .hero-circle, and so it cleans up on unmount. The h1 typewriter and the text
-  // fade-ins are handled separately (the hook below, and Framer Motion).
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia()
-
-      // Reduced-motion users keep the static end state (image + circle visible).
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        // Image grows + fades in first, then the circle blooms in behind it. GSAP
-        // scales clean inner elements so it never fights the wrappers' centering
-        // transforms; immediateRender sets the hidden start state before first paint
-        // (useGSAP runs in a layout effect), so there is no flash of the final hero.
-        //
-        // force3D: false is REQUIRED. GSAP's default ("auto") promotes the element to
-        // a 3D GPU layer during the tween, which on some Chrome/GPU combos paints a
-        // dark element on a dark background as a solid black rectangle until the tween
-        // ends. Keeping transforms 2D avoids the layer promotion and the artifact.
-        gsap
-          .timeline({ delay: 0.15 + entranceDelay, defaults: { ease: 'expo.out', force3D: false } })
-          .from(
-            '.hero-image',
-            { autoAlpha: 0, scale: 0.85, duration: 1.1, transformOrigin: 'bottom center' },
-            0
-          )
-          .from(
-            '.hero-circle',
-            { autoAlpha: 0, scale: 0.78, duration: 1.2, transformOrigin: 'center center' },
-            0.3
-          )
-      })
-    },
-    { scope: heroRef }
-  )
 
   return (
     <PageTransition>
@@ -91,130 +28,80 @@ export function Home() {
         schema={personSchema('Mathew Brown', 'https://matbrown.io')}
       />
 
-      {/* Hero */}
-      {/* Fills the viewport below the fixed 64px (pt-16 / 4rem) navbar on every
-          breakpoint, so the section bottom IS the viewport bottom and the
-          bottom-anchored image + circle sit on the viewport edge. */}
-      <section
-        ref={heroRef}
-        className="relative min-h-[calc(100svh-4rem)] overflow-hidden bg-directors-black"
-      >
-        {/* Circle + image — full width on mobile, right half on desktop. The image
-            grows + fades in on load, then the circle blooms in behind it (see the
-            useGSAP hook above). */}
-        <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 z-0">
-          {/* Circle: positioning lives on this wrapper so GSAP can scale the inner
-              element with a clean center origin. Bottom-anchored on every breakpoint
-              (a small downward translate keeps its bottom past the section edge) so
-              it never floats with a gap; it is width-sized while the section is
-              height-sized, so centering it would leave a gap on tall windows. */}
-          <div className="absolute aspect-square left-1/2 -translate-x-1/2 bottom-0 w-[125%] translate-y-1/4 lg:w-[130%] lg:translate-y-[12%]">
-            <div className="hero-circle h-full w-full rounded-full bg-secondary-dark" />
-          </div>
+      {/* Hero: fills the viewport below the fixed 64px navbar. */}
+      <section className="relative min-h-[calc(100svh-4rem)] overflow-hidden bg-directors-black">
+        <PortraitMedia
+          src="/images/hero-image.png"
+          className="absolute bottom-0 right-0 top-0 z-0 w-full lg:w-1/2"
+          circleWrapperClassName="absolute bottom-0 left-1/2 aspect-square w-[125%] -translate-x-1/2 translate-y-1/4 lg:w-[130%] lg:translate-y-[12%]"
+          imageWrapperClassName="absolute bottom-0 left-1/2 z-10 flex h-full -translate-x-1/2 items-end"
+          imageClassName="h-[72%] w-auto max-w-none object-contain object-bottom lg:h-full"
+        />
 
-          {/* Image: positioning (bottom + horizontal centering) lives on this wrapper
-              so GSAP only scales the inner <img>. items-end keeps the image pinned to
-              the bottom even when shorter than the wrapper; max-w-none lets it size by
-              height instead of being capped. */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10 h-full flex items-end">
-            <img
-              src="/images/hero-image.png"
-              alt="Mathew Brown"
-              className="hero-image h-[72%] lg:h-full w-auto max-w-none object-contain object-bottom"
-              width={600}
-              height={900}
-            />
-          </div>
-        </div>
+        {/* Mobile gradient keeps the text readable over the portrait. */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-r from-directors-black via-directors-black/80 to-transparent lg:hidden" />
 
-        {/* Mobile gradient — fades image out toward the left so text stays readable */}
-        <div className="absolute inset-0 z-[1] lg:hidden bg-gradient-to-r from-directors-black via-directors-black/80 to-transparent" />
-
-        {/* Left — text content */}
-        <div className="relative z-[2] max-w-7xl mx-auto px-6 min-h-[calc(100svh-4rem)] flex flex-col justify-center py-24">
+        <div className="relative z-[2] mx-auto flex min-h-[calc(100svh-4rem)] max-w-7xl flex-col justify-center px-6 py-24">
           <div className="lg:max-w-[50%]">
-            <motion.p
-              className="text-xs font-medium tracking-[0.2em] uppercase text-vermilion mb-8"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.05 + entranceDelay, ease: [0.16, 1, 0.3, 1] }}
-            >
-              Available for freelance work
-            </motion.p>
-
-            <h1
-              className="text-cream font-bold leading-tight tracking-tight whitespace-nowrap"
-              style={{
-                fontSize: 'clamp(2.5rem, 5vw, 5rem)',
-                letterSpacing: '-0.03em',
-                minHeight: '1.2em',
-              }}
-            >
-              {reduced ? heroServices[0] : displayText}
-              {!reduced && (
-                <span
-                  className={`inline-block w-[3px] ml-1 bg-vermilion align-middle ${
-                    phase === 'deleting' ? 'opacity-100' : 'cursor-blink'
-                  }`}
-                  style={{ height: '0.85em', verticalAlign: 'middle', marginBottom: '0.05em' }}
-                  aria-hidden="true"
-                />
-              )}
-            </h1>
-
-            <motion.p
-              className="text-muted-prose mt-8 max-w-lg leading-relaxed"
-              style={{ fontSize: 'clamp(1rem, 1.5vw, 1.125rem)' }}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 + entranceDelay, ease: [0.16, 1, 0.3, 1] }}
-            >
-              I design and build digital products that perform. From interface to search to automation, I handle the whole build so nothing gets lost between strategy and shipping.
-            </motion.p>
-
-            <motion.div
-              className="flex flex-col sm:flex-row sm:flex-wrap gap-4 mt-10"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.44 + entranceDelay, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* Full-width, stacked on phones; auto-width row at sm and up. */}
-              <Button href="/work" className="w-full sm:w-auto justify-center sm:justify-start">View my work</Button>
-              <Button href="/contact" variant="outline" className="w-full sm:w-auto justify-center sm:justify-start">Get in touch</Button>
-            </motion.div>
+            <p className="mb-8 text-xs font-medium uppercase tracking-[0.2em] text-vermilion">Available for freelance work</p>
+            <RevealText
+              as="h1"
+              text={HERO_H1}
+              className="font-bold leading-[1.05] tracking-tight text-cream"
+              style={{ fontSize: 'clamp(2.25rem, 4.5vw, 4.25rem)', letterSpacing: '-0.03em' }}
+            />
+            <DisciplineRotator srLabel={ROTATOR_SR} className="mt-6 text-2xl font-semibold leading-tight text-vermilion md:text-3xl" />
+            <Reveal>
+              <p className="mt-8 max-w-lg leading-relaxed text-muted-prose" style={{ fontSize: 'clamp(1rem, 1.5vw, 1.125rem)' }}>
+                I design and build digital products that perform. From interface to search to automation, I handle the whole build so nothing gets lost between strategy and shipping.
+              </p>
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+                <div data-cursor="view">
+                  <Magnetic className="block sm:inline-block">
+                    <Button href="/work" className="w-full justify-center sm:w-auto sm:justify-start">View my work</Button>
+                  </Magnetic>
+                </div>
+                <Magnetic className="block sm:inline-block">
+                  <Button href="/contact" variant="outline" className="w-full justify-center sm:w-auto sm:justify-start">Get in touch</Button>
+                </Magnetic>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Services snapshot */}
-      <section className="bg-secondary-dark border-y border-border-line py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <FadeIn>
-            <p className="text-xs font-medium tracking-[0.2em] uppercase text-muted-prose mb-4">What I do</p>
-            <h2
-              className="text-cream font-semibold tracking-tight mb-16 max-w-2xl"
-              style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', letterSpacing: '-0.02em' }}
-            >
-              UX/UI Engineering, SEO &amp; Agentic Workflow Services
-            </h2>
-          </FadeIn>
-          <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {services.map((s) => (
-              <StaggerItem key={s.label}>
-                <p className="text-vermilion text-sm font-semibold mb-4">{s.label}</p>
-                <h3 className="text-cream font-semibold text-lg mb-3">{s.title}</h3>
-                <p className="text-muted-prose text-sm leading-relaxed">{s.description}</p>
-              </StaggerItem>
+      {/* What I do */}
+      <section className="border-y border-border-line bg-secondary-dark py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-prose">What I do</p>
+          <RevealText
+            as="h2"
+            text="UX/UI, SEO, AI Workflow, Brand & SaaS Services"
+            className="mb-16 max-w-2xl font-semibold tracking-tight text-cream"
+            style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', letterSpacing: '-0.02em' }}
+          />
+          <ul role="list" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {disciplines.map((d, i) => (
+              <Reveal as="li" key={d.slug} delay={i * 0.06}>
+                <Link
+                  to={`/services#${d.slug}`}
+                  className="group flex h-full flex-col border border-border-line p-8 transition-[border-color,box-shadow] duration-300 hover:border-vermilion/40 hover:shadow-[0_4px_22px_-4px_rgba(248,99,67,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vermilion"
+                >
+                  <span className="mb-4 font-mono text-xs tracking-[0.2em] text-vermilion">{d.number}</span>
+                  <h3 className="mb-3 text-lg font-semibold text-cream transition-colors duration-200 group-hover:text-vermilion">{d.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-prose">{d.blurb}</p>
+                </Link>
+              </Reveal>
             ))}
-          </StaggerList>
-          <FadeIn className="mt-14">
+          </ul>
+          <div className="mt-14">
             <Link
               to="/services"
-              className="text-xs font-medium tracking-widest uppercase text-muted-prose hover:text-cream transition-colors duration-200 inline-flex items-center gap-3"
+              className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-muted-prose transition-colors duration-200 hover:text-cream"
             >
               All services <span aria-hidden="true" className="text-vermilion">→</span>
             </Link>
-          </FadeIn>
+          </div>
         </div>
       </section>
 
