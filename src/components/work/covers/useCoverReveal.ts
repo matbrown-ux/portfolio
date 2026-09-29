@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { gsap, ScrollTrigger, useGSAP } from '../../../lib/gsap'
+import { gsap } from '../../../lib/gsap'
+import { useScrollReveal } from '../../interaction/useScrollReveal'
 
 /**
  * Build callback: populate the (paused) timeline with the cover's bespoke
@@ -15,41 +15,19 @@ import { gsap, ScrollTrigger, useGSAP } from '../../../lib/gsap'
 export type CoverBuild = (tl: gsap.core.Timeline, root: HTMLElement) => void
 
 /**
- * Shared scaffolding for the animated work covers: a scroll-in reveal that
- * plays the timeline once when the cover enters the viewport, reduced-motion
- * gating, and SSR-safety via useGSAP. Returns the wrapper ref to attach.
+ * Shared scaffolding for the animated work covers: plays the bespoke timeline
+ * once on scroll-in, after the page curtain has lifted. Reduced-motion users
+ * see the full static cover. Returns the wrapper ref to attach.
  */
 export function useCoverReveal(build: CoverBuild) {
-  const root = useRef<HTMLDivElement>(null)
-
-  useGSAP(
-    () => {
-      const el = root.current
-      if (!el) return
-
-      const mm = gsap.matchMedia()
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const tl = gsap.timeline({
-          paused: true,
-          defaults: { ease: 'power3.out', force3D: false },
-        })
-        build(tl, el)
-
-        // Reveal when scrolled into view. play() on an already-finished timeline
-        // is a no-op, so re-entering the viewport will not replay it.
-        const st = ScrollTrigger.create({
-          trigger: el,
-          start: 'top 80%',
-          onEnter: () => tl.play(),
-        })
-
-        return () => st.kill()
-      })
+  return useScrollReveal<HTMLDivElement>(
+    (el) => {
+      const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out', force3D: false } })
+      build(tl, el)
+      return tl
     },
-    { scope: root }
+    { start: 'top 80%' }
   )
-
-  return root
 }
 
 /**
