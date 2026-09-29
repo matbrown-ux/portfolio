@@ -73,7 +73,7 @@ describe('DisciplineIndex', () => {
     window.history.replaceState(null, '', '/services#saas-development')
     const { container } = renderIndex()
     await waitFor(() => expect(spy).toHaveBeenCalledTimes(1))
-    expect(spy.mock.contexts[0]).toBe(container.querySelector('#discipline-saas-development'))
+    expect(spy.mock.contexts[0]).toBe(container.querySelector('li#saas-development'))
     expect(expandedAtScroll).toEqual(['true'])
     Element.prototype.scrollIntoView = original
   })
@@ -87,6 +87,14 @@ describe('DisciplineIndex', () => {
     const brandLink = within(brand as HTMLElement).getByRole('link', { name: `${aiwi.title} ${aiwi.result}`, hidden: true })
     expect(seoLink).toHaveAttribute('href', '/work/aiwi-waffles')
     expect(brandLink).toHaveAttribute('data-cursor', 'view')
+    const ids = [...container.querySelectorAll('[id]')].map((el) => el.id)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('gives each row its bare slug as id so /services#<slug> is a native fragment target', () => {
+    const { container } = renderIndex()
+    const rows = [...container.querySelectorAll('ol > li')]
+    expect(rows.map((li) => li.id)).toEqual(disciplines.map((d) => d.slug))
     const ids = [...container.querySelectorAll('[id]')].map((el) => el.id)
     expect(new Set(ids).size).toBe(ids.length)
   })

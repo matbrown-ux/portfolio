@@ -28,7 +28,7 @@ export function DisciplineIndex({ items = allDisciplines }: { items?: Discipline
   const scrollToRow = useCallback(
     (slug: string) => {
       document
-        .getElementById(`discipline-${slug}`)
+        .getElementById(slug)
         ?.scrollIntoView?.({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
     },
     [reduced]
@@ -94,7 +94,8 @@ function DisciplineRow({ discipline: d, open, reduced, onToggle, onOpened }: Dis
   }, [open])
 
   return (
-    <li id={`discipline-${d.slug}`} className="border-b border-border-line">
+    // The bare slug is the row id so /services#<slug> is a native fragment target without JS.
+    <li id={d.slug} className="border-b border-border-line">
       <div className="grid items-center gap-x-10 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
         <h2 className="m-0">
           <button
