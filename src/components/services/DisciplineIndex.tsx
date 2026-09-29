@@ -103,9 +103,10 @@ function DisciplineRow({ discipline: d, open, reduced, onToggle }: DisciplineRow
         initial={false}
         animate={{ height: open ? 'auto' : 0, opacity: open ? 1 : 0 }}
         transition={{ duration: reduced ? 0 : DURATION.base, ease: EASE.outQuint }}
-        className="overflow-hidden"
+        className="-mx-6 overflow-hidden px-6"
       >
-        <div className="grid gap-10 pb-12 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] md:gap-16">
+        {/* The gutter (padding inside the clip) keeps the proof card's hover glow and focus ring visible. */}
+        <div className="grid gap-10 pb-12 pt-4 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] md:gap-16">
           <div>
             <p className="mb-8 max-w-prose leading-relaxed text-muted-prose">{d.description}</p>
             <ul className="mb-10 space-y-3">

@@ -26,6 +26,13 @@ describe('DisciplineIndex', () => {
     )
   })
 
+  it('gives the clipped panel a gutter so the proof card glow and focus ring are not cut off', () => {
+    const { container } = renderIndex()
+    const panel = container.querySelector('#discipline-ux-ui-engineering-panel')!
+    expect(panel).toHaveClass('overflow-hidden', '-mx-6', 'px-6')
+    expect(panel.firstElementChild).toHaveClass('pt-4')
+  })
+
   it('opens one row at a time', () => {
     renderIndex()
     fireEvent.click(screen.getByRole('button', { name: /Brand Development/ }))
