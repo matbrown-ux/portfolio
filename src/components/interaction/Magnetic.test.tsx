@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { Magnetic } from './Magnetic.tsx'
+import { Magnetic } from './Magnetic'
 import { installMatchMedia, FINE_POINTER_QUERY, REDUCED_QUERY } from '../../test/matchMedia'
 
 describe('Magnetic', () => {

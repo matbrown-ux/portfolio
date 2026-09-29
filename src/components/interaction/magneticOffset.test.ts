@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { magneticOffset } from './magnetic'
+import { magneticOffset } from './magneticOffset'
 
 const box = { left: 100, top: 100, width: 200, height: 50 } // center (200, 125)
 

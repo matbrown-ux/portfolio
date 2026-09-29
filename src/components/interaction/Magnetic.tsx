@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring } from 'motion/react'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { SPRING } from '../../lib/motion'
-import { magneticOffset } from './magnetic'
+import { magneticOffset } from './magneticOffset'
 
 interface MagneticProps {
   children: ReactNode
