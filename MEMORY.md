@@ -3,6 +3,43 @@
 > Read this at the start of every session to understand what the project is and what has been built.
 > Keep it updated as work progresses.
 
+## Redesign roadmap and where we are (read first)
+
+The site is mid-way through a 5-part semi-redesign focused on high-end UX and interaction design. Audience: freelance clients; interaction must build trust and lead to contact, and the visitor stays in control. Each sub-project gets its own spec, then plan, then a subagent-driven build (fresh implementer + task reviewer per task, final whole-branch review on the strongest model, one fix wave). Nothing is merged or pushed yet; the owner chose "keep as-is" after each branch.
+
+| # | Sub-project | Branch (stacked) | Spec / plan | Status |
+|---|-------------|------------------|-------------|--------|
+| 1+2 | Interaction foundation + case study system | `feat/interaction-case-studies` (from `main` @ 6387ede) | `docs/superpowers/specs/2026-09-28-interaction-foundation-case-studies-design.md`, `docs/superpowers/plans/2026-09-28-interaction-foundation-case-studies.md` | Built, reviewed, fixed. Not merged. |
+| 3 | Work index + Home "Selected work" | `feat/work-index` (from `feat/interaction-case-studies`) | `docs/superpowers/specs/2026-09-29-work-index-design.md`, `docs/superpowers/plans/2026-09-29-work-index.md` | Built, reviewed, fixed. Not merged. |
+| 4 | Site-wide pass: Home hero + "What I do", About, Services, Contact, navbar, mobile menu, footer | `feat/site-pass` (from `feat/work-index`; spec committed as 5080f4b) | `docs/superpowers/specs/2026-09-29-site-pass-design.md`, `docs/superpowers/plans/2026-09-29-site-pass.md` (plan written, NOT yet committed) | **NEXT: execute the plan.** Owner has not yet picked the execution method; subagent-driven is recommended (owner chose it for 1-3). |
+| 5 | Launch hardening | not started | none yet | See "Launch hardening backlog" below. |
+
+**To resume sub-project 4:** check out `feat/site-pass`, commit the plan file, then run superpowers:subagent-driven-development on `docs/superpowers/plans/2026-09-29-site-pass.md` (15 tasks). Use a ledger in `.superpowers/sdd/<plan>/progress.md` (git-ignored) and give every implementer the rules below.
+
+### Rules every implementer must follow (learned the hard way)
+
+- Commit trailer is always `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`, whatever model writes the commit.
+- Never add a `Test-Exempt:` trailer (needs the owner's explicit approval). If the TDD hook refuses an amend, stage the test file with it. Prefer new commits over amends.
+- Logic modules must not share a basename with a component case-insensitively (macOS: `./Magnetic` resolved to `magnetic.ts`). Use names like `magneticOffset.ts`, `metricFormat.ts`, `galleryNav.ts`.
+- `RevealText` and `CountUp` render ONE copy of their text (no sr-only duplicate), so crawlers don't index headings twice.
+- `useGSAP` with `dependencies` must pass `revertOnUpdate: true`, or ScrollTriggers accumulate.
+- Router tests use `src/test/TestRouter.tsx` (MemoryRouter with v7 future flags); test output must be pristine.
+- Don't kill dev servers by name (`pkill vite`); the owner keeps one on port 5180. Don't commit `.playwright-mcp/`. `agent-browser` is NOT installed; use the Playwright MCP tools for browser checks.
+- Don't write "--no-verify" literally in shell heredocs: the tdd-kit Claude hook blocks any command containing it.
+
+### Owner inputs still needed
+
+- Real one-sentence `result` for Vamp Network and The Booking Flow (both show "Result pending: headline outcome to be supplied").
+- Real screenshots/recordings and metrics for all three case studies (`00` placeholders; only 'Aiwi's `#1` is real).
+- Review of drafted copy in sub-project 4: Brand Development and SaaS Development discipline copy, the hero rotator lines, and the four new keyword `h1`s (all in the site-pass spec).
+
+### Launch hardening backlog (sub-project 5)
+
+- SSG prerenders only 7 routes: `/work/<slug>` and blog pillar/article routes are not prerendered.
+- `react-helmet-async` head tags are client-only; `og:image` is relative and there is no `twitter:image` (raster OG PNGs already exist per case study).
+- Deferred polish: `/work` panel focus-scroll also fires on mouse-click focus (guard with `:focus-visible`); em dashes remain in 8 blog pillar descriptions and the blog breadcrumb separator; placeholder `result` strings are shown prominently until replaced.
+- Performance, accessibility, and reduced-motion audit; swap in real assets; deploy.
+
 ## What this is
 
 A personal portfolio site for **Mathew Brown** — a freelance UX/UI engineer, SEO/AEO specialist, and agentic-workflow developer. Dark, editorial, design-forward aesthetic. Domain: `matbrown.io`. Email: `mat@matbrown.io`.
