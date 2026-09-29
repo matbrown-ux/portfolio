@@ -1,5 +1,5 @@
-import { describe, it, expect, afterEach } from 'vitest'
-import { render, screen, fireEvent, within } from '@testing-library/react'
+import { describe, it, expect, afterEach, vi } from 'vitest'
+import { render, screen, fireEvent, within, waitFor } from '@testing-library/react'
 import { TestRouter } from '../../test/TestRouter'
 import { DisciplineIndex } from './DisciplineIndex'
 import { disciplines } from '../../content/disciplines'
@@ -11,6 +11,7 @@ function renderIndex() {
 
 afterEach(() => {
   window.history.replaceState(null, '', '/')
+  vi.restoreAllMocks()
 })
 
 describe('DisciplineIndex', () => {
@@ -56,6 +57,25 @@ describe('DisciplineIndex', () => {
     window.history.replaceState(null, '', '/services#nope')
     renderIndex()
     expect(screen.getByRole('button', { name: /UX\/UI Engineering/ })).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('scrolls to the hash-named row only after it has opened', async () => {
+    // Motion restores the pre-measure scroll position while it measures a
+    // height: auto panel, which cancels a scroll started before the panel opens.
+    const expandedAtScroll: (string | null)[] = []
+    const spy = vi.fn(function (this: Element) {
+      expandedAtScroll.push(this.querySelector('button[aria-controls]')?.getAttribute('aria-expanded') ?? null)
+    })
+    const original = Element.prototype.scrollIntoView
+    Element.prototype.scrollIntoView = spy
+    // jsdom has no window.scrollTo; Motion calls it while measuring the panel.
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    window.history.replaceState(null, '', '/services#saas-development')
+    const { container } = renderIndex()
+    await waitFor(() => expect(spy).toHaveBeenCalledTimes(1))
+    expect(spy.mock.contexts[0]).toBe(container.querySelector('#discipline-saas-development'))
+    expect(expandedAtScroll).toEqual(['true'])
+    Element.prototype.scrollIntoView = original
   })
 
   it('links each discipline to its proof case study with a clean name and unique ids', () => {

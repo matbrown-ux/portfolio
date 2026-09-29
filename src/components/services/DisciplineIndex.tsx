@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { Magnetic } from '../interaction/Magnetic'
 import { Button } from '../ui/Button'
@@ -18,21 +18,44 @@ export function DisciplineIndex({ items = allDisciplines }: { items?: Discipline
   const reduced = useReducedMotion()
   const slugKey = items.map((d) => d.slug).join('|')
   const [open, setOpen] = useState<string | null>(items[0]?.slug ?? null)
+  const openRef = useRef(open)
+  openRef.current = open
+  // A row named by the hash scrolls into view once its panel has finished
+  // opening: Motion restores the pre-measure scroll position while it measures
+  // a height: auto panel, which would cancel a scroll started any earlier.
+  const pendingScroll = useRef<string | null>(null)
+
+  const scrollToRow = useCallback(
+    (slug: string) => {
+      document
+        .getElementById(`discipline-${slug}`)
+        ?.scrollIntoView?.({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+    },
+    [reduced]
+  )
 
   useEffect(() => {
     const slugs = slugKey.split('|')
     const apply = () => {
       const target = resolveOpenSlug(window.location.hash, slugs, null)
       if (!target) return
+      if (openRef.current === target) {
+        scrollToRow(target)
+        return
+      }
+      pendingScroll.current = target
       setOpen(target)
-      document
-        .getElementById(`discipline-${target}`)
-        ?.scrollIntoView?.({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
     }
     apply()
     window.addEventListener('hashchange', apply)
     return () => window.removeEventListener('hashchange', apply)
-  }, [slugKey, reduced])
+  }, [slugKey, scrollToRow])
+
+  const handleOpened = (slug: string) => {
+    if (pendingScroll.current !== slug) return
+    pendingScroll.current = null
+    scrollToRow(slug)
+  }
 
   return (
     <ol role="list" className="border-t border-border-line">
@@ -43,6 +66,7 @@ export function DisciplineIndex({ items = allDisciplines }: { items?: Discipline
           open={open === d.slug}
           reduced={reduced}
           onToggle={() => setOpen((current) => (current === d.slug ? null : d.slug))}
+          onOpened={() => handleOpened(d.slug)}
         />
       ))}
     </ol>
@@ -54,9 +78,11 @@ interface DisciplineRowProps {
   open: boolean
   reduced: boolean
   onToggle: () => void
+  /** Called when this row's panel finishes opening. */
+  onOpened: () => void
 }
 
-function DisciplineRow({ discipline: d, open, reduced, onToggle }: DisciplineRowProps) {
+function DisciplineRow({ discipline: d, open, reduced, onToggle, onOpened }: DisciplineRowProps) {
   const panelRef = useRef<HTMLDivElement>(null)
   const buttonId = `discipline-${d.slug}-button`
   const panelId = `discipline-${d.slug}-panel`
@@ -103,6 +129,9 @@ function DisciplineRow({ discipline: d, open, reduced, onToggle }: DisciplineRow
         initial={false}
         animate={{ height: open ? 'auto' : 0, opacity: open ? 1 : 0 }}
         transition={{ duration: reduced ? 0 : DURATION.base, ease: EASE.outQuint }}
+        onAnimationComplete={() => {
+          if (open) onOpened()
+        }}
         className="-mx-6 overflow-hidden px-6"
       >
         {/* The gutter (padding inside the clip) keeps the proof card's hover glow and focus ring visible. */}
