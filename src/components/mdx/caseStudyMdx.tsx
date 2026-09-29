@@ -3,6 +3,7 @@ import type { ElementType, ComponentType } from 'react'
 import { EASE } from '../../lib/motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { MDXComponents } from './index'
+import { CaseStudyModules } from './case-study'
 
 const revealProps = {
   initial: { opacity: 0, y: 18 },
@@ -11,11 +12,10 @@ const revealProps = {
   transition: { duration: 0.5, ease: EASE.outQuint },
 } as const
 
-type RevealTag = 'h2' | 'h3' | 'p' | 'ul' | 'ol' | 'blockquote'
+type RevealTag = 'h3' | 'p' | 'ul' | 'ol' | 'blockquote'
 type AnyProps = { children?: React.ReactNode } & Record<string, unknown>
 
 const MOTION_TAGS = {
-  h2: motion.h2,
   h3: motion.h3,
   p: motion.p,
   ul: motion.ul,
@@ -45,7 +45,8 @@ function reveal<T extends RevealTag>(tag: T): ComponentType<JSX.IntrinsicElement
 
 export const CaseStudyMDXComponents = {
   ...MDXComponents,
-  h2: reveal('h2'),
+  ...CaseStudyModules,
+  // h2s come from <Chapter>; a stray markdown `##` renders as a plain h2.
   h3: reveal('h3'),
   p: reveal('p'),
   ul: reveal('ul'),
