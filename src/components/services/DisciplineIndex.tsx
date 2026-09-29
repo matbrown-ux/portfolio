@@ -83,15 +83,9 @@ interface DisciplineRowProps {
 }
 
 function DisciplineRow({ discipline: d, open, reduced, onToggle, onOpened }: DisciplineRowProps) {
-  const panelRef = useRef<HTMLDivElement>(null)
   const buttonId = `discipline-${d.slug}-button`
   const panelId = `discipline-${d.slug}-panel`
   const proof = d.proofSlug ? getCaseStudyBySlug(d.proofSlug) : undefined
-
-  // React 18 has no first-class `inert`; set the attribute directly.
-  useEffect(() => {
-    panelRef.current?.toggleAttribute('inert', !open)
-  }, [open])
 
   return (
     // The bare slug is the row id so /services#<slug> is a native fragment target without JS.
@@ -122,11 +116,13 @@ function DisciplineRow({ discipline: d, open, reduced, onToggle, onOpened }: Dis
       </div>
 
       <motion.div
-        ref={panelRef}
         id={panelId}
         role="region"
         aria-labelledby={buttonId}
         aria-hidden={!open}
+        // React 18 has no first-class `inert`, but passes a string attribute
+        // through, so closed panels are inert in the prerendered HTML too.
+        {...(open ? {} : { inert: '' })}
         initial={false}
         animate={{ height: open ? 'auto' : 0, opacity: open ? 1 : 0 }}
         transition={{ duration: reduced ? 0 : DURATION.base, ease: EASE.outQuint }}

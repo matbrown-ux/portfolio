@@ -1,5 +1,6 @@
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import { render, screen, fireEvent, within, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import { TestRouter } from '../../test/TestRouter'
 import { DisciplineIndex } from './DisciplineIndex'
 import { disciplines } from '../../content/disciplines'
@@ -35,8 +36,10 @@ describe('DisciplineIndex', () => {
   })
 
   it('opens one row at a time', () => {
-    renderIndex()
+    const { container } = renderIndex()
     fireEvent.click(screen.getByRole('button', { name: /Brand Development/ }))
+    expect(container.querySelector('#discipline-brand-development-panel')).not.toHaveAttribute('inert')
+    expect(container.querySelector('#discipline-ux-ui-engineering-panel')).toHaveAttribute('inert')
     expect(screen.getByRole('button', { name: /Brand Development/ })).toHaveAttribute('aria-expanded', 'true')
     expect(screen.getByRole('button', { name: /UX\/UI Engineering/ })).toHaveAttribute('aria-expanded', 'false')
   })
@@ -47,6 +50,24 @@ describe('DisciplineIndex', () => {
     expect(seoPanel).toHaveAttribute('inert')
     expect(seoPanel.textContent).toContain(disciplines[1].description)
     expect(container.querySelector('#discipline-ux-ui-engineering-panel')).not.toHaveAttribute('inert')
+  })
+
+  it('renders closed panels inert in the server HTML, before any effect runs', () => {
+    const errors = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const html = renderToString(
+      <TestRouter>
+        <DisciplineIndex />
+      </TestRouter>
+    )
+    const unknownProp = errors.mock.calls.filter((args) => String(args[0]).match(/inert|unknown prop/i))
+    errors.mockRestore()
+    expect(unknownProp).toEqual([])
+    const doc = document.createElement('div')
+    doc.innerHTML = html
+    expect(doc.querySelector('#discipline-ux-ui-engineering-panel')).not.toHaveAttribute('inert')
+    for (const d of disciplines.slice(1)) {
+      expect(doc.querySelector(`#discipline-${d.slug}-panel`)).toHaveAttribute('inert')
+    }
   })
 
   it('opens the row named by the URL hash, and ignores unknown hashes', () => {
