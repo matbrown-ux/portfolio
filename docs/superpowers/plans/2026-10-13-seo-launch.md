@@ -40,14 +40,15 @@
 
 ## Suggested model per task
 
-Tasks 1, 2, 3, 4, 9 and 10 carry complete code: the cheapest model. Tasks 7, 8 and 11 (complete code plus wiring across many files, or docs and audits): the mid model. Tasks 5, 6 and 13 are judged by eye or need judgment on findings: the strongest model. Every per-task review: the mid model. The final whole-branch review (after Task 11, before the pull request): the strongest model.
+Tasks 2, 3, 4, 9 and 10 carry complete code: the cheapest model. Tasks 7, 8 and 11 (complete code plus wiring across many files, or docs and audits): the mid model. Tasks 1, 5, 6 and 13 are judged by eye or need judgment on findings: the strongest model. Every per-task review: the mid model. The final whole-branch review (after Task 11, before the pull request): the strongest model.
 
 ## File map
 
 | File | Responsibility |
 |---|---|
-| `src/content/person.ts` + test | The owner's facts and public profiles, one source for structured data, `llms.txt` and the footer. |
-| `src/components/nav/SiteFooter.astro` (modify) | LinkedIn and GitHub links. |
+| `src/content/person.ts` + test | The owner's facts and public profiles, one source for structured data, `llms.txt` and the header's profile icons. |
+| `src/assets/icons/`, `src/components/nav/profileIcons.ts` + test | The LinkedIn and GitHub icons and the links that use them. |
+| `src/components/nav/SiteHeader.astro`, `MobileMenu.tsx` + test (modify) | The icons left of the "Start a project" button, and in the mobile menu. |
 | `src/lib/cardText.ts` + test | Measure, wrap, fit and outline text in a font. |
 | `src/lib/cardSvg.ts` + test | Compose the card SVG; read the mark from its SVG file. |
 | `src/lib/shareCards.ts` + test | Every page's card text and path; the `og:image` path for a page. |
@@ -71,16 +72,20 @@ Tasks 1, 2, 3, 4, 9 and 10 carry complete code: the cheapest model. Tasks 7, 8 a
 
 ---
 
-### Task 1: Person facts and footer profile links
+### Task 1: Person facts and profile icons in the header
 
 **Files:**
 - Create: `src/content/person.ts`, `src/content/person.test.ts`
-- Modify: `src/components/nav/SiteFooter.astro`
+- Create: `src/assets/icons/linkedin.svg`, `src/assets/icons/github.svg`, `src/assets/icons/README.md`
+- Create: `src/components/nav/profileIcons.ts`, `src/components/nav/profileIcons.test.ts`
+- Modify: `src/components/nav/SiteHeader.astro`, `src/components/nav/MobileMenu.tsx`, `src/components/nav/MobileMenu.test.tsx`
 
 **Interfaces:**
-- Produces: `interface Person { name: string; alternateName: string; jobTitle: string; description: string; location: { locality: string; region: string; country: string }; email: string; profiles: { label: string; href: string }[] }` and `export const person: Person`.
+- Produces: `interface Person { name: string; alternateName: string; jobTitle: string; description: string; location: { locality: string; region: string; country: string }; email: string; profiles: { label: string; href: string }[] }` and `export const person: Person`; `interface ProfileLink { label: string; href: string; icon: string }` and `profileLinks(): ProfileLink[]` (`icon` is SVG markup).
 
-- [ ] **Step 1: Write the failing test**
+The owner asked for the profile links to be icons in the header, to the left of the "Start a project" button. They are not in the footer. This task is judged in the browser.
+
+- [ ] **Step 1: Write the failing tests**
 
 `src/content/person.test.ts`
 ```ts
@@ -98,7 +103,7 @@ describe('person', () => {
     expect(person.description).toBe("I'm Mathew Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer.")
   })
 
-  it('places the owner on O\'ahu', () => {
+  it("places the owner on O'ahu", () => {
     expect(person.location).toEqual({ locality: "O'ahu", region: "Hawai'i", country: 'United States' })
   })
 
@@ -116,17 +121,68 @@ describe('person', () => {
 })
 ```
 
-- [ ] **Step 2: Run it and watch it fail**
+`src/components/nav/profileIcons.test.ts`
+```ts
+import { describe, expect, it } from 'vitest'
+import { person } from '../../content/person'
+import { profileLinks } from './profileIcons'
 
-Run: `npx vitest run src/content/person.test.ts`
-Expected: FAIL, `./person` cannot be resolved.
+describe('profileLinks', () => {
+  it('gives every profile its link and an icon', () => {
+    const links = profileLinks()
+    expect(links.map(({ label, href }) => ({ label, href }))).toEqual(person.profiles)
+    for (const link of links) expect(link.icon).toContain('<svg')
+  })
 
-- [ ] **Step 3: Implement**
+  it('draws each icon in the current text colour, so the header can colour it', () => {
+    for (const link of profileLinks()) {
+      expect(link.icon).toContain('currentColor')
+      expect(link.icon).not.toMatch(/fill="#|stroke="#/)
+    }
+  })
+
+  it('uses a different icon for each profile', () => {
+    const icons = profileLinks().map((link) => link.icon)
+    expect(new Set(icons).size).toBe(icons.length)
+  })
+})
+```
+
+In `src/components/nav/MobileMenu.test.tsx` add, after the test "opens to show every link and the call to action":
+
+```tsx
+  it('shows the profile icons after the call to action, each named for a screen reader', async () => {
+    const user = userEvent.setup()
+    const profiles = [
+      { label: 'LinkedIn', href: 'https://linkedin.com/in/matbrown', icon: '<svg viewBox="0 0 1 1"></svg>' },
+      { label: 'GitHub', href: 'https://github.com/matbrown-ux', icon: '<svg viewBox="0 0 2 2"></svg>' },
+    ]
+    render(<MobileMenu links={links} contact={contact} pathname="/" profiles={profiles} />)
+    await user.click(screen.getByRole('button', { name: 'Open menu' }))
+    expect(screen.getAllByRole('link').map((a) => a.getAttribute('href'))).toEqual([
+      '/work',
+      '/about',
+      '/contact',
+      'https://linkedin.com/in/matbrown',
+      'https://github.com/matbrown-ux',
+    ])
+    expect(screen.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute('rel', 'me noopener')
+    expect(screen.getByRole('link', { name: 'GitHub' }).querySelector('svg')).not.toBeNull()
+    expect(screen.getByRole('list', { name: 'Profiles' })).toBeInTheDocument()
+  })
+```
+
+- [ ] **Step 2: Run them and watch them fail**
+
+Run: `npx vitest run src/content/person.test.ts src/components/nav/profileIcons.test.ts src/components/nav/MobileMenu.test.tsx`
+Expected: the first two fail to resolve their modules; the new menu test fails because `profiles` is not rendered.
+
+- [ ] **Step 3: The person facts**
 
 `src/content/person.ts`
 ```ts
 /**
- * The owner's facts: the single source for structured data, llms.txt and the footer's profile
+ * The owner's facts: the single source for structured data, llms.txt and the header's profile
  * links. Every value is something the site already states. Change one only when the owner does.
  */
 export interface Person {
@@ -137,7 +193,7 @@ export interface Person {
   description: string
   location: { locality: string; region: string; country: string }
   email: string
-  /** Public profiles, shown in the footer and listed as sameAs. */
+  /** Public profiles, shown as icons in the header and listed as sameAs. */
   profiles: { label: string; href: string }[]
 }
 
@@ -155,43 +211,157 @@ export const person: Person = {
 }
 ```
 
-- [ ] **Step 4: Run the test**
+- [ ] **Step 4: The icons**
 
-Run: `npx vitest run src/content/person.test.ts`
-Expected: PASS.
+The icons come from Phosphor Icons (MIT licence), copied into the repo so the build has no new dependency. Do not draw icon paths by hand.
 
-- [ ] **Step 5: Add the footer links**
-
-In `src/components/nav/SiteFooter.astro` import `person` and add a second list after the `<nav aria-label="Footer">` block and before the "Back to top" link:
-
-```astro
-import { person } from '../../content/person'
-```
-```astro
-    <ul role="list" aria-label="Profiles" class="flex flex-wrap gap-x-10 gap-y-3">
-      {
-        person.profiles.map(({ label, href }) => (
-          <li>
-            <a href={href} rel="me noopener" class="type-label underline-offset-8 decoration-vermilion decoration-2 hover:underline">
-              {label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-```
-
-Check in the browser at 1440 and 390 that the footer still sits on one line at 1440 with "Back to top" at the right, wraps cleanly at 390, and each new link has a visible focus ring. Screenshots to `.playwright-mcp/sp5-t1-footer-1440.png` and `-390.png`.
-
-- [ ] **Step 6: Verify and commit**
-
-Run: `npx vitest run && npm run typecheck && npm run build`
-Expected: PASS.
+Run: `npm install --no-save @phosphor-icons/core && ls node_modules/@phosphor-icons/core/assets/bold/ | grep -E "^(linkedin-logo|github-logo)-bold\.svg$"`
+Expected: both file names. Then:
 
 ```bash
-git add src/content/person.ts src/content/person.test.ts src/components/nav/SiteFooter.astro
+mkdir -p src/assets/icons
+cp node_modules/@phosphor-icons/core/assets/bold/linkedin-logo-bold.svg src/assets/icons/linkedin.svg
+cp node_modules/@phosphor-icons/core/assets/bold/github-logo-bold.svg src/assets/icons/github.svg
+git status --short package.json package-lock.json
+```
+Expected: the last command prints nothing (the install changed `node_modules` only). Open both SVGs and confirm each has `fill="currentColor"` and a `viewBox`; if one carries a fixed colour, replace that colour with `currentColor` and say so in the report.
+
+`src/assets/icons/README.md`
+```markdown
+# Icons
+
+`linkedin.svg` and `github.svg` are the bold-weight `linkedin-logo` and `github-logo` from
+[Phosphor Icons](https://phosphoricons.com), MIT licence, copied unchanged. They are drawn in
+`currentColor`. Add an icon the same way, and give it a line in
+`src/components/nav/profileIcons.ts`.
+```
+
+`src/components/nav/profileIcons.ts`
+```ts
+import github from '../../assets/icons/github.svg?raw'
+import linkedin from '../../assets/icons/linkedin.svg?raw'
+import { person } from '../../content/person'
+
+/** The icon for each profile in src/content/person.ts, by its label. */
+const ICONS: Record<string, string> = { LinkedIn: linkedin, GitHub: github }
+
+export interface ProfileLink {
+  label: string
+  href: string
+  /** SVG markup, drawn in the current text colour. */
+  icon: string
+}
+
+/** The owner's profiles with their icons. A profile with no icon stops the build, so none is shown blank. */
+export function profileLinks(): ProfileLink[] {
+  return person.profiles.map((profile) => {
+    const icon = ICONS[profile.label]
+    if (!icon) throw new Error(`No icon for the profile "${profile.label}" in src/components/nav/profileIcons.ts`)
+    return { ...profile, icon }
+  })
+}
+```
+
+- [ ] **Step 5: The header (desktop)**
+
+In `src/components/nav/SiteHeader.astro` add `import { profileLinks } from './profileIcons'` and `const profiles = profileLinks()`, and replace the line `<div class="ml-auto hidden md:block"><Button ... /></div>` with:
+
+```astro
+    <div class="ml-auto hidden items-center gap-2 md:flex lg:gap-4">
+      <ul role="list" aria-label="Profiles" class="flex">
+        {
+          profiles.map(({ label, href, icon }) => (
+            <li>
+              <a
+                href={href}
+                aria-label={label}
+                rel="me noopener"
+                class="grid size-11 place-items-center text-ink transition-colors duration-200 hover:bg-ink hover:text-ivory focus-visible:bg-ink focus-visible:text-ivory"
+              >
+                <span aria-hidden="true" class="block size-5 [&>svg]:block [&>svg]:size-full" set:html={icon} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <Button href={contactLink.href} current={isCurrent(contactLink.href, pathname)}>{contactLink.label}</Button>
+    </div>
+```
+
+and pass the profiles to the mobile menu: `<MobileMenu client:media="not all and (min-width: 48rem)" links={primaryNav} contact={contactLink} pathname={pathname} profiles={profiles} />`.
+
+The hover and focus state is a colour change only (an ink square with an ivory icon): nothing moves.
+
+- [ ] **Step 6: The mobile menu**
+
+In `src/components/nav/MobileMenu.tsx` add to `Props`:
+
+```ts
+  /** Profile links with their SVG icons, shown beside the call to action. */
+  profiles?: { label: string; href: string; icon: string }[]
+```
+
+default it to `[]` in the destructuring, and replace the call to action link at the end of the panel with a row that holds it and the icons (the link's own classes lose `mt-auto` and `self-start`, which move to the row):
+
+```tsx
+          <div className="mt-auto flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+            <a
+              href={contact.href}
+              aria-current={contactCurrent ? 'page' : undefined}
+              className={`type-label inline-flex items-center gap-2 px-5 py-3.5 text-ink focus-visible:outline-ivory ${contactCurrent ? 'bg-ivory' : 'bg-vermilion'}`}
+            >
+              {contact.label}
+              <span aria-hidden="true">↗</span>
+            </a>
+            {profiles.length > 0 && (
+              <ul role="list" aria-label="Profiles" className="flex">
+                {profiles.map(({ label, href, icon }) => (
+                  <li key={href}>
+                    <a
+                      href={href}
+                      aria-label={label}
+                      rel="me noopener"
+                      className="grid size-11 place-items-center text-ivory hover:text-vermilion focus-visible:text-vermilion focus-visible:outline-ivory"
+                    >
+                      {/* The markup is this repo's own SVG file, not content from outside. */}
+                      <span aria-hidden="true" className="block size-6 [&>svg]:block [&>svg]:size-full" dangerouslySetInnerHTML={{ __html: icon }} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+```
+
+Keep the comment that sits above the call to action link.
+
+- [ ] **Step 7: Run the tests**
+
+Run: `npx vitest run && npm run typecheck`
+Expected: PASS, 0 errors. The existing menu tests must pass unchanged (they render no `profiles`).
+
+- [ ] **Step 8: Look at it**
+
+Against a dev server, at 1440x900, 1024x768, 768x1024 and 390x844:
+- From 768 up: the two icons sit immediately left of the "Start a project" button, vertically centred with it and with the nav labels; the header is still one line with no overlap at 768 (if it does not fit at 768, tighten the nav's gap at `md` and say so).
+- Each icon has a 44px target, a visible focus state, and an accessible name (read `aria-label` from the DOM).
+- Hover and keyboard focus turn the icon's square ink with an ivory icon; nothing moves.
+- The header's three scroll states still work: scroll down (hidden), scroll up (shown on its ivory bar), top.
+- On `/contact` the button is in its current (ink) state and the icons do not read as part of it.
+- At 390: the icons are not in the bar; they are in the open menu beside the call to action, reachable by Tab inside the focus trap, and the panel still scrolls on a short viewport (390x500).
+- Compare the bold weight with the fill weight (`assets/fill/*-fill.svg`) at header size, and keep whichever sits better with the mono labels; report which and why.
+
+Screenshots to `.playwright-mcp/sp5-t1-header-<width>.png`, `sp5-t1-header-hover.png`, `sp5-t1-header-focus.png` and `sp5-t1-menu-390.png`; look at each.
+
+- [ ] **Step 9: Verify and commit**
+
+Run: `npx vitest run && npm run typecheck && npm run build`
+Expected: PASS. Confirm `git status --short` lists nothing from `node_modules` and no change to `package.json`.
+
+```bash
+git add src/content/person.ts src/content/person.test.ts src/assets/icons src/components/nav/profileIcons.ts src/components/nav/profileIcons.test.ts src/components/nav/SiteHeader.astro src/components/nav/MobileMenu.tsx src/components/nav/MobileMenu.test.tsx
 git commit -F - <<'EOF'
-feat: add the owner's facts as one source and link LinkedIn and GitHub in the footer
+feat: add the owner's facts as one source and LinkedIn and GitHub icons in the header
 
 <trailer lines>
 EOF
