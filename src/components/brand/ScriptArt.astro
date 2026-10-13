@@ -1,0 +1,28 @@
+---
+import art from '../../assets/script/art.json'
+
+interface Props {
+  /** A name from src/assets/script/phrases.json. */
+  name: keyof typeof art
+  class?: string
+  reveal?: 'wipe' | 'fade'
+  /** Seconds. */
+  delay?: number
+}
+
+const { name, class: className, reveal, delay } = Astro.props
+const { src, width, height } = art[name]
+---
+
+<img
+  src={src}
+  width={width}
+  height={height}
+  alt=""
+  aria-hidden="true"
+  loading="lazy"
+  decoding="async"
+  class:list={['pointer-events-none max-w-none select-none', className]}
+  data-reveal={reveal}
+  data-reveal-delay={delay}
+/>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  href: string
+  variant?: 'accent' | 'outline'
+  /** The background the button sits on; decides the hover colours. */
+  on?: 'light' | 'dark'
+  class?: string
+}
+
+const { href, variant = 'accent', on = 'light', class: className } = Astro.props
+
+const styles = {
+  accent: on === 'dark' ? 'bg-vermilion text-ink hover:bg-ivory' : 'bg-vermilion text-ink hover:bg-ink hover:text-ivory',
+  outline: 'border-2 border-ink text-ink hover:bg-ink hover:text-ivory',
+}
+---
+
+<a
+  href={href}
+  class:list={[
+    'type-label group inline-flex items-center gap-2 px-5 py-3.5 transition-colors duration-200',
+    styles[variant],
+    className,
+  ]}
+>
+  <slot />
+  <span
+    aria-hidden="true"
+    class="inline-block transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transition-none"
+    >↗</span
+  >
+</a>
