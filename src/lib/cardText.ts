@@ -1,0 +1,75 @@
+/** The part of a font glyph's outline this module uses. A fontkit path satisfies it. */
+export interface GlyphPath {
+  scale(x: number, y: number): GlyphPath
+  translate(x: number, y: number): GlyphPath
+  toSVG(): string
+}
+
+/** The part of a font this module uses. A fontkit font satisfies it. */
+export interface CardFont {
+  unitsPerEm: number
+  layout(text: string): {
+    glyphs: { path: GlyphPath }[]
+    positions: { xAdvance: number; xOffset: number; yOffset: number }[]
+  }
+}
+
+/** The width of a string set at `size` pixels, with `tracking` ems added after every character. */
+export function textWidth(font: CardFont, text: string, size: number, tracking = 0): number {
+  const { positions } = font.layout(text)
+  const advance = positions.reduce((sum, position) => sum + position.xAdvance, 0)
+  return (advance * size) / font.unitsPerEm + tracking * size * positions.length
+}
+
+/** Break a title into lines no wider than `maxWidth`, between words only. A word wider than the line stays whole. */
+export function wrapTitle(font: CardFont, text: string, size: number, maxWidth: number): string[] {
+  const lines: string[] = []
+  let line = ''
+  for (const word of text.split(/\s+/).filter(Boolean)) {
+    const next = line ? `${line} ${word}` : word
+    if (line && textWidth(font, next, size) > maxWidth) {
+      lines.push(line)
+      line = word
+    } else {
+      line = next
+    }
+  }
+  if (line) lines.push(line)
+  return lines
+}
+
+export interface TitleFit {
+  size: number
+  lines: string[]
+}
+
+/**
+ * The largest of `sizes` (given largest first) at which the title wraps into at most `maxLines`
+ * lines, each no wider than `maxWidth`. When none fits, the smallest size with every word kept.
+ */
+export function fitTitle(font: CardFont, text: string, space: { maxWidth: number; maxLines: number; sizes: readonly number[] }): TitleFit {
+  for (const size of space.sizes) {
+    const lines = wrapTitle(font, text, size, space.maxWidth)
+    if (lines.length <= space.maxLines && lines.every((line) => textWidth(font, line, size) <= space.maxWidth)) return { size, lines }
+  }
+  const size = space.sizes[space.sizes.length - 1]
+  return { size, lines: wrapTitle(font, text, size, space.maxWidth) }
+}
+
+/** The outline of a string as SVG path data, its first glyph's origin at (`x`, `baseline`). */
+export function textPath(font: CardFont, text: string, size: number, x: number, baseline: number, tracking = 0): string {
+  const run = font.layout(text)
+  const scale = size / font.unitsPerEm
+  let pen = x
+  let d = ''
+  run.glyphs.forEach((glyph, i) => {
+    const position = run.positions[i]
+    // Font coordinates have y pointing up; SVG has y pointing down.
+    d += glyph.path
+      .scale(scale, -scale)
+      .translate(pen + position.xOffset * scale, baseline - position.yOffset * scale)
+      .toSVG()
+    pen += position.xAdvance * scale + tracking * size
+  })
+  return d
+}
