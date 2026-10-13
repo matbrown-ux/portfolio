@@ -95,7 +95,8 @@ export function siteProblems(site) {
 /** The URL path of a built file, given its path inside dist. */
 export function urlForFile(path) {
   const clean = '/' + path.split('\\').join('/').replace(/^\/+/, '')
-  return clean.endsWith('/index.html') ? clean.slice(0, -'index.html'.length) : clean
+  if (!clean.endsWith('.html')) return clean
+  return clean === '/index.html' ? '/' : clean.slice(0, -'.html'.length)
 }
 
 /** The page files among the built files (paths inside dist). */

@@ -3,9 +3,10 @@ import Logo from '../brand/Logo.astro'
 import Button from '../ui/Button.astro'
 import MobileMenu from './MobileMenu.tsx'
 import { contactLink, isCurrent, primaryNav } from '../../content/navigation'
+import { pagePath } from '../../lib/shareCards'
 import { profileLinks } from './profileIcons'
 
-const { pathname } = Astro.url
+const pathname = pagePath(Astro.url.pathname)
 const profiles = profileLinks()
 ---
 

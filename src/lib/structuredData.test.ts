@@ -24,14 +24,19 @@ import {
 } from './structuredData'
 
 describe('pageUrl', () => {
-  it('is the absolute address with a trailing slash, as the pages are built', () => {
+  it('is the absolute address with no trailing slash, as the pages are served', () => {
     expect(pageUrl('/')).toBe('https://matbrown.io/')
-    expect(pageUrl('/work/vamp-network')).toBe('https://matbrown.io/work/vamp-network/')
-    expect(pageUrl('/work/vamp-network/')).toBe('https://matbrown.io/work/vamp-network/')
+    expect(pageUrl('/work/vamp-network')).toBe('https://matbrown.io/work/vamp-network')
+    expect(pageUrl('/work/vamp-network/')).toBe('https://matbrown.io/work/vamp-network')
+  })
+
+  it('reads the address of a page built as a file', () => {
+    expect(pageUrl('/index.html')).toBe('https://matbrown.io/')
+    expect(pageUrl('/work/vamp-network.html')).toBe('https://matbrown.io/work/vamp-network')
   })
 
   it('leaves a fragment and a file alone', () => {
-    expect(pageUrl('/services#seo-aeo')).toBe('https://matbrown.io/services/#seo-aeo')
+    expect(pageUrl('/services#seo-aeo')).toBe('https://matbrown.io/services#seo-aeo')
     expect(pageUrl('/og/index.png')).toBe('https://matbrown.io/og/index.png')
   })
 })
@@ -81,8 +86,8 @@ describe('webPageNode', () => {
   it('describes a page as part of the site', () => {
     expect(webPageNode('ProfilePage', '/about', 'About Mathew Brown', { mainEntity: { '@id': PERSON_ID } })).toEqual({
       '@type': 'ProfilePage',
-      '@id': 'https://matbrown.io/about/#webpage',
-      url: 'https://matbrown.io/about/',
+      '@id': 'https://matbrown.io/about#webpage',
+      url: 'https://matbrown.io/about',
       name: 'About Mathew Brown',
       isPartOf: { '@id': WEBSITE_ID },
       mainEntity: { '@id': PERSON_ID },
@@ -94,10 +99,10 @@ describe('breadcrumbNode', () => {
   it('numbers the trail from one', () => {
     expect(breadcrumbNode('/work/vamp-network', [{ name: 'Work', path: '/work' }, { name: 'Vamp Network', path: '/work/vamp-network' }])).toEqual({
       '@type': 'BreadcrumbList',
-      '@id': 'https://matbrown.io/work/vamp-network/#breadcrumb',
+      '@id': 'https://matbrown.io/work/vamp-network#breadcrumb',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Work', item: 'https://matbrown.io/work/' },
-        { '@type': 'ListItem', position: 2, name: 'Vamp Network', item: 'https://matbrown.io/work/vamp-network/' },
+        { '@type': 'ListItem', position: 1, name: 'Work', item: 'https://matbrown.io/work' },
+        { '@type': 'ListItem', position: 2, name: 'Vamp Network', item: 'https://matbrown.io/work/vamp-network' },
       ],
     })
   })
@@ -108,12 +113,12 @@ describe('servicesNode', () => {
     const node = servicesNode([{ number: '02', slug: 'seo-aeo', title: 'SEO/AEO', blurb: 'I fix the foundations.', deliverables: [], cta: '', skills: [] }])
     expect(node).toEqual({
       '@type': 'ItemList',
-      '@id': 'https://matbrown.io/services/#services',
+      '@id': 'https://matbrown.io/services#services',
       itemListElement: [
         {
           '@type': 'ListItem',
           position: 1,
-          item: { '@type': 'Service', name: 'SEO/AEO', description: 'I fix the foundations.', url: 'https://matbrown.io/services/#seo-aeo', provider: { '@id': PERSON_ID } },
+          item: { '@type': 'Service', name: 'SEO/AEO', description: 'I fix the foundations.', url: 'https://matbrown.io/services#seo-aeo', provider: { '@id': PERSON_ID } },
         },
       ],
     })
@@ -124,8 +129,8 @@ describe('workListNode', () => {
   it('lists the case studies by address', () => {
     expect(workListNode([{ id: 'vamp-network', data: { title: 'Vamp Network' } }])).toEqual({
       '@type': 'ItemList',
-      '@id': 'https://matbrown.io/work/#case-studies',
-      itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Vamp Network', url: 'https://matbrown.io/work/vamp-network/' }],
+      '@id': 'https://matbrown.io/work#case-studies',
+      itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Vamp Network', url: 'https://matbrown.io/work/vamp-network' }],
     })
   })
 })
@@ -137,13 +142,13 @@ describe('caseStudyNode', () => {
     const node = caseStudyNode(study)
     expect(node).toEqual({
       '@type': 'CreativeWork',
-      '@id': 'https://matbrown.io/work/vamp-network/#work',
+      '@id': 'https://matbrown.io/work/vamp-network#work',
       name: 'Vamp Network',
       headline: 'A creator platform',
       description: 'What I built.',
       dateCreated: '2026',
       keywords: 'UX/UI Engineering, SEO/AEO',
-      url: 'https://matbrown.io/work/vamp-network/',
+      url: 'https://matbrown.io/work/vamp-network',
       image: 'https://matbrown.io/og/work/vamp-network.png',
       creator: { '@id': PERSON_ID },
     })
@@ -158,7 +163,7 @@ describe('blogNode and articleNode', () => {
       '@id': BLOG_ID,
       name: BLOG_FEED_TITLE,
       description: 'Articles on design and search.',
-      url: 'https://matbrown.io/blog/',
+      url: 'https://matbrown.io/blog',
       author: { '@id': PERSON_ID },
     })
   })
@@ -168,17 +173,17 @@ describe('blogNode and articleNode', () => {
   it('describes an article, with its publication date as the modified date until it is updated', () => {
     expect(articleNode(article, 'UX/UI Design')).toEqual({
       '@type': 'BlogPosting',
-      '@id': 'https://matbrown.io/blog/ux-ui-design/button-states/#article',
+      '@id': 'https://matbrown.io/blog/ux-ui-design/button-states#article',
       headline: 'Button states',
       description: 'A guide.',
       datePublished: '2026-05-31',
       dateModified: '2026-05-31',
       articleSection: 'UX/UI Design',
-      url: 'https://matbrown.io/blog/ux-ui-design/button-states/',
-      mainEntityOfPage: 'https://matbrown.io/blog/ux-ui-design/button-states/',
+      url: 'https://matbrown.io/blog/ux-ui-design/button-states',
+      mainEntityOfPage: 'https://matbrown.io/blog/ux-ui-design/button-states',
       image: 'https://matbrown.io/og/blog/ux-ui-design/button-states.png',
       author: { '@id': PERSON_ID },
-      isPartOf: { '@type': 'Blog', '@id': BLOG_ID, name: BLOG_FEED_TITLE, url: 'https://matbrown.io/blog/' },
+      isPartOf: { '@type': 'Blog', '@id': BLOG_ID, name: BLOG_FEED_TITLE, url: 'https://matbrown.io/blog' },
     })
   })
 
@@ -215,7 +220,7 @@ describe('serializeJsonLd inside a script tag', () => {
 describe('workIndexNodes', () => {
   it('links the collection page to the list of case studies', () => {
     const [page, list] = workIndexNodes([{ id: 'vamp-network', data: { title: 'Vamp Network' } }])
-    expect(page).toMatchObject({ '@type': 'CollectionPage', url: 'https://matbrown.io/work/', name: 'UX/UI Engineering & SEO Case Studies' })
+    expect(page).toMatchObject({ '@type': 'CollectionPage', url: 'https://matbrown.io/work', name: 'UX/UI Engineering & SEO Case Studies' })
     expect(list['@type']).toBe('ItemList')
     expect(page.mainEntity).toEqual({ '@id': list['@id'] })
   })
@@ -229,13 +234,13 @@ describe('page node sets', () => {
   it('gives a case study its work node and a Work, study breadcrumb', () => {
     const [work, crumbs] = caseStudyPageNodes(study)
     expect(work['@type']).toBe('CreativeWork')
-    expect(crumbs).toMatchObject({ '@type': 'BreadcrumbList', '@id': 'https://matbrown.io/work/vamp-network/#breadcrumb' })
+    expect(crumbs).toMatchObject({ '@type': 'BreadcrumbList', '@id': 'https://matbrown.io/work/vamp-network#breadcrumb' })
     expect((crumbs.itemListElement as { name: string }[]).map((item) => item.name)).toEqual(['Work', 'Vamp Network'])
   })
 
   it('gives a topic a collection page and a Blog, topic breadcrumb', () => {
     const [page, crumbs] = topicPageNodes(topic)
-    expect(page).toMatchObject({ '@type': 'CollectionPage', url: 'https://matbrown.io/blog/ux-ui-design/', name: 'UX/UI design guides' })
+    expect(page).toMatchObject({ '@type': 'CollectionPage', url: 'https://matbrown.io/blog/ux-ui-design', name: 'UX/UI design guides' })
     expect((crumbs.itemListElement as { name: string }[]).map((item) => item.name)).toEqual(['Blog', 'UX/UI Design'])
   })
 
@@ -245,6 +250,6 @@ describe('page node sets', () => {
     expect(posting.articleSection).toBe('UX/UI Design')
     const items = crumbs.itemListElement as { name: string; item: string }[]
     expect(items.map((item) => item.name)).toEqual(['Blog', 'UX/UI Design', 'Button states'])
-    expect(items[2].item).toBe('https://matbrown.io/blog/ux-ui-design/button-states/')
+    expect(items[2].item).toBe('https://matbrown.io/blog/ux-ui-design/button-states')
   })
 })

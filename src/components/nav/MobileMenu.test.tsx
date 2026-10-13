@@ -64,7 +64,7 @@ describe('MobileMenu', () => {
   })
 
   it('marks the call to action as the current page on the contact pages', async () => {
-    const { user, toggle } = setup('/contact/thanks/')
+    const { user, toggle } = setup('/contact/thanks')
     await user.click(toggle)
     expect(screen.getByRole('link', { name: 'Start a project' })).toHaveAttribute('aria-current', 'page')
     expect(screen.getByRole('link', { name: 'Work' })).not.toHaveAttribute('aria-current')

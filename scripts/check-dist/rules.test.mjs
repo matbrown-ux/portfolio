@@ -14,7 +14,7 @@ import {
 
 const ld = (types) => `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': types.map((t) => ({ '@type': t })) })}</script>`
 
-function page({ noindex = false, h1 = 1, canonical = 'https://matbrown.io/work/', image = 'https://matbrown.io/og/work.png', jsonLd = ld(['Person', 'WebSite']), body = 'Hello', title = 'Work', description = 'About work.' } = {}) {
+function page({ noindex = false, h1 = 1, canonical = 'https://matbrown.io/work', image = 'https://matbrown.io/og/work.png', jsonLd = ld(['Person', 'WebSite']), body = 'Hello', title = 'Work', description = 'About work.' } = {}) {
   return (
     `<html><head><title>${title}</title><meta name="description" content="${description}">` +
     `<link rel="canonical" href="${canonical}">${noindex ? '<meta name="robots" content="noindex">' : ''}` +
@@ -23,7 +23,7 @@ function page({ noindex = false, h1 = 1, canonical = 'https://matbrown.io/work/'
   )
 }
 
-const url = 'https://matbrown.io/work/'
+const url = 'https://matbrown.io/work'
 const site = { sitemap: new Set([url]), files: new Set(['/og/work.png']) }
 const problems = (options, where = site) => pageProblems(pageFacts(page(options), url), where)
 
@@ -72,13 +72,13 @@ describe('pageProblems', () => {
   })
 
   it('lets a noindex page stay out of the sitemap, whatever its canonical', () => {
-    expect(problems({ noindex: true, canonical: 'https://matbrown.io/elsewhere/' }, { ...site, sitemap: new Set() })).toEqual([])
+    expect(problems({ noindex: true, canonical: 'https://matbrown.io/elsewhere' }, { ...site, sitemap: new Set() })).toEqual([])
   })
 
   it('catches a wrong heading count, canonical, title or description', () => {
     expect(problems({ h1: 2 })).toEqual([`${url}: has 2 h1 elements, expected 1`])
     expect(problems({ h1: 0 })).toEqual([`${url}: has 0 h1 elements, expected 1`])
-    expect(problems({ canonical: 'https://matbrown.io/work' })).toEqual([`${url}: canonical is https://matbrown.io/work`])
+    expect(problems({ canonical: 'https://matbrown.io/work/' })).toEqual([`${url}: canonical is https://matbrown.io/work/`])
     expect(problems({ title: '' })).toEqual([`${url}: has no title`])
     expect(problems({ description: '' })).toEqual([`${url}: has no description`])
   })
@@ -122,9 +122,9 @@ describe('pageProblems', () => {
 
 describe('linksIn', () => {
   it('finds the site links in a text or XML file', () => {
-    expect(linksIn('- [A](https://matbrown.io/a/): x\n<link>https://matbrown.io/b/</link> mailto:mat@matbrown.io https://example.com/c')).toEqual([
-      'https://matbrown.io/a/',
-      'https://matbrown.io/b/',
+    expect(linksIn('- [A](https://matbrown.io/a): x\n<link>https://matbrown.io/b</link> mailto:mat@matbrown.io https://example.com/c')).toEqual([
+      'https://matbrown.io/a',
+      'https://matbrown.io/b',
     ])
   })
 })
@@ -134,12 +134,10 @@ describe('urlForFile', () => {
     expect(urlForFile('index.html')).toBe('/')
   })
 
-  it('maps a nested page to its folder', () => {
-    expect(urlForFile('work/vamp-network/index.html')).toBe('/work/vamp-network/')
-  })
-
-  it('keeps the 404 as its file', () => {
-    expect(urlForFile('404.html')).toBe('/404.html')
+  it('maps a page file to its address, with no extension and no trailing slash', () => {
+    expect(urlForFile('work.html')).toBe('/work')
+    expect(urlForFile('work/vamp-network.html')).toBe('/work/vamp-network')
+    expect(urlForFile('404.html')).toBe('/404')
   })
 
   it('maps any other file to its path', () => {
@@ -147,7 +145,7 @@ describe('urlForFile', () => {
   })
 
   it('accepts Windows separators', () => {
-    expect(urlForFile('blog\\seo\\index.html')).toBe('/blog/seo/')
+    expect(urlForFile('blog\\seo.html')).toBe('/blog/seo')
   })
 })
 
@@ -164,9 +162,9 @@ describe('htmlFiles and sitemapFiles', () => {
 
 describe('sitemapUrls', () => {
   it('reads the locations from a sitemap file', () => {
-    expect(sitemapUrls('<urlset><url><loc>https://matbrown.io/</loc></url><url><loc>https://matbrown.io/work/</loc></url></urlset>')).toEqual([
+    expect(sitemapUrls('<urlset><url><loc>https://matbrown.io/</loc></url><url><loc>https://matbrown.io/work</loc></url></urlset>')).toEqual([
       'https://matbrown.io/',
-      'https://matbrown.io/work/',
+      'https://matbrown.io/work',
     ])
   })
 })
@@ -212,13 +210,13 @@ describe('siteProblems', () => {
   })
 
   it('catches a sitemap entry with no page', () => {
-    expect(siteProblems({ ...base, sitemap: new Set([url, 'https://matbrown.io/gone/']) })).toEqual(['https://matbrown.io/gone/: is in the sitemap but was not built'])
+    expect(siteProblems({ ...base, sitemap: new Set([url, 'https://matbrown.io/gone']) })).toEqual(['https://matbrown.io/gone: is in the sitemap but was not built'])
   })
 
   it('catches a link in llms.txt or the feed that goes nowhere', () => {
-    expect(siteProblems({ ...base, links: [{ file: '/llms.txt', urls: [url, 'https://matbrown.io/services/#seo-aeo', 'https://matbrown.io/nope/'] }] })).toEqual([
-      '/llms.txt: links to https://matbrown.io/services/, which was not built',
-      '/llms.txt: links to https://matbrown.io/nope/, which was not built',
+    expect(siteProblems({ ...base, links: [{ file: '/llms.txt', urls: [url, 'https://matbrown.io/services#seo-aeo', 'https://matbrown.io/nope'] }] })).toEqual([
+      '/llms.txt: links to https://matbrown.io/services, which was not built',
+      '/llms.txt: links to https://matbrown.io/nope, which was not built',
     ])
   })
 

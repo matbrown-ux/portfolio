@@ -11,7 +11,7 @@ import { person } from '../content/person'
 import { analytics } from '../content/analytics'
 import { BLOG_FEED_TITLE } from '../lib/blog'
 import { beacon } from '../lib/analytics'
-import { personNode, websiteNode, type Node } from '../lib/structuredData'
+import { pageUrl, personNode, websiteNode, type Node } from '../lib/structuredData'
 
 interface Props {
   title: string
@@ -27,7 +27,7 @@ interface Props {
 const { title, description, type = 'website', noindex = false, fill = false, schema = [] } = Astro.props
 const cloudflare = beacon(analytics, { context: process.env.CONTEXT })
 const fullTitle = `${title} | Mathew Brown`
-const canonical = new URL(Astro.url.pathname, Astro.site)
+const canonical = pageUrl(Astro.url.pathname)
 const siteNodes = [personNode(person, disciplines.map((discipline) => discipline.title), new URL(portrait.src, Astro.site).href), websiteNode()]
 ---
 

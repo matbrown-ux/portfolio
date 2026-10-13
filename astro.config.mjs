@@ -13,6 +13,10 @@ const emptyTopics = emptyTopicSlugs('./src/content/blog')
 // https://astro.build/config
 export default defineConfig({
   site: 'https://matbrown.io',
+  // Page addresses have no trailing slash: each page is built as a file named for its route
+  // (work.html), which Netlify serves at /work with no redirect.
+  trailingSlash: 'never',
+  build: { format: 'file' },
   // Straight quotes and plain hyphens stay as written: no smart punctuation in Markdown or MDX.
   markdown: {
     processor: satteri({ features: { smartPunctuation: false } }),

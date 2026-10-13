@@ -22,9 +22,13 @@ export interface StudyEntry {
 const ASSETS = 'src/assets/case-studies/'
 const RASTER = /\.(png|jpe?g|webp|avif)$/i
 
-/** A page path without its trailing slash; the root stays "/". */
+/**
+ * A page path as it is served: no trailing slash and no ".html" (the build names each page file
+ * after its route, and Astro reports that file name during the build). The root stays "/".
+ */
 export function pagePath(pathname: string): string {
-  return pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname
+  const path = pathname.replace(/\.html$/, '').replace(/\/index$/, '/')
+  return path.length > 1 ? path.replace(/\/$/, '') : '/'
 }
 
 /** The card's name in its URL: the page path without slashes at the ends, or "index" for Home. */

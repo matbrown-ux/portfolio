@@ -25,6 +25,9 @@ describe('paths', () => {
     expect(pagePath('/')).toBe('/')
     expect(pagePath('/work/')).toBe('/work')
     expect(pagePath('/work/vamp-network')).toBe('/work/vamp-network')
+    expect(pagePath('/work/vamp-network.html')).toBe('/work/vamp-network')
+    expect(pagePath('/index.html')).toBe('/')
+    expect(pagePath('/404.html')).toBe('/404')
   })
 
   it('names a card after its page, with index for Home', () => {
@@ -102,6 +105,6 @@ describe('cardFor', () => {
 
   it('falls back to the Home card for a page with no card of its own', () => {
     expect(cardFor(cards, '/404').path).toBe('/')
-    expect(cardFor(cards, '/contact/thanks/').path).toBe('/')
+    expect(cardFor(cards, '/contact/thanks').path).toBe('/')
   })
 })
