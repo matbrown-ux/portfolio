@@ -110,15 +110,17 @@ export function initReveals(root: ParentNode = document): () => void {
 
   // Focus can land on a transparent element that is fully on screen but below its trigger line;
   // the browser does not scroll it, so the trigger never fires. Complete the reveal of the target
-  // and of every revealed ancestor. The trigger is killed first so it cannot replay the tween.
+  // and of every revealed ancestor. The trigger is killed first, keeping the tween alive
+  // (allowAnimation), so it cannot replay and progress(1) completes a live tween and its clearProps.
   const completeOnFocus = (event: Event) => {
-    const target = event.target as Element | null
-    let el = target?.closest<HTMLElement>('[data-reveal]') ?? null
+    const target = event.target
+    if (!(target instanceof Element)) return
+    let el = target.closest<HTMLElement>('[data-reveal]')
     while (el) {
       const tween = tweens.get(el)
       if (tween) {
         tweens.delete(el)
-        tween.scrollTrigger?.kill()
+        tween.scrollTrigger?.kill(false, true)
         tween.progress(1)
       }
       el = el.parentElement?.closest<HTMLElement>('[data-reveal]') ?? null

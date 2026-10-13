@@ -1,4 +1,4 @@
-import { afterAll, afterEach, describe, expect, it } from 'vitest'
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 import { installMatchMedia, REDUCED_QUERY } from '../test/matchMedia'
 import { gsap, ScrollTrigger } from './gsap'
 import { STAGGER } from './motionTokens'
@@ -317,12 +317,44 @@ describe('initReveals focus completion', () => {
     cleanup()
   })
 
-  it('does nothing after cleanup and does not throw', () => {
+  it('removes the exact focusin listener it added when cleanup runs', () => {
+    const root = document.createElement('section')
+    document.body.append(root)
+    const add = vi.spyOn(root, 'addEventListener')
+    const remove = vi.spyOn(root, 'removeEventListener')
+    const node = document.createElement('div')
+    node.setAttribute('data-reveal', 'rise')
+    root.append(node)
+    initReveals(root)()
+    const added = add.mock.calls.find(([type]) => type === 'focusin')
+    expect(added).toBeDefined()
+    expect(remove).toHaveBeenCalledWith('focusin', added![1])
+  })
+
+  it('does not throw when focusin is dispatched at the document itself', () => {
+    const node = el({ 'data-reveal': 'rise' })
+    const cleanup = initReveals()
+    expect(() => document.dispatchEvent(new FocusEvent('focusin', { bubbles: true }))).not.toThrow()
+    expect(node.style.opacity).toBe('0')
+    cleanup()
+  })
+
+  // Passing allowAnimation keeps the tween alive, so progress(1) completes a live tween (and runs
+  // its clearProps) instead of rendering one the trigger has already killed.
+  it('kills the scroll trigger but keeps its tween when focus enters the reveal', () => {
     const node = el({ 'data-reveal': 'rise' })
     const a = link(node)
-    initReveals()()
-    expect(() => focusIn(a)).not.toThrow()
-    expect(node.style.opacity).toBe('')
+    const cleanup = initReveals()
+    // jsdom creates no live scroll trigger (tween.scrollTrigger is null), so give the tween one
+    // stub with only the method under test, then restore it before cleanup reverts the tween.
+    const tween = gsap.getTweensOf(node)[0]
+    const original = tween.scrollTrigger
+    const kill = vi.fn()
+    tween.scrollTrigger = { kill } as unknown as ScrollTrigger
+    focusIn(a)
+    tween.scrollTrigger = original
+    expect(kill).toHaveBeenCalledWith(false, true)
+    cleanup()
   })
 
   it('does nothing under reduced motion and does not throw', () => {
