@@ -62,9 +62,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
       import { initReveals } from '../lib/reveal'
       import { initVideosInView } from '../lib/videoInView'
       import { initHeaderScroll } from '../lib/headerScroll'
+      import { initTocSpy } from '../lib/tocSpy'
       initReveals()
       initVideosInView()
       initHeaderScroll()
+      initTocSpy()
     </script>
   </body>
 </html>
