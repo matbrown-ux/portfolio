@@ -6,13 +6,15 @@ const VISIBLE = 0.5
 /**
  * Play `video[data-play-in-view]` elements only while they are on screen. Under reduced
  * motion, or where the browser cannot observe intersection, nothing plays by itself and
- * the videos get native controls so the visitor can start them. Returns a cleanup function.
+ * the videos get native controls so the visitor can start them. A video inside a link (a
+ * Work row, a Home tile) stays on its poster instead: controls nested in a link cannot be
+ * used, and the link already leads to the case study. Returns a cleanup function.
  */
 export function initVideosInView(root: ParentNode = document): () => void {
   const videos = Array.from(root.querySelectorAll<HTMLVideoElement>('video[data-play-in-view]'))
 
   if (prefersReducedMotion() || typeof IntersectionObserver !== 'function') {
-    for (const video of videos) video.controls = true
+    for (const video of videos) video.controls = video.closest('a') === null
     return () => {}
   }
 

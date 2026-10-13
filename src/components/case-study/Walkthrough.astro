@@ -26,7 +26,7 @@ const { steps } = Astro.props
   <ol role="list" class="space-y-14 xl:space-y-20">
     {
       steps.map((step, i) => (
-        <li class="grid items-end gap-6 xl:grid-cols-[1.5fr_1fr] xl:gap-12 xl:even:grid-cols-[1fr_1.5fr]">
+        <li class="cs-step grid items-end gap-6 xl:grid-cols-[1.5fr_1fr] xl:gap-12 xl:even:grid-cols-[1fr_1.5fr]">
           <div class:list={['relative', i % 2 === 1 && 'xl:order-2']} data-reveal="rise">
             <MediaSlot
               media={caseStudyMedia({ src: step.src, alt: step.alt, poster: step.poster }, `walkthrough step "${step.title}"`)}
@@ -35,7 +35,7 @@ const { steps } = Astro.props
             />
             <p
               class:list={[
-                'type-display absolute -bottom-4 flex items-center gap-3 border-2 border-ink bg-ivory px-4 py-2.5 text-[clamp(1rem,1.5vw,1.5rem)] md:bottom-6',
+                'cs-step-tag type-display absolute -bottom-4 flex items-center gap-3 border-2 border-ink bg-ivory px-4 py-2.5 text-[clamp(1rem,1.5vw,1.5rem)] md:bottom-6',
                 'before:h-1 before:w-6 before:shrink-0 before:bg-vermilion',
                 i % 2 === 1 ? '-right-3' : '-left-3',
               ]}

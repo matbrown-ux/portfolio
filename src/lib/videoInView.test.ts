@@ -84,6 +84,20 @@ describe('initVideosInView', () => {
     expect(el.play).not.toHaveBeenCalled()
   })
 
+  it('under reduced motion leaves a video inside a link on its poster, with no controls', () => {
+    installMatchMedia({ [REDUCED_QUERY]: true })
+    const link = document.createElement('a')
+    link.href = '/work/example'
+    document.body.append(link)
+    const inLink = video()
+    link.append(inLink)
+    const free = video()
+    initVideosInView()
+    expect(inLink.controls).toBe(false)
+    expect(free.controls).toBe(true)
+    expect(inLink.play).not.toHaveBeenCalled()
+  })
+
   it('without IntersectionObserver gives the visitor controls instead', () => {
     vi.stubGlobal('IntersectionObserver', undefined)
     const el = video()

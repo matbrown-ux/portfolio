@@ -126,6 +126,20 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   color: color-mix(in srgb, var(--color-ivory) 75%, transparent);
 }
 
+/* Under reduced motion a walkthrough clip shows native controls along its bottom edge. The name
+   tag would cover them (the play button, on the steps where it sits left), so it takes the top
+   corner while the controls are showing. */
+.cs-step:has(video[controls]) .cs-step-tag {
+  top: -1rem;
+  bottom: auto;
+}
+
+@media (width >= 48rem) {
+  .cs-step:has(video[controls]) .cs-step-tag {
+    top: 1.5rem;
+  }
+}
+
 /* Case study body: numbered chapters. From 80rem up they sit on a visible six-column grid. */
 .cs-body {
   counter-reset: chapter;
