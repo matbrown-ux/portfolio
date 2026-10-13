@@ -3,8 +3,10 @@ import Logo from '../brand/Logo.astro'
 import Button from '../ui/Button.astro'
 import MobileMenu from './MobileMenu.tsx'
 import { contactLink, isCurrent, primaryNav } from '../../content/navigation'
+import { profileLinks } from './profileIcons'
 
 const { pathname } = Astro.url
+const profiles = profileLinks()
 ---
 
 {/* headerScroll.ts finds the header by data-site-header and sets data-header-state on it; the
@@ -13,7 +15,7 @@ const { pathname } = Astro.url
   <div class="mx-auto flex max-w-[1600px] items-center gap-10 px-6 py-5 md:px-12">
     <a href="/" aria-label="Mathew Brown, home" class="block w-16 text-ink md:w-[4.5rem]"><Logo /></a>
     <nav aria-label="Primary" class="hidden md:block lg:ml-8">
-      <ul role="list" class="flex gap-10 lg:gap-14">
+      <ul role="list" class="flex gap-6 lg:gap-14">
         {
           primaryNav.map(({ label, href }) => (
             <li>
@@ -29,9 +31,27 @@ const { pathname } = Astro.url
         }
       </ul>
     </nav>
-    <div class="ml-auto hidden md:block"><Button href={contactLink.href} current={isCurrent(contactLink.href, pathname)}>{contactLink.label}</Button></div>
+    <div class="ml-auto hidden items-center gap-2 md:flex lg:gap-4">
+      <ul role="list" aria-label="Profiles" class="flex">
+        {
+          profiles.map(({ label, href, icon }) => (
+            <li>
+              <a
+                href={href}
+                aria-label={label}
+                rel="me noopener"
+                class="grid size-11 place-items-center text-ink transition-colors duration-200 hover:bg-ink hover:text-ivory focus-visible:bg-ink focus-visible:text-ivory focus-visible:outline-ink"
+              >
+                <span aria-hidden="true" class="block size-5 [&>svg]:block [&>svg]:size-full" set:html={icon} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <Button href={contactLink.href} current={isCurrent(contactLink.href, pathname)}>{contactLink.label}</Button>
+    </div>
     <div class="ml-auto md:hidden">
-      <MobileMenu client:media="not all and (min-width: 48rem)" links={primaryNav} contact={contactLink} pathname={pathname} />
+      <MobileMenu client:media="not all and (min-width: 48rem)" links={primaryNav} contact={contactLink} pathname={pathname} profiles={profiles} />
     </div>
   </div>
 </header>

@@ -32,6 +32,26 @@ describe('MobileMenu', () => {
     expect(screen.getAllByRole('link').map((a) => a.getAttribute('href'))).toEqual(['/work', '/about', '/contact'])
   })
 
+  it('shows the profile icons after the call to action, each named for a screen reader', async () => {
+    const user = userEvent.setup()
+    const profiles = [
+      { label: 'LinkedIn', href: 'https://linkedin.com/in/matbrown', icon: '<svg viewBox="0 0 1 1"></svg>' },
+      { label: 'GitHub', href: 'https://github.com/matbrown-ux', icon: '<svg viewBox="0 0 2 2"></svg>' },
+    ]
+    render(<MobileMenu links={links} contact={contact} pathname="/" profiles={profiles} />)
+    await user.click(screen.getByRole('button', { name: 'Open menu' }))
+    expect(screen.getAllByRole('link').map((a) => a.getAttribute('href'))).toEqual([
+      '/work',
+      '/about',
+      '/contact',
+      'https://linkedin.com/in/matbrown',
+      'https://github.com/matbrown-ux',
+    ])
+    expect(screen.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute('rel', 'me noopener')
+    expect(screen.getByRole('link', { name: 'GitHub' }).querySelector('svg')).not.toBeNull()
+    expect(screen.getByRole('list', { name: 'Profiles' })).toBeInTheDocument()
+  })
+
   it('marks the current page', async () => {
     const { user, toggle } = setup('/work/vamp-network')
     await user.click(toggle)

@@ -9,6 +9,8 @@ interface Props {
   links: NavLink[]
   contact: NavLink
   pathname: string
+  /** Profile links with their SVG icons, shown beside the call to action. */
+  profiles?: { label: string; href: string; icon: string }[]
 }
 
 /**
@@ -16,7 +18,7 @@ interface Props {
  * the toggle and the menu, Escape closes and returns focus to the toggle, and page
  * scroll is locked while open.
  */
-export function MobileMenu({ links, contact, pathname }: Props) {
+export function MobileMenu({ links, contact, pathname, profiles = [] }: Props) {
   const [open, setOpen] = useState(false)
   const toggleRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
@@ -125,14 +127,33 @@ export function MobileMenu({ links, contact, pathname }: Props) {
           </nav>
           {/* On the contact pages the call to action is the current page: ivory instead of vermilion,
               the same switch the header's button makes at desktop widths. */}
-          <a
-            href={contact.href}
-            aria-current={contactCurrent ? 'page' : undefined}
-            className={`type-label mt-auto inline-flex items-center gap-2 self-start px-5 py-3.5 text-ink focus-visible:outline-ivory ${contactCurrent ? 'bg-ivory' : 'bg-vermilion'}`}
-          >
-            {contact.label}
-            <span aria-hidden="true">↗</span>
-          </a>
+          <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-4 self-start">
+            <a
+              href={contact.href}
+              aria-current={contactCurrent ? 'page' : undefined}
+              className={`type-label inline-flex items-center gap-2 px-5 py-3.5 text-ink focus-visible:outline-ivory ${contactCurrent ? 'bg-ivory' : 'bg-vermilion'}`}
+            >
+              {contact.label}
+              <span aria-hidden="true">↗</span>
+            </a>
+            {profiles.length > 0 && (
+              <ul role="list" aria-label="Profiles" className="flex">
+                {profiles.map(({ label, href, icon }) => (
+                  <li key={href}>
+                    <a
+                      href={href}
+                      aria-label={label}
+                      rel="me noopener"
+                      className="grid size-11 place-items-center text-ivory hover:text-vermilion focus-visible:text-vermilion focus-visible:outline-ivory"
+                    >
+                      {/* The markup is this repo's own SVG file, not content from outside. */}
+                      <span aria-hidden="true" className="block size-6 [&>svg]:block [&>svg]:size-full" dangerouslySetInnerHTML={{ __html: icon }} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       )}
     </div>
