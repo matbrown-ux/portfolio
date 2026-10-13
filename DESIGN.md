@@ -57,3 +57,4 @@ Source of truth: `docs/superpowers/specs/2026-10-12-design-foundation-home-desig
 - GSAP only. Durations and eases come from `src/lib/motionTokens.ts`.
 - Reveals are declared in markup with `data-reveal` and run by `src/lib/reveal.ts`.
 - Everything is visible without JavaScript and static under reduced motion.
+- The header has three states. At the top of a page it sits over the hero with no background. It leaves the screen on the way down, and on the way up it comes back fixed to the top edge on a solid ivory bar with a 1px ink rule along the bottom, so it reads on ink, vermilion, stone and ivory. The slide is a 0.2s CSS transition in step with `DURATION.fast`; under reduced motion it appears and disappears, and without JavaScript it stays in the first state.
