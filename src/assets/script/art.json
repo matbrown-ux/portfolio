@@ -13,5 +13,15 @@
     "src": "/script/strike.svg",
     "width": 1571,
     "height": 304
+  },
+  "selected": {
+    "src": "/script/selected.svg",
+    "width": 3997,
+    "height": 1363
+  },
+  "case-study": {
+    "src": "/script/case-study.svg",
+    "width": 5325,
+    "height": 1640
   }
 }

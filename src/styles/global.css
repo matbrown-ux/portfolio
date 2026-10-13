@@ -102,3 +102,26 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
     animation: none;
   }
 }
+
+/* A slot with no media yet. Its label says what belongs there. */
+.media-placeholder {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-ink) 7%, transparent) 0 1rem,
+      transparent 1rem 2rem
+    ),
+    var(--color-stone);
+  color: color-mix(in srgb, var(--color-ink) 70%, transparent);
+}
+
+.media-placeholder-dark {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-ivory) 8%, transparent) 0 1rem,
+      transparent 1rem 2rem
+    ),
+    color-mix(in srgb, var(--color-ivory) 8%, var(--color-ink));
+  color: color-mix(in srgb, var(--color-ivory) 75%, transparent);
+}

@@ -8,6 +8,7 @@ ogImage: "/images/case-studies/the-booking-flow/og.png"
 date: "2026-02-01"
 year: "2026"
 result: "Result pending: headline outcome to be supplied"
+heroNote: "A backend dashboard where owners track and manage every lead in their pipeline."
 liveUrl: "https://thebookingflow.com"
 role: "Founder & Lead Developer"
 services: ["UX/UI Design & Engineering", "Branding", "SEO/AEO", "Marketing Strategy"]
@@ -15,7 +16,7 @@ stack: ["React", "Vite", "Supabase", "n8n", "Google OAuth"]
 ---
 {/* TODO: replace `result` with a real one-sentence headline outcome supplied by Mat. */}
 
-<Chapter title="Overview">
+<Chapter title="Overview" asideLabel="Services" aside={frontmatter.services}>
 
 The Booking Flow is my own SaaS, focused on lead capture for service-based businesses like roofing, contracting, HVAC, electrical, and plumbing. As the founder, I own the whole stack of work: UX/UI design and engineering, graphic design, brand development, SEO/AEO, and the digital marketing strategy behind it.
 
@@ -37,10 +38,9 @@ I built The Booking Flow on React and Vite with a Supabase database, fronted by 
 
 {/* TODO: add real captures (src or video) for each step in /images/case-studies/the-booking-flow/. */}
 <Walkthrough
-  url="thebookingflow.com"
   steps={[
-    { title: "Lead pipeline dashboard", body: "A backend dashboard where owners track and manage every lead in their pipeline.", src: "/images/placeholder-screen-1.svg", alt: "The Booking Flow lead pipeline dashboard" },
-    { title: "Lead source attribution", body: "The backend is wired to external APIs to track where leads originate, namely Angi and Thumbtack, so owners can see which channels actually produce.", src: "/images/placeholder-screen-2.svg", alt: "The Booking Flow lead source attribution view" },
+    { title: "Lead pipeline dashboard", body: "A backend dashboard where owners track and manage every lead in their pipeline.", alt: "The Booking Flow lead pipeline dashboard" },
+    { title: "Lead source attribution", body: "The backend is wired to external APIs to track where leads originate, namely Angi and Thumbtack, so owners can see which channels actually produce.", alt: "The Booking Flow lead source attribution view" },
     { title: "Automated AI lead capture", body: "A complete n8n AI flow handles all lead capture automatically, so no inbound lead slips through.", alt: "The Booking Flow n8n lead capture flow" },
   ]}
 />
