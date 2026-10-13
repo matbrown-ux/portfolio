@@ -1,0 +1,57 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import type { TopicGroup } from '../../lib/blog'
+
+interface Props {
+  groups: TopicGroup<CollectionEntry<'blogTopics'>>[]
+  /** The sentence beside the heading. */
+  intro: string
+}
+
+const { groups, intro } = Astro.props
+---
+
+<section class="bg-ivory" aria-labelledby="topics-heading">
+  <div class="mx-auto max-w-[1600px] px-6 pb-16 pt-16 md:px-12 lg:pb-20 lg:pt-24">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <h2 id="topics-heading" class="type-display max-w-[16ch] text-[clamp(2.5rem,5.6vw,6rem)]" data-reveal="rise">Articles by discipline and topic</h2>
+      <p class="max-w-sm text-lg leading-snug lg:pb-2">{intro}</p>
+    </div>
+    <div class="mt-10 border-t-[3px] border-ink">
+      {
+        groups.map(({ discipline, topics }) => (
+          <section id={discipline.slug} class="grid border-b-[3px] border-ink lg:grid-cols-[clamp(13rem,25vw,22rem)_1fr]" aria-labelledby={`topics-${discipline.slug}`}>
+            <div class="flex flex-col py-6 lg:border-r lg:border-ink/15 lg:pr-8">
+              <span class="type-label" aria-hidden="true">{discipline.number}</span>
+              <h3 id={`topics-${discipline.slug}`} class="type-display mt-2 text-[clamp(1.75rem,2.9vw,3rem)]">{discipline.title}</h3>
+              <a href={`/services#${discipline.slug}`} class="type-label mt-4 self-start underline-offset-8 decoration-vermilion decoration-2 hover:underline focus-visible:underline lg:mt-auto lg:pt-6">
+                See the service<span class="sr-only">: {discipline.title}</span> <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <ul role="list">
+              {topics.map(({ topic, href, count, status }) => (
+                <li class="border-t border-ink/15 lg:first:border-t-0">
+                  <a href={href} class="group grid gap-x-8 gap-y-2 py-6 focus-visible:-outline-offset-2 focus-visible:outline-ink lg:grid-cols-[1fr_auto] lg:items-center lg:pl-8 xl:grid-cols-[minmax(0,15rem)_1fr_auto]">
+                    <h4 class:list={['type-display text-[clamp(1.375rem,1.9vw,2rem)]', count === 0 && 'text-ink/70']}>{topic.data.title}</h4>
+                    <p class:list={['max-w-xl leading-snug', count === 0 && 'text-ink/70']}>{topic.data.description}</p>
+                    <span
+                      class:list={[
+                        'type-label min-w-[9.5rem] justify-self-start px-4 py-2.5 text-center transition-colors duration-200 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:justify-self-end xl:col-start-3 xl:row-span-1',
+                        count > 0
+                          ? 'bg-ink text-ivory group-hover:bg-vermilion group-hover:text-ink group-focus-visible:bg-vermilion group-focus-visible:text-ink'
+                          : 'border border-ink/30 text-ink/70 group-hover:border-ink group-hover:text-ink group-focus-visible:border-ink group-focus-visible:text-ink',
+                      ]}
+                    >
+                      {status}
+                      {count > 0 && <span aria-hidden="true"> ↗</span>}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</section>

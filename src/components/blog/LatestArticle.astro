@@ -1,0 +1,40 @@
+---
+import type { ArticleCard } from '../../lib/blog'
+import { titleFit } from '../../lib/titleFit'
+
+interface Props {
+  card: ArticleCard
+}
+
+const { card } = Astro.props
+// A long title is set smaller so its longest word stays inside the vermilion panel and it takes
+// no more height than four full-size lines.
+const fit = `--fit:${titleFit(card.title, { charsPerLine: 11, maxLines: 4 })}`
+---
+
+<section aria-labelledby="latest-heading">
+  <h2 id="latest-heading" class="sr-only">Latest article</h2>
+  {/* The ring crosses a vermilion and an ink panel, so it pairs an ivory line with an ink one. */}
+  <a
+    href={card.href}
+    class="group relative grid after:pointer-events-none after:absolute after:inset-2 after:z-10 after:border-ivory focus-visible:outline-hidden focus-visible:after:border-4 focus-visible:after:outline-2 focus-visible:after:outline-ink lg:grid-cols-[1.25fr_1fr]"
+  >
+    <div class="flex min-h-[70vw] flex-col bg-vermilion px-6 py-8 text-ink md:px-12 lg:min-h-[27vw] lg:py-10">
+      <p class="type-label flex justify-between gap-6"><span aria-hidden="true">Latest article</span><span>{card.topicTitle}</span></p>
+      {/* The width is 11ch at full size: dividing by the scale keeps it fixed, so smaller type fits more words a line. */}
+      <h3 class="type-display mt-auto max-w-[calc(11ch/var(--fit))] pt-16 text-[length:calc(clamp(3rem,7.2vw,7.5rem)*var(--fit))] leading-[0.92]" style={fit} data-reveal="rise">{card.title}</h3>
+    </div>
+    <div class="flex flex-col bg-ink px-6 py-8 text-ivory md:px-12 lg:py-10">
+      <p class="type-label text-vermilion">// What it covers</p>
+      <p class="mb-10 mt-4 max-w-md text-xl leading-snug lg:text-[clamp(1.125rem,1.5vw,1.5rem)]">{card.description}</p>
+      <dl class="mt-auto grid grid-cols-2 border-t border-line-dark [&_dd]:mt-1 [&_dd]:text-[0.8125rem] [&_dt]:opacity-70">
+        <div class="pt-4"><dt class="type-label">Published</dt><dd class="type-label"><time datetime={card.dateIso}>{card.dateLabel}</time></dd></div>
+        <div class="pt-4"><dt class="type-label">Reading time</dt><dd class="type-label">{card.readLabel}</dd></div>
+      </dl>
+      <span class="type-label mt-6 inline-flex items-center gap-2 self-start bg-vermilion px-5 py-3.5 text-ink transition-colors duration-200 group-hover:bg-ivory group-focus-visible:bg-ivory">
+        Read the article
+        <span aria-hidden="true" class="inline-block transition-transform duration-200 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5 motion-reduce:transition-none">↗</span>
+      </span>
+    </div>
+  </a>
+</section>

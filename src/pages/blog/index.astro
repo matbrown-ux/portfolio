@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import BlogHeader from '../../components/blog/BlogHeader.astro'
+import LatestArticle from '../../components/blog/LatestArticle.astro'
+import ArticleRow from '../../components/blog/ArticleRow.astro'
+import TopicIndex from '../../components/blog/TopicIndex.astro'
+import ContactBand from '../../components/sections/ContactBand.astro'
+import { disciplines } from '../../content/disciplines'
+import { articleCard, countLabel, latestArticles, requireTopic, topicGroups, topicSlug } from '../../lib/blog'
+
+const topics = await getCollection('blogTopics')
+const articles = await getCollection('blogArticles')
+const [latest, ...more] = latestArticles(articles, 3).map((article) => articleCard(article, requireTopic(topics, topicSlug(article.id)).data.title))
+const intro = `${countLabel(topics.length, 'topic', 'topics', { words: true, capital: true })} across the ${countLabel(disciplines.length, 'discipline', 'disciplines', { words: true })} I work in. I add to them as I write.`
+---
+
+<BaseLayout
+  title="Blog"
+  description="Articles on UX/UI engineering, SEO and AEO, agentic workflows, brand development and SaaS development by Mathew Brown."
+>
+  <BlogHeader topics={countLabel(topics.length, 'topic', 'topics')} articles={countLabel(articles.length, 'article', 'articles')} />
+  {latest && <LatestArticle card={latest} />}
+  {
+    more.length > 0 && (
+      <div class="mx-auto max-w-[1600px] px-6 md:px-12">
+        <ul role="list">
+          {more.map((card) => (
+            <ArticleRow card={card} />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+  <TopicIndex groups={topicGroups(disciplines, topics, articles)} intro={intro} />
+  <ContactBand />
+</BaseLayout>

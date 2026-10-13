@@ -33,5 +33,10 @@
     "src": "/script/always-building.svg",
     "width": 7962,
     "height": 1441
+  },
+  "notes": {
+    "src": "/script/notes.svg",
+    "width": 2323,
+    "height": 1275
   }
 }
