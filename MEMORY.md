@@ -37,12 +37,12 @@ On 2026-10-12 the owner decided to redesign the site completely and move to thei
 
 **Owner inputs still needed for sub-project 1:** approval of the drafted Home copy (table in the spec), new images or video for the three project tiles (the old case study cover SVGs were removed), confirmation of "Available 2026", and a check that the font licence allows outlined artwork. Items the build ledger marks for the owner to confirm: the word "memorable" overlaps the top of "average" in the statement band at all widths (deepest at 390); the Home hero word is slightly smaller than the mockup between 1024 and 1279 (about 150px vs 169px glyph height at 1440); the statement band's right half is empty at 1024; the featured work tile order follows the case study dates (Vamp Network, The Booking Flow, 'Aiwi Waffles), so reorder by editing `date`; tile numbers are ink on stone and vermilion tiles because small vermilion text is only allowed on ink.
 
-Decisions the final review left for the owner:
+Decisions the final review left for the owner, answered 2026-10-12:
 
-- Higher-resolution portrait cut-outs. `hero.png` is 476x900 and `about.png` is 626x874, so both are upscaled on high-density screens.
-- Whether the hero's rotating word should stop after a few cycles or get a pause control. Content that updates by itself for more than five seconds needs a way to pause under WCAG 2.2.2.
-- Whether project tiles should change colour on hover. Today only the arrow moves, and it does not move at all under reduced motion.
-- Whether the hero's rotated label should read top to bottom, as in the reference image, or bottom to top, as built.
+- Portraits: the owner will look for larger versions of the portrait cut-outs (`hero.png` is 476x900, `about.png` is 626x874). Still open.
+- Hero rotating word: stops after two cycles and the cursor disappears. Built.
+- Project tiles: change colour on hover and focus. Built.
+- Hero label direction: stays as built (bottom to top).
 
 ## Redesign roadmap and where we are (old Vite app, historical)
 

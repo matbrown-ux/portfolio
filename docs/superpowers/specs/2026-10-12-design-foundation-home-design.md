@@ -129,7 +129,7 @@ Section order is fixed. Each section is a static `.astro` component.
 
 ### 1. Hero (reference: `hero-design`)
 
-- **Rotating word:** lowercase Anton with a full stop, typing through `ux`, `ui`, `seo`, `ai` with a vermilion caret. Every word is short enough that the word and its caret stay clear of the text column and the vermilion block. Same rhythm as the old `useTypewriter` hook (type, pause, delete, next). It is `aria-hidden`; the prerendered HTML contains the first word so it reads correctly without JavaScript. Under reduced motion it shows `ux.` and does not type.
+- **Rotating word:** lowercase Anton with a full stop, typing through `ux`, `ui`, `seo`, `ai` with a vermilion caret, making two passes through the words and then coming to rest on `ux.`, at which point the caret disappears (without JavaScript there is no caret). Every word is short enough that the word and its caret stay clear of the text column and the vermilion block. Same rhythm as the old `useTypewriter` hook (type, pause, delete, next). It is `aria-hidden`; the prerendered HTML contains the first word so it reads correctly without JavaScript. Under reduced motion it shows `ux.` and does not type.
 - **Keyword `h1`:** "UX/UI Engineer, SEO Specialist & AI Workflow Developer", set small in monospace in the text column with a short rule above it, next to a short first-person description that names the owner.
 - **Portrait:** hero cut-out anchored to the bottom, right of centre, with a vermilion `multiply` block across the lower half running to the right edge.
 - **Edge details:** rotated monospace label top right (name, "Freelance", availability line); rotated Anton "001" bottom left (decorative); square ink arrow button on the block's lower left corner that scrolls to the discipline strip.
@@ -149,7 +149,7 @@ Five disciplines from `src/content/disciplines.ts`, numbered 01 to 05: vermilion
 ### 4. Featured work (ivory)
 
 - `h2` "Featured work" in plain Anton. The brush underline tried in mockups was dropped; the owner may add a different accent later.
-- Three tiles for the three most recent case studies: one tall (stone), two stacked (vermilion, ink). Each shows number, Anton title, discipline tags and an arrow, and the whole tile links to `/work/<slug>`.
+- Three tiles for the three most recent case studies: one tall (stone), two stacked (vermilion, ink). Each shows number, Anton title, discipline tags and an arrow, and the whole tile links to `/work/<slug>`. On hover and keyboard focus the tile changes fill: stone and vermilion become ink with ivory text, and ink becomes vermilion with ink text and an ink number.
 - Tiles are plain colour blocks in this sub-project. The optional image or video per tile is deferred to sub-project 2 (Work), where it is built with the full case study schema and the owner's real media. The video behaviour stays as specified: it plays muted only while on screen, has a poster, and falls back to the poster under reduced motion.
 - A vermilion vertical "View all projects" bar on the right edge links to `/work`.
 - The vertical "Featured work" side label from the earlier mockup is dropped, since the heading now says it.
