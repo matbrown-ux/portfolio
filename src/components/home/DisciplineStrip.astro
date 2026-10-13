@@ -1,0 +1,40 @@
+---
+import VerticalLabel from '../ui/VerticalLabel.astro'
+import { disciplines } from '../../content/disciplines'
+---
+
+<section id="what-i-do" class="bg-ink text-ivory" aria-labelledby="what-i-do-heading">
+  <h2 id="what-i-do-heading" class="sr-only">
+    What I do: UX/UI Engineering, SEO/AEO, Agentic Workflows, Brand Development and SaaS Development
+  </h2>
+  <div class="mx-auto flex max-w-[1600px]">
+    <div class="hidden w-20 shrink-0 items-center justify-center lg:flex" aria-hidden="true">
+      <VerticalLabel>What I do</VerticalLabel>
+    </div>
+    <ul role="list" class="grid flex-1 overflow-hidden sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+      {
+        disciplines.map((d, i) => (
+          <li class="-mt-px border-t border-line-dark sm:border-l sm:max-lg:-ml-px">
+            <a
+              href={`/services#${d.slug}`}
+              class="group flex h-full flex-col px-6 py-8 transition-colors duration-200 hover:bg-ivory hover:text-ink focus-visible:bg-ivory focus-visible:text-ink focus-visible:-outline-offset-4 lg:px-7 lg:py-10"
+              data-reveal="rise"
+              data-reveal-delay={i * 0.08}
+            >
+              <span class="type-label text-base text-vermilion transition-colors duration-200 group-hover:text-ink group-focus-visible:text-ink">
+                {d.number}
+              </span>
+              <h3 class="type-display mt-3 text-[clamp(1.5rem,1.9vw,2rem)] xl:min-h-[1.96em] xl:max-w-[6.5em]">{d.title}</h3>
+              <p class="type-label mt-4 font-medium opacity-80">{d.blurb}</p>
+              <span class="mt-auto pt-6 text-xl" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </li>
+        ))
+      }
+      {/* Empty sixth cell: closes the grid lines when five items sit two or three across. */}
+      <li class="-mt-px hidden border-l border-t border-line-dark sm:max-xl:block sm:max-lg:-ml-px" aria-hidden="true"></li>
+    </ul>
+  </div>
+</section>
