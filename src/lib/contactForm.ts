@@ -16,7 +16,7 @@ const DEFAULT_TIMEOUT_MS = 15000
 
 /**
  * Enhance the contact form: inline errors on leaving a field and on submit, the `?service=`
- * preselect, an in-place send to Netlify Forms and the confirmation. Without this script the
+ * preselect, an in-place send to Netlify Forms, the confirmation and the move to the thanks address. Without this script the
  * form still posts by itself and the browser validates it. Returns a cleanup function.
  */
 export function initContactForm(root: ParentNode = document, options: ContactFormOptions = {}): () => void {
@@ -79,6 +79,20 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
     if (name && isRequired(name)) check(name)
   }
 
+  /**
+   * Cloudflare Web Analytics counts page views only. Moving the address to the thanks page,
+   * without a reload, is what lets an enquiry sent in place be counted as one. The enquiry is
+   * already sent, so a browser that refuses the change must not turn it into a failure message.
+   */
+  function showThanksAddress() {
+    try {
+      const thanks = form!.getAttribute('action')
+      if (thanks && window.location.pathname !== thanks) window.history.pushState({}, '', thanks)
+    } catch {
+      // The address stays as it is; the confirmation still shows.
+    }
+  }
+
   async function onSubmit(event: Event) {
     event.preventDefault()
     pressing = false
@@ -114,6 +128,7 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
       })
       if (!response.ok) throw new Error(`The form responded ${response.status}`)
       form!.hidden = true
+      showThanksAddress()
       if (confirmation) {
         confirmation.hidden = false
         confirmation.querySelector<HTMLElement>('[data-confirmation-heading]')?.focus()

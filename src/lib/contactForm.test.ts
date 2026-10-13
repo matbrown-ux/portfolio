@@ -66,6 +66,7 @@ const ok = () => vi.fn().mockResolvedValue({ ok: true, status: 200 })
 
 afterEach(() => {
   document.body.innerHTML = ''
+  window.history.replaceState({}, '', '/')
 })
 
 describe('initContactForm', () => {
@@ -151,6 +152,7 @@ describe('initContactForm', () => {
   })
 
   it('sends a valid form once, url-encoded, to its own page', async () => {
+    const sentFrom = window.location.pathname
     const ui = mount()
     const send = ok()
     initContactForm(document, { search: '', send })
@@ -159,7 +161,7 @@ describe('initContactForm', () => {
     await settle()
     expect(send).toHaveBeenCalledTimes(1)
     const [url, init] = send.mock.calls[0]
-    expect(url).toBe(window.location.pathname)
+    expect(url).toBe(sentFrom)
     expect(init.method).toBe('POST')
     expect(init.headers).toEqual({ 'Content-Type': 'application/x-www-form-urlencoded' })
     const sent = new URLSearchParams(init.body)
@@ -180,6 +182,55 @@ describe('initContactForm', () => {
     await settle()
     expect(ui.form.hidden).toBe(true)
     expect(ui.confirmation.hidden).toBe(false)
+    expect(document.activeElement).toBe(ui.heading)
+  })
+
+  it('after a successful send, moves the address to the thanks page so the enquiry is counted as a view', async () => {
+    window.history.replaceState({}, '', '/contact')
+    const ui = mount()
+    initContactForm(document, { search: '', send: ok() })
+    fill(ui)
+    submit(ui.form)
+    await settle()
+    expect(window.location.pathname).toBe('/contact/thanks/')
+    expect(ui.confirmation.hidden).toBe(false)
+  })
+
+  it('leaves the address alone when the send fails', async () => {
+    window.history.replaceState({}, '', '/contact')
+    const ui = mount()
+    initContactForm(document, { search: '', send: vi.fn().mockResolvedValue({ ok: false, status: 500 }) })
+    fill(ui)
+    submit(ui.form)
+    await settle()
+    expect(window.location.pathname).toBe('/contact')
+  })
+
+  it('posts to the page it was sent from, not to the thanks page', async () => {
+    window.history.replaceState({}, '', '/contact')
+    const ui = mount()
+    const send = ok()
+    initContactForm(document, { search: '', send })
+    fill(ui)
+    submit(ui.form)
+    await settle()
+    expect(send.mock.calls[0][0]).toBe('/contact')
+  })
+
+  it('still shows the confirmation, and no failure message, when the address cannot be changed', async () => {
+    window.history.replaceState({}, '', '/contact')
+    const push = vi.spyOn(window.history, 'pushState').mockImplementation(() => {
+      throw new DOMException('Blocked', 'SecurityError')
+    })
+    const ui = mount()
+    initContactForm(document, { search: '', send: ok() })
+    fill(ui)
+    submit(ui.form)
+    await settle()
+    push.mockRestore()
+    expect(ui.form.hidden).toBe(true)
+    expect(ui.confirmation.hidden).toBe(false)
+    expect(ui.formError.hidden).toBe(true)
     expect(document.activeElement).toBe(ui.heading)
   })
 

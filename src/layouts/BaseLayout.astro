@@ -8,6 +8,8 @@ import portrait from '../assets/portraits/about.png'
 import JsonLd from '../components/seo/JsonLd.astro'
 import { disciplines } from '../content/disciplines'
 import { person } from '../content/person'
+import { analytics } from '../content/analytics'
+import { beacon } from '../lib/analytics'
 import { personNode, websiteNode, type Node } from '../lib/structuredData'
 
 interface Props {
@@ -22,6 +24,7 @@ interface Props {
 }
 
 const { title, description, type = 'website', noindex = false, fill = false, schema = [] } = Astro.props
+const cloudflare = beacon(analytics, { context: process.env.CONTEXT })
 const fullTitle = `${title} | Mathew Brown`
 const canonical = new URL(Astro.url.pathname, Astro.site)
 const siteNodes = [personNode(person, disciplines.map((discipline) => discipline.title), new URL(portrait.src, Astro.site).href), websiteNode()]
@@ -82,5 +85,6 @@ const siteNodes = [personNode(person, disciplines.map((discipline) => discipline
       initHeaderScroll()
       initTocSpy()
     </script>
+    {cloudflare && <script is:inline defer src={cloudflare.src} data-cf-beacon={cloudflare['data-cf-beacon']} />}
   </body>
 </html>
