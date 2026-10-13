@@ -75,8 +75,26 @@ describe('revealTween', () => {
   // autoAlpha would also write visibility: hidden, which takes an unrevealed element out of the
   // tab order and the accessibility tree until its scroll trigger fires.
   it('rises and fades with opacity, never autoAlpha', () => {
-    expect(revealTween('rise')).toEqual({ from: { opacity: 0, y: 32 }, to: { opacity: 1, y: 0 } })
+    expect(revealTween('rise').from).toEqual({ opacity: 0, y: 32 })
+    expect(revealTween('rise').to).toMatchObject({ opacity: 1, y: 0 })
     expect(revealTween('fade')).toEqual({ from: { opacity: 0 }, to: { opacity: 1 } })
+  })
+
+  // force3D is a transform option. Given one, GSAP folds the element's own rotate, translate and
+  // scale into an inline transform and leaves it there, even on a tween that moves nothing. Only
+  // the rise moves, so only the rise carries it; a rotated piece of script art keeps its styles.
+  it('turns off 3D promotion on the rise, the only kind that moves, and nowhere else', () => {
+    expect(revealTween('rise').to.force3D).toBe(false)
+    for (const kind of ['wipe', 'fade'] as const) {
+      const { from, to } = revealTween(kind)
+      expect(from).not.toHaveProperty('force3D')
+      expect(to).not.toHaveProperty('force3D')
+    }
+  })
+
+  it('names only the properties it animates, so no kind but the rise touches transforms', () => {
+    expect(Object.keys(revealTween('wipe').to)).toEqual(['clipPath'])
+    expect(Object.keys(revealTween('fade').to)).toEqual(['opacity'])
   })
 
   it('never sets visibility in any start or end state', () => {

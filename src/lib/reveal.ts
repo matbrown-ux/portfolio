@@ -38,7 +38,10 @@ export function revealTween(kind: RevealKind): { from: gsap.TweenVars; to: gsap.
   // Opacity, not autoAlpha: autoAlpha also writes visibility: hidden, which would take an
   // unrevealed element out of the tab order and the accessibility tree until its trigger fires.
   // A transparent element stays focusable, and focusing it scrolls it into view, which fires it.
-  if (kind === 'rise') return { from: { opacity: 0, y: RISE_DISTANCE }, to: { opacity: 1, y: 0 } }
+  // force3D belongs to the rise alone, the only kind that moves. It is a transform option: given
+  // one, GSAP folds the element's own rotate, translate and scale into an inline transform and
+  // leaves it there, which a wipe on a rotated piece of script art has no reason to do.
+  if (kind === 'rise') return { from: { opacity: 0, y: RISE_DISTANCE }, to: { opacity: 1, y: 0, force3D: false } }
   return { from: { opacity: 0 }, to: { opacity: 1 } }
 }
 
@@ -94,7 +97,6 @@ export function initReveals(root: ParentNode = document): () => void {
         duration: DURATION.slow,
         ease: config.kind === 'wipe' ? EASE.wipe : EASE.out,
         delay: config.delay,
-        force3D: false,
         // GSAP otherwise writes the start state on its next tick, so a reveal would show
         // for a frame once the stylesheet's hold is released.
         lazy: false,
