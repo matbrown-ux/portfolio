@@ -58,7 +58,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     <SiteFooter />
     <script>
       import { initReveals } from '../lib/reveal'
+      import { initVideosInView } from '../lib/videoInView'
       initReveals()
+      initVideosInView()
     </script>
   </body>
 </html>
