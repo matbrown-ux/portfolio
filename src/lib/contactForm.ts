@@ -7,9 +7,12 @@ export interface ContactFormOptions {
   search?: string
   /** How to send the form. Defaults to `fetch`. */
   send?: typeof fetch
+  /** How long a send may take before it counts as failed, in milliseconds. Defaults to 15000. */
+  timeoutMs?: number
 }
 
 const SENDING = 'Sending'
+const DEFAULT_TIMEOUT_MS = 15000
 
 /**
  * Enhance the contact form: inline errors on leaving a field and on submit, the `?service=`
@@ -22,12 +25,18 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
 
   const search = options.search ?? window.location.search
   const send: typeof fetch = options.send ?? ((input, init) => fetch(input, init))
+  const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS
   const panel = form.closest('[data-contact-panel]')
   const confirmation = panel?.querySelector<HTMLElement>('[data-contact-confirmation]') ?? null
   const formError = form.querySelector<HTMLElement>('[data-form-error]')
   const button = form.querySelector<HTMLButtonElement>('[data-submit]')
   const buttonLabel = button?.textContent ?? ''
   let sending = false
+  // True from a press on the send button until it ends. While it is set, leaving a field does not
+  // run its check: that could show or hide an error line, move the button between the mouse going
+  // down and coming up, and swallow the click. The submit validates every field anyway.
+  let pressing = false
+  let timer: ReturnType<typeof setTimeout> | undefined
 
   const control = (field: ContactField) => form.elements.namedItem(field) as Control | null
   const isRequired = (name: string): name is ContactField => (REQUIRED_CONTACT_FIELDS as string[]).includes(name)
@@ -56,13 +65,23 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
     return !message
   }
 
+  function onPressStart() {
+    pressing = true
+  }
+
+  function onPressEnd() {
+    pressing = false
+  }
+
   function onLeave(event: Event) {
+    if (pressing) return
     const name = (event.target as Partial<Control> | null)?.name
     if (name && isRequired(name)) check(name)
   }
 
   async function onSubmit(event: Event) {
     event.preventDefault()
+    pressing = false
     if (sending) return
 
     const invalid = REQUIRED_CONTACT_FIELDS.filter((field) => !check(field))
@@ -83,11 +102,15 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
     const body = new URLSearchParams()
     for (const [key, value] of new FormData(form!)) if (typeof value === 'string') body.append(key, value)
 
+    const controller = new AbortController()
+    timer = setTimeout(() => controller.abort(), timeoutMs)
+
     try {
       const response = await send(window.location.pathname, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: body.toString(),
+        signal: controller.signal,
       })
       if (!response.ok) throw new Error(`The form responded ${response.status}`)
       form!.hidden = true
@@ -103,6 +126,8 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
         button.textContent = buttonLabel
       }
     } finally {
+      clearTimeout(timer)
+      timer = undefined
       sending = false
     }
   }
@@ -120,8 +145,16 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
 
   form.addEventListener('focusout', onLeave)
   form.addEventListener('submit', onSubmit)
+  button?.addEventListener('pointerdown', onPressStart)
+  button?.addEventListener('pointerup', onPressEnd)
+  button?.addEventListener('pointercancel', onPressEnd)
 
   return () => {
+    clearTimeout(timer)
+    timer = undefined
+    button?.removeEventListener('pointerdown', onPressStart)
+    button?.removeEventListener('pointerup', onPressEnd)
+    button?.removeEventListener('pointercancel', onPressEnd)
     form.removeEventListener('focusout', onLeave)
     form.removeEventListener('submit', onSubmit)
     form.noValidate = false

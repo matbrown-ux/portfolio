@@ -59,6 +59,8 @@ function fill(ui: ReturnType<typeof mount>) {
 
 const submit = (form: HTMLFormElement) => form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
 const leave = (el: HTMLElement) => el.dispatchEvent(new FocusEvent('focusout', { bubbles: true }))
+const press = (el: HTMLElement, type: 'pointerdown' | 'pointerup' | 'pointercancel') =>
+  el.dispatchEvent(new Event(type, { bubbles: true }))
 const settle = () => new Promise((resolve) => setTimeout(resolve, 0))
 const ok = () => vi.fn().mockResolvedValue({ ok: true, status: 200 })
 
@@ -243,5 +245,160 @@ describe('initContactForm', () => {
     expect(ui.error('name').hidden).toBe(true)
     submit(ui.form)
     expect(send).not.toHaveBeenCalled()
+  })
+
+  describe('a press on the send button', () => {
+    it('does not run the leave check on the field being left, so nothing moves under the pointer', () => {
+      const ui = mount()
+      initContactForm(document, { search: '', send: ok() })
+      leave(ui.input('name'))
+      ui.input('name').value = 'Ada Lovelace'
+      press(ui.button, 'pointerdown')
+      leave(ui.input('name'))
+      expect(ui.error('name').hidden).toBe(false)
+      expect(ui.error('name').textContent).toBe('Please enter your name.')
+      leave(ui.input('email'))
+      expect(ui.error('email').hidden).toBe(true)
+    })
+
+    it('goes back to checking fields once the press ends without a submit', () => {
+      const ui = mount()
+      initContactForm(document, { search: '', send: ok() })
+      leave(ui.input('name'))
+      ui.input('name').value = 'Ada Lovelace'
+      press(ui.button, 'pointerdown')
+      press(ui.button, 'pointerup')
+      leave(ui.input('name'))
+      expect(ui.error('name').hidden).toBe(true)
+    })
+
+    it('goes back to checking fields when the press is cancelled', () => {
+      const ui = mount()
+      initContactForm(document, { search: '', send: ok() })
+      press(ui.button, 'pointerdown')
+      press(ui.button, 'pointercancel')
+      leave(ui.input('name'))
+      expect(ui.error('name').hidden).toBe(false)
+    })
+
+    it('sends a valid form once on a full press and submit, and checks fields again afterwards', async () => {
+      const ui = mount()
+      const send = ok()
+      initContactForm(document, { search: '', send })
+      fill(ui)
+      press(ui.button, 'pointerdown')
+      leave(ui.input('name'))
+      press(ui.button, 'pointerup')
+      submit(ui.form)
+      await settle()
+      expect(send).toHaveBeenCalledTimes(1)
+    })
+
+    it('clears the press at the start of a submit, even if no pointerup arrived', () => {
+      const ui = mount()
+      initContactForm(document, { search: '', send: ok() })
+      press(ui.button, 'pointerdown')
+      submit(ui.form)
+      ui.input('name').value = 'Ada'
+      leave(ui.input('name'))
+      expect(ui.error('name').hidden).toBe(true)
+      ui.input('name').value = ''
+      leave(ui.input('name'))
+      expect(ui.error('name').hidden).toBe(false)
+    })
+
+    it('stops listening to presses on cleanup', () => {
+      const ui = mount()
+      const add = vi.spyOn(ui.button, 'addEventListener')
+      const remove = vi.spyOn(ui.button, 'removeEventListener')
+      const cleanup = initContactForm(document, { search: '', send: ok() })
+      cleanup()
+      for (const type of ['pointerdown', 'pointerup', 'pointercancel']) {
+        const added = add.mock.calls.find(([t]) => t === type)
+        expect(added, type).toBeDefined()
+        expect(remove).toHaveBeenCalledWith(type, added![1])
+      }
+    })
+  })
+
+  describe('a send that never answers', () => {
+    const hang = () =>
+      vi.fn((_url: unknown, init?: RequestInit) =>
+        new Promise<Response>((_resolve, reject) => {
+          init?.signal?.addEventListener('abort', () => reject(Object.assign(new Error('The operation was aborted'), { name: 'AbortError' })))
+        }),
+      )
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    it('passes an abort signal to send', async () => {
+      const ui = mount()
+      const send = ok()
+      initContactForm(document, { search: '', send })
+      fill(ui)
+      submit(ui.form)
+      await settle()
+      expect(send.mock.calls[0][1].signal).toBeInstanceOf(AbortSignal)
+    })
+
+    it('aborts after 15 seconds by default, shows the failure message and lets the visitor try again', async () => {
+      vi.useFakeTimers()
+      const ui = mount()
+      const send = hang()
+      initContactForm(document, { search: '', send: send as unknown as typeof fetch })
+      fill(ui)
+      submit(ui.form)
+      await vi.advanceTimersByTimeAsync(14999)
+      expect(send.mock.calls[0][1]?.signal?.aborted).toBe(false)
+      expect(ui.formError.hidden).toBe(true)
+      await vi.advanceTimersByTimeAsync(1)
+      expect(send.mock.calls[0][1]?.signal?.aborted).toBe(true)
+      expect(ui.formError.hidden).toBe(false)
+      expect(ui.form.hidden).toBe(false)
+      expect(ui.input('name').value).toBe('Ada Lovelace')
+      expect(ui.button.hasAttribute('aria-disabled')).toBe(false)
+      expect(ui.button.textContent).toBe('Send enquiry')
+      submit(ui.form)
+      expect(send).toHaveBeenCalledTimes(2)
+    })
+
+    it('takes the limit from the timeoutMs option', async () => {
+      vi.useFakeTimers()
+      const ui = mount()
+      const send = hang()
+      initContactForm(document, { search: '', send: send as unknown as typeof fetch, timeoutMs: 200 })
+      fill(ui)
+      submit(ui.form)
+      await vi.advanceTimersByTimeAsync(200)
+      expect(ui.formError.hidden).toBe(false)
+    })
+
+    it('does not abort a request that answers in time, and clears its timer', async () => {
+      vi.useFakeTimers()
+      const ui = mount()
+      const send = ok()
+      initContactForm(document, { search: '', send })
+      fill(ui)
+      submit(ui.form)
+      await vi.advanceTimersByTimeAsync(0)
+      expect(ui.confirmation.hidden).toBe(false)
+      expect(vi.getTimerCount()).toBe(0)
+      expect(send.mock.calls[0][1].signal.aborted).toBe(false)
+    })
+
+    it('leaves no timer running when cleanup happens during a send', async () => {
+      vi.useFakeTimers()
+      const ui = mount()
+      const send = hang()
+      const cleanup = initContactForm(document, { search: '', send: send as unknown as typeof fetch })
+      fill(ui)
+      submit(ui.form)
+      expect(vi.getTimerCount()).toBe(1)
+      cleanup()
+      await vi.advanceTimersByTimeAsync(0)
+      expect(vi.getTimerCount()).toBe(0)
+    })
   })
 })
