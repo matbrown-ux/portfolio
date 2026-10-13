@@ -2,6 +2,7 @@
 import Confirmation from './Confirmation.astro'
 import { disciplines } from '../../content/disciplines'
 import { budgetRanges, MULTIPLE_SERVICES } from '../../content/contactOptions'
+import { FALLBACK_SUBJECT } from '../../lib/contactSubject'
 
 interface Props {
   class?: string
@@ -40,6 +41,8 @@ const required = 'text-vermilion'
     class="grid gap-x-5 gap-y-6 px-6 py-12 sm:grid-cols-2 md:px-12 lg:py-16"
   >
     <input type="hidden" name="form-name" value="contact" />
+    {/* The subject of the notification email. The script replaces it with one that names the sender. */}
+    <input type="hidden" name="subject" value={FALLBACK_SUBJECT} />
     <p hidden>
       <label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
     </p>

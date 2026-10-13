@@ -164,6 +164,28 @@ describe('initContactForm', () => {
     expect(ui.error('projectType').hidden).toBe(true)
   })
 
+  it('writes the email subject from what the visitor typed, when the form has a subject field', async () => {
+    const ui = mount()
+    ui.form.insertAdjacentHTML('afterbegin', '<input type="hidden" name="subject" value="New enquiry from matbrown.io" />')
+    const send = ok()
+    initContactForm(document, { search: '', send })
+    fill(ui)
+    submit(ui.form)
+    await settle()
+    const sent = new URLSearchParams(send.mock.calls[0][1].body)
+    expect(sent.getAll('subject')).toEqual(['New enquiry: Ada Lovelace, Analytical & Co (SEO/AEO)'])
+  })
+
+  it('adds no subject to a form that has no subject field', async () => {
+    const ui = mount()
+    const send = ok()
+    initContactForm(document, { search: '', send })
+    fill(ui)
+    submit(ui.form)
+    await settle()
+    expect(new URLSearchParams(send.mock.calls[0][1].body).has('subject')).toBe(false)
+  })
+
   it('sends a valid form once, url-encoded, to its own page', async () => {
     const sentFrom = window.location.pathname
     const ui = mount()
