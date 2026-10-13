@@ -45,7 +45,9 @@ export default defineConfig({
           pre(node) {
             node.properties.tabindex = '0'
             node.properties.role = 'region'
-            node.properties['aria-label'] = 'Code sample'
+            // Several blocks on a page are told apart by their language. A fence with none is plain text.
+            const lang = this.options.lang
+            node.properties['aria-label'] = !lang || lang === 'plaintext' || lang === 'text' ? 'Code sample' : `Code sample: ${lang}`
           },
         },
       ],

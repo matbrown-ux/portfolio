@@ -241,6 +241,60 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   padding-left: 2.75rem;
 }
 
+/* A list inside a prose list: Preflight removes its marker and indent, so it gets the same ones
+   as the list around it. */
+.article-prose > :is(ul, ol):not(.article-block) :is(ul, ol) {
+  margin-top: 0.6rem;
+  padding-left: 1.25rem;
+}
+
+.article-prose > :is(ul, ol):not(.article-block) ul {
+  list-style: square;
+}
+
+.article-prose > :is(ul, ol):not(.article-block) ol {
+  list-style: decimal;
+}
+
+.article-prose > :is(ul, ol):not(.article-block) :is(ul, ol) > li + li {
+  margin-top: 0.6rem;
+}
+
+/* A table is a block that scrolls sideways inside itself, so a wide one cannot widen the page.
+   Its words break only at spaces: breaking anywhere would squeeze every column to one letter
+   instead of letting the table scroll. */
+.article-prose > table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  margin-top: 1.6rem;
+  border-collapse: collapse;
+  overflow-wrap: normal;
+}
+
+.article-prose > table :is(th, td) {
+  padding: 0.75rem 1.5rem 0.75rem 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.article-prose > table th {
+  border-bottom: 2px solid var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: bottom;
+}
+
+.article-prose > table td {
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent);
+  font-size: 0.94em;
+  line-height: 1.55;
+}
+
 /* Preflight strips the underline from links, so prose links get it back. */
 .cs-chapter-body > :is(p, ul, ol):not(.cs-block) a {
   text-decoration: underline;
@@ -344,6 +398,9 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
 .article-prose {
   /* 18px, growing with the page to 20px, so the column, set in ch on the page, keeps its measure. */
   font-size: clamp(1.125rem, 1.36vw, 1.25rem);
+  /* A path or a URL with no space in it breaks where it must, so it cannot widen the page. A code
+     block is `white-space: pre`, so it still scrolls inside itself. */
+  overflow-wrap: anywhere;
 }
 
 .article-prose > * + * {
@@ -376,6 +433,18 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   line-height: 1;
   text-transform: uppercase;
   margin-top: 2.5rem;
+  scroll-margin-top: 7rem;
+}
+
+/* A small label heading under an h3. */
+.article-prose > h4 {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2rem;
   scroll-margin-top: 7rem;
 }
 
@@ -475,6 +544,32 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
 .article-prose .astro-code:focus-visible {
   outline: 2px solid var(--color-ink);
   outline-offset: 3px;
+}
+
+/* On paper backgrounds are off by default, so the block is ink on the sheet inside an ink
+   border. The tokens take their colour from the variables inline, so the variables turn ink.
+   Nothing scrolls on paper, so a long line wraps. */
+@media print {
+  .article-prose .astro-code {
+    --astro-code-foreground: var(--color-ink);
+    --astro-code-background: transparent;
+    --astro-code-token-tag: var(--color-ink);
+    --astro-code-token-muted: var(--color-ink);
+    border: 1px solid var(--color-ink);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .article-prose .astro-code > code {
+    width: auto;
+    min-width: 0;
+  }
+
+  .article-prose .astro-code::before {
+    position: static;
+    border-bottom-color: var(--color-ink);
+    color: var(--color-ink);
+  }
 }
 
 /* <Terms>: a ruled list of named items. */
