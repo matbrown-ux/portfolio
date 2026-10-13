@@ -16,6 +16,9 @@ const cell = {
   accent: '',
   dark: '',
 }
+// With media the tile is covered by positioned layers that would hide its inset outline, so the ring
+// is a border on a pseudo-element above them (as on the Work rows). Without media the outline is used.
+const ring = 'after:pointer-events-none after:absolute after:inset-1 after:z-10 focus-visible:outline-hidden focus-visible:after:border-2 focus-visible:after:border-current'
 const surface = {
   tall: 'bg-stone text-ink hover:bg-ink hover:text-ivory focus-visible:bg-ink focus-visible:text-ivory',
   accent: 'bg-vermilion text-ink hover:bg-ink hover:text-ivory focus-visible:bg-ink focus-visible:text-ivory',
@@ -33,7 +36,7 @@ const surface = {
             const tileImage = media[tile.id]
             return (
             <li class:list={[cell[tile.variant]]} data-reveal="rise" data-reveal-index={i}>
-              <a href={tile.href} class:list={['group relative isolate flex h-full overflow-hidden min-h-52 flex-col p-6 transition-colors duration-200 focus-visible:-outline-offset-4 motion-reduce:transition-none lg:p-7', surface[tile.variant]]}>
+              <a href={tile.href} class:list={['group relative isolate flex h-full overflow-hidden min-h-52 flex-col p-6 transition-colors duration-200 focus-visible:-outline-offset-4 motion-reduce:transition-none lg:p-7', surface[tile.variant], tileImage && ring]}>
                 {tileImage && (
                   <>
                     <MediaSlot media={tileImage} class="absolute inset-0" sizes="(min-width: 768px) 50vw, 100vw" />
