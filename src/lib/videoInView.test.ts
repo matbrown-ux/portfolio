@@ -8,9 +8,12 @@ let callback: Callback
 let observed: Element[]
 let disconnected: boolean
 
+let observerOptions: IntersectionObserverInit | undefined
+
 class ObserverStub {
-  constructor(cb: Callback, public options?: IntersectionObserverInit) {
+  constructor(cb: Callback, options?: IntersectionObserverInit) {
     callback = cb
+    observerOptions = options
   }
   observe(el: Element) {
     observed.push(el)
@@ -60,13 +63,43 @@ describe('initVideosInView', () => {
     expect(el.pause).toHaveBeenCalledTimes(2)
   })
 
-  it('does not throw when the browser refuses to play', async () => {
+  it('asks to be told when half of a video is visible', () => {
+    video()
+    initVideosInView()
+    expect(observerOptions?.threshold).toContain(0.5)
+  })
+
+  async function refuse(name: string, inLink: boolean) {
     const el = video()
-    el.play = vi.fn().mockRejectedValue(new Error('NotAllowedError'))
+    if (inLink) {
+      const link = document.createElement('a')
+      link.href = '/work/example'
+      document.body.append(link)
+      link.append(el)
+    }
+    const error = new Error('refused')
+    error.name = name
+    el.play = vi.fn().mockRejectedValue(error)
     initVideosInView()
     callback([{ target: el, isIntersecting: true, intersectionRatio: 1 }])
-    await Promise.resolve()
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    return el
+  }
+
+  it('gives a video controls when the browser refuses to play it', async () => {
+    const el = await refuse('NotAllowedError', false)
     expect(el.play).toHaveBeenCalled()
+    expect(el.controls).toBe(true)
+  })
+
+  it('leaves a refused video inside a link on its poster, with no controls', async () => {
+    const el = await refuse('NotAllowedError', true)
+    expect(el.controls).toBe(false)
+  })
+
+  it('adds no controls when play is only interrupted', async () => {
+    const el = await refuse('AbortError', false)
+    expect(el.controls).toBe(false)
   })
 
   it('disconnects on cleanup', () => {
@@ -103,6 +136,17 @@ describe('initVideosInView', () => {
     const el = video()
     expect(() => initVideosInView()).not.toThrow()
     expect(el.controls).toBe(true)
+  })
+
+  it('without IntersectionObserver leaves a video inside a link with no controls', () => {
+    vi.stubGlobal('IntersectionObserver', undefined)
+    const link = document.createElement('a')
+    link.href = '/work/example'
+    document.body.append(link)
+    const el = video()
+    link.append(el)
+    initVideosInView()
+    expect(el.controls).toBe(false)
   })
 
   it('only looks inside the given root', () => {
