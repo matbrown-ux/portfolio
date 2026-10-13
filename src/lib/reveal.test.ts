@@ -350,9 +350,12 @@ describe('initReveals focus completion', () => {
     const tween = gsap.getTweensOf(node)[0]
     const original = tween.scrollTrigger
     const kill = vi.fn()
-    tween.scrollTrigger = { kill } as unknown as ScrollTrigger
+    // scrollTrigger is typed read-only, so redefine the property rather than assign it.
+    const setTrigger = (value: ScrollTrigger | undefined) =>
+      Object.defineProperty(tween, 'scrollTrigger', { value, writable: true, configurable: true })
+    setTrigger({ kill } as unknown as ScrollTrigger)
     focusIn(a)
-    tween.scrollTrigger = original
+    setTrigger(original)
     expect(kill).toHaveBeenCalledWith(false, true)
     cleanup()
   })
