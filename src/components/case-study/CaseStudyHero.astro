@@ -5,6 +5,7 @@ import MediaSlot from '../media/MediaSlot.astro'
 import VerticalLabel from '../ui/VerticalLabel.astro'
 import { caseStudyMedia } from '../../lib/caseStudyMedia'
 import { hostLabel } from '../../lib/host'
+import { heroNameFit } from '../../lib/titleFit'
 
 interface Props {
   entry: CollectionEntry<'caseStudies'>
@@ -15,6 +16,9 @@ interface Props {
 const { entry, number } = Astro.props
 const { title, headline, year, liveUrl, heroNote, summary, media } = entry.data
 const hero = caseStudyMedia(media?.hero ?? { alt: `${title} hero capture` }, `${entry.id} hero`)
+// A long client name is set smaller, and from lg up kept to the left column, so it clears the
+// note beside it and the headline below. The three current names stay at full size in the wide box.
+const name = heroNameFit(title)
 ---
 
 <section class="relative isolate overflow-hidden bg-ivory lg:h-[54vw] lg:max-h-[900px] lg:min-h-[620px]">
@@ -23,7 +27,7 @@ const hero = caseStudyMedia(media?.hero ?? { alt: `${title} hero capture` }, `${
   <p class="type-label relative px-6 pt-28 text-sm md:px-12 lg:absolute lg:left-0 lg:top-[17%] lg:pt-0" aria-hidden="true">{number}</p>
 
   {/* The client name sits on top of the vermilion block where they cross. Decorative: the h1 is the headline. */}
-  <p class="type-display relative z-10 mt-3 inline-block px-6 text-[clamp(4.5rem,19vw,7rem)] leading-[0.88] lg:text-[clamp(3.5rem,9.4vw,9.5rem)] md:px-12 lg:absolute lg:left-0 lg:top-[22%] lg:mt-0 lg:max-w-[46%]" aria-hidden="true">
+  <p class:list={['type-display relative z-10 mt-3 inline-block px-6 text-[length:calc(clamp(4.5rem,19vw,7rem)*var(--fit))] leading-[0.88] lg:text-[length:calc(clamp(3.5rem,9.4vw,9.5rem)*var(--fit-lg))] md:px-12 lg:absolute lg:left-0 lg:top-[22%] lg:mt-0', name.column ? 'lg:max-w-[34%] lg:pr-4' : 'lg:max-w-[46%]']} style={`--fit:${name.fit};--fit-lg:${name.fitLg}`} aria-hidden="true">
     {title}
     <ScriptArt name="case-study" class="absolute -bottom-[0.34em] left-3 w-[min(60%,2.6em)] -rotate-6 md:left-9" reveal="wipe" delay={0.5} />
   </p>
