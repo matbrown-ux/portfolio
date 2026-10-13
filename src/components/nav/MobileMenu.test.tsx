@@ -85,6 +85,29 @@ describe('MobileMenu', () => {
     expect(screen.getByRole('link', { name: /Start a project/ })).toHaveClass('focus-visible:outline-ivory')
   })
 
+  // Tap a link, press Back: the browser can restore the page from its back-forward cache
+  // exactly as it was left, with the menu open and the page locked.
+  it('closes and unlocks scroll when the page is restored from the back-forward cache', async () => {
+    const { user, toggle } = setup()
+    await user.click(toggle)
+    expect(document.body.style.overflow).toBe('hidden')
+    act(() => {
+      window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }))
+    })
+    expect(screen.queryByRole('link')).not.toBeInTheDocument()
+    expect(document.body.style.overflow).toBe('')
+  })
+
+  it('stays open on an ordinary pageshow that is not a cache restore', async () => {
+    const { user, toggle } = setup()
+    await user.click(toggle)
+    act(() => {
+      window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: false }))
+    })
+    expect(screen.getAllByRole('link')).toHaveLength(3)
+    await user.keyboard('{Escape}')
+  })
+
   it('closes and unlocks scroll when the viewport reaches the desktop width', async () => {
     const { user, toggle } = setup()
     await user.click(toggle)

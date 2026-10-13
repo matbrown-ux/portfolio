@@ -1,5 +1,5 @@
 export const REDUCED_QUERY = '(prefers-reduced-motion: reduce)'
-export const DESKTOP_QUERY = '(min-width: 768px)'
+export const DESKTOP_QUERY = '(min-width: 48rem)'
 
 type Listener = (e: { matches: boolean; media: string }) => void
 

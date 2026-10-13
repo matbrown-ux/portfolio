@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { isCurrent, type NavLink } from '../../content/navigation'
 import { nextFocusIndex } from './focusTrap'
 
-/** Tailwind's md breakpoint, where the desktop nav takes over. */
-const DESKTOP_QUERY = '(min-width: 768px)'
+/** Tailwind's md breakpoint, where the desktop nav takes over. In rem, as Tailwind compiles it. */
+const DESKTOP_QUERY = '(min-width: 48rem)'
 
 interface Props {
   links: NavLink[]
@@ -30,6 +30,16 @@ export function MobileMenu({ links, contact, pathname }: Props) {
     }
     query.addEventListener('change', onChange)
     return () => query.removeEventListener('change', onChange)
+  }, [])
+
+  // Following a link and pressing Back can restore the page from the back-forward cache
+  // exactly as it was left: menu open, page locked.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) setOpen(false)
+    }
+    window.addEventListener('pageshow', onPageShow)
+    return () => window.removeEventListener('pageshow', onPageShow)
   }, [])
 
   useEffect(() => {
