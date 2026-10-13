@@ -14,7 +14,9 @@ const { href, variant = 'accent', on = 'light', current = false, class: classNam
 const styles = {
   accent: on === 'dark' ? 'bg-vermilion text-ink hover:bg-ivory focus-visible:outline-ivory' : 'bg-vermilion text-ink hover:bg-ink hover:text-ivory focus-visible:outline-ink',
   outline: 'border-2 border-ink text-ink hover:bg-ink hover:text-ivory focus-visible:outline-ink',
-  ink: 'bg-ink text-ivory hover:bg-ivory hover:text-ink focus-visible:outline-ink',
+  // The border is there at rest too, so on hover and focus the button becomes an ink outline on
+  // whatever surface it sits on and nothing changes size.
+  ink: 'border-2 border-ink bg-ink text-ivory hover:bg-transparent hover:text-ink focus-visible:bg-transparent focus-visible:text-ink focus-visible:outline-ink',
 }
 // On its own page the button is ink, so it reads as the current location rather than a call to action.
 const look = current ? styles.ink : styles[variant]
