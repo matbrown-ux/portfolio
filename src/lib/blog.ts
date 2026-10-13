@@ -148,10 +148,13 @@ export function contentsHeadings(headings: Heading[]): Heading[] {
   return sections.length >= 2 ? sections : []
 }
 
-/** What an empty topic page says. The case study clause is dropped when the discipline has no proof. */
+/**
+ * What an empty topic page says. The case study clause is dropped when the discipline has no
+ * proof. The title follows "the case study on", so one that starts with "The" still reads well.
+ */
 export function emptyTopicText(disciplineTitle: string, proofTitle: string | null): string {
   const service = `The ${disciplineTitle} service page explains how I work on it`
-  const proof = proofTitle ? `, and the ${proofTitle} case study shows it on a real business.` : '.'
+  const proof = proofTitle ? `, and the case study on ${proofTitle} shows it on a real business.` : '.'
   return `I haven't written anything on this topic yet. ${service}${proof}`
 }
 

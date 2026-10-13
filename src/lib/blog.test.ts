@@ -203,7 +203,13 @@ describe('contentsHeadings', () => {
 describe('emptyTopicText', () => {
   it('points to the service and the proof case study', () => {
     expect(emptyTopicText('SEO/AEO', "'Aiwi Waffles")).toBe(
-      "I haven't written anything on this topic yet. The SEO/AEO service page explains how I work on it, and the 'Aiwi Waffles case study shows it on a real business.",
+      "I haven't written anything on this topic yet. The SEO/AEO service page explains how I work on it, and the case study on 'Aiwi Waffles shows it on a real business.",
+    )
+  })
+
+  it('reads well when the case study title starts with "The"', () => {
+    expect(emptyTopicText('SaaS Development', 'The Booking Flow')).toBe(
+      "I haven't written anything on this topic yet. The SaaS Development service page explains how I work on it, and the case study on The Booking Flow shows it on a real business.",
     )
   })
 
