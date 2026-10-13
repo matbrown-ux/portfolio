@@ -65,9 +65,11 @@ Earlier sub-projects left these owed: an automated check that `noindex` pages st
 | Block | Vermilion, 360 wide, full height, flush right. |
 | Mark | The MB mark in ink, about 312 wide, in the block's bottom right corner, overhanging the card by about 16 on the right and 22 at the bottom, so the outer curve of the B and the feet of both letters are trimmed. It must still read as "MB". |
 | Label | JetBrains Mono bold, uppercase, tracked, about 19 high, 60 from the left and top. Says what kind of page it is. |
-| Title | Anton, uppercase, ink, line height 0.9, left edge at 60, last baseline ending about 144 above the bottom edge. Starts at 138 and steps down until its longest line is at most 732 wide (a 48 gap before the block) and it is at most three lines. |
+| Title | Anton, uppercase, ink, line height 0.9, left edge at 60, last baseline ending about 144 above the bottom edge. Starts at 138 and steps down until its longest line is at most 732 wide (a 48 gap before the block) and it is at most two lines. |
 | Rule | Ink, 96 wide and 3 high, 60 from the left, about 108 above the bottom edge. |
 | Address | JetBrains Mono bold, uppercase, tracked, 60 from the left and bottom. |
+
+The line limit was three in the first draft; it became two when the rendered cards were compared with the approved image, where every title sets on two lines.
 
 **With a hero capture (case studies only):** the block widens to 552, the capture fills it inside a 3px ink frame inset 72 from the block's top and bottom and 54 from its sides (cropped to cover), there is no mark, and the title's widest line is 540. A case study gets this version when its `media.hero` has an image `src` (or a video with a `poster`); otherwise it gets the plain card.
 
@@ -197,7 +199,7 @@ The rules are pure functions over parsed pages, with tests; a thin runner reads 
 | Module | Responsibility |
 |---|---|
 | `src/lib/shareCards.ts` | The list of every page with its card path, label, title and address; the `og:image` path for a page path. |
-| `src/lib/cardText.ts` | Measure a string in a font, wrap a title into lines within a width, and step its size down to fit three lines. |
+| `src/lib/cardText.ts` | Measure a string in a font, wrap a title into lines within a width, and step its size down to fit two lines. |
 | `src/lib/cardSvg.ts` | Compose the card SVG from text outlines, the mark and an optional capture. |
 | `src/lib/structuredData.ts` | The graph builders, one per page type. |
 | `src/lib/llmsTxt.ts` | The `llms.txt` text from disciplines, case studies and articles. |
