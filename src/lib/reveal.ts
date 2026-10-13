@@ -87,12 +87,13 @@ export function initReveals(root: ParentNode = document): () => void {
 
   // Tweens created inside the context are reverted together, so cleanup restores each
   // element's inline styles as well as stopping its tween and scroll trigger.
+  const tweens = new Map<HTMLElement, gsap.core.Tween>()
   const ctx = gsap.context(() => {
     root.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
       const config = parseReveal(el)
       if (!config) return
       const { from, to } = revealTween(config.kind)
-      gsap.fromTo(el, from, {
+      const tween = gsap.fromTo(el, from, {
         ...to,
         duration: DURATION.slow,
         ease: config.kind === 'wipe' ? EASE.wipe : EASE.out,
@@ -103,12 +104,34 @@ export function initReveals(root: ParentNode = document): () => void {
         clearProps: revealClearProps(config.kind),
         scrollTrigger: config.onLoad ? undefined : { trigger: el, start: revealStart(config.kind), once: true },
       })
+      tweens.set(el, tween)
     })
   }, root)
+
+  // Focus can land on a transparent element that is fully on screen but below its trigger line;
+  // the browser does not scroll it, so the trigger never fires. Complete the reveal of the target
+  // and of every revealed ancestor. The trigger is killed first so it cannot replay the tween.
+  const completeOnFocus = (event: Event) => {
+    const target = event.target as Element | null
+    let el = target?.closest<HTMLElement>('[data-reveal]') ?? null
+    while (el) {
+      const tween = tweens.get(el)
+      if (tween) {
+        tweens.delete(el)
+        tween.scrollTrigger?.kill()
+        tween.progress(1)
+      }
+      el = el.parentElement?.closest<HTMLElement>('[data-reveal]') ?? null
+    }
+  }
+  root.addEventListener('focusin', completeOnFocus)
 
   markRevealsReady()
 
   // Cleanup leaves the ready class in place: removing it would let the stylesheet
   // hide the reveals that revert() has just restored.
-  return () => ctx.revert()
+  return () => {
+    root.removeEventListener('focusin', completeOnFocus)
+    ctx.revert()
+  }
 }

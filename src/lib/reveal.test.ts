@@ -236,3 +236,102 @@ describe('initReveals', () => {
     expect(node.style.visibility).not.toBe('hidden')
   })
 })
+
+// jsdom does no layout, so these cannot prove a focus ring is visible on screen. They pin the
+// mechanism: focus entering a reveal completes it, and the end state matches a finished tween.
+describe('initReveals focus completion', () => {
+  const focusIn = (target: Element) => target.dispatchEvent(new FocusEvent('focusin', { bubbles: true }))
+
+  function link(parent: HTMLElement, attrs: Record<string, string> = {}) {
+    const a = document.createElement('a')
+    a.href = '#x'
+    for (const [name, value] of Object.entries(attrs)) a.setAttribute(name, value)
+    parent.append(a)
+    return a
+  }
+
+  it('completes a scroll reveal when a link inside it takes focus', () => {
+    const node = el({ 'data-reveal': 'rise' })
+    const a = link(node)
+    const cleanup = initReveals()
+    expect(node.style.opacity).toBe('0')
+    focusIn(a)
+    expect(node.style.opacity).not.toBe('0')
+    expect(node.style.opacity).toBe('')
+    expect(node.style.transform).toBe('')
+    cleanup()
+  })
+
+  it('completes a reveal that is itself the focus target', () => {
+    const a = link(document.body, { 'data-reveal': 'rise' })
+    const cleanup = initReveals()
+    expect(a.style.opacity).toBe('0')
+    focusIn(a)
+    expect(a.style.opacity).toBe('')
+    expect(a.style.transform).toBe('')
+    cleanup()
+  })
+
+  it('completes every enclosing reveal, not only the nearest', () => {
+    const outer = el({ 'data-reveal': 'fade' })
+    const inner = document.createElement('div')
+    inner.setAttribute('data-reveal', 'rise')
+    outer.append(inner)
+    const a = link(inner)
+    const cleanup = initReveals()
+    expect(outer.style.opacity).toBe('0')
+    expect(inner.style.opacity).toBe('0')
+    focusIn(a)
+    expect(outer.style.opacity).toBe('')
+    expect(inner.style.opacity).toBe('')
+    expect(inner.style.transform).toBe('')
+    cleanup()
+  })
+
+  it('completes a load reveal that is still waiting on its delay', () => {
+    const node = el({ 'data-reveal': 'fade', 'data-reveal-on': 'load', 'data-reveal-delay': '5' })
+    const a = link(node)
+    const cleanup = initReveals()
+    expect(node.style.opacity).toBe('0')
+    focusIn(a)
+    expect(node.style.opacity).toBe('')
+    cleanup()
+  })
+
+  it('leaves a wipe with no inline clip path', () => {
+    const node = el({ 'data-reveal': 'wipe' })
+    const a = link(node)
+    const cleanup = initReveals()
+    expect(node.style.clipPath).not.toBe('')
+    focusIn(a)
+    expect(node.style.clipPath).toBe('')
+    cleanup()
+  })
+
+  it('ignores focus outside any reveal', () => {
+    const sibling = el({ 'data-reveal': 'rise' })
+    const outside = link(document.body)
+    const cleanup = initReveals()
+    focusIn(outside)
+    expect(sibling.style.opacity).toBe('0')
+    cleanup()
+  })
+
+  it('does nothing after cleanup and does not throw', () => {
+    const node = el({ 'data-reveal': 'rise' })
+    const a = link(node)
+    initReveals()()
+    expect(() => focusIn(a)).not.toThrow()
+    expect(node.style.opacity).toBe('')
+  })
+
+  it('does nothing under reduced motion and does not throw', () => {
+    installMatchMedia({ [REDUCED_QUERY]: true })
+    const node = el({ 'data-reveal': 'rise' })
+    const a = link(node)
+    const cleanup = initReveals()
+    expect(() => focusIn(a)).not.toThrow()
+    expect(node.getAttribute('style')).toBeNull()
+    cleanup()
+  })
+})
