@@ -14,3 +14,8 @@ import Confirmation from '../../components/contact/Confirmation.astro'
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  import { reloadOnAddressMismatch } from '../../lib/reloadOnAddressMismatch'
+  reloadOnAddressMismatch()
+</script>

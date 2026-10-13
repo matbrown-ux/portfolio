@@ -1,3 +1,4 @@
+import { reloadOnAddressMismatch } from './reloadOnAddressMismatch'
 import { REQUIRED_CONTACT_FIELDS, serviceFromQuery, validateContactField, type ContactField } from './contactValidation'
 
 type Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -28,7 +29,6 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
   const search = options.search ?? window.location.search
   const send: typeof fetch = options.send ?? ((input, init) => fetch(input, init))
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS
-  const reload = options.reload ?? (() => window.location.reload())
   const panel = form.closest('[data-contact-panel]')
   const confirmation = panel?.querySelector<HTMLElement>('[data-contact-confirmation]') ?? null
   const formError = form.querySelector<HTMLElement>('[data-form-error]')
@@ -81,15 +81,6 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
     if (pressing) return
     const name = (event.target as Partial<Control> | null)?.name
     if (name && isRequired(name)) check(name)
-  }
-
-  // Back or Forward would leave this page's content under a different address (the confirmation
-  // at /contact, or the form at /contact/thanks/), so when the address no longer matches what is
-  // on screen, a fresh load shows the real page for it.
-  function onHistory() {
-    if (window.location.pathname === shownPath) return
-    window.removeEventListener('popstate', onHistory)
-    reload()
   }
 
   /**
@@ -174,7 +165,7 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
     if (title) projectType.value = title
   }
 
-  window.addEventListener('popstate', onHistory)
+  const stopGuard = reloadOnAddressMismatch({ reload: options.reload, shown: () => shownPath })
   form.addEventListener('focusout', onLeave)
   form.addEventListener('submit', onSubmit)
   button?.addEventListener('pointerdown', onPressStart)
@@ -184,7 +175,7 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
   return () => {
     clearTimeout(timer)
     timer = undefined
-    window.removeEventListener('popstate', onHistory)
+    stopGuard()
     button?.removeEventListener('pointerdown', onPressStart)
     button?.removeEventListener('pointerup', onPressEnd)
     button?.removeEventListener('pointercancel', onPressEnd)
