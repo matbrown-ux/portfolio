@@ -56,6 +56,7 @@ The `caseStudies` collection grows from the four fields Home needed to the full 
 | `liveUrl` | URL, optional | Hero "Visit live site" |
 | `result` | string | One sentence; placeholder text renders as written |
 | `ogImage` | string, optional | Passed to the layout |
+| `heroNote` | string, optional | The small technical note in the hero; falls back to `summary` |
 | `media` | object, optional | `hero` and `tile`, each a media reference (below) |
 
 The existing `slug` frontmatter line is redundant with the entry `id` and is left in place.
@@ -105,6 +106,7 @@ Static `.astro` components passed to the MDX content. Props match what the three
 - Remove every `src` that points at an old placeholder SVG, so those slots become labelled placeholders. Keep each `alt`.
 - Remove the `url` prop from the two `<Walkthrough>` uses; the live URL is shown in the hero.
 - On each file's first `<Chapter>`, add `asideLabel="Services"` and `aside={frontmatter.services}`.
+- Add `heroNote` to the two files that have a walkthrough, using their first step's body verbatim. The page cannot read a step out of the MDX body, so the sentence is repeated in the frontmatter.
 - No prose, metric or result changes.
 
 Delete `public/images/placeholder-screen-1.svg`, `placeholder-screen-2.svg`, `placeholder-brand-1.svg` and `placeholder-brand-2.svg`.
@@ -119,7 +121,7 @@ Delete `public/images/placeholder-screen-1.svg`, `placeholder-screen-2.svg`, `pl
 
 ## Part 4: Case study page (`src/pages/work/[slug].astro`)
 
-- **C1. Hero.** A monospace number (the case study's position in the newest-first list). The client name in Anton, decorative, **sitting on top of the vermilion block where they cross**, so the name overlays the block. The keyword `h1` (`headline`) in the small text block at the lower left. The hero media in a browser frame over the vermilion block, to the right. A small technical note with a corner mark carries the first walkthrough step's body when there is one, otherwise the `summary`. A square arrow button and "Visit live site" with the host name, shown only when `liveUrl` exists and opening in the same tab with `rel="noopener"`. A rotated "Case study" and year label. Script "case study" written over the bottom left corner of the client name, overlapping its last line slightly.
+- **C1. Hero.** A monospace number (the case study's position in the newest-first list). The client name in Anton, decorative, **sitting on top of the vermilion block where they cross**, so the name overlays the block. The keyword `h1` (`headline`) in the small text block at the lower left. The hero media in a browser frame over the vermilion block, to the right. A small technical note with a corner mark carries `heroNote` when it is set, otherwise the `summary`. A square arrow button and "Visit live site" with the host name, shown only when `liveUrl` exists and opening in the same tab with `rel="noopener"`. A rotated "Case study" and year label. Script "case study" written over the bottom left corner of the client name, overlapping its last line slightly.
 - **C2. At a glance.** Dark strip: Client, Role, Year, Stack and Result, with a rotated "At a glance" label.
 - **Body.** The MDX content with the five blocks.
 - **C8. Next project.** Dark band: "Next project", the next case study's title in Anton, a vermilion arrow. The next one is the next older case study, wrapping from the oldest to the newest. Hidden when there is only one case study.
