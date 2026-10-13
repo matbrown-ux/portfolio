@@ -1,0 +1,28 @@
+---
+import Button from '../ui/Button.astro'
+
+interface Props {
+  text: string
+  discipline: { title: string; slug: string }
+}
+
+const { text, discipline } = Astro.props
+---
+
+<section class="bg-ivory" aria-labelledby="empty-heading">
+  <div class="mx-auto max-w-[1600px] px-6 pb-16 md:px-12 lg:pb-20">
+    <div class="grid bg-ink text-ivory lg:grid-cols-[1.1fr_1fr]">
+      <div class="p-6 md:p-10 lg:p-12">
+        <p class="type-label text-vermilion">// 0 articles</p>
+        <h2 id="empty-heading" class="type-display mt-4 text-[clamp(2.5rem,5.2vw,5.5rem)] leading-[0.94]">Nothing published here yet.</h2>
+      </div>
+      <div class="flex flex-col border-t border-line-dark p-6 md:p-10 lg:border-l lg:border-t-0 lg:p-12">
+        <p class="max-w-md text-lg leading-relaxed">{text}</p>
+        <div class="mt-auto flex flex-wrap gap-4 pt-10">
+          <Button href={`/services#${discipline.slug}`} on="dark">See the {discipline.title} service</Button>
+          <a href="/blog" class="type-label inline-flex items-center border-2 border-ivory px-5 py-3.5 text-ivory transition-colors duration-200 hover:bg-ivory hover:text-ink focus-visible:bg-ivory focus-visible:text-ink focus-visible:outline-ivory">All topics</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -168,6 +168,16 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   color: color-mix(in srgb, var(--color-ivory) 75%, transparent);
 }
 
+/* The introduction written in a topic's index.mdx. */
+.topic-intro p {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.topic-intro p + p {
+  margin-top: 1rem;
+}
+
 /* Under reduced motion a walkthrough clip shows native controls along its bottom edge. The name
    tag would cover them (the play button, on the steps where it sits left), so it takes the top
    corner while the controls are showing. */

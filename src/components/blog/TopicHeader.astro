@@ -1,0 +1,38 @@
+---
+import Breadcrumb from './Breadcrumb.astro'
+import type { Crumb } from '../../lib/blog'
+import { titleFit } from '../../lib/titleFit'
+
+interface Props {
+  crumbs: Crumb[]
+  title: string
+  headline: string
+  discipline: { title: string; slug: string }
+}
+
+const { crumbs, title, headline, discipline } = Astro.props
+// Nine characters of the display size fit a line, beside the card from lg up and across the page
+// below it; a longer word is set smaller. The size follows the column's width (the page less its
+// gutters and, from lg up, the card and the gap) divided by 4.7em, which is what the widest
+// nine-letter word so far, "Workflows", takes in Anton.
+const fit = `--fit:${titleFit(title, { charsPerLine: 9 })}`
+---
+
+<section class="bg-ivory pb-12 pt-28 md:pt-32 lg:pb-16">
+  <div class="mx-auto grid max-w-[1600px] gap-10 px-6 md:px-12 lg:grid-cols-[minmax(0,1fr)_clamp(17rem,26vw,24rem)] lg:items-end lg:gap-16">
+    <div>
+      <Breadcrumb crumbs={crumbs} />
+      {/* Decorative: the h1 below carries the keywords. */}
+      <p class="type-display mt-8 text-[length:calc(clamp(3.5rem,21.3vw_-_0.64rem,9rem)*var(--fit))] lg:text-[length:calc(clamp(7.5rem,15.7vw_-_2.1rem,14rem)*var(--fit))] leading-[0.86]" style={fit} aria-hidden="true" data-reveal="rise" data-reveal-on="load">{title}</p>
+      <h1 class="type-label mt-8 max-w-md before:mb-3 before:block before:h-0.5 before:w-10 before:bg-ink">{headline}</h1>
+      <div class="topic-intro mt-6 max-w-2xl"><slot /></div>
+    </div>
+    <aside class="bg-ink p-6 text-ivory lg:p-8">
+      <p class="type-label text-vermilion">// Part of</p>
+      <p class="type-display mt-2 text-[clamp(1.75rem,2.5vw,2.5rem)]">{discipline.title}</p>
+      <a href={`/services#${discipline.slug}`} class="type-label mt-6 flex justify-between border-t border-line-dark pt-4 underline-offset-8 decoration-vermilion decoration-2 hover:underline focus-visible:underline focus-visible:outline-ivory">
+        <span>See the service</span><span aria-hidden="true">↗</span>
+      </a>
+    </aside>
+  </div>
+</section>

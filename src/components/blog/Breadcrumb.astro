@@ -1,0 +1,30 @@
+---
+import type { Crumb } from '../../lib/blog'
+
+interface Props {
+  crumbs: Crumb[]
+}
+
+const { crumbs } = Astro.props
+---
+
+{/* Raised: display type set under the trail has a line box shorter than its glyphs, so its text
+   box reaches up over the trail and would take the clicks meant for these links. */}
+<nav aria-label="Breadcrumb" class="relative z-10">
+  <ol role="list" class="type-label flex flex-wrap gap-x-3 gap-y-1">
+    {
+      crumbs.map((crumb, i) => (
+        <li class="flex gap-x-3">
+          {i > 0 && <span aria-hidden="true" class="text-ink/45">/</span>}
+          {crumb.href ? (
+            <a href={crumb.href} class="underline-offset-8 decoration-vermilion decoration-2 hover:underline focus-visible:underline">
+              {crumb.label}
+            </a>
+          ) : (
+            <span aria-current="page">{crumb.label}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
