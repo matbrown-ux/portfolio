@@ -155,8 +155,8 @@ Decisions the final review left for the owner, answered 2026-10-12:
 
 **What sub-project 5 added:** the SEO/AEO layer: share cards, a favicon set, structured data, crawler files, optional analytics, a build check and an indexing hold. Spec: `docs/superpowers/specs/2026-10-13-seo-launch-design.md`. No new React island. Audit: `docs/superpowers/audits/2026-10-13-launch-audit.md`.
 
-- **Header profile icons:** LinkedIn and GitHub icons (Phosphor, `fill="currentColor"`) in the header and the mobile menu, read from `src/content/person.ts`.
-- **Person facts:** `src/content/person.ts` (with its test) is the single source for the owner's name, job title, location, email and public profiles. Structured data, `llms.txt` and the header icons read it. Change a value only when the owner does.
+- **Header profile icons:** LinkedIn and GitHub icons (Phosphor, `fill="currentColor"`) in the header, the mobile menu and the footer (left of "Back to top"), read from `src/content/person.ts`. Each opens in a new tab and says so in its `aria-label`.
+- **Person facts:** `src/content/person.ts` (with its test) is the single source for the owner's name, job title, location, email and public profiles. Structured data, `llms.txt` and the profile icons read it. Change a value only when the owner does.
 - **Share cards:** every page gets a 1200x630 PNG from `src/pages/og/[...path].png.ts`, served at `/og/<path>.png` (Home is `/og/index.png`). The card text lives in `shareCards()` in `src/lib/shareCards.ts` (label, title, address per page; case studies, topics and articles are built from their collections, and a case study card shows its hero capture when the hero is a raster image or a video poster). To change a card, edit that function, run `npm run build` and look at the PNG. Rendering is `src/lib/cardRender.ts` (fontkit outlines the Anton glyphs, sharp rasterises), layout and fitting are `cardText.ts` and `cardSvg.ts`. The hex colours may appear in the card and favicon generators because they run outside CSS. `ShareMeta.astro` writes the `og:` and Twitter tags; a page with no card of its own falls back to Home's.
 - **Card title rules:** the title sets on at most two lines, never ends a line on "&", and `fitTitle` keeps stepping down 10% below the listed sizes to a floor of 24 (`MIN_TITLE_SIZE`) until it fits. A very long title therefore sets small.
 - **Favicon set:** `npm run favicons` (`scripts/favicons/generate.mjs`, sizes and the mark in `icons.mjs`) writes `public/favicon.svg`, the three PNGs (`apple-touch-icon.png`, `icon-192.png`, `icon-512.png`) and `favicon.ico` from the logo mark. `public/site.webmanifest` is a hand-kept file that the script does not write. The mark fills 92% of its square (`MARK_SHARE`); the approved mock showed about 65 to 70%, but at 16px a smaller mark thins out. To change it, edit `MARK_SHARE` and re-run `npm run favicons`; the output tests fail until the committed files match.
@@ -187,7 +187,7 @@ Decisions the final review left for the owner, answered 2026-10-12:
 
 **Owner inputs still needed for sub-project 5:**
 
-- Confirm the Person facts in `src/content/person.ts`, including the two profile addresses the header icons link to (LinkedIn and GitHub).
+- Confirm the Person facts in `src/content/person.ts`, including anything beyond the two profile addresses (the owner confirmed LinkedIn and GitHub on 2026-10-13).
 - Confirm the favicon's tighter mark (92% of its square) by eye against the approved mock.
 - Confirm the two-line share card titles, and that a long title may set small.
 - Switch on Netlify Forms and its notification email, then send one real test enquiry and confirm it arrives.

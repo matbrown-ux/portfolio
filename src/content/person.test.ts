@@ -18,7 +18,7 @@ describe('person', () => {
 
   it('lists public profiles as secure links with a label each', () => {
     expect(person.profiles).toEqual([
-      { label: 'LinkedIn', href: 'https://linkedin.com/in/matbrown' },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mathewbrownux/' },
       { label: 'GitHub', href: 'https://github.com/matbrown-ux' },
     ])
     for (const profile of person.profiles) expect(profile.href.startsWith('https://')).toBe(true)

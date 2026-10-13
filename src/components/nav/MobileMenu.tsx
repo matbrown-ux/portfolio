@@ -142,7 +142,8 @@ export function MobileMenu({ links, contact, pathname, profiles = [] }: Props) {
                   <li key={href}>
                     <a
                       href={href}
-                      aria-label={label}
+                      aria-label={`${label}, opens in a new tab`}
+                      target="_blank"
                       rel="me noopener"
                       className="grid size-11 place-items-center text-ivory hover:text-vermilion focus-visible:text-vermilion focus-visible:outline-ivory"
                     >

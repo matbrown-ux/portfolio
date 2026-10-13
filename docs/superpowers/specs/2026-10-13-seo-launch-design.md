@@ -122,7 +122,7 @@ One `<script type="application/ld+json">` per page holding a `@graph`. Builders 
 | `email` | mat@matbrown.io | Contact band on every page |
 | `url` | https://matbrown.io | |
 | `image` | The About portrait | About |
-| `sameAs` | https://linkedin.com/in/matbrown, https://github.com/matbrown-ux | The old site's footer; added to the header as icons in this sub-project |
+| `sameAs` | https://www.linkedin.com/in/mathewbrownux/, https://github.com/matbrown-ux | The old site's footer; added to the header as icons in this sub-project |
 | `knowsAbout` | The five discipline titles | Services |
 
 Because `sameAs` must point at things the site also shows, the header gains two icon links, LinkedIn and GitHub, immediately to the left of the "Start a project" button (the owner's instruction: icons, in the navbar, left of the button; not text links in the footer). Each is a 44px target in ink with an accessible name, and turns into an ink square with an ivory icon on hover and focus. Below the `md` breakpoint, where the bar holds only the logo and the menu button, the icons sit in the open menu beside the call to action. The icons are Phosphor Icons (MIT), copied into the repo. With the RSS link on the blog index, this is the only visible addition in this sub-project.

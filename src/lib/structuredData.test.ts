@@ -51,7 +51,7 @@ describe('personNode', () => {
       url: 'https://matbrown.io/',
       image: 'https://matbrown.io/_astro/about.png',
       knowsAbout: ['UX/UI Engineering', 'SEO/AEO'],
-      sameAs: ['https://linkedin.com/in/matbrown', 'https://github.com/matbrown-ux'],
+      sameAs: ['https://www.linkedin.com/in/mathewbrownux/', 'https://github.com/matbrown-ux'],
     })
   })
 
