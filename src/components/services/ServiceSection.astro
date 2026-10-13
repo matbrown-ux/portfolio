@@ -1,0 +1,99 @@
+---
+import Button from '../ui/Button.astro'
+import type { ServiceSection } from '../../lib/serviceSections'
+
+interface Props {
+  section: ServiceSection
+}
+
+const { discipline: d, surface, titleSide, button, contactHref, proof } = Astro.props.section
+
+// Small vermilion text is only allowed on ink, so only the ink section has vermilion labels.
+// The proof card inverts on hover and focus, so its ring is named per surface: a currentColor
+// ring would take the inverted text colour and vanish against the section.
+const lightProof = 'hover:bg-ink hover:text-ivory focus-visible:bg-ink focus-visible:text-ivory focus-visible:outline-ink'
+const looks = {
+  ivory: { section: 'bg-ivory text-ink', number: 'text-stone', label: '', rule: 'border-ink/15', proof: lightProof },
+  stone: { section: 'bg-stone text-ink', number: 'text-ivory', label: '', rule: 'border-ink/15', proof: lightProof },
+  ink: { section: 'bg-ink text-ivory', number: 'text-ivory/[0.07]', label: 'text-vermilion', rule: 'border-line-dark', proof: 'hover:bg-ivory hover:text-ink focus-visible:bg-ivory focus-visible:text-ink focus-visible:outline-ivory' },
+  vermilion: { section: 'bg-vermilion text-ink', number: 'text-ink/[0.12]', label: '', rule: 'border-ink/25', proof: lightProof },
+} as const
+const look = looks[surface]
+
+// The title column is the wider one and sits on the outside; the giant number hangs off its inner
+// edge, behind the list. Sizes follow the viewport up to the 1600px column, then stop growing.
+const sides = {
+  left: {
+    grid: 'lg:grid-cols-[1.05fr_1fr]',
+    lead: 'lg:pr-[min(3vw,3rem)]',
+    copy: '',
+    number: 'right-0 lg:-right-[min(2.4vw,2.4rem)]',
+    detail: 'lg:pl-[min(5vw,5rem)]',
+  },
+  right: {
+    grid: 'lg:grid-cols-[1fr_1.05fr]',
+    lead: 'lg:order-2 lg:pl-[min(3vw,3rem)]',
+    copy: 'lg:ml-[min(9vw,9rem)]',
+    number: 'right-0 lg:right-auto lg:-left-[min(2.4vw,2.4rem)]',
+    detail: 'lg:pr-[min(5vw,5rem)]',
+  },
+} as const
+const side = sides[titleSide]
+const headingId = `${d.slug}-heading`
+---
+
+<section id={d.slug} class:list={['relative isolate overflow-hidden', look.section]} aria-labelledby={headingId}>
+  <div class:list={['mx-auto grid max-w-[1600px] lg:min-h-[min(31vw,31rem)]', side.grid]}>
+    <div class:list={['relative px-6 pb-8 pt-16 md:px-12 lg:py-[min(4vw,4rem)]', side.lead]}>
+      {/* Decorative giant number behind the title, cut off by the section's bottom edge from lg up. */}
+      <span
+        class:list={[
+          'type-display pointer-events-none absolute bottom-0 -z-10 select-none text-[clamp(9rem,19vw,19rem)] leading-[0.8] lg:-bottom-[min(1.2vw,1.2rem)]',
+          look.number,
+          side.number,
+        ]}
+        aria-hidden="true"
+      >
+        {d.number}
+      </span>
+      <h2 id={headingId} class:list={['type-display max-w-[9ch] text-[clamp(3rem,6.2vw,6.25rem)] leading-[0.95]', side.copy]} data-reveal="rise">{d.title}</h2>
+      <p class:list={['mt-5 max-w-md text-[clamp(1.0625rem,1.22vw,1.25rem)] leading-normal lg:mt-[min(1.6vw,1.6rem)] lg:max-w-[min(30vw,30rem)]', side.copy]}>{d.blurb}</p>
+    </div>
+    <div class:list={['relative px-6 pb-16 pt-6 md:px-12 lg:py-[min(4vw,4rem)]', side.detail]}>
+      <p class:list={['type-label', look.label]}>
+        <span aria-hidden="true">// </span>What you get
+      </p>
+      <ol role="list" class="mt-3.5">
+        {
+          d.deliverables.map((item, i) => (
+            <li class:list={['grid grid-cols-[3rem_1fr] items-baseline border-t py-3 text-[clamp(1rem,1.12vw,1.125rem)] leading-snug', look.rule]}>
+              <span class:list={['type-label', look.label]} aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              {item}
+            </li>
+          ))
+        }
+      </ol>
+      {
+        proof && (
+          <a
+            href={proof.href}
+            class:list={['mt-8 grid grid-cols-[1fr_auto] items-center gap-4 border-2 border-current px-5 py-4 transition-colors duration-200 motion-reduce:transition-none', look.proof]}
+          >
+            <span>
+              <span class="type-label block">Proof: case study</span>
+              <span class="type-display mt-1 block text-[clamp(1.5rem,1.9vw,2rem)]">{proof.title}</span>
+            </span>
+            <span class="text-2xl" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        )
+      }
+      <div class="mt-6">
+        <Button href={contactHref} variant={button} on={surface === 'ink' ? 'dark' : 'light'}>{d.cta}</Button>
+      </div>
+    </div>
+  </div>
+</section>
