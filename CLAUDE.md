@@ -4,12 +4,15 @@
 
 **At the beginning of every session, read [`MEMORY.md`](./MEMORY.md) first.** It summarizes what the project is, the architecture, and everything that has been built so far. Do not start work without it. Keep `MEMORY.md` updated as the build progresses.
 
-## 1. This is a Vite project, NOT Next.js
+## 1. This is an Astro project, NOT Next.js
 
-The stack is **React + Vite + vite-react-ssg** with **react-router-dom**. There are no Server Components.
+The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**, with MDX for content. The site is being rebuilt from scratch on `feat/astro-rebuild`; the previous React + Vite + vite-react-ssg app lives on `feat/site-pass` and is the reference to port from (`git show feat/site-pass:<path>`).
 
 - **Ignore any `"use client"` suggestions** and other Next.js-specific advice (App Router, `next/*`, server actions, etc.). They do not apply here.
-- Routing is in `src/router.tsx`. SEO is handled with `react-helmet-async`, not Next metadata.
+- Routing is file-based in `src/pages/`. Head and SEO tags live in `src/layouts/BaseLayout.astro`, so they are in the prerendered HTML.
+- Default to static `.astro` markup. Use a React island (`client:*`) only where there is real interaction, and keep its logic in `.ts`/`.tsx` so it is testable.
+- Animation is **GSAP only**. Do not add `motion` / Framer Motion.
+- Sections 4 and 5 below describe the pre-rebuild site (tokens, components, content pipeline). Treat them as history until they are rewritten for the new design.
 
 ## 2. Content & copy rules
 

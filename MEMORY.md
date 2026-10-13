@@ -3,7 +3,19 @@
 > Read this at the start of every session to understand what the project is and what has been built.
 > Keep it updated as work progresses.
 
-## Redesign roadmap and where we are (read first)
+## Astro rebuild (read first, supersedes the roadmap below)
+
+On 2026-10-12 the owner decided to redesign the site completely and move to their preferred stack: **Astro + React islands + Tailwind v4 + GSAP**. The rebuild is a clean scaffold on `feat/astro-rebuild` (branched from `feat/site-pass` @ 0bfb10a). Everything below this section describes the old React + Vite app, which still lives on `feat/site-pass`; use it as the reference to port from, not as a description of this branch.
+
+**What the scaffold has:** Astro 7 static output with `site: https://matbrown.io`, `@astrojs/react`, `@astrojs/mdx`, `@astrojs/sitemap`, Tailwind v4 via `@tailwindcss/vite` (`src/styles/global.css`), `gsap` + `@gsap/react`, Vitest 5 + jsdom + Testing Library (`vitest.config.ts` uses Astro's `getViteConfig`; setup in `src/test/setup.ts`), `astro check` as `npm run typecheck`. `src/layouts/BaseLayout.astro` owns the head (title, description, canonical, OG, Twitter, absolute image URLs). Pages: `index.astro` and `404.astro`, both unstyled placeholders. `netlify.toml` no longer has the SPA catch-all redirect.
+
+**Kept from the old app:** the 13 MDX files in `src/content/` (not wired to content collections yet; case study bodies still use the old `<Chapter>`, `<Walkthrough>`, `<Gallery>`, `<BeforeAfter>`, `<Outcome>`, `<PullQuote>` components, which do not exist here), everything in `public/images/`, the tdd-kit, and the docs.
+
+**Removed from this branch (recover from `feat/site-pass`):** all React components, pages, router, `src/lib/`, `src/types/content.ts`, `src/content/disciplines.ts` and its test, `motion`, `react-router-dom`, `react-helmet-async`, `vite-react-ssg`.
+
+**Next steps:** new design direction (tokens, type, layout); `src/content.config.ts` with collection schemas ported from the old `src/types/content.ts`; Astro or island replacements for the case study MDX components; port `disciplines.ts`; pages; contact form on Netlify Forms; favicon.
+
+## Redesign roadmap and where we are (old Vite app, historical)
 
 The site is mid-way through a 5-part semi-redesign focused on high-end UX and interaction design. Audience: freelance clients; interaction must build trust and lead to contact, and the visitor stays in control. Each sub-project gets its own spec, then plan, then a subagent-driven build (fresh implementer + task reviewer per task, final whole-branch review on the strongest model, one fix wave). Nothing is merged or pushed yet; the owner chose "keep as-is" after each branch.
 
