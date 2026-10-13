@@ -48,8 +48,9 @@ const place = side[row.mediaSide]
         </span>
       </p>
     </div>
-    <div class:list={['relative order-first min-h-[60vw] lg:min-h-0', look.block, place.block]}>
-      <MediaSlot media={slot} tone={look.tone} class={`absolute inset-6 md:inset-x-12 lg:inset-y-[3vw] ${place.media} ${look.media}`} sizes="(min-width: 1024px) 55vw, 100vw" />
+    {/* Stacked, the block is inset by the gutter so the row's own surface frames it and it reads as part of this row. */}
+    <div class:list={['relative order-first mx-6 mt-6 min-h-[60vw] md:mx-12 md:mt-12 lg:m-0 lg:min-h-0', look.block, place.block]}>
+      <MediaSlot media={slot} tone={look.tone} class={`absolute inset-6 lg:inset-y-[3vw] ${place.media} ${look.media}`} sizes="(min-width: 1024px) 55vw, 100vw" />
     </div>
   </a>
 </li>
