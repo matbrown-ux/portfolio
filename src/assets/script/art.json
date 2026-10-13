@@ -1,0 +1,17 @@
+{
+  "memorable": {
+    "src": "/script/memorable.svg",
+    "width": 5299,
+    "height": 1222
+  },
+  "lets-talk": {
+    "src": "/script/lets-talk.svg",
+    "width": 4375,
+    "height": 1335
+  },
+  "strike": {
+    "src": "/script/strike.svg",
+    "width": 1571,
+    "height": 304
+  }
+}

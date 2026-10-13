@@ -1,0 +1,5 @@
+[
+  { "name": "memorable", "text": "memorable", "fill": "#f86343", "edge": "#0c0c0c" },
+  { "name": "lets-talk", "text": "let's talk", "fill": "#f86343", "edge": "#f4f0e6" },
+  { "name": "strike", "stroke": "e", "fill": "#f86343" }
+]
