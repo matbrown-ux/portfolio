@@ -23,12 +23,25 @@ export function parseReveal(el: HTMLElement): RevealConfig | null {
   }
 }
 
+/** Pixels a rise starts below its resting position. */
+const RISE_DISTANCE = 32
+
 export function revealTween(kind: RevealKind): { from: gsap.TweenVars; to: gsap.TweenVars } {
   if (kind === 'wipe') {
     return { from: { clipPath: 'inset(0% 100% 0% 0%)' }, to: { clipPath: 'inset(0% 0% 0% 0%)' } }
   }
-  if (kind === 'rise') return { from: { autoAlpha: 0, y: 32 }, to: { autoAlpha: 1, y: 0 } }
+  if (kind === 'rise') return { from: { autoAlpha: 0, y: RISE_DISTANCE }, to: { autoAlpha: 1, y: 0 } }
   return { from: { autoAlpha: 0 }, to: { autoAlpha: 1 } }
+}
+
+/**
+ * ScrollTrigger start for a scroll reveal: the top of the element reaching 85% of the viewport.
+ * ScrollTrigger measures the element where it is drawn, and a rise is drawn below its resting
+ * position, so its start is moved back up by the same distance. Otherwise content resting just
+ * above the line reads as below it and stays hidden until the reader scrolls.
+ */
+export function revealStart(kind: RevealKind): string {
+  return kind === 'rise' ? `top-=${RISE_DISTANCE} 85%` : 'top 85%'
 }
 
 /** Set on <html> once load reveals no longer need the stylesheet to hold them hidden. */
@@ -68,7 +81,7 @@ export function initReveals(root: ParentNode = document): () => void {
         // for a frame once the stylesheet's hold is released.
         lazy: false,
         clearProps: config.kind === 'wipe' ? 'clipPath' : 'transform',
-        scrollTrigger: config.onLoad ? undefined : { trigger: el, start: 'top 85%', once: true },
+        scrollTrigger: config.onLoad ? undefined : { trigger: el, start: revealStart(config.kind), once: true },
       })
     })
   }, root)

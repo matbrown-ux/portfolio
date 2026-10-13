@@ -1,7 +1,7 @@
 import { afterAll, afterEach, describe, expect, it } from 'vitest'
 import { installMatchMedia, REDUCED_QUERY } from '../test/matchMedia'
 import { gsap, ScrollTrigger } from './gsap'
-import { initReveals, parseReveal, revealTween } from './reveal'
+import { initReveals, parseReveal, revealStart, revealTween } from './reveal'
 
 afterEach(() => {
   document.body.innerHTML = ''
@@ -56,6 +56,23 @@ describe('revealTween', () => {
   it('rises and fades with autoAlpha', () => {
     expect(revealTween('rise').from).toEqual({ autoAlpha: 0, y: 32 })
     expect(revealTween('fade').from).toEqual({ autoAlpha: 0 })
+  })
+})
+
+describe('revealStart', () => {
+  it('starts a wipe or a fade when the top of the element reaches 85% of the viewport', () => {
+    expect(revealStart('wipe')).toBe('top 85%')
+    expect(revealStart('fade')).toBe('top 85%')
+  })
+
+  // A rise starts translated down, and ScrollTrigger measures the element where it is drawn.
+  // Without the offset, content resting just above the line reads as below it and never fires.
+  it('measures a rise from its resting position, not its lowered start position', () => {
+    expect(revealStart('rise')).toBe('top-=32 85%')
+  })
+
+  it('offsets a rise by exactly the distance it starts below its resting position', () => {
+    expect(revealStart('rise')).toBe(`top-=${revealTween('rise').from.y} 85%`)
   })
 })
 
