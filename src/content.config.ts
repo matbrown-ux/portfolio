@@ -3,8 +3,9 @@ import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 
 // A media slot. No `src` means a labelled placeholder; `alt` names what belongs there.
-// `src` and `poster` are paths relative to src/assets/case-studies/.
-const mediaRef = z.object({
+// `src` and `poster` are paths relative to src/assets/case-studies/. The objects are strict so a
+// mistyped key fails the build instead of quietly becoming a placeholder.
+const mediaRef = z.strictObject({
   src: z.string().optional(),
   alt: z.string(),
   poster: z.string().optional(),
@@ -23,11 +24,11 @@ const caseStudies = defineCollection({
     stack: z.array(z.string()).default([]),
     role: z.string(),
     client: z.string().optional(),
-    liveUrl: z.string().url().optional(),
+    liveUrl: z.url().optional(),
     result: z.string(),
     ogImage: z.string().optional(),
     heroNote: z.string().optional(),
-    media: z.object({ hero: mediaRef.optional(), tile: mediaRef.optional() }).optional(),
+    media: z.strictObject({ hero: mediaRef.optional(), tile: mediaRef.optional() }).optional(),
   }),
 })
 

@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config'
 import react from '@astrojs/react'
+import { satteri } from '@astrojs/markdown-satteri'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
@@ -8,6 +9,8 @@ import tailwindcss from '@tailwindcss/vite'
 // https://astro.build/config
 export default defineConfig({
   site: 'https://matbrown.io',
+  // Straight quotes and plain hyphens stay as written: no smart punctuation in Markdown or MDX.
+  markdown: { processor: satteri({ features: { smartPunctuation: false } }) },
   integrations: [react(), mdx(), sitemap()],
   fonts: [
     {
