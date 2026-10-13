@@ -20,12 +20,12 @@ const surface = {
         {
           tiles.map((tile, i) => (
             <li class:list={[surface[tile.variant]]} data-reveal="rise" data-reveal-delay={i * 0.08}>
-              <a href={tile.href} class="group flex h-full min-h-52 flex-col p-6 lg:p-7">
+              <a href={tile.href} class="group flex h-full min-h-52 flex-col p-6 focus-visible:-outline-offset-4 lg:p-7">
                 <span class:list={['type-label text-sm', tile.variant === 'dark' && 'text-vermilion']}>{tile.number} /</span>
                 <h3 class="type-display mt-2 max-w-[10ch] text-[clamp(2rem,3.1vw,3.25rem)]">{tile.title}</h3>
                 <p class="type-label mt-3 font-medium">{tile.tags.join(', ')}</p>
                 <span
-                  class="mt-auto inline-block pt-6 text-2xl transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1 motion-reduce:transition-none"
+                  class="mt-auto inline-block pt-6 text-2xl transition-transform duration-200 motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:translate-x-1 motion-reduce:transition-none"
                   aria-hidden="true"
                 >
                   ↗

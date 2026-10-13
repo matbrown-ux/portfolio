@@ -112,7 +112,7 @@ export function MobileMenu({ links, contact, pathname }: Props) {
               })}
             </ul>
           </nav>
-          <a href={contact.href} className="type-label mt-auto inline-flex items-center gap-2 self-start bg-vermilion px-5 py-3.5 text-ink">
+          <a href={contact.href} className="type-label mt-auto inline-flex items-center gap-2 self-start bg-vermilion px-5 py-3.5 text-ink focus-visible:outline-ivory">
             {contact.label}
             <span aria-hidden="true">↗</span>
           </a>

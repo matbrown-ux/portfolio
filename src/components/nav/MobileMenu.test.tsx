@@ -78,6 +78,13 @@ describe('MobileMenu', () => {
     expect(document.getElementById('mobile-menu')).toHaveClass('overflow-y-auto')
   })
 
+  it('gives the call to action an ivory focus ring, since its ink text colour is invisible on the ink panel', async () => {
+    // jsdom does not compute outlines, so the focus ring class is the most a unit test can assert.
+    const { user, toggle } = setup()
+    await user.click(toggle)
+    expect(screen.getByRole('link', { name: /Start a project/ })).toHaveClass('focus-visible:outline-ivory')
+  })
+
   it('closes and unlocks scroll when the viewport reaches the desktop width', async () => {
     const { user, toggle } = setup()
     await user.click(toggle)
