@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets'
+import portrait from '../../assets/portraits/about.png'
+import VerticalLabel from '../ui/VerticalLabel.astro'
+---
+
+{/* From lg up everything is placed on the site's 1600px column (--gutter is the space outside it),
+    while the vermilion block still runs to the right edge of the screen. */}
+<section class="relative isolate overflow-hidden bg-ivory lg:h-[52.5vw] lg:max-h-[860px] lg:min-h-[600px] lg:[--gutter:max(0px,calc(50%-800px))]">
+  {/* Decorative: the h1 below carries the keywords. */}
+  <p
+    class="type-display relative z-10 px-6 pt-32 text-[clamp(4.5rem,15vw,15rem)] leading-[0.86] md:px-12 lg:absolute lg:left-(--gutter) lg:top-[21%] lg:pt-0"
+    aria-hidden="true"
+  >
+    Mathew<br />Brown
+  </p>
+
+  <h1
+    class="type-label relative z-10 mt-6 max-w-sm px-6 before:mb-3 before:block before:h-0.5 before:w-10 before:bg-ink md:px-12 lg:absolute lg:bottom-[8%] lg:left-(--gutter) lg:mt-0 lg:max-w-[min(30%,30rem)]"
+  >
+    About Mathew Brown: UX/UI Engineer &amp; SEO Specialist
+  </h1>
+
+  <div class="relative mt-10 h-[110vw] max-h-[640px] lg:absolute lg:inset-y-0 lg:left-[calc(var(--gutter)+min(52%,832px))] lg:right-0 lg:mt-0 lg:h-auto lg:max-h-none">
+    <div class="absolute inset-x-0 bottom-0 top-[24.5%] lg:top-[26.7%] bg-vermilion" data-reveal="wipe" data-reveal-on="load"></div>
+    <Image
+      src={portrait}
+      alt="Mathew Brown in profile"
+      widths={[480, 626]}
+      sizes="(min-width: 1024px) 34vw, 80vw"
+      loading="eager"
+      fetchpriority="high"
+      class="absolute bottom-0 left-[12%] h-[92%] w-auto max-w-none lg:left-[min(5.3vw,5.3rem)] lg:h-[89.5%]"
+    />
+    {/* Tints the part of the cut-out that overlaps the block. It wipes in with the block. */}
+    <div class="absolute inset-x-0 bottom-0 top-[24.5%] lg:top-[26.7%] bg-vermilion mix-blend-multiply" data-reveal="wipe" data-reveal-on="load" aria-hidden="true"></div>
+  </div>
+
+  {/* On the block from lg up, so it is ink. */}
+  <VerticalLabel class="absolute right-6 top-28 z-10 border-r-2 border-ink pr-2 text-ink md:right-12 lg:right-[calc(var(--gutter)+3rem)] lg:top-[31%] lg:text-sm">
+    O'ahu, Hawai'i<br />Working remotely
+  </VerticalLabel>
+</section>

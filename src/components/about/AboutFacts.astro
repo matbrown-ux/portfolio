@@ -1,0 +1,33 @@
+---
+import VerticalLabel from '../ui/VerticalLabel.astro'
+import { aboutFacts } from '../../content/about'
+
+const values = {
+  number: 'text-[clamp(4rem,6.4vw,6.5rem)] leading-[0.9] text-vermilion',
+  place: 'text-[clamp(1.75rem,2.3vw,2.4rem)] leading-none',
+} as const
+---
+
+<section class="bg-ink text-ivory" aria-labelledby="about-facts-heading">
+  <h2 id="about-facts-heading" class="sr-only">By the numbers</h2>
+  <div class="mx-auto flex max-w-[1600px]">
+    <div class="hidden w-20 shrink-0 items-center justify-center lg:flex" aria-hidden="true">
+      <VerticalLabel>By the numbers</VerticalLabel>
+    </div>
+    {/* Each cell draws its left and top line, and the list hides the outer ones, so the lines
+        stay between cells whether the strip is two or four across. */}
+    <dl class="grid flex-1 grid-cols-2 overflow-hidden lg:grid-cols-4 lg:overflow-visible">
+      {
+        aboutFacts.map((fact) => (
+          <div class="-ml-px -mt-px border-l border-t border-line-dark px-6 py-8 md:px-12 lg:m-0 lg:border-t-0 lg:px-7 lg:py-10">
+            <dt class="type-label text-vermilion">{fact.label}</dt>
+            <dd class="mt-3">
+              <span class:list={['type-display block', values[fact.kind]]}>{fact.value}</span>
+              <span class="mt-3 block max-w-[17rem] leading-snug">{fact.sentence}</span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
