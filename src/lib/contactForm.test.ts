@@ -181,7 +181,7 @@ describe('initContactForm', () => {
     expect(document.activeElement).toBe(ui.heading)
   })
 
-  it('disables the button while sending and sends only once on a double submit', async () => {
+  it('marks the button busy while sending and sends only once on a double submit', async () => {
     const ui = mount()
     let finish: (value: { ok: boolean; status: number }) => void = () => {}
     const send = vi.fn(() => new Promise<{ ok: boolean; status: number }>((resolve) => (finish = resolve)))
@@ -190,7 +190,9 @@ describe('initContactForm', () => {
     submit(ui.form)
     submit(ui.form)
     expect(send).toHaveBeenCalledTimes(1)
-    expect(ui.button.disabled).toBe(true)
+    // Marked busy, not natively disabled: a disabled button loses keyboard focus in the browser.
+    expect(ui.button.getAttribute('aria-disabled')).toBe('true')
+    expect(ui.button.disabled).toBe(false)
     expect(ui.button.textContent).toBe('Sending')
     finish({ ok: true, status: 200 })
     await settle()
@@ -208,6 +210,7 @@ describe('initContactForm', () => {
     expect(ui.confirmation.hidden).toBe(true)
     expect(ui.input('name').value).toBe('Ada Lovelace')
     expect(ui.input('message').value).toBe('Rank #1 & stay there?')
+    expect(ui.button.hasAttribute('aria-disabled')).toBe(false)
     expect(ui.button.disabled).toBe(false)
     expect(ui.button.textContent).toBe('Send enquiry')
   })
@@ -221,6 +224,8 @@ describe('initContactForm', () => {
     await settle()
     expect(ui.formError.hidden).toBe(false)
     expect(ui.confirmation.hidden).toBe(true)
+    // The retry is reachable: the button is no longer marked busy.
+    expect(ui.button.hasAttribute('aria-disabled')).toBe(false)
     submit(ui.form)
     await settle()
     expect(send).toHaveBeenCalledTimes(2)

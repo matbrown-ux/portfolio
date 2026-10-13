@@ -74,7 +74,9 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
     sending = true
     if (formError) formError.hidden = true
     if (button) {
-      button.disabled = true
+      // Marked busy rather than natively disabled: a browser takes keyboard focus away from a
+      // focused control that becomes disabled. The `sending` flag is what blocks a second send.
+      button.setAttribute('aria-disabled', 'true')
       button.textContent = SENDING
     }
 
@@ -97,7 +99,7 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
       // What the visitor typed stays in the form; the message gives them the email address.
       if (formError) formError.hidden = false
       if (button) {
-        button.disabled = false
+        button.removeAttribute('aria-disabled')
         button.textContent = buttonLabel
       }
     } finally {
