@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import Button from '../components/ui/Button.astro'
 ---
 
 <BaseLayout title="Page Not Found" description="This page could not be found." noindex>
-  <h1>Page not found</h1>
-  <a href="/">Back to home</a>
+  <section class="mx-auto max-w-[1600px] px-6 pb-20 pt-32 md:px-12 lg:pb-24 lg:pt-40">
+    <h1 class="type-display text-[clamp(3rem,7.4vw,7.5rem)]">Page not found</h1>
+    <Button href="/" class="mt-8">Back to home</Button>
+  </section>
 </BaseLayout>

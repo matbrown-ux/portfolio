@@ -4,12 +4,12 @@ import Button from '../ui/Button.astro'
 import { contactLink } from '../../content/navigation'
 ---
 
-<section class="overflow-hidden border-t border-line-dark bg-ink text-ivory">
+<section class="overflow-hidden border-t border-line-dark bg-ink text-ivory" aria-labelledby="statement-heading">
   <div
     class="mx-auto grid max-w-[1600px] gap-10 px-6 pb-16 pt-24 md:px-12 md:pt-32 lg:pb-20 lg:pt-[clamp(9rem,11.1vw,11.5rem)] xl:grid-cols-[1fr_auto] xl:items-end"
   >
     {/* Read aloud as "I build memorable websites." The struck word and the artwork are decorative. */}
-    <h2 class="type-display text-[clamp(2.5rem,13.3vw,3.25rem)] sm:text-[clamp(3.25rem,9.6vw,10rem)]" data-reveal="rise">
+    <h2 id="statement-heading" class="type-display text-[clamp(2.5rem,13.3vw,3.25rem)] sm:text-[clamp(3.25rem,9.6vw,10rem)]" data-reveal="rise">
       I build{' '}
       <span class="relative inline-block">
         <span class="opacity-40" aria-hidden="true">average</span>
