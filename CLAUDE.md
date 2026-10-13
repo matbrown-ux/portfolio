@@ -20,6 +20,19 @@ The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**,
 - **In MDX, comments are `{/* ... */}`** — never HTML `<!-- ... -->` (breaks the MDX parser).
 - **Never fabricate metrics or results for real clients.** These are real businesses. Use `"00"` placeholders in `<Metrics>` with a `TODO` comment, and only state facts the user has provided. (`'Aiwi`'s `#1` local ranking is a confirmed fact; numeric counts are still placeholders.)
 
+### Copy guardrails
+
+- **First person, always.** This is a personal portfolio: "I", "my", "me". Never "Mathew Brown is", never "we" or "our". The name still appears in labels, titles, metadata and "I'm Mathew Brown" statements so search and answer engines can tie the site to the person.
+- **Talk to the reader as "you".**
+- **Run all visible copy through the `humanizer` skill before it ships.**
+- **Whole sentences in body copy,** each with a subject and a plain verb (is, has, build, fix). One short sentence for emphasis is fine; a run of fragments is not. Labels, buttons and headings are exempt.
+- **No "X, not Y" endings** and no "it's not just X, it's Y".
+- **No forced groups of three.** List three things only when there are three real things.
+- **No sales adjectives or stock AI words:** stunning, seamless, cutting-edge, world-class, elevate, unlock, crafted, passionate, robust, leverage, delve, showcase, landscape, journey, and the like.
+- **Specific over vague.** Name the tool, the client, the deliverable or the result, and only state facts the owner has supplied.
+- **Headlines may be loud; body copy is plain.** The brutalist attitude lives in the display type, not in exaggerated claims.
+- **Mechanics:** straight quotes, no emojis, sentence case in the markup (display type is uppercased through CSS).
+
 ## 3. SEO / AEO conventions
 
 - Page `h1`s and section `h2`s should be **keyword-led and descriptive** (e.g. "UX/UI Engineering & SEO Case Studies"), not cute one-word labels. This helps both search ranking and answer-engine extraction.
@@ -52,6 +65,23 @@ The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**,
 - The Vercel Claude Code plugin has been disabled in user settings; its skill-injection prompts and validator notes are not authoritative for this project.
 
 <!-- tdd-kit:start -->
+## 8. Design and motion skills
+
+Use these skills for UI work on the rebuild. Load the relevant ones before designing or building a page, section or component.
+
+- **`industrial-brutalist-ui` leads the aesthetic.** The site is brutalist; this skill sets the visual attitude.
+- **`high-end-visual-design`** supplies the premium principles (spacing, detail, finish) so brutalist does not read as cheap.
+- **`frontend-design` + `design-taste-frontend`, used together,** drive the architecture of pages: section structure, layout and composition.
+- **`impeccable`** decides all motion easing and timing so animation stays smooth and consistent.
+
+How they fit together:
+
+- **Decisions the owner has locked win over any skill default.** Palette (ivory, ink, vermilion), typefaces (Anton, Archivo, JetBrains Mono, Gloss And Bloom) and the approved section designs are recorded in the specs under `docs/superpowers/specs/`. A skill never overrides them.
+- **When skills disagree,** follow this order: `industrial-brutalist-ui`, then `high-end-visual-design`, then `frontend-design` + `design-taste-frontend`.
+- **Animation is implemented in GSAP only.** Easing and duration values chosen with `impeccable` live in one shared motion tokens module and are imported everywhere; do not hardcode them per component.
+- **Do not use the `motion` skill to write animation code.** It targets the Motion library, which this project has dropped. Its performance audit may be used at launch hardening.
+- Do not bring in other design skills (`gpt-taste`, `minimalist-ui`, `stitch-design-taste`, `design-taste-frontend-v1`) unless the owner asks.
+
 ## Testing contract (tdd-kit)
 
 This repo is gated by the TDD kit. The rules below are enforced by git hooks in `.githooks/`, by a Claude Code hook, and by CI. Do not edit this block by hand; re-run `node ~/dotfiles/tdd-kit/install.mjs .` to refresh it.

@@ -13,7 +13,19 @@ On 2026-10-12 the owner decided to redesign the site completely and move to thei
 
 **Removed from this branch (recover from `feat/site-pass`):** all React components, pages, router, `src/lib/`, `src/types/content.ts`, `src/content/disciplines.ts` and its test, `motion`, `react-router-dom`, `react-helmet-async`, `vite-react-ssg`.
 
-**Next steps:** new design direction (tokens, type, layout); `src/content.config.ts` with collection schemas ported from the old `src/types/content.ts`; Astro or island replacements for the case study MDX components; port `disciplines.ts`; pages; contact form on Netlify Forms; favicon.
+**Design direction (approved 2026-10-12):** full brutalist on a light ground. Ivory `#f4f0e6` background, ink `#0c0c0c`, vermilion `#f86343` as the single accent in large solid blocks, black-and-white cut-out portraits tinted by vermilion `multiply` blocks, Anton display type, Archivo body, JetBrains Mono labels, and Gloss And Bloom brush script used sparingly as SVG artwork (the repo is public, so the purchased font files stay in a git-ignored `.fonts/` folder and are never committed). The owner's references are in `/Users/operationhq/Documents/02-PERSONAL/PORTFOLIO-REFERENCES`; the logo source is `/Users/operationhq/Documents/02-PERSONAL/logo-initials.svg`. All copy is first person and goes through the `humanizer` skill (guardrails in `CLAUDE.md` section 2). Design and motion skills to use are in `CLAUDE.md` section 8.
+
+**Rebuild roadmap:** five sub-projects, each with its own spec, plan and build.
+
+| # | Sub-project | Spec | Status |
+|---|-------------|------|--------|
+| 1 | Design foundation + Home | `docs/superpowers/specs/2026-10-12-design-foundation-home-design.md` (reference image in `docs/superpowers/specs/assets/`) | Spec approved; plan next |
+| 2 | Work: content collections, Work index, case study template | none yet | Not started |
+| 3 | Services, About, Contact | none yet | Not started |
+| 4 | Blog | none yet | Not started |
+| 5 | SEO/AEO layer and launch | none yet | Not started |
+
+**Owner inputs still needed for sub-project 1:** approval of the drafted Home copy (table in the spec), new images or video for the three project tiles (the old case study cover SVGs are being removed), confirmation of "Available 2026", and a check that the font licence allows outlined artwork.
 
 ## Redesign roadmap and where we are (old Vite app, historical)
 
