@@ -73,6 +73,13 @@ export function countLabel(n: number, singular: string, plural: string, options:
   return `${count} ${n === 1 ? singular : plural}`
 }
 
+/** The sentence beside the blog index's topic heading. */
+export function indexIntro(topicCount: number, disciplineCount: number): string {
+  const topics = countLabel(topicCount, 'topic', 'topics', { words: true, capital: true })
+  const disciplines = countLabel(disciplineCount, 'discipline', 'disciplines', { words: true })
+  return `${topics} across the ${disciplines} I work in. I add to them as I write.`
+}
+
 export interface TopicRow<T> {
   topic: T
   href: string

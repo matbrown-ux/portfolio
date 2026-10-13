@@ -10,6 +10,7 @@ import {
   countLabel,
   emptyTopicText,
   formatDate,
+  indexIntro,
   isoDate,
   latestArticles,
   nextTiles,
@@ -171,6 +172,16 @@ describe('countLabel and numberWord', () => {
     expect(numberWord(12)).toBe('twelve')
     expect(numberWord(13)).toBe('13')
     expect(numberWord(5, true)).toBe('Five')
+  })
+})
+
+describe('indexIntro', () => {
+  it('writes both counts as words', () => {
+    expect(indexIntro(9, 5)).toBe('Nine topics across the five disciplines I work in. I add to them as I write.')
+  })
+
+  it('uses the singular for one topic and one discipline', () => {
+    expect(indexIntro(1, 1)).toBe('One topic across the one discipline I work in. I add to them as I write.')
   })
 })
 

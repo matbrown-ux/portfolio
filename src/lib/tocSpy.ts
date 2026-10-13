@@ -1,5 +1,8 @@
-/** The top 30% of the viewport: a heading that has reached it counts as the section being read. */
-const BAND = '0px 0px -70% 0px'
+/** The band's share of the viewport, from the top: a heading that has reached it counts as the section being read. */
+const BAND_SHARE = 0.3
+
+/** The observer's margin, cutting the viewport down to the band: '0px 0px -70% 0px' for a share of 0.3. */
+const BAND = `0px 0px -${Math.round((1 - BAND_SHARE) * 100)}% 0px`
 
 /**
  * Mark the section being read in an article's contents list. The list is `nav[data-toc]` and each
@@ -44,7 +47,7 @@ export function initTocSpy(root: ParentNode = document): () => void {
   // The observer reports only when a heading crosses the band. A jump (a Home key, an anchor
   // link) can carry a heading across it in one step, so each scroll also re-reads the positions.
   function reread() {
-    const bandBottom = window.innerHeight * 0.3
+    const bandBottom = window.innerHeight * BAND_SHARE
     reached.clear()
     for (const { heading } of sections) if (heading.getBoundingClientRect().top < bandBottom) reached.add(heading)
     mark()
