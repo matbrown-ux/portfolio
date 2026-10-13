@@ -23,7 +23,8 @@ describe('beacon', () => {
 })
 
 describe('analytics setting', () => {
-  it('ships switched off', () => {
-    expect(analytics).toEqual({ cloudflareToken: '' })
+  it("holds the owner's Cloudflare site token for matbrown.io, so production loads the beacon", () => {
+    expect(analytics).toEqual({ cloudflareToken: '94346bdd6ed548abb3d3a75404f4e586' })
+    expect(beacon(analytics, { context: 'production' })?.['data-cf-beacon']).toBe('{"token":"94346bdd6ed548abb3d3a75404f4e586"}')
   })
 })
