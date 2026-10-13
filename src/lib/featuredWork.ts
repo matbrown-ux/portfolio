@@ -1,3 +1,5 @@
+import { sortCaseStudies } from './caseStudies'
+
 export interface WorkEntry {
   /** The case study slug. */
   id: string
@@ -7,6 +9,7 @@ export interface WorkEntry {
 export type TileVariant = 'tall' | 'accent' | 'dark'
 
 export interface WorkTile {
+  id: string
   number: string
   variant: TileVariant
   title: string
@@ -18,10 +21,10 @@ const VARIANTS: TileVariant[] = ['tall', 'accent', 'dark']
 
 /** The three most recent case studies as Home tiles, newest first. */
 export function featuredWork(entries: WorkEntry[]): WorkTile[] {
-  return [...entries]
-    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime() || a.id.localeCompare(b.id))
+  return sortCaseStudies(entries)
     .slice(0, VARIANTS.length)
     .map((entry, i) => ({
+      id: entry.id,
       number: String(i + 1).padStart(2, '0'),
       variant: VARIANTS[i],
       title: entry.data.title,

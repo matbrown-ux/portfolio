@@ -21,8 +21,9 @@ describe('featuredWork', () => {
     ])
   })
 
-  it('carries the title and the first two tags', () => {
+  it('carries the id, the title and the first two tags', () => {
     expect(featuredWork([entry('a', '2025-01-01', ['Branding', 'Local SEO', 'Shopify'])])[0]).toEqual({
+      id: 'a',
       number: '01',
       variant: 'tall',
       title: 'A',
