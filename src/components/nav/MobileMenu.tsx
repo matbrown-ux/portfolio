@@ -93,7 +93,7 @@ export function MobileMenu({ links, contact, pathname }: Props) {
       </button>
 
       {open && (
-        <div ref={panelRef} id="mobile-menu" className="fixed inset-0 z-50 flex flex-col bg-ink px-6 pb-10 pt-28 text-ivory">
+        <div ref={panelRef} id="mobile-menu" className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-ink px-6 pb-10 pt-28 text-ivory">
           <nav aria-label="Mobile">
             <ul role="list" className="space-y-3">
               {links.map(({ label, href }) => {

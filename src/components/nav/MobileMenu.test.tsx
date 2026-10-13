@@ -71,6 +71,13 @@ describe('MobileMenu', () => {
     expect(screen.getByRole('link', { name: /Start a project/ })).toHaveFocus()
   })
 
+  it('lets the panel scroll its own content so short viewports can reach every link', async () => {
+    // jsdom does no layout, so the scrolling class is the most a unit test can assert.
+    const { user, toggle } = setup()
+    await user.click(toggle)
+    expect(document.getElementById('mobile-menu')).toHaveClass('overflow-y-auto')
+  })
+
   it('closes and unlocks scroll when the viewport reaches the desktop width', async () => {
     const { user, toggle } = setup()
     await user.click(toggle)
