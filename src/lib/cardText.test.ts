@@ -43,6 +43,19 @@ describe('wrapTitle', () => {
     expect(wrapTitle(font, 'AA BBBBBBBBBBBB CC', 100, 300)).toEqual(['AA', 'BBBBBBBBBBBB', 'CC'])
   })
 
+  it('moves an ampersand that would end a line to the start of the next one', () => {
+    // 'AAAA &' is 300 wide and fits, but a line does not end on a lone '&'.
+    expect(wrapTitle(font, 'AAAA & BBBB', 100, 300)).toEqual(['AAAA', '& BBBB'])
+  })
+
+  it('leaves an ampersand in the middle of a line where it is', () => {
+    expect(wrapTitle(font, 'AA & BB CCCC', 100, 400)).toEqual(['AA & BB', 'CCCC'])
+  })
+
+  it('leaves an ampersand that is the last word of the title where it is', () => {
+    expect(wrapTitle(font, 'AAAA BBBB &', 100, 300)).toEqual(['AAAA', 'BBBB &'])
+  })
+
   it('ignores extra spaces and returns nothing for an empty title', () => {
     expect(wrapTitle(font, '  AA   BB  ', 100, 1000)).toEqual(['AA BB'])
     expect(wrapTitle(font, '   ', 100, 1000)).toEqual([])
@@ -62,6 +75,11 @@ describe('fitTitle', () => {
 
   it('steps down when the title takes too many lines', () => {
     expect(fitTitle(font, 'AA BB CC DD EE FF', space)).toEqual({ size: 60, lines: ['AA BB CC', 'DD EE FF'] })
+  })
+
+  it('steps down when moving an ampersand to the next line makes that line too wide', () => {
+    // At 100, '& BBBBB' is 350 wide. At 80 it is 280, so that is the first size that fits.
+    expect(fitTitle(font, 'AAAA & BBBBB', space)).toEqual({ size: 80, lines: ['AAAA', '& BBBBB'] })
   })
 
   it('keeps stepping down by a tenth past the smallest size until one long word fits the width', () => {

@@ -1,3 +1,6 @@
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join, relative } from 'node:path'
 import sharp from 'sharp'
 import { describe, expect, it } from 'vitest'
 import { renderCard } from './cardRender'
@@ -40,10 +43,26 @@ describe('renderCard', () => {
   })
 
   it('lays a capture over the inside of the frame', async () => {
-    const png = await renderCard({ ...home, capture: 'src/assets/portraits/about.png' })
-    // The block is wider on a capture card, so this point is vermilion; on a plain card it is ivory.
-    expect(await pixel(png, 670, 20)).toEqual([0xf8, 0x63, 0x43])
-    const meta = await sharp(png).metadata()
-    expect(meta.width).toBe(1200)
+    // A flat mid grey, which is none of the card's own colours, so only the capture can put it there.
+    const folder = mkdtempSync(join(tmpdir(), 'card-capture-'))
+    const file = join(folder, 'grey.png')
+    try {
+      await sharp({ create: { width: 900, height: 300, channels: 3, background: { r: 128, g: 128, b: 128 } } }).png().toFile(file)
+      const png = await renderCard({ ...home, capture: relative(process.cwd(), file) })
+      // The block is wider on a capture card, so this point is vermilion; on a plain card it is ivory.
+      expect(await pixel(png, 670, 20)).toEqual([0xf8, 0x63, 0x43])
+      // The capture is cropped to cover the whole inside of the frame, corner to corner.
+      expect(await pixel(png, 900, 300)).toEqual([128, 128, 128])
+      expect(await pixel(png, 705, 75)).toEqual([128, 128, 128])
+      expect(await pixel(png, 1142, 554)).toEqual([128, 128, 128])
+      // The 3px frame around it stays ink.
+      expect(await pixel(png, 703, 300)).toEqual([0x0c, 0x0c, 0x0c])
+      expect(await pixel(png, 1144, 300)).toEqual([0x0c, 0x0c, 0x0c])
+      const meta = await sharp(png).metadata()
+      expect(meta.width).toBe(1200)
+      expect(meta.height).toBe(630)
+    } finally {
+      rmSync(folder, { recursive: true, force: true })
+    }
   })
 })

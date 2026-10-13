@@ -21,15 +21,24 @@ export function textWidth(font: CardFont, text: string, size: number, tracking =
   return (advance * size) / font.unitsPerEm + tracking * size * positions.length
 }
 
-/** Break a title into lines no wider than `maxWidth`, between words only. A word wider than the line stays whole. */
+/**
+ * Break a title into lines no wider than `maxWidth`, between words only. A word wider than the line
+ * stays whole. A line never ends on a lone "&" when more words follow: the "&" starts the next line,
+ * which may then be wider than `maxWidth` (`fitTitle` treats that size as not fitting).
+ */
 export function wrapTitle(font: CardFont, text: string, size: number, maxWidth: number): string[] {
   const lines: string[] = []
   let line = ''
   for (const word of text.split(/\s+/).filter(Boolean)) {
     const next = line ? `${line} ${word}` : word
     if (line && textWidth(font, next, size) > maxWidth) {
-      lines.push(line)
-      line = word
+      if (line.endsWith(' &')) {
+        lines.push(line.slice(0, -2))
+        line = `& ${word}`
+      } else {
+        lines.push(line)
+        line = word
+      }
     } else {
       line = next
     }
