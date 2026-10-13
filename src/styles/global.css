@@ -1,1 +1,78 @@
 @import "tailwindcss";
+
+@theme inline {
+  --font-display: var(--font-anton);
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+@theme {
+  --color-ivory: #f4f0e6;
+  --color-ink: #0c0c0c;
+  --color-vermilion: #f86343;
+  --color-stone: #e4dfd3;
+  --color-line-dark: rgb(244 240 230 / 0.16);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+}
+
+/* Anton, uppercase, tight. Size is set per use with a text-[clamp(...)] class. */
+@utility type-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+/* Small tracked monospace label: nav, numbers, tile metadata, buttons. */
+@utility type-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.09em;
+  height: 0.72em;
+  margin-left: 0.04em;
+  background: var(--color-vermilion);
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret {
+    animation: none;
+  }
+}

@@ -43,3 +43,9 @@ auth.json
 
 # Subagent-driven-development scratch
 .superpowers/
+
+# Purchased fonts (local only, the repo is public: never commit)
+.fonts/
+
+# Playwright MCP output
+.playwright-mcp/

@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import { Font } from 'astro:assets'
 
 interface Props {
   title: string
@@ -19,6 +20,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Font cssVariable="--font-anton" preload />
+    <Font cssVariable="--font-archivo" preload />
+    <Font cssVariable="--font-jetbrains-mono" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
