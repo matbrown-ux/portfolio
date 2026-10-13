@@ -64,7 +64,6 @@ The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**,
 - Confirm before destructive or outward-facing actions; commit/push only when asked.
 - The Vercel Claude Code plugin has been disabled in user settings; its skill-injection prompts and validator notes are not authoritative for this project.
 
-<!-- tdd-kit:start -->
 ## 8. Design and motion skills
 
 Use these skills for UI work on the rebuild. Load the relevant ones before designing or building a page, section or component.
@@ -82,6 +81,7 @@ How they fit together:
 - **Do not use the `motion` skill to write animation code.** It targets the Motion library, which this project has dropped. Its performance audit may be used at launch hardening.
 - Do not bring in other design skills (`gpt-taste`, `minimalist-ui`, `stitch-design-taste`, `design-taste-frontend-v1`) unless the owner asks.
 
+<!-- tdd-kit:start -->
 ## Testing contract (tdd-kit)
 
 This repo is gated by the TDD kit. The rules below are enforced by git hooks in `.githooks/`, by a Claude Code hook, and by CI. Do not edit this block by hand; re-run `node ~/dotfiles/tdd-kit/install.mjs .` to refresh it.

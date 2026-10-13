@@ -15,9 +15,9 @@ On 2026-10-12 the owner decided to redesign the site completely and move to thei
 - **Home:** six sections under `src/components/home/`: `Hero`, `DisciplineStrip`, `StatementBand`, `FeaturedWork`, `AboutTeaser`, `ContactBand`.
 - **Primitives:** `src/components/ui/` (`Button`, `ArrowButton`, `VerticalLabel`) and `src/components/brand/` (`Logo`, `ScriptArt`).
 - **Behaviour modules in `src/lib/`:** `typewriter`, `typewriterElement`, `reveal`, `motionTokens`, `gsap`, `featuredWork`, each with a co-located test.
-- **Script art:** `scripts/script-art/` (`generate.mjs`, `shape.mjs`, `svg.mjs`, `artList.mjs`, with tests) turns `src/assets/script/phrases.json` into `src/assets/script/art.json` via `npm run script-art`. The Gloss And Bloom font files stay in the git-ignored `.fonts/` folder.
+- **Script art:** `scripts/script-art/` (`generate.mjs`, `shape.mjs`, `svg.mjs`, `artList.mjs`, with tests) turns `src/assets/script/phrases.json` into one SVG per entry in `public/script/*.svg`, plus the manifest `src/assets/script/art.json` that `ScriptArt.astro` reads, via `npm run script-art`. The Gloss And Bloom font files stay in the git-ignored `.fonts/` folder.
 - **Content:** `src/content.config.ts` defines the `caseStudies` collection (glob loader over `src/content/case-studies/*.mdx`; schema is only `title`, `date`, `tags`, optional `client`). `src/content/disciplines.ts` and `src/content/navigation.ts` are the single sources for the five disciplines and the nav links.
-- **Build status:** Task 13 (final verification pass) is the remaining task on the plan. `netlify.toml` no longer has the SPA catch-all redirect.
+- **Build status:** every task on the plan is done, including Task 13 (final verification pass) and the fix pass after the final review. `netlify.toml` no longer has the SPA catch-all redirect.
 
 **Kept from the old app:** the 13 MDX files in `src/content/` (3 case studies, 10 blog), everything else in `public/images/` (the blog cover SVGs and `case-studies/<slug>/og.png`), the tdd-kit, and the docs. The case study frontmatter is indexed by the `caseStudies` collection in `src/content.config.ts`, but the bodies are not rendered yet: they still use the old `<Chapter>`, `<Walkthrough>`, `<Gallery>`, `<BeforeAfter>`, `<Outcome>`, `<PullQuote>` components, which do not exist here. The `coverImage` frontmatter lines and the three case study cover SVGs were removed. The blog MDX is not wired to any collection.
 
@@ -30,12 +30,19 @@ On 2026-10-12 the owner decided to redesign the site completely and move to thei
 | # | Sub-project | Spec | Status |
 |---|-------------|------|--------|
 | 1 | Design foundation + Home | `docs/superpowers/specs/2026-10-12-design-foundation-home-design.md` (reference image in `docs/superpowers/specs/assets/`) | Built; awaiting owner review |
-| 2 | Work: content collections, Work index, case study template | none yet | Not started |
+| 2 | Work: content collections, Work index, case study template. Also builds the optional image or video per featured work tile that the sub-project 1 spec deferred (video plays muted only while on screen, has a poster, and falls back to the poster under reduced motion); tiles are colour blocks until then | none yet | Not started |
 | 3 | Services, About, Contact | none yet | Not started |
 | 4 | Blog | none yet | Not started |
 | 5 | SEO/AEO layer and launch | none yet | Not started |
 
 **Owner inputs still needed for sub-project 1:** approval of the drafted Home copy (table in the spec), new images or video for the three project tiles (the old case study cover SVGs were removed), confirmation of "Available 2026", and a check that the font licence allows outlined artwork. Items the build ledger marks for the owner to confirm: the word "memorable" overlaps the top of "average" in the statement band at all widths (deepest at 390); the Home hero word is slightly smaller than the mockup between 1024 and 1279 (about 150px vs 169px glyph height at 1440); the statement band's right half is empty at 1024; the featured work tile order follows the case study dates (Vamp Network, The Booking Flow, 'Aiwi Waffles), so reorder by editing `date`; tile numbers are ink on stone and vermilion tiles because small vermilion text is only allowed on ink.
+
+Decisions the final review left for the owner:
+
+- Higher-resolution portrait cut-outs. `hero.png` is 476x900 and `about.png` is 626x874, so both are upscaled on high-density screens.
+- Whether the hero's rotating word should stop after a few cycles or get a pause control. Content that updates by itself for more than five seconds needs a way to pause under WCAG 2.2.2.
+- Whether project tiles should change colour on hover. Today only the arrow moves, and it does not move at all under reduced motion.
+- Whether the hero's rotated label should read top to bottom, as in the reference image, or bottom to top, as built.
 
 ## Redesign roadmap and where we are (old Vite app, historical)
 

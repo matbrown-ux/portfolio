@@ -150,7 +150,7 @@ Five disciplines from `src/content/disciplines.ts`, numbered 01 to 05: vermilion
 
 - `h2` "Featured work" in plain Anton. The brush underline tried in mockups was dropped; the owner may add a different accent later.
 - Three tiles for the three most recent case studies: one tall (stone), two stacked (vermilion, ink). Each shows number, Anton title, discipline tags and an arrow, and the whole tile links to `/work/<slug>`.
-- Tiles are plain colour blocks now. The component accepts an optional image or video per tile so media can be added later without redesign: video plays muted only while on screen, has a poster, and falls back to the poster under reduced motion.
+- Tiles are plain colour blocks in this sub-project. The optional image or video per tile is deferred to sub-project 2 (Work), where it is built with the full case study schema and the owner's real media. The video behaviour stays as specified: it plays muted only while on screen, has a poster, and falls back to the poster under reduced motion.
 - A vermilion vertical "View all projects" bar on the right edge links to `/work`.
 - The vertical "Featured work" side label from the earlier mockup is dropped, since the heading now says it.
 - Mobile: tiles stack; the bar becomes a full-width button below them.
