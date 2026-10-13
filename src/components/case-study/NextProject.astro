@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  entry: CollectionEntry<'caseStudies'>
+}
+
+const { entry } = Astro.props
+---
+
+<a
+  href={`/work/${entry.id}`}
+  class="group grid items-end gap-6 border-y border-line-dark bg-ink px-6 py-14 text-ivory focus-visible:-outline-offset-4 md:px-12 lg:grid-cols-[1fr_auto] lg:py-16"
+>
+  <span>
+    <span class="type-label block text-vermilion">Next project</span>
+    <span class="type-display mt-3 block text-[clamp(3rem,10vw,10rem)]" data-reveal="rise">{entry.data.title}</span>
+  </span>
+  <span
+    class="grid size-20 place-items-center bg-vermilion text-3xl text-ink transition-colors duration-200 group-hover:bg-ivory group-focus-visible:bg-ivory lg:size-28"
+    aria-hidden="true"
+  >
+    ↗
+  </span>
+</a>

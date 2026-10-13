@@ -1,12 +1,16 @@
 ---
 import { getCollection, render } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import CaseStudyHero from '../../components/case-study/CaseStudyHero.astro'
+import AtAGlance from '../../components/case-study/AtAGlance.astro'
+import NextProject from '../../components/case-study/NextProject.astro'
 import Chapter from '../../components/case-study/Chapter.astro'
 import PullQuote from '../../components/case-study/PullQuote.astro'
 import Walkthrough from '../../components/case-study/Walkthrough.astro'
 import Gallery from '../../components/case-study/Gallery.astro'
 import Outcome from '../../components/case-study/Outcome.astro'
 import ContactBand from '../../components/sections/ContactBand.astro'
+import { caseStudyNumber, nextCaseStudy } from '../../lib/caseStudies'
 
 export async function getStaticPaths() {
   const entries = await getCollection('caseStudies')
@@ -14,13 +18,17 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props
+const all = await getCollection('caseStudies')
 const { Content } = await render(entry)
+const next = nextCaseStudy(all, entry.id)
 ---
 
 <BaseLayout title={entry.data.headline} description={entry.data.summary} type="article" ogImage={entry.data.ogImage}>
-  <h1 class="type-label px-6 pt-32 md:px-12">{entry.data.headline}</h1>
-  <div class="cs-body mt-10">
+  <CaseStudyHero entry={entry} number={caseStudyNumber(all, entry.id)} />
+  <AtAGlance entry={entry} />
+  <div class="cs-body">
     <Content components={{ Chapter, PullQuote, Walkthrough, Gallery, Outcome }} />
   </div>
+  {next && <NextProject entry={next} />}
   <ContactBand />
 </BaseLayout>
