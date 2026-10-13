@@ -39,12 +39,13 @@ export function revealTween(kind: RevealKind): { from: gsap.TweenVars; to: gsap.
 export function initReveals(root: ParentNode = document): () => void {
   if (prefersReducedMotion()) return () => {}
 
-  const tweens: gsap.core.Tween[] = []
-  root.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
-    const config = parseReveal(el)
-    if (!config) return
-    const { from, to } = revealTween(config.kind)
-    tweens.push(
+  // Tweens created inside the context are reverted together, so cleanup restores each
+  // element's inline styles as well as stopping its tween and scroll trigger.
+  const ctx = gsap.context(() => {
+    root.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
+      const config = parseReveal(el)
+      if (!config) return
+      const { from, to } = revealTween(config.kind)
       gsap.fromTo(el, from, {
         ...to,
         duration: DURATION.slow,
@@ -53,14 +54,9 @@ export function initReveals(root: ParentNode = document): () => void {
         force3D: false,
         clearProps: config.kind === 'wipe' ? 'clipPath' : 'transform',
         scrollTrigger: config.onLoad ? undefined : { trigger: el, start: 'top 85%', once: true },
-      }),
-    )
-  })
+      })
+    })
+  }, root)
 
-  return () => {
-    for (const tween of tweens) {
-      tween.scrollTrigger?.kill()
-      tween.kill()
-    }
-  }
+  return () => ctx.revert()
 }

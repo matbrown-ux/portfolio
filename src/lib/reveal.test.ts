@@ -66,6 +66,23 @@ describe('initReveals', () => {
     cleanup()
   })
 
+  it('restores a fade element to visible when cleanup runs before it plays', () => {
+    const node = el({ 'data-reveal': 'fade', 'data-reveal-on': 'load' })
+    const cleanup = initReveals()
+    expect(node.style.opacity).toBe('0')
+    cleanup()
+    expect(node.style.opacity).not.toBe('0')
+    expect(node.style.visibility).not.toBe('hidden')
+  })
+
+  it('restores a wipe element to unclipped when cleanup runs before it plays', () => {
+    const node = el({ 'data-reveal': 'wipe', 'data-reveal-on': 'load' })
+    const cleanup = initReveals()
+    expect(node.style.clipPath).not.toBe('')
+    cleanup()
+    expect(node.style.clipPath).toBe('')
+  })
+
   it('touches nothing under reduced motion', () => {
     installMatchMedia({ [REDUCED_QUERY]: true })
     const node = el({ 'data-reveal': 'rise', 'data-reveal-on': 'load' })
