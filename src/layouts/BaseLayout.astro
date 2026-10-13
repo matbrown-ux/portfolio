@@ -27,8 +27,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
       setTimeout(() => document.documentElement.classList.add('reveals-ready'), 3000)
     </script>
     <Font cssVariable="--font-anton" preload />
-    <Font cssVariable="--font-archivo" preload />
-    <Font cssVariable="--font-jetbrains-mono" />
+    <Font cssVariable="--font-archivo" />
+    <Font cssVariable="--font-jetbrains-mono" preload />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
