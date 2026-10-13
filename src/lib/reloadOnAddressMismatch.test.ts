@@ -12,7 +12,7 @@ describe('reloadOnAddressMismatch', () => {
     window.history.replaceState({}, '', '/contact')
     const reload = vi.fn()
     const stop = reloadOnAddressMismatch({ reload })
-    window.history.replaceState({}, '', '/contact/thanks/')
+    window.history.replaceState({}, '', '/contact/thanks')
     pop()
     pop()
     expect(reload).toHaveBeenCalledTimes(1)
@@ -36,8 +36,8 @@ describe('reloadOnAddressMismatch', () => {
     const reload = vi.fn()
     let shown = '/contact'
     const stop = reloadOnAddressMismatch({ reload, shown: () => shown })
-    window.history.replaceState({}, '', '/contact/thanks/')
-    shown = '/contact/thanks/'
+    window.history.replaceState({}, '', '/contact/thanks')
+    shown = '/contact/thanks'
     pop()
     expect(reload).not.toHaveBeenCalled()
     window.history.replaceState({}, '', '/contact')

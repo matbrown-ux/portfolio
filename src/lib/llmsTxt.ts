@@ -8,7 +8,7 @@ export function robotsTxt(): string {
   return `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap-index.xml\n`
 }
 
-/** An article's absolute address, with a trailing slash. llms.txt and the RSS feed both use it. */
+/** An article's absolute address. llms.txt and the RSS feed both use it. */
 export function articleUrl(articleId: string): string {
   return pageUrl(articleHref(articleId))
 }

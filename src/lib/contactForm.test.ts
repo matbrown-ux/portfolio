@@ -7,7 +7,7 @@ const FIELD = (name: string, control: string) =>
 function mount() {
   document.body.innerHTML = `
     <div data-contact-panel>
-      <form name="contact" method="POST" action="/contact/thanks/" data-contact-form>
+      <form name="contact" method="POST" action="/contact/thanks" data-contact-form>
         <input type="hidden" name="form-name" value="contact" />
         <p hidden><input name="bot-field" /></p>
         ${FIELD('name', '<input id="name" name="name" type="text" required />')}
@@ -205,7 +205,7 @@ describe('initContactForm', () => {
     fill(ui)
     submit(ui.form)
     await settle()
-    expect(window.location.pathname).toBe('/contact/thanks/')
+    expect(window.location.pathname).toBe('/contact/thanks')
     expect(ui.confirmation.hidden).toBe(false)
   })
 
@@ -279,7 +279,7 @@ describe('initContactForm', () => {
       window.history.replaceState({}, '', '/contact')
       const reload = vi.fn()
       const cleanup = initContactForm(mountedDocument(), { search: '', reload })
-      window.history.replaceState({}, '', '/contact/thanks/')
+      window.history.replaceState({}, '', '/contact/thanks')
       pop()
       expect(reload).toHaveBeenCalledTimes(1)
       cleanup()

@@ -1,7 +1,7 @@
 import type { Discipline } from '../content/disciplines'
 import type { Person } from '../content/person'
 import { BLOG_FEED_TITLE } from './blog'
-import { ogImagePath } from './shareCards'
+import { ogImagePath, pagePath } from './shareCards'
 
 /** One schema.org node. */
 export type Node = Record<string, unknown>
@@ -9,14 +9,13 @@ export type Node = Record<string, unknown>
 export const SITE = 'https://matbrown.io'
 export const PERSON_ID = `${SITE}/#person`
 export const WEBSITE_ID = `${SITE}/#website`
-export const BLOG_ID = `${SITE}/blog/#blog`
+export const BLOG_ID = `${SITE}/blog#blog`
 
-/** A page's absolute address as it is built: with a trailing slash. A file path and a fragment are kept. */
+/** A page's absolute address as it is served: no trailing slash. A file path and a fragment are kept. */
 export function pageUrl(path: string): string {
   const [route, fragment] = path.split('#')
-  const isFile = /\.[a-z0-9]+$/i.test(route)
-  const withSlash = isFile || route.endsWith('/') ? route : `${route}/`
-  return SITE + withSlash + (fragment ? `#${fragment}` : '')
+  const isFile = /\.[a-z0-9]+$/i.test(route) && !route.endsWith('.html')
+  return SITE + (isFile ? route : pagePath(route)) + (fragment ? `#${fragment}` : '')
 }
 
 /** A date as schema.org wants it, read in UTC so the build machine cannot shift the day. */

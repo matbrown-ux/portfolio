@@ -7,7 +7,7 @@ export interface AddressGuardOptions {
 
 /**
  * Back or Forward can leave one page's content under another page's address (the confirmation
- * at /contact, or the form at /contact/thanks/). When the path no longer matches what is on
+ * at /contact, or the form at /contact/thanks). When the path no longer matches what is on
  * screen, a fresh load shows the real page for it. A change of hash or query alone is ignored.
  * Returns a cleanup function.
  */

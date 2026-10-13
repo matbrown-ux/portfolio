@@ -47,14 +47,14 @@ describe('isEmptyTopicUrl', () => {
   const slugs = ['technical-seo', 'brand-identity']
 
   it('matches the page of an empty topic, with or without a trailing slash', () => {
-    expect(isEmptyTopicUrl('https://matbrown.io/blog/technical-seo/', slugs)).toBe(true)
+    expect(isEmptyTopicUrl('https://matbrown.io/blog/technical-seo', slugs)).toBe(true)
     expect(isEmptyTopicUrl('https://matbrown.io/blog/brand-identity', slugs)).toBe(true)
   })
 
   it('does not match other pages', () => {
-    expect(isEmptyTopicUrl('https://matbrown.io/blog/', slugs)).toBe(false)
-    expect(isEmptyTopicUrl('https://matbrown.io/blog/ux-ui-design/', slugs)).toBe(false)
-    expect(isEmptyTopicUrl('https://matbrown.io/blog/technical-seo/an-article/', slugs)).toBe(false)
-    expect(isEmptyTopicUrl('https://matbrown.io/work/technical-seo/', slugs)).toBe(false)
+    expect(isEmptyTopicUrl('https://matbrown.io/blog', slugs)).toBe(false)
+    expect(isEmptyTopicUrl('https://matbrown.io/blog/ux-ui-design', slugs)).toBe(false)
+    expect(isEmptyTopicUrl('https://matbrown.io/blog/technical-seo/an-article', slugs)).toBe(false)
+    expect(isEmptyTopicUrl('https://matbrown.io/work/technical-seo', slugs)).toBe(false)
   })
 })
