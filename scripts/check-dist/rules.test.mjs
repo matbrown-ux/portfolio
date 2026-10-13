@@ -88,6 +88,11 @@ describe('pageProblems', () => {
     expect(pageProblems(pageFacts(page().replace(/<meta property="og:image"[^>]*>/, ''), url), site)).toEqual([`${url}: has no share image`])
   })
 
+  it('names the page when the share image is not an absolute address', () => {
+    expect(problems({ image: '/og/work.png' })).toEqual([`${url}: share image is not an absolute address`])
+    expect(problems({ image: 'not a url' })).toEqual([`${url}: share image is not an absolute address`])
+  })
+
   it('catches structured data that is broken or lacks the site-wide nodes', () => {
     expect(problems({ jsonLd: '<script type="application/ld+json">{not json</script>' })).toEqual([`${url}: structured data does not parse`])
     expect(problems({ jsonLd: ld(['Person']) })).toEqual([`${url}: structured data lacks WebSite`])
@@ -97,6 +102,14 @@ describe('pageProblems', () => {
   it('catches an em or en dash in the visible text', () => {
     expect(problems({ body: 'One — two' })).toEqual([`${url}: has an em or en dash in its text`])
     expect(problems({ body: '2018–2026' })).toEqual([`${url}: has an em or en dash in its text`])
+  })
+
+  it('catches em and en dashes written as HTML entities, in text and in attributes', () => {
+    const entities = ['&mdash;', '&ndash;', '&#8211;', '&#8212;', '&#x2013;', '&#x2014;', '&#X2013;', '&#X2014;']
+    for (const entity of entities) {
+      expect(problems({ body: `a ${entity} b` })).toEqual([`${url}: has an em or en dash in its text`])
+      expect(problems({ body: `<img alt="a ${entity} b" src="/a.png">` })).toEqual([`${url}: has an em or en dash in its text`])
+    }
   })
 
   it('catches an em dash in alt, title and the meta description', () => {
@@ -181,7 +194,7 @@ describe('problemReport', () => {
 })
 
 describe('siteProblems', () => {
-  const required = ['/robots.txt', '/llms.txt', '/rss.xml', '/favicon.svg', '/favicon.ico', '/site.webmanifest', '/og/work.png']
+  const required = ['/robots.txt', '/llms.txt', '/rss.xml', '/favicon.svg', '/favicon.ico', '/site.webmanifest', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og/work.png']
   const base = { pages: [pageFacts(page(), url)], sitemap: new Set([url]), files: new Set(required), links: [] }
 
   it('passes a sound site', () => {
@@ -190,6 +203,12 @@ describe('siteProblems', () => {
 
   it('catches a missing file', () => {
     expect(siteProblems({ ...base, files: new Set(required.filter((f) => f !== '/llms.txt')) })).toEqual(['/llms.txt was not built'])
+  })
+
+  it('catches each of the touch icons the manifest and the head name when it is missing', () => {
+    for (const icon of ['/apple-touch-icon.png', '/icon-192.png', '/icon-512.png']) {
+      expect(siteProblems({ ...base, files: new Set(required.filter((f) => f !== icon)) })).toEqual([`${icon} was not built`])
+    }
   })
 
   it('catches a sitemap entry with no page', () => {

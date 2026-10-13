@@ -1,6 +1,8 @@
 const SITE = 'https://matbrown.io'
 /** Files every build must produce besides its pages. */
-const REQUIRED = ['/robots.txt', '/llms.txt', '/rss.xml', '/favicon.svg', '/favicon.ico', '/site.webmanifest']
+const REQUIRED = ['/robots.txt', '/llms.txt', '/rss.xml', '/favicon.svg', '/favicon.ico', '/site.webmanifest', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png']
+// An em or en dash, as the character or as an HTML entity (Astro leaves entities in markup as written).
+const DASH = /[\u2013\u2014]|&(?:mdash|ndash);|&#(?:8211|8212);|&#x201[34];/i
 const SITE_WIDE = ['Person', 'WebSite']
 
 const attr = (html, pattern) => pattern.exec(html)?.[1] ?? ''
@@ -56,12 +58,13 @@ export function pageProblems(facts, site) {
   }
 
   if (facts.image === '') say('has no share image')
+  else if (!URL.canParse(facts.image)) say('share image is not an absolute address')
   else if (!site.files.has(new URL(facts.image).pathname)) say(`share image ${new URL(facts.image).pathname} was not built`)
 
   const data = structuredDataProblem(facts.jsonLd)
   if (data) say(data)
 
-  if (/[\u2013\u2014]/.test(facts.text)) say('has an em or en dash in its text')
+  if (DASH.test(facts.text)) say('has an em or en dash in its text')
   return problems
 }
 
