@@ -1,5 +1,5 @@
 import { gsap } from './gsap'
-import { DURATION, EASE, prefersReducedMotion } from './motionTokens'
+import { DURATION, EASE, prefersReducedMotion, STAGGER } from './motionTokens'
 
 export type RevealKind = 'rise' | 'wipe' | 'fade'
 
@@ -7,9 +7,14 @@ const KINDS: readonly RevealKind[] = ['rise', 'wipe', 'fade']
 
 export interface RevealConfig {
   kind: RevealKind
-  /** Seconds. */
+  /** Seconds: data-reveal-delay plus one STAGGER per step of data-reveal-index. */
   delay: number
   onLoad: boolean
+}
+
+/** A position in a staggered group. Anything but a non-negative integer counts as 0. */
+function staggerIndex(value: string | undefined): number {
+  return value !== undefined && /^\d+$/.test(value) ? Number(value) : 0
 }
 
 export function parseReveal(el: HTMLElement): RevealConfig | null {
@@ -18,7 +23,7 @@ export function parseReveal(el: HTMLElement): RevealConfig | null {
   const delay = Number(el.dataset.revealDelay)
   return {
     kind,
-    delay: Number.isFinite(delay) && delay > 0 ? delay : 0,
+    delay: (Number.isFinite(delay) && delay > 0 ? delay : 0) + staggerIndex(el.dataset.revealIndex) * STAGGER,
     onLoad: el.dataset.revealOn === 'load',
   }
 }
@@ -30,8 +35,21 @@ export function revealTween(kind: RevealKind): { from: gsap.TweenVars; to: gsap.
   if (kind === 'wipe') {
     return { from: { clipPath: 'inset(0% 100% 0% 0%)' }, to: { clipPath: 'inset(0% 0% 0% 0%)' } }
   }
-  if (kind === 'rise') return { from: { autoAlpha: 0, y: RISE_DISTANCE }, to: { autoAlpha: 1, y: 0 } }
-  return { from: { autoAlpha: 0 }, to: { autoAlpha: 1 } }
+  // Opacity, not autoAlpha: autoAlpha also writes visibility: hidden, which would take an
+  // unrevealed element out of the tab order and the accessibility tree until its trigger fires.
+  // A transparent element stays focusable, and focusing it scrolls it into view, which fires it.
+  if (kind === 'rise') return { from: { opacity: 0, y: RISE_DISTANCE }, to: { opacity: 1, y: 0 } }
+  return { from: { opacity: 0 }, to: { opacity: 1 } }
+}
+
+/**
+ * Inline properties to remove once a reveal has played: exactly the ones its kind animates.
+ * Opacity is cleared too, so a finished reveal leaves nothing inline that would override the
+ * stylesheet (an opacity utility, a hover state or the print reset).
+ */
+export function revealClearProps(kind: RevealKind): string {
+  if (kind === 'wipe') return 'clipPath'
+  return kind === 'rise' ? 'opacity,transform' : 'opacity'
 }
 
 /**
@@ -44,7 +62,7 @@ export function revealStart(kind: RevealKind): string {
   return kind === 'rise' ? `top-=${RISE_DISTANCE} 85%` : 'top 85%'
 }
 
-/** Set on <html> once load reveals no longer need the stylesheet to hold them hidden. */
+/** Set on <html> once reveals no longer need the stylesheet to hold them hidden. */
 const READY_CLASS = 'reveals-ready'
 
 function markRevealsReady(): void {
@@ -54,7 +72,7 @@ function markRevealsReady(): void {
 /**
  * Animate every [data-reveal] element under `root`. Elements stay fully visible
  * unless this runs and motion is allowed, so nothing is hidden without JavaScript.
- * The stylesheet holds load reveals hidden until this marks the document ready,
+ * The stylesheet holds every reveal hidden until this marks the document ready,
  * which it does only after their start states are applied, so they never flash.
  * Returns a cleanup function.
  */
@@ -77,10 +95,10 @@ export function initReveals(root: ParentNode = document): () => void {
         ease: config.kind === 'wipe' ? EASE.wipe : EASE.out,
         delay: config.delay,
         force3D: false,
-        // GSAP otherwise writes the start state on its next tick, so a load reveal would show
+        // GSAP otherwise writes the start state on its next tick, so a reveal would show
         // for a frame once the stylesheet's hold is released.
         lazy: false,
-        clearProps: config.kind === 'wipe' ? 'clipPath' : 'transform',
+        clearProps: revealClearProps(config.kind),
         scrollTrigger: config.onLoad ? undefined : { trigger: el, start: revealStart(config.kind), once: true },
       })
     })
@@ -89,6 +107,6 @@ export function initReveals(root: ParentNode = document): () => void {
   markRevealsReady()
 
   // Cleanup leaves the ready class in place: removing it would let the stylesheet
-  // hide the load reveals that revert() has just restored.
+  // hide the reveals that revert() has just restored.
   return () => ctx.revert()
 }

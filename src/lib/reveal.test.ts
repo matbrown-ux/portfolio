@@ -1,7 +1,8 @@
 import { afterAll, afterEach, describe, expect, it } from 'vitest'
 import { installMatchMedia, REDUCED_QUERY } from '../test/matchMedia'
 import { gsap, ScrollTrigger } from './gsap'
-import { initReveals, parseReveal, revealStart, revealTween } from './reveal'
+import { STAGGER } from './motionTokens'
+import { initReveals, parseReveal, revealClearProps, revealStart, revealTween } from './reveal'
 
 afterEach(() => {
   document.body.innerHTML = ''
@@ -39,6 +40,24 @@ describe('parseReveal', () => {
     expect(parseReveal(el({ 'data-reveal': 'fade', 'data-reveal-delay': '-1' }))?.delay).toBe(0)
   })
 
+  it('staggers by the index: each step adds one STAGGER to the delay', () => {
+    expect(parseReveal(el({ 'data-reveal': 'rise', 'data-reveal-index': '0' }))?.delay).toBe(0)
+    expect(parseReveal(el({ 'data-reveal': 'rise', 'data-reveal-index': '1' }))?.delay).toBeCloseTo(STAGGER)
+    expect(parseReveal(el({ 'data-reveal': 'rise', 'data-reveal-index': '4' }))?.delay).toBeCloseTo(4 * STAGGER)
+  })
+
+  it('adds the stagger to an explicit delay', () => {
+    const node = el({ 'data-reveal': 'rise', 'data-reveal-delay': '0.25', 'data-reveal-index': '2' })
+    expect(parseReveal(node)?.delay).toBeCloseTo(0.25 + 2 * STAGGER)
+  })
+
+  it('counts an index that is not a non-negative integer as zero', () => {
+    for (const index of ['-1', '1.5', 'two', '', ' ']) {
+      const node = el({ 'data-reveal': 'rise', 'data-reveal-delay': '0.25', 'data-reveal-index': index })
+      expect(parseReveal(node)?.delay).toBe(0.25)
+    }
+  })
+
   it('ignores unknown kinds and missing attributes', () => {
     expect(parseReveal(el({ 'data-reveal': 'spin' }))).toBeNull()
     expect(parseReveal(el({}))).toBeNull()
@@ -53,9 +72,29 @@ describe('revealTween', () => {
     })
   })
 
-  it('rises and fades with autoAlpha', () => {
-    expect(revealTween('rise').from).toEqual({ autoAlpha: 0, y: 32 })
-    expect(revealTween('fade').from).toEqual({ autoAlpha: 0 })
+  // autoAlpha would also write visibility: hidden, which takes an unrevealed element out of the
+  // tab order and the accessibility tree until its scroll trigger fires.
+  it('rises and fades with opacity, never autoAlpha', () => {
+    expect(revealTween('rise')).toEqual({ from: { opacity: 0, y: 32 }, to: { opacity: 1, y: 0 } })
+    expect(revealTween('fade')).toEqual({ from: { opacity: 0 }, to: { opacity: 1 } })
+  })
+
+  it('never sets visibility in any start or end state', () => {
+    for (const kind of ['rise', 'wipe', 'fade'] as const) {
+      const { from, to } = revealTween(kind)
+      for (const vars of [from, to]) {
+        expect(vars).not.toHaveProperty('autoAlpha')
+        expect(vars).not.toHaveProperty('visibility')
+      }
+    }
+  })
+})
+
+describe('revealClearProps', () => {
+  it('clears exactly the properties each kind animates', () => {
+    expect(revealClearProps('wipe')).toBe('clipPath')
+    expect(revealClearProps('rise')).toBe('opacity,transform')
+    expect(revealClearProps('fade')).toBe('opacity')
   })
 })
 
@@ -82,6 +121,28 @@ describe('initReveals', () => {
     const cleanup = initReveals()
     expect(node.style.opacity).toBe('0')
     cleanup()
+  })
+
+  it.each([
+    ['rise', 'load'],
+    ['fade', 'load'],
+    ['rise', 'scroll'],
+    ['fade', 'scroll'],
+  ])('starts a %s on %s transparent but still focusable and exposed to assistive technology', (kind, on) => {
+    const node = el(on === 'load' ? { 'data-reveal': kind, 'data-reveal-on': 'load' } : { 'data-reveal': kind })
+    const cleanup = initReveals()
+    expect(node.style.opacity).toBe('0')
+    expect(node.style.visibility).toBe('')
+    cleanup()
+  })
+
+  it('restores a scroll reveal to visible when cleanup runs before it plays', () => {
+    const node = el({ 'data-reveal': 'rise' })
+    const cleanup = initReveals()
+    expect(node.style.opacity).toBe('0')
+    cleanup()
+    expect(node.style.opacity).toBe('')
+    expect(node.style.transform).toBe('')
   })
 
   it('restores a fade element to visible when cleanup runs before it plays', () => {

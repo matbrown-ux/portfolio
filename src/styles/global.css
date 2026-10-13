@@ -42,6 +42,17 @@
   }
 }
 
+/* A reveal that has not fired yet still carries its start state inline. On paper or in a
+   saved PDF nothing scrolls, so every reveal is shown at rest. */
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
+
 /* Anton, uppercase, tight. Size is set per use with a text-[clamp(...)] class. */
 @utility type-display {
   font-family: var(--font-display);

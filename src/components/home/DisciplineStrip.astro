@@ -19,7 +19,7 @@ import { disciplines } from '../../content/disciplines'
               href={`/services#${d.slug}`}
               class="group flex h-full flex-col px-6 py-8 transition-colors duration-200 hover:bg-ivory hover:text-ink focus-visible:bg-ivory focus-visible:text-ink focus-visible:-outline-offset-4 lg:px-7 lg:py-10"
               data-reveal="rise"
-              data-reveal-delay={i * 0.08}
+              data-reveal-index={i}
             >
               <span class="type-label text-base text-vermilion transition-colors duration-200 group-hover:text-ink group-focus-visible:text-ink">
                 {d.number}
