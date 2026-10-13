@@ -70,3 +70,11 @@ Source of truth: `docs/superpowers/specs/2026-10-12-blog-design.md` and its appr
 - **`<Terms>`.** A ruled list of named items, the name in display type and the text beside it.
 - **Where next.** Three tiles on stone after the article: "More on this topic", "The service behind it" (the middle tile, solid vermilion with ink text) and "Keep reading". Focus rings sit inside each tile.
 - **Rules that held.** Small vermilion text appears only on ink, the breadcrumb sits on `relative z-10` so a display title's glyph box cannot cover it, and hover changes colour only, never an ink surface's position.
+
+## Share card and favicon
+
+Source of truth: `docs/superpowers/specs/2026-10-13-seo-launch-design.md` and the approved reference in `docs/superpowers/specs/assets/2026-10-13-share-card-favicon-approved.jpeg`. Both are generated, so neither is hand-drawn. Their hex values are the only place the palette is written as literals, because they are built outside CSS.
+
+- **Share card.** 1200x630 PNG, one per page, served at `/og/<path>.png`. Ivory ground with a full-height solid vermilion block on the right. The mono label sits top left, the Anton title below it, and a short ink rule and the mono address at the foot; all type is ink. The ink MB mark sits at the bottom right of the block. A case study with a raster hero (or a video poster) gets a wider block holding the capture inside an ink frame, and no mark. The title is set as outlines on at most two lines, never ends a line on "&", and steps down in size until it fits, to a floor of 24. No Gloss And Bloom.
+- **Favicon.** The ink MB mark on a solid vermilion square, as an SVG plus an ICO, a 180px apple-touch icon and 192px and 512px PNGs, listed in `site.webmanifest` (`theme_color` vermilion, `background_color` ivory). The mark fills 92% of the square (`MARK_SHARE` in `scripts/favicons/icons.mjs`), tighter than the approved mock so it holds its strokes at 16px. Regenerate with `npm run favicons`.
+- **Header profile icons.** LinkedIn and GitHub in the header bar and the mobile menu, in ink on ivory at 20px, bold-weight outlines that match the mono labels. Hover fills the square ink, and focus is an ink ring (the default `currentColor` ring would be ivory on ivory).

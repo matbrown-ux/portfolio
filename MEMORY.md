@@ -37,7 +37,7 @@ On 2026-10-12 the owner decided to redesign the site completely and move to thei
 | 2 | Work: content collections, Work index, case study template | `docs/superpowers/specs/2026-10-12-work-case-studies-design.md` | Built; awaiting owner review |
 | 3 | Services, About, Contact | `docs/superpowers/specs/2026-10-12-services-about-contact-design.md` | Built; awaiting owner review |
 | 4 | Blog | `docs/superpowers/specs/2026-10-12-blog-design.md` | Built; awaiting owner review |
-| 5 | SEO/AEO layer and launch | none yet | Not started |
+| 5 | SEO/AEO layer and launch | `docs/superpowers/specs/2026-10-13-seo-launch-design.md` | Built on feat/astro-rebuild; not pushed, no pull request, not live |
 
 **Owner inputs still needed for sub-project 1:** approval of the drafted Home copy (table in the spec), new images or video for the three project tiles (the old case study cover SVGs were removed), confirmation of "Available 2026", and a check that the font licence allows outlined artwork. Items the build ledger marks for the owner to confirm: the word "memorable" overlaps the top of "average" in the statement band at all widths (deepest at 390); the Home hero word is slightly smaller than the mockup between 1024 and 1279 (about 150px vs 169px glyph height at 1440); the statement band's right half is empty at 1024; the featured work tile order follows the case study dates (Vamp Network, The Booking Flow, 'Aiwi Waffles), so reorder by editing `date`; tile numbers are ink on stone and vermilion tiles because small vermilion text is only allowed on ink.
 
@@ -152,6 +152,57 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - Logic modules cannot share a basename with a component case-insensitively on macOS.
 - `grep -P` does not work with this machine's grep; use perl for dash checks, for example `perl -CSD -ne 'print "$ARGV\n" if /[\x{2013}\x{2014}]/' $(find dist/blog -name index.html)`.
 - Built pages in `dist/` are single minified lines: count matches with `grep -o ... | wc -l`, not `grep -c`.
+
+**What sub-project 5 added:** the SEO/AEO layer: share cards, a favicon set, structured data, crawler files, optional analytics, a build check and an indexing hold. Spec: `docs/superpowers/specs/2026-10-13-seo-launch-design.md`. No new React island. Audit: `docs/superpowers/audits/2026-10-13-launch-audit.md`.
+
+- **Header profile icons:** LinkedIn and GitHub icons (Phosphor, `fill="currentColor"`) in the header and the mobile menu, read from `src/content/person.ts`.
+- **Person facts:** `src/content/person.ts` (with its test) is the single source for the owner's name, job title, location, email and public profiles. Structured data, `llms.txt` and the header icons read it. Change a value only when the owner does.
+- **Share cards:** every page gets a 1200x630 PNG from `src/pages/og/[...path].png.ts`, served at `/og/<path>.png` (Home is `/og/index.png`). The card text lives in `shareCards()` in `src/lib/shareCards.ts` (label, title, address per page; case studies, topics and articles are built from their collections, and a case study card shows its hero capture when the hero is a raster image or a video poster). To change a card, edit that function, run `npm run build` and look at the PNG. Rendering is `src/lib/cardRender.ts` (fontkit outlines the Anton glyphs, sharp rasterises), layout and fitting are `cardText.ts` and `cardSvg.ts`. The hex colours may appear in the card and favicon generators because they run outside CSS. `ShareMeta.astro` writes the `og:` and Twitter tags; a page with no card of its own falls back to Home's.
+- **Card title rules:** the title sets on at most two lines, never ends a line on "&", and `fitTitle` keeps stepping down 10% below the listed sizes to a floor of 24 (`MIN_TITLE_SIZE`) until it fits. A very long title therefore sets small.
+- **Favicon set:** `npm run favicons` (`scripts/favicons/generate.mjs`, sizes and the mark in `icons.mjs`) writes `public/favicon.svg`, `favicon.ico`, the PNG sizes and `site.webmanifest` from the logo mark. The mark fills 92% of its square (`MARK_SHARE`); the approved mock showed about 65 to 70%, but at 16px a smaller mark thins out. To change it, edit `MARK_SHARE` and re-run `npm run favicons`; the output tests fail until the committed files match.
+- **Structured data:** `src/lib/structuredData.ts` builds JSON-LD nodes (Person, WebSite, WebPage types, BreadcrumbList, Service, ItemList, Article, Blog) and `src/components/seo/JsonLd.astro` prints them. `BaseLayout.astro` always adds Person and WebSite; a page passes its own nodes in the `schema` prop. To give a new page type a node, add a builder to `structuredData.ts` with a test, then pass it from the page. It states only what the page shows, and a case study `result` (a placeholder) never appears in it.
+- **`robots.txt`, `llms.txt`, RSS:** `src/pages/robots.txt.ts`, `llms.txt.ts` and `rss.xml.ts`, built from the same content as the pages. `articleUrl` in `src/lib/llmsTxt.ts` makes an article's absolute address (RSS uses it too; it sits there because `structuredData.ts` imports `shareCards.ts`, which imports `blog.ts`, so `blog.ts` cannot import it). `BLOG_DESCRIPTION` in `src/lib/blog.ts` is the single source for the blog index description, used by the page, structured data and RSS.
+- **Analytics:** `src/content/analytics.ts` holds `cloudflareToken`, empty. With an empty token nothing loads and nothing is sent. To switch it on, paste the site token from the Cloudflare dashboard there; the beacon loads only on a production build (`CONTEXT=production`). After an in-place contact send the address becomes `/contact/thanks/` (history `pushState`), so the enquiry counts as a page view; Back reloads the page to a fresh form and Forward shows the real thanks page. Cloudflare's docs say the beacon counts `pushState` route changes by default; confirm on the first production deploy.
+- **Build check:** `npm run build` is `astro build && node scripts/check-dist/run.mjs` (rules in `scripts/check-dist/rules.mjs`, tested). It fails the build, naming the page and the rule, when: a page is `noindex` and in the sitemap, or indexable and missing from it; an indexable page lacks exactly one `h1`, a title, a description or a canonical that equals its own address; any page lacks a share image whose file was built, or has JSON-LD that does not parse or lacks Person or WebSite; a sitemap address was not built; text, `alt`, `title`, `content` or `aria-label` carries an em or en dash; a required file (`robots.txt`, `llms.txt`, `rss.xml`, the favicons, the manifest) is missing; or `llms.txt` or `rss.xml` links to a page that was not built. JSON-LD and `rss.xml` are not scanned for dashes.
+- **Indexing hold:** `netlify.toml` sends `X-Robots-Tag: noindex` on every path, because the canonical links name `matbrown.io`, which is still a parking page. It is not served by a local file server. Delete the block on domain day.
+- **Dependencies:** `fontkit` (stub types in `src/types/fontkit.d.ts`), `sharp` and the two `@fontsource` packages (Anton and JetBrains Mono, for the card renderer) are normal dependencies, so a production-only install still builds.
+- **Dashes:** the build check's dash rule reads attribute copy as well as visible text because the copy rules cover alt text and meta descriptions.
+
+**Gotchas from the sub-project 5 build:**
+
+- `fontkit` ships no types and reads `.woff2` directly. The real build was the proof that the endpoint can open the fonts.
+- A `// @vitest-environment node` comment breaks tests in this repo: `src/test/setup.ts` touches `window`. `sharp` works under the default jsdom environment.
+- The favicon output tests read `public/` relative to the repo root, so changing `MARK_SHARE` means running `npm run favicons` before the suite passes. That coupling is intended.
+- A helper script that imports `sharp` must live inside the repo tree, or node cannot resolve the package.
+- A greedy wrap can end a card title's first line on "&"; `wrapTitle` now avoids that.
+- A link whose focus state turns its text ivory on an ivory ground loses the global focus outline, which uses `currentColor`. Give it an explicit `focus-visible:outline-ink` (the header icons do).
+- At 768px the two header icons push the button onto two lines unless the nav gap is `gap-6` at `md`.
+- A flex row with `self-start` is only as wide as its content, so `justify-between` does nothing.
+- After a test file adds `popstate` listeners, remove them in each test, or later tests reload jsdom's window and print "Not implemented: navigation".
+- Back after an in-place send does not change the page by itself: a `pushState` entry fires `popstate`, and `contactForm.ts` reloads when the address and the page disagree.
+- The Cloudflare token appears HTML-escaped in the built page (`data-cf-beacon="{&quot;token&quot;...}"`), which browsers decode.
+- `npx lighthouse` works here with the installed Chrome (`--chrome-flags="--headless=new"`). A `noindex` page scores 66 for SEO because of the `is-crawlable` audit; that is correct for the topic pages with no article and the 404.
+- axe-core checks large display type against 3:1. Vermilion on ivory is 2.69:1, so any vermilion display text on ivory is flagged (the About bio's "and", the Walkthrough step numbers on a phone). Both are decorative and left for the owner.
+
+**Owner inputs still needed for sub-project 5:**
+
+- Confirm the Person facts in `src/content/person.ts`, including the two profile addresses the header icons link to (LinkedIn and GitHub).
+- Confirm the favicon's tighter mark (92% of its square) by eye against the approved mock.
+- Confirm the two-line share card titles, and that a long title may set small.
+- Switch on Netlify Forms and its notification email, then send one real test enquiry and confirm it arrives.
+- Create the Cloudflare Web Analytics site and supply its token, whenever ready. The site launches with analytics off.
+- Check Safari, Firefox and a real phone, and look at a real browser tab strip for the favicon. None of these has been run.
+- Decide the two audit contrast findings (the About bio's vermilion "and", the Walkthrough step numbers) and the article link underline.
+- Case study hero captures, whenever they exist; the cards pick them up.
+
+**Domain day checklist** (the site is built on `feat/astro-rebuild` and is not live):
+
+1. Point the domain at Netlify.
+2. Delete the `X-Robots-Tag` block from `netlify.toml`.
+3. Confirm the Netlify address redirects to the domain.
+4. Set up Google Search Console and Bing Webmaster Tools and submit `https://matbrown.io/sitemap-index.xml`.
+5. Paste the Cloudflare token into `src/content/analytics.ts`.
+6. Re-run LinkedIn's Post Inspector on the home page.
 
 ## Redesign roadmap and where we are (old Vite app, historical)
 
