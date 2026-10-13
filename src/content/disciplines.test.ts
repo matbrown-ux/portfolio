@@ -31,12 +31,22 @@ describe('disciplines', () => {
     }
   })
 
-  it('has complete copy with no em or en dashes', () => {
+  it('has complete copy with no em or en dashes and no unused description', () => {
     for (const d of disciplines) {
-      expect(d.description && d.cta).toBeTruthy()
-      expect(d.deliverables.length).toBeGreaterThan(0)
-      expect(d.skills.length).toBeGreaterThan(0)
+      expect(d.cta, d.slug).toBeTruthy()
+      expect(d.deliverables, d.slug).toHaveLength(4)
+      expect(d.skills.length, d.slug).toBeGreaterThan(0)
+      expect(d, d.slug).not.toHaveProperty('description')
     }
     expect(JSON.stringify(disciplines)).not.toMatch(/[—–]/)
+  })
+
+  it('uses the deliverable wording the owner approved', () => {
+    const lines = disciplines.flatMap((d) => d.deliverables)
+    expect(lines).toContain('Figma designs built in code as designed')
+    expect(lines).toContain('Technical SEO audit and fixes')
+    expect(lines).toContain('Custom dashboards on React, Vite and Supabase')
+    expect(lines).not.toContain('Figma-to-code with zero quality loss')
+    expect(lines).not.toContain('Technical SEO audit and remediation')
   })
 })

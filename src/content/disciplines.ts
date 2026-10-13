@@ -1,6 +1,6 @@
 /**
  * The five service disciplines: the single source for the Home "What I do" strip
- * and, in later sub-projects, Services, About and the Contact project-type select.
+ * and for Services, About and the Contact project-type select.
  * Blurbs are first person. Every line is a draft until the owner approves it.
  */
 export interface Discipline {
@@ -10,7 +10,6 @@ export interface Discipline {
   title: string
   /** One line for Home "What I do". */
   blurb: string
-  description: string
   deliverables: string[]
   cta: string
   skills: string[]
@@ -24,12 +23,10 @@ export const disciplines: Discipline[] = [
     slug: 'ux-ui-engineering',
     title: 'UX/UI Engineering',
     blurb: 'I design interfaces and build them myself in production React, so nothing gets lost between design and code.',
-    description:
-      'End-to-end interface design and implementation. From wireframes to production React components, I bridge the gap between design and engineering so nothing is lost in translation.',
     deliverables: [
       'Design system and component library',
       'Responsive, accessible React implementation',
-      'Figma-to-code with zero quality loss',
+      'Figma designs built in code as designed',
       'Interaction design and prototyping',
     ],
     cta: 'Start a UI project',
@@ -48,10 +45,8 @@ export const disciplines: Discipline[] = [
     slug: 'seo-aeo',
     title: 'SEO/AEO',
     blurb: 'I fix the technical foundations and structure your content so rankings build over time.',
-    description:
-      'Technical SEO combined with content architecture that earns rankings through relevance, not tricks. The kind of SEO infrastructure that compounds over time.',
     deliverables: [
-      'Technical SEO audit and remediation',
+      'Technical SEO audit and fixes',
       'Pillar and cluster content architecture',
       'Schema markup implementation',
       'Core Web Vitals optimization',
@@ -72,8 +67,6 @@ export const disciplines: Discipline[] = [
     slug: 'agentic-workflows',
     title: 'Agentic Workflows',
     blurb: 'I build AI agents on Claude and the AI SDK that do real work in your business.',
-    description:
-      'Custom AI-powered workflows that automate the repetitive work in your business, built on Claude, the AI SDK, and MCP tooling. Real automation, not toy demos.',
     deliverables: [
       'Workflow design and scoping',
       'Claude API and AI SDK integration',
@@ -97,8 +90,6 @@ export const disciplines: Discipline[] = [
     slug: 'brand-development',
     title: 'Brand Development',
     blurb: 'I design brand identities that hold together across logo, signage and merch.',
-    description:
-      'Brand identity built to work everywhere a business shows up: logo, messaging, and a cohesive visual system carried across storefronts, signage, merch, product, and marketing.',
     deliverables: [
       'Logo and visual identity system',
       'Brand messaging and voice',
@@ -115,11 +106,9 @@ export const disciplines: Discipline[] = [
     slug: 'saas-development',
     title: 'SaaS Development',
     blurb: 'I build SaaS products: the marketing site, the dashboard and the integrations behind them.',
-    description:
-      'End-to-end SaaS builds: the marketing site that converts visitors, the product dashboard customers run on, and the authentication and integrations behind it.',
     deliverables: [
       'Marketing site and product UI',
-      'Custom dashboards on React, Vite, and Supabase',
+      'Custom dashboards on React, Vite and Supabase',
       'Authentication with Google OAuth',
       'Third-party API integrations',
     ],
