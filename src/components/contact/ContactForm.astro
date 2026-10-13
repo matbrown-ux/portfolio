@@ -1,0 +1,118 @@
+---
+import Confirmation from './Confirmation.astro'
+import { disciplines } from '../../content/disciplines'
+import { budgetRanges, MULTIPLE_SERVICES } from '../../content/contactOptions'
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+
+const label = 'type-label mb-2 block'
+// scheme-dark keeps the browser's own parts (the select menu, the textarea scrollbar) dark. The
+// autofill rules stop the browser repainting a filled field in its own pale colour.
+const control =
+  'block w-full scheme-dark rounded-none border-2 border-ivory bg-ink px-4 py-3 text-base text-ivory placeholder:text-ivory/55 focus-visible:outline-ivory aria-[invalid=true]:border-vermilion autofill:shadow-[inset_0_0_0_100px_var(--color-ink)] autofill:[-webkit-text-fill-color:var(--color-ivory)]'
+// A select still on its empty option reads like a placeholder; the menu's options stay full ivory.
+const select = [control, 'appearance-none pr-10 invalid:text-ivory/55 [&>option]:bg-ink [&>option]:text-ivory']
+const caret = 'pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm'
+const error = 'type-label mt-2 font-medium normal-case tracking-normal text-vermilion'
+const required = 'text-vermilion'
+---
+
+{/* From lg up the panel's colour runs on to the right edge of the screen, past the 1600px column.
+    Once the script has swapped the form for the confirmation the whole panel turns vermilion. */}
+<div
+  data-contact-panel
+  class:list={[
+    'relative bg-ink text-ivory has-[form[hidden]]:bg-vermilion lg:after:absolute lg:after:inset-y-0 lg:after:left-full lg:after:w-[50vw] lg:after:bg-inherit',
+    className,
+  ]}
+>
+  <form
+    name="contact"
+    method="POST"
+    action="/contact/thanks/"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    data-contact-form
+    class="grid gap-x-5 gap-y-6 px-6 py-12 sm:grid-cols-2 md:px-12 lg:py-16"
+  >
+    <input type="hidden" name="form-name" value="contact" />
+    <p hidden>
+      <label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+    </p>
+
+    <div>
+      <label for="name" class={label}>Name <span class={required} aria-hidden="true">*</span></label>
+      <input id="name" name="name" type="text" required autocomplete="name" placeholder="Your name" class={control} />
+      <p id="name-error" data-error-for="name" class={error} hidden></p>
+    </div>
+    <div>
+      <label for="email" class={label}>Email <span class={required} aria-hidden="true">*</span></label>
+      <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" class={control} />
+      <p id="email-error" data-error-for="email" class={error} hidden></p>
+    </div>
+    <div class="sm:col-span-2">
+      <label for="company" class={label}>Company <span class={required} aria-hidden="true">*</span></label>
+      <input id="company" name="company" type="text" required autocomplete="organization" placeholder="Company or project name" class={control} />
+      <p id="company-error" data-error-for="company" class={error} hidden></p>
+    </div>
+    <div>
+      <label for="projectType" class={label}>Project type <span class={required} aria-hidden="true">*</span></label>
+      <div class="relative">
+        <select id="projectType" name="projectType" required class:list={select}>
+          <option value="">Select a service</option>
+          {disciplines.map((d) => <option value={d.title} data-slug={d.slug}>{d.title}</option>)}
+          <option value={MULTIPLE_SERVICES}>{MULTIPLE_SERVICES}</option>
+        </select>
+        <span class={caret} aria-hidden="true">▾</span>
+      </div>
+      <p id="projectType-error" data-error-for="projectType" class={error} hidden></p>
+    </div>
+    <div>
+      <label for="budget" class={label}>Budget <span class={required} aria-hidden="true">*</span></label>
+      <div class="relative">
+        <select id="budget" name="budget" required class:list={select}>
+          <option value="">Select a range</option>
+          {budgetRanges.map((range) => <option value={range}>{range}</option>)}
+        </select>
+        <span class={caret} aria-hidden="true">▾</span>
+      </div>
+      <p id="budget-error" data-error-for="budget" class={error} hidden></p>
+    </div>
+    <div class="sm:col-span-2">
+      <label for="message" class={label}>Message <span class="font-medium normal-case tracking-normal opacity-70">(optional)</span></label>
+      <textarea id="message" name="message" rows="5" placeholder="What are you trying to get done?" class:list={[control, 'resize-y']}></textarea>
+    </div>
+
+    <div class="sm:col-span-2">
+      {/* Kept on one line: Astro drops a line break between text and an inline element. */}
+      <p data-form-error role="alert" class="mb-5 max-w-md leading-relaxed" hidden>
+        Something went wrong. Email me at <a href="mailto:mat@matbrown.io" class="underline decoration-vermilion decoration-2 underline-offset-4 focus-visible:outline-ivory">mat@matbrown.io</a>.
+      </p>
+      <div class="flex flex-wrap items-center gap-6">
+        {/* The arrow sits beside the button's text, outside the button, because the script replaces
+            the button's text with "Sending" and back, which would remove a glyph inside it. */}
+        <span class="group relative inline-flex">
+          <button
+            type="submit"
+            data-submit
+            class="type-label bg-vermilion py-5 pl-8 pr-13 text-[0.8125rem] text-ink transition-colors duration-200 hover:bg-ivory focus-visible:outline-ivory disabled:cursor-wait disabled:opacity-60 motion-reduce:transition-none"
+          >Send enquiry</button>
+          <span
+            aria-hidden="true"
+            class="type-label pointer-events-none absolute inset-y-0 right-8 flex items-center text-[0.8125rem] text-ink transition-transform duration-200 group-has-[:disabled]:opacity-60 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5 motion-reduce:transition-none"
+            >↗</span
+          >
+        </span>
+        <span class="type-label font-medium opacity-75"><span aria-hidden="true">* </span>Required</span>
+      </div>
+    </div>
+  </form>
+
+  <div data-contact-confirmation hidden>
+    <Confirmation />
+  </div>
+</div>

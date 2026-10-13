@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import ContactIntro from '../../components/contact/ContactIntro.astro'
+import ContactForm from '../../components/contact/ContactForm.astro'
+---
+
+<BaseLayout
+  title="Hire a UX/UI Engineer & SEO Specialist"
+  description="Tell me about your UX/UI, SEO, AI workflow, brand or SaaS project. Send the form or email mat@matbrown.io."
+>
+  {/* Clipped sideways because the form panel's colour runs past the column to the screen edge. */}
+  <div class="overflow-x-clip bg-ivory">
+    <div class="mx-auto grid max-w-[1600px] lg:grid-cols-[1fr_1.02fr]">
+      <ContactIntro />
+      <ContactForm class="lg:mt-[clamp(6.5rem,8vw,8rem)]" />
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { initContactForm } from '../../lib/contactForm'
+  initContactForm()
+</script>

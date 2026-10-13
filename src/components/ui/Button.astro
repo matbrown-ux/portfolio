@@ -17,9 +17,12 @@ const styles = {
   // The border is there at rest too, so on hover and focus the button becomes an ink outline on
   // whatever surface it sits on and nothing changes size.
   ink: 'border-2 border-ink bg-ink text-ivory hover:bg-transparent hover:text-ink focus-visible:bg-transparent focus-visible:text-ink focus-visible:outline-ink',
+  // The current page's button: ink like the variant above, but its edge is an inset ring instead
+  // of a border, so its box is the same size as the accent button it replaces in the header.
+  current: 'bg-ink text-ivory inset-ring-2 inset-ring-ink hover:bg-transparent hover:text-ink focus-visible:bg-transparent focus-visible:text-ink focus-visible:outline-ink',
 }
 // On its own page the button is ink, so it reads as the current location rather than a call to action.
-const look = current ? styles.ink : styles[variant]
+const look = current ? styles.current : styles[variant]
 ---
 
 <a

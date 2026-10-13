@@ -1,0 +1,24 @@
+---
+import Button from '../ui/Button.astro'
+
+interface Props {
+  /** `h1` on the thanks page, `h2` inside the contact page. */
+  as?: 'h1' | 'h2'
+}
+
+const { as: Heading = 'h2' } = Astro.props
+---
+
+{/* The block sizes itself to its own width: stacked in the form panel, heading left and button
+    right where it has the room of a full page. */}
+<div class="@container bg-vermilion text-ink">
+  <div class="grid gap-8 px-6 py-12 md:px-12 lg:py-16 @4xl:grid-cols-[1fr_auto] @4xl:items-end">
+    <div>
+      <Heading class="type-display text-[clamp(3rem,15vw,7.5rem)] leading-[0.9] lg:text-[clamp(3rem,8vw,8rem)] outline-offset-8" tabindex="-1" data-confirmation-heading
+        >Got it.<br />Thank you.</Heading
+      >
+      <p class="mt-6 max-w-md text-lg leading-relaxed">Your message is on its way to me. I'll be in touch.</p>
+    </div>
+    <Button href="/work" variant="ink" class="justify-self-start">See my work</Button>
+  </div>
+</div>

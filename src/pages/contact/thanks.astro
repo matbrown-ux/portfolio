@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Confirmation from '../../components/contact/Confirmation.astro'
+---
+
+<BaseLayout title="Message sent" description="Your message is on its way to me." noindex>
+  {/* The block starts under the site header, as the form panel does on the contact page, so the
+      header stays on ivory and its vermilion hover underlines stay visible. */}
+  <div class="bg-ivory pt-[5.5rem] md:pt-[5.875rem]">
+    <div class="bg-vermilion">
+      <div class="mx-auto max-w-[1600px]">
+        <Confirmation as="h1" />
+      </div>
+    </div>
+  </div>
+</BaseLayout>
