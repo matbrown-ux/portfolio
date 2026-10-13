@@ -45,7 +45,7 @@ Source of truth: `docs/superpowers/specs/2026-10-12-design-foundation-home-desig
 ## Devices
 
 - Large solid vermilion blocks; cut-out portraits breaking out of them.
-- Script written over the corner of a heading, with an edge in the background colour.
+- Script written over the corner of a heading, with no outline: the vermilion lettering sits directly on the letters it crosses.
 - Brush strikethrough (Extras stroke `e`) with the correction handwritten above.
 - Monospace numbering on list items. No numbered labels on section headings.
 - Rotated monospace labels on section edges.

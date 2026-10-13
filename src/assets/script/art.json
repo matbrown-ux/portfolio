@@ -1,13 +1,13 @@
 {
   "memorable": {
     "src": "/script/memorable.svg",
-    "width": 5299,
-    "height": 1222
+    "width": 5239,
+    "height": 1162
   },
   "lets-talk": {
     "src": "/script/lets-talk.svg",
-    "width": 4375,
-    "height": 1335
+    "width": 4315,
+    "height": 1275
   },
   "strike": {
     "src": "/script/strike.svg",
@@ -16,22 +16,22 @@
   },
   "selected": {
     "src": "/script/selected.svg",
-    "width": 3997,
-    "height": 1363
+    "width": 3937,
+    "height": 1303
   },
   "case-study": {
     "src": "/script/case-study.svg",
-    "width": 5325,
-    "height": 1640
+    "width": 5265,
+    "height": 1580
   },
   "what-i-do": {
     "src": "/script/what-i-do.svg",
-    "width": 4701,
-    "height": 1505
+    "width": 4641,
+    "height": 1445
   },
   "always-building": {
     "src": "/script/always-building.svg",
-    "width": 8022,
-    "height": 1501
+    "width": 7962,
+    "height": 1441
   }
 }
