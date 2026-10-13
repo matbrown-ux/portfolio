@@ -53,3 +53,18 @@ export function nextTypewriterFrame(
   const wordIndex = (state.wordIndex + 1) % words.length
   return { state: { text: words[wordIndex].slice(0, 1), wordIndex, phase: 'typing' }, delay: timing.gap }
 }
+
+/** True on the frame where erasing hands over to typing the next word. */
+export function isWordStart(prev: TypewriterState, next: TypewriterState): boolean {
+  return prev.phase === 'deleting' && next.phase === 'typing'
+}
+
+/**
+ * Is this the frame to stop on? `wordStarts` counts the words begun since the initial state.
+ * Once `cycles` full passes are done, it rests when the first word is fully typed again.
+ * Without `cycles` it never rests.
+ */
+export function shouldRest(state: TypewriterState, words: string[], wordStarts: number, cycles?: number): boolean {
+  if (cycles === undefined || words.length === 0) return false
+  return wordStarts >= cycles * words.length && state.text === words[state.wordIndex % words.length]
+}

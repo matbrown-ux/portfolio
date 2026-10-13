@@ -65,4 +65,59 @@ describe('startTypewriter', () => {
     vi.advanceTimersByTime(1000)
     expect(el.textContent).toBe('ux')
   })
+
+  describe('with cycles', () => {
+    const words = ['ux', 'ai']
+    it('ends on the first word, marked done, with no timers left', () => {
+      const el = element()
+      startTypewriter(el, words, { timing, cycles: 2 })
+      expect(el.hasAttribute('data-typewriter-done')).toBe(false)
+      vi.advanceTimersByTime(5000)
+      expect(el.textContent).toBe('ux')
+      expect(el.hasAttribute('data-typewriter-done')).toBe(true)
+      expect(el.getAttribute('data-typewriter-done')).toBe('')
+      expect(vi.getTimerCount()).toBe(0)
+      vi.advanceTimersByTime(5000)
+      expect(el.textContent).toBe('ux')
+    })
+
+    it('is not done while still running', () => {
+      const el = element()
+      startTypewriter(el, words, { timing, cycles: 2 })
+      vi.advanceTimersByTime(250)
+      expect(el.hasAttribute('data-typewriter-done')).toBe(false)
+    })
+
+    it('keeps looping when cycles is omitted', () => {
+      const el = element()
+      startTypewriter(el, words, { timing })
+      vi.advanceTimersByTime(5000)
+      expect(el.hasAttribute('data-typewriter-done')).toBe(false)
+      expect(vi.getTimerCount()).toBe(1)
+    })
+
+    it('does not mark done when stopped early', () => {
+      const el = element()
+      const handle = startTypewriter(el, words, { timing, cycles: 2 })
+      vi.advanceTimersByTime(250)
+      handle.stop()
+      vi.advanceTimersByTime(5000)
+      expect(el.hasAttribute('data-typewriter-done')).toBe(false)
+    })
+
+    it('marks done immediately under reduced motion', () => {
+      installMatchMedia({ [REDUCED_QUERY]: true })
+      const el = element('stale')
+      startTypewriter(el, words, { timing, cycles: 2 })
+      expect(el.textContent).toBe('ux')
+      expect(el.hasAttribute('data-typewriter-done')).toBe(true)
+    })
+
+    it('marks done and leaves the text alone with no words', () => {
+      const el = element('ux')
+      startTypewriter(el, [], { timing, cycles: 2 })
+      expect(el.textContent).toBe('ux')
+      expect(el.hasAttribute('data-typewriter-done')).toBe(true)
+    })
+  })
 })

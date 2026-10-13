@@ -78,6 +78,17 @@
   margin-left: 0.04em;
   background: var(--color-vermilion);
   animation: caret-blink 1s steps(1) infinite;
+  /* Without JavaScript the word never changes, so there is no caret. */
+  visibility: hidden;
+}
+
+html.js .caret {
+  visibility: visible;
+}
+
+/* The word has come to rest: hide the caret without moving anything. */
+html.js [data-typewriter][data-typewriter-done] + .caret {
+  visibility: hidden;
 }
 
 @keyframes caret-blink {

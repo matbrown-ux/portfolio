@@ -68,6 +68,6 @@ const words = ['ux', 'ui', 'seo', 'ai']
 
   // Start after the block has wiped in and the portrait has risen.
   document.querySelectorAll<HTMLElement>('[data-typewriter]').forEach((el) => {
-    startTypewriter(el, parseWords(el.dataset.words), { startDelay: 1400 })
+    startTypewriter(el, parseWords(el.dataset.words), { startDelay: 1400, cycles: 2 })
   })
 </script>
