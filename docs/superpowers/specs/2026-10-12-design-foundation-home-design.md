@@ -97,11 +97,11 @@ Move `public/images/hero-image.png` and `public/images/about-hero-image.png` int
 The GitHub repo is public, so the purchased font files must not be committed. The script appears only as a few fixed decorative phrases and two brush strokes, so it ships as vector shapes.
 
 - **Font files stay local** in a git-ignored `.fonts/` folder at the project root: `Gloss_And_Bloom.ttf`, `Gloss_And_Bloom_Alternates.ttf`, `Gloss_And_Bloom_Extras.ttf`. Add `.fonts/` and `.playwright-mcp/` to `.gitignore`.
-- **Source list:** `src/assets/script/phrases.json` lists the phrases and the Extras stroke keys to generate.
-- **Generator:** `npm run script-art` reads the source list and the local fonts and writes `src/assets/script/art.json` (per item: viewBox and path data). Lettering uses the Alternates cut, with the lowercase `b` glyph taken from Regular; kerning is applied. If the fonts are missing it exits with a message naming the folder and files it expects.
-- **Committed output:** only `phrases.json` and `art.json`. Site builds, including Netlify, never need the fonts.
-- **Use:** `ScriptArt.astro` inlines a named item as an `aria-hidden` SVG in `currentColor`.
-- **Adding a phrase later:** add it to `phrases.json`, run `npm run script-art` on a machine that has `.fonts/`, commit the updated `art.json`.
+- **Source list:** `src/assets/script/phrases.json` lists each item: a name, either a phrase or an Extras stroke key, its fill colour, and an optional edge colour (the background it sits on).
+- **Generator:** `npm run script-art` reads the source list and the local fonts and writes one standalone SVG per item to `public/script/`, plus a manifest `src/assets/script/art.json` (per item: path, width, height). Lettering uses the Alternates cut, with the lowercase `b` glyph taken from Regular; any character Alternates lacks also falls back to Regular; kerning is applied. If the fonts are missing it exits with a message naming the folder and files it expects.
+- **Committed output:** `phrases.json`, `art.json` and the generated SVG files. Site builds, including Netlify, never need the fonts.
+- **Use:** `ScriptArt.astro` renders a named item as a decorative, lazy-loaded `<img>`. The SVGs are separate files, not inlined, because each brush outline is 50 to 65 KB and would bloat the page HTML. Colours are therefore baked into each file by the generator.
+- **Adding a phrase later:** add it to `phrases.json`, run `npm run script-art` on a machine that has `.fonts/`, commit the generated files.
 
 Initial items: phrases `let's talk`, `memorable`; stroke `e`.
 
@@ -252,11 +252,12 @@ scripts/script-art/                      generator + tests
 src/assets/logo/mb-mark.svg
 src/assets/portraits/hero.png, about.png
 src/assets/script/phrases.json, art.json
+public/script/*.svg                      generated script artwork
 src/components/brand/Logo.astro, ScriptArt.astro
-src/components/ui/Button.astro, ArrowButton.astro, SectionHeading.astro, VerticalLabel.astro, TintedPortrait.astro
-src/components/nav/SiteHeader.astro, SiteFooter.astro, MobileMenu.tsx (+ test)
+src/components/ui/Button.astro, ArrowButton.astro, VerticalLabel.astro
+src/components/nav/SiteHeader.astro, SiteFooter.astro, MobileMenu.tsx, focusTrap.ts (+ tests)
 src/components/home/Hero.astro, DisciplineStrip.astro, StatementBand.astro, FeaturedWork.astro, AboutTeaser.astro, ContactBand.astro
-src/content/disciplines.ts (+ test)
+src/content/disciplines.ts, navigation.ts (+ tests)
 src/content.config.ts
 src/lib/typewriter.ts, typewriterElement.ts, motionTokens.ts, gsap.ts, reveal.ts, featuredWork.ts (+ tests)
 src/layouts/BaseLayout.astro             gains header, footer, fonts
