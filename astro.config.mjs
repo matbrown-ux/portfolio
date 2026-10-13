@@ -16,10 +16,30 @@ export default defineConfig({
   // Straight quotes and plain hyphens stay as written: no smart punctuation in Markdown or MDX.
   markdown: {
     processor: satteri({ features: { smartPunctuation: false } }),
-    // Colours come from CSS variables set in global.css, so code uses only the site palette.
+    // The code theme is plain data: three groups of scopes, each coloured by a CSS variable that
+    // global.css sets from the site palette. Tags and keywords, then attributes, operators,
+    // punctuation and comments, then strings and names. Where scopes overlap the more specific wins.
     // A code block scrolls sideways, so it is focusable and named for keyboard and screen reader users.
     shikiConfig: {
-      theme: 'css-variables',
+      theme: {
+        name: 'portfolio-code',
+        type: 'dark',
+        colors: { 'editor.foreground': 'var(--astro-code-foreground)', 'editor.background': 'var(--astro-code-background)' },
+        tokenColors: [
+          {
+            scope: ['entity.name.tag', 'punctuation.definition.tag', 'support.class.component', 'keyword', 'storage'],
+            settings: { foreground: 'var(--astro-code-token-tag)' },
+          },
+          {
+            scope: ['entity.other.attribute-name', 'keyword.operator', 'punctuation', 'comment'],
+            settings: { foreground: 'var(--astro-code-token-muted)' },
+          },
+          {
+            scope: ['string', 'punctuation.definition.string', 'constant', 'variable', 'entity.name.function', 'support'],
+            settings: { foreground: 'var(--astro-code-foreground)' },
+          },
+        ],
+      },
       transformers: [
         {
           pre(node) {

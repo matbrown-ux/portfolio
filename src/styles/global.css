@@ -432,19 +432,14 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   padding: 0.1em 0.35em;
 }
 
-/* A code block: ink ground, ivory text, colours only from the palette. The bar shows the language. */
+/* A code block: ink ground, ivory text, colours only from the palette. The theme in
+   astro.config.mjs uses these variables: tags and keywords, then the muted group (attributes,
+   operators, punctuation, comments). The bar shows the language. */
 .article-prose .astro-code {
   --astro-code-foreground: var(--color-ivory);
   --astro-code-background: var(--color-ink);
-  --astro-code-token-keyword: var(--color-vermilion);
-  --astro-code-token-constant: var(--color-vermilion);
-  --astro-code-token-function: color-mix(in srgb, var(--color-ivory) 72%, var(--color-ink));
-  --astro-code-token-string: var(--color-ivory);
-  --astro-code-token-string-expression: var(--color-ivory);
-  --astro-code-token-parameter: color-mix(in srgb, var(--color-ivory) 72%, var(--color-ink));
-  --astro-code-token-punctuation: color-mix(in srgb, var(--color-ivory) 72%, var(--color-ink));
-  --astro-code-token-comment: color-mix(in srgb, var(--color-ivory) 60%, var(--color-ink));
-  --astro-code-token-link: var(--color-ivory);
+  --astro-code-token-tag: var(--color-vermilion);
+  --astro-code-token-muted: color-mix(in srgb, var(--color-ivory) 72%, var(--color-ink));
   margin-top: 1.6rem;
   font-family: var(--font-mono);
   font-size: 0.78em;
