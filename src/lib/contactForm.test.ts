@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { initContactForm } from './contactForm'
 
 const FIELD = (name: string, control: string) =>
@@ -64,7 +64,20 @@ const press = (el: HTMLElement, type: 'pointerdown' | 'pointerup' | 'pointercanc
 const settle = () => new Promise((resolve) => setTimeout(resolve, 0))
 const ok = () => vi.fn().mockResolvedValue({ ok: true, status: 200 })
 
+// Most tests never call the cleanup function, so their popstate listeners would still be on
+// `window` when the history tests dispatch one. Remove every listener a test added.
+const popstateListeners: EventListener[] = []
+beforeEach(() => {
+  const add = window.addEventListener.bind(window)
+  vi.spyOn(window, 'addEventListener').mockImplementation(((type: string, listener: EventListener, options?: AddEventListenerOptions) => {
+    if (type === 'popstate') popstateListeners.push(listener)
+    add(type, listener, options)
+  }) as typeof window.addEventListener)
+})
+
 afterEach(() => {
+  popstateListeners.splice(0).forEach((listener) => window.removeEventListener('popstate', listener))
+  vi.restoreAllMocks()
   document.body.innerHTML = ''
   window.history.replaceState({}, '', '/')
 })
