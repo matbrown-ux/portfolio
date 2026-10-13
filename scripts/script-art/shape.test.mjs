@@ -88,6 +88,11 @@ describe('strokeShape', () => {
     expect(strokeShape('e', extras).box).toEqual({ minX: 0, minY: -100, maxX: 100, maxY: 0 })
   })
 
+  // A glyph can exist with nothing drawn (a space). Its box is infinite, which would reach the SVG as viewBox="Infinity ...".
+  it('rejects a key whose glyph has no outline', () => {
+    expect(() => strokeShape(' ', fakeFont('extras', 'e '))).toThrow('Extras stroke for key " " has no outline')
+  })
+
   it('rejects a key the Extras font does not have', () => {
     expect(() => strokeShape('z', fakeFont('extras', 'e'))).toThrow('Extras has no stroke for key "z"')
   })

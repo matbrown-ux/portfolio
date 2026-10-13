@@ -63,5 +63,8 @@ export function strokeShape(key, extras) {
   const cp = key.codePointAt(0)
   if (!extras.hasGlyphForCodePoint(cp)) throw new Error(`Extras has no stroke for key "${key}"`)
   const path = extras.glyphForCodePoint(cp).path.scale(1, -1)
-  return { d: round(path.toSVG()), box: roundBox(path.bbox) }
+  const box = path.bbox
+  // A glyph with nothing drawn (a space) has an infinite box, which would become the viewBox.
+  if (!Number.isFinite(box.minX)) throw new Error(`Extras stroke for key "${key}" has no outline`)
+  return { d: round(path.toSVG()), box: roundBox(box) }
 }
