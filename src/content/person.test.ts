@@ -8,7 +8,7 @@ describe('person', () => {
     expect(person.email).toBe('mat@matbrown.io')
   })
 
-  it('describes the owner in the first person, with the sentence the About page opens with', () => {
+  it('describes the owner in the first person', () => {
     expect(person.description).toBe("I'm Mathew Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer.")
   })
 

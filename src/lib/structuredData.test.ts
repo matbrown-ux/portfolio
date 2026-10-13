@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { person } from '../content/person'
+import { BLOG_FEED_TITLE } from './blog'
 import {
   articleNode,
   BLOG_ID,
@@ -130,7 +131,7 @@ describe('workListNode', () => {
 })
 
 describe('caseStudyNode', () => {
-  const study = { id: 'vamp-network', data: { title: 'Vamp Network', headline: 'A creator platform', summary: 'What I built.', date: new Date('2026-04-01'), tags: ['UX/UI Engineering', 'SEO/AEO'], result: 'Result pending' } }
+  const study = { id: 'vamp-network', data: { title: 'Vamp Network', headline: 'A creator platform', summary: 'What I built.', date: new Date('2026-04-01'), year: '2026', tags: ['UX/UI Engineering', 'SEO/AEO'], result: 'Result pending' } }
 
   it('describes the work without its result', () => {
     const node = caseStudyNode(study)
@@ -140,7 +141,7 @@ describe('caseStudyNode', () => {
       name: 'Vamp Network',
       headline: 'A creator platform',
       description: 'What I built.',
-      dateCreated: '2026-04-01',
+      dateCreated: '2026',
       keywords: 'UX/UI Engineering, SEO/AEO',
       url: 'https://matbrown.io/work/vamp-network/',
       image: 'https://matbrown.io/og/work/vamp-network.png',
@@ -155,7 +156,7 @@ describe('blogNode and articleNode', () => {
     expect(blogNode('Articles on design and search.')).toEqual({
       '@type': 'Blog',
       '@id': BLOG_ID,
-      name: 'Mathew Brown: articles',
+      name: BLOG_FEED_TITLE,
       description: 'Articles on design and search.',
       url: 'https://matbrown.io/blog/',
       author: { '@id': PERSON_ID },
@@ -177,7 +178,7 @@ describe('blogNode and articleNode', () => {
       mainEntityOfPage: 'https://matbrown.io/blog/ux-ui-design/button-states/',
       image: 'https://matbrown.io/og/blog/ux-ui-design/button-states.png',
       author: { '@id': PERSON_ID },
-      isPartOf: { '@id': BLOG_ID },
+      isPartOf: { '@type': 'Blog', '@id': BLOG_ID, name: BLOG_FEED_TITLE, url: 'https://matbrown.io/blog/' },
     })
   })
 
@@ -221,7 +222,7 @@ describe('workIndexNodes', () => {
 })
 
 describe('page node sets', () => {
-  const study = { id: 'vamp-network', data: { title: 'Vamp Network', headline: 'A creator platform', summary: 'What I built.', date: new Date('2026-04-01'), tags: ['SEO/AEO'] } }
+  const study = { id: 'vamp-network', data: { title: 'Vamp Network', headline: 'A creator platform', summary: 'What I built.', date: new Date('2026-04-01'), year: '2026', tags: ['SEO/AEO'] } }
   const topic = { id: 'ux-ui-design', data: { title: 'UX/UI Design', headline: 'UX/UI design guides' } }
   const article = { id: 'ux-ui-design/button-states', data: { title: 'Button states', description: 'A guide.', date: new Date('2026-05-31') } }
 

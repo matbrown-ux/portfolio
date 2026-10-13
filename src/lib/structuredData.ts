@@ -1,5 +1,6 @@
 import type { Discipline } from '../content/disciplines'
 import type { Person } from '../content/person'
+import { BLOG_FEED_TITLE } from './blog'
 import { ogImagePath } from './shareCards'
 
 /** One schema.org node. */
@@ -99,7 +100,7 @@ export function workListNode(studies: { id: string; data: { title: string } }[])
 }
 
 /** A case study. Its result is left out on purpose: results are placeholders until the owner supplies them. */
-export function caseStudyNode(study: { id: string; data: { title: string; headline: string; summary: string; date: Date; tags: string[] } }): Node {
+export function caseStudyNode(study: { id: string; data: { title: string; headline: string; summary: string; date: Date; year: string; tags: string[] } }): Node {
   const path = `/work/${study.id}`
   return {
     '@type': 'CreativeWork',
@@ -107,7 +108,7 @@ export function caseStudyNode(study: { id: string; data: { title: string; headli
     name: study.data.title,
     headline: study.data.headline,
     description: study.data.summary,
-    dateCreated: day(study.data.date),
+    dateCreated: study.data.year,
     keywords: study.data.tags.join(', '),
     url: pageUrl(path),
     image: pageUrl(ogImagePath(path)),
@@ -116,7 +117,7 @@ export function caseStudyNode(study: { id: string; data: { title: string; headli
 }
 
 export function blogNode(description: string): Node {
-  return { '@type': 'Blog', '@id': BLOG_ID, name: 'Mathew Brown: articles', description, url: pageUrl('/blog'), author: { '@id': PERSON_ID } }
+  return { '@type': 'Blog', '@id': BLOG_ID, name: BLOG_FEED_TITLE, description, url: pageUrl('/blog'), author: { '@id': PERSON_ID } }
 }
 
 export function articleNode(article: { id: string; data: { title: string; description: string; date: Date; updated?: Date } }, topicTitle: string): Node {
@@ -133,7 +134,7 @@ export function articleNode(article: { id: string; data: { title: string; descri
     mainEntityOfPage: pageUrl(path),
     image: pageUrl(ogImagePath(path)),
     author: { '@id': PERSON_ID },
-    isPartOf: { '@id': BLOG_ID },
+    isPartOf: { '@type': 'Blog', '@id': BLOG_ID, name: BLOG_FEED_TITLE, url: pageUrl('/blog') },
   }
 }
 

@@ -1,3 +1,7 @@
+---
+import { person } from '../../content/person'
+---
+
 <section class="bg-ivory" aria-labelledby="about-bio-heading">
   <div class="mx-auto grid max-w-[1600px] gap-10 px-6 py-16 md:px-12 lg:grid-cols-2 lg:gap-[min(5vw,5rem)] lg:py-[min(6vw,6rem)]">
     <h2 id="about-bio-heading" class="type-display text-balance text-[clamp(2.5rem,4.3vw,4.25rem)] leading-[1.02]" data-reveal="rise">
@@ -5,7 +9,7 @@
     </h2>
     <div class="max-w-xl space-y-5 text-[clamp(1.0625rem,1.18vw,1.1875rem)] leading-relaxed lg:max-w-[min(36vw,36rem)]">
       <p>
-        I'm Mathew Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer. I design interfaces, build them in production
+        {person.description}{' '}I design interfaces, build them in production
         React, set them up to rank in search, and connect them to AI workflows.
       </p>
       <p>

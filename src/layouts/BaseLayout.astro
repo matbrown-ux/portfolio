@@ -9,6 +9,7 @@ import JsonLd from '../components/seo/JsonLd.astro'
 import { disciplines } from '../content/disciplines'
 import { person } from '../content/person'
 import { analytics } from '../content/analytics'
+import { BLOG_FEED_TITLE } from '../lib/blog'
 import { beacon } from '../lib/analytics'
 import { personNode, websiteNode, type Node } from '../lib/structuredData'
 
@@ -50,7 +51,7 @@ const siteNodes = [personNode(person, disciplines.map((discipline) => discipline
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="alternate" type="application/rss+xml" title="Mathew Brown: articles" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={BLOG_FEED_TITLE} href="/rss.xml" />
     <meta name="theme-color" content="#f86343" />
     {noindex && <meta name="robots" content="noindex" />}
     <meta property="og:title" content={fullTitle} />
