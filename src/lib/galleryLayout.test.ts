@@ -12,6 +12,18 @@ describe('galleryLayout', () => {
     expect(galleryLayout(5).items.slice(1).every((item) => !item.span.includes('row-span-2'))).toBe(true)
   })
 
+  it('gives the smaller items beside a large one their own shape, so the rows cannot collapse', () => {
+    for (const count of [3, 5]) {
+      const [lead, ...rest] = galleryLayout(count).items
+      // The large item has no shape of its own from md up: it stretches across the two rows.
+      expect(lead.span).toContain('md:aspect-auto')
+      for (const item of rest) {
+        expect(item.span).toContain('md:aspect-[16/9]')
+        expect(item.span).not.toContain('md:aspect-auto')
+      }
+    }
+  })
+
   it('keeps even counts as a plain grid with no large item', () => {
     for (const count of [2, 4, 6]) expect(galleryLayout(count).items.every((item) => !item.span.includes('row-span-2'))).toBe(true)
   })

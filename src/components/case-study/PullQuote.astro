@@ -1,0 +1,14 @@
+---
+interface Props {
+  text: string
+}
+
+const { text } = Astro.props
+---
+
+<figure class="cs-block cs-quote my-10 grid gap-x-6 gap-y-2 bg-vermilion px-6 py-12 text-ink md:grid-cols-[auto_1fr] md:px-12 md:py-16 xl:my-12 xl:gap-x-8 xl:py-20">
+  <span class="font-display h-[0.42em] text-[clamp(5rem,9vw,9rem)] leading-[0.82]" aria-hidden="true">&ldquo;</span>
+  <blockquote class="type-display max-w-[24em] text-balance text-[clamp(1.75rem,4vw,4rem)] leading-[1.04]" data-reveal="rise">
+    <p>{text}</p>
+  </blockquote>
+</figure>

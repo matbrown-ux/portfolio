@@ -1,0 +1,46 @@
+---
+interface Props {
+  title: string
+  /** Heading of the optional side note, for example "Services". */
+  asideLabel?: string
+  aside?: string[]
+}
+
+const { title, asideLabel, aside = [] } = Astro.props
+---
+
+<section class="cs-chapter border-t-2 border-ink first:border-t-0">
+  <div
+    class="flex items-baseline gap-4 px-6 md:px-12 xl:col-[1/2] xl:row-[1/3] xl:flex-col xl:items-start xl:gap-4 xl:self-start xl:pr-0 xl:pt-2"
+    aria-hidden="true"
+  >
+    <span class="cs-chapter-number type-label text-sm"></span>
+    <span class="type-label xl:rotate-180 xl:[writing-mode:vertical-rl]">{title}</span>
+  </div>
+  <h2
+    class="type-display px-6 pb-8 pt-3 text-[clamp(3rem,7.4vw,7.5rem)] md:px-12 xl:col-[2/7] xl:row-[1/2] xl:px-5 xl:pb-10 xl:pt-0"
+    data-reveal="rise"
+  >
+    {title}
+  </h2>
+  <div class="cs-chapter-body">
+    <slot />
+  </div>
+  {
+    aside.length > 0 && (
+      <aside class="type-label mt-8 px-6 font-medium md:px-12 xl:col-[5/7] xl:row-[2/5] xl:mt-0 xl:self-start xl:px-5 xl:pt-1">
+        {asideLabel && (
+          <p class="mb-2 font-bold">
+            <span aria-hidden="true">// </span>
+            {asideLabel}
+          </p>
+        )}
+        <ul role="list">
+          {aside.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </aside>
+    )
+  }
+</section>

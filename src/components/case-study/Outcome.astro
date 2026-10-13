@@ -1,0 +1,45 @@
+---
+interface Metric {
+  value: string
+  label: string
+}
+
+interface Props {
+  /** The first metric is the headline one and is set giant. */
+  metrics: Metric[]
+}
+
+const { metrics } = Astro.props
+const [headline] = metrics
+---
+
+<div class="cs-block cs-outcome relative mt-10 xl:mt-0">
+  {
+    headline && (
+      <p
+        class="font-display pointer-events-none relative z-10 -mb-[0.22em] px-6 text-[clamp(7rem,19vw,19rem)] leading-[0.9] text-vermilion md:px-12 xl:absolute xl:bottom-10 xl:left-0 xl:mb-0 xl:-translate-x-[46%] xl:px-0"
+        aria-hidden="true"
+        data-reveal="rise"
+      >
+        {headline.value}
+      </p>
+    )
+  }
+  <div class="relative bg-ink text-ivory xl:h-full xl:min-h-[34rem]">
+    <span
+      class="absolute right-12 top-10 hidden h-24 w-36 [background:repeating-linear-gradient(90deg,var(--color-ivory)_0_0.3rem,transparent_0.3rem_0.8rem)] xl:block"
+      aria-hidden="true"
+    >
+    </span>
+    <dl class="grid gap-6 px-6 pb-12 pt-[clamp(3rem,9vw,5rem)] md:px-12 xl:absolute xl:inset-x-0 xl:bottom-0 xl:pb-14 xl:pl-[28%] xl:pt-0">
+      {
+        metrics.map((metric) => (
+          <div class="grid grid-cols-[minmax(6rem,11rem)_1fr] items-baseline border-t border-line-dark pt-4">
+            <dd class="font-display order-1 text-[clamp(3.5rem,6.4vw,6.5rem)] leading-[0.9] text-vermilion">{metric.value}</dd>
+            <dt class="type-label order-2">{metric.label}</dt>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</div>

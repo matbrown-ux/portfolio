@@ -125,3 +125,112 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
     color-mix(in srgb, var(--color-ivory) 8%, var(--color-ink));
   color: color-mix(in srgb, var(--color-ivory) 75%, transparent);
 }
+
+/* Case study body: numbered chapters. From 80rem up they sit on a visible six-column grid. */
+.cs-body {
+  counter-reset: chapter;
+}
+
+.cs-chapter {
+  --cs-pad: 4rem;
+  counter-increment: chapter;
+  padding-block: var(--cs-pad);
+}
+
+.cs-chapter-number::before {
+  content: counter(chapter, decimal-leading-zero);
+}
+
+/* The slot wrapper dissolves so prose and blocks are placed on the chapter's own grid. */
+.cs-chapter-body {
+  display: contents;
+}
+
+/* Reading styles for prose written in a chapter. The gallery is a list too, so blocks are excluded. */
+.cs-chapter-body > :is(p, ul, ol):not(.cs-block) {
+  max-width: 42rem;
+  box-sizing: content-box;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  margin-bottom: 1.2rem;
+  padding-inline: 1.5rem;
+}
+
+.cs-chapter-body > ul:not(.cs-block) {
+  list-style: square;
+  padding-left: 2.75rem;
+}
+
+.cs-chapter-body > ul:not(.cs-block) > li + li {
+  margin-top: 0.6rem;
+}
+
+.cs-chapter-body strong {
+  font-weight: 600;
+}
+
+@media (width >= 48rem) {
+  .cs-chapter-body > :is(p, ul, ol):not(.cs-block) {
+    padding-inline: 3rem;
+  }
+
+  .cs-chapter-body > ul:not(.cs-block) {
+    padding-left: 4.25rem;
+  }
+}
+
+@media (width >= 80rem) {
+  .cs-chapter {
+    --cs-pad: 5rem;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    background-image: linear-gradient(to right, color-mix(in srgb, var(--color-ink) 12%, transparent) 1px, transparent 1px);
+    background-size: calc(100% / 6) 100%;
+  }
+
+  .cs-chapter-body > * {
+    grid-column: 2 / 5;
+  }
+
+  .cs-chapter-body > :is(p, ul, ol):not(.cs-block) {
+    box-sizing: border-box;
+    max-width: none;
+    padding-inline: 1.25rem 2rem;
+  }
+
+  .cs-chapter-body > ul:not(.cs-block) {
+    padding-left: 2.5rem;
+  }
+
+  /* Blocks written inside a chapter run the full width. */
+  .cs-chapter-body > .cs-block {
+    grid-column: 1 / -1;
+  }
+
+  /* The outcome chapter splits: heading and prose on the left, the metrics panel on the right,
+     from the chapter's top edge to its bottom edge. The prose keeps clear of the giant value
+     that hangs off the panel's left edge. */
+  .cs-chapter:has(.cs-outcome) > h2,
+  .cs-chapter:has(.cs-outcome) .cs-chapter-body > :not(.cs-block) {
+    grid-column: 2 / 4;
+  }
+
+  .cs-chapter:has(.cs-outcome) .cs-chapter-body > :not(.cs-block) {
+    max-width: 20rem;
+    padding-right: 0;
+  }
+
+  .cs-chapter-body > .cs-outcome {
+    grid-column: 4 / -1;
+    grid-row: 1 / span 40;
+    margin-block: calc(var(--cs-pad) * -1);
+  }
+
+  /* A pull quote in the outcome chapter cannot cross the panel, so it closes the chapter as a
+     full-width band under the split, flush with the panel above and the chapter's bottom edge. */
+  .cs-chapter:has(.cs-outcome) .cs-chapter-body > .cs-quote {
+    grid-row: 42;
+    margin-top: var(--cs-pad);
+    margin-bottom: calc(var(--cs-pad) * -1);
+  }
+}

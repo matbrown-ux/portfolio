@@ -6,6 +6,8 @@ export interface GalleryLayout {
 
 const LARGE = 'md:row-span-2'
 const PLAIN = 'aspect-[4/3]'
+/** Beside a large item: a shape of its own from md up, so it sets the height of its row. */
+const BESIDE_LARGE = 'aspect-[4/3] md:aspect-[16/9]'
 
 const GRIDS: Record<number, string> = {
   1: 'grid-cols-1',
@@ -22,7 +24,7 @@ export function galleryLayout(count: number): GalleryLayout {
   return {
     grid: GRIDS[count] ?? MANY,
     items: Array.from({ length: Math.max(0, count) }, (_, i) => ({
-      span: leadsLarge && i === 0 ? `${LARGE} aspect-[4/3] md:aspect-auto` : leadsLarge ? 'aspect-[4/3] md:aspect-auto' : count === 1 ? 'aspect-[16/9]' : PLAIN,
+      span: leadsLarge && i === 0 ? `${LARGE} aspect-[4/3] md:aspect-auto` : leadsLarge ? BESIDE_LARGE : count === 1 ? 'aspect-[16/9]' : PLAIN,
       tone: i % 2 === 0 ? 'light' : 'dark',
     })),
   }
