@@ -85,9 +85,9 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - **Components:** `src/components/services/` (`ServicesHeader`, `ServiceJumpNav`, `ServiceSection`), `src/components/about/` (`AboutHero`, `AboutBio`, `AboutFacts`, `AboutBackground`, `AboutSkills`) and `src/components/contact/` (`ContactIntro`, `ContactForm`, `Confirmation`).
 - **Modules in `src/lib/`, each with a test:** `serviceSections` (builds the five Services sections from `disciplines.ts` and the case studies), `contactValidation` (field rules and the `?service=` lookup) and `contactForm` (inline validation, preselect and the in-place send, found through `data-` attributes).
 - **Content:** `src/content/about.ts` (the "By the numbers" facts, the owner's own statements) and `src/content/contactOptions.ts` (budget ranges and the "Multiple services" option), each with a test. `Discipline` lost its unused `description` field.
-- **`Button`:** a new `ink` variant and a `current` prop. The header's button for the page you are on uses `current`, so `/contact` and `/contact/thanks` show an ink button.
+- **`Button`:** a new `ink` variant and a `current` prop. The header's button for the page you are on uses `current`, so `/contact` and `/contact/thanks` show an ink button. The mobile menu's contact link takes the same current state on those two pages.
 - **Script art:** two new phrases in `src/assets/script/phrases.json`, `what-i-do` and `always-building`.
-- **Contact form:** plain HTML posted to Netlify Forms (`data-netlify`, honeypot, `action="/contact/thanks/"`), so it works without JavaScript. With JavaScript it validates inline and sends in place. See `CLAUDE.md` section 5.
+- **Contact form:** plain HTML posted to Netlify Forms (`data-netlify`, honeypot, `action="/contact/thanks/"`), so it works without JavaScript. With JavaScript it validates inline and sends in place. See `CLAUDE.md` section 5. Two protections in `src/lib/contactForm.ts`: a press on the send button (`pointerdown` until `pointerup`, `pointercancel` or the submit) suppresses the leave check, because showing or hiding an error line as the mouse goes down moves the button and swallows the click, and a send is aborted after 15 seconds (`timeoutMs` option, an `AbortController` timer cleared when the request settles) so a stalled connection ends in the failure message instead of a button stuck on "Sending". Two layout fixes from browser verification: between `lg` and `xl` the two selects take a full row each, and the footer's "Back to top" link is fully opaque on focus.
 
 **Owner inputs still needed for sub-project 3:**
 
@@ -95,17 +95,21 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - After the first deploy, send one test enquiry and confirm it arrives. A host that answers the form's POST with success while Netlify Forms is not enabled would show the visitor the confirmation and lose the message.
 - Confirm the Brand Development and SaaS Development copy in `disciplines.ts`.
 - A larger About portrait (`about.png` is 626x874 and is upscaled on 2x displays at desktop widths).
+- Check the About hero's blend (the portrait multiplying onto the vermilion block) and the contact form in Safari and Firefox and on a real phone.
 - Checks not run in this build: a real Netlify submission, Safari and Firefox, a real iOS device.
+
+**Owner's own instructions during the sub-project 3 build (not decisions to confirm):** on 2026-10-12 the owner asked for the About hero block to be exactly brand vermilion (it had been vermilion multiplied twice, about `#f12612`) and for its top edge to sit at the shoulders in the portrait. Both override the approved mockup, so do not restore the mockup. The block is one solid `bg-vermilion` fill, its top is derived from the portrait's own size and shoulder line, and the portrait itself multiplies onto it (`AboutHero.astro`).
 
 **Decisions made during the sub-project 3 build, for the owner to confirm:**
 
+- The About hero's rotated label moved onto the ivory above the block, because the block now starts at the shoulders and the label would sit on it.
+- Home's hero and About teaser blocks sample `#ed5d3c`, slightly darker than brand vermilion (a multiply layer over the page), and were left unchanged.
 - Services sections have no scroll offset for anchor links, because the site header is `absolute` and scrolls away; the spec asked for an offset for a fixed header. If the header becomes fixed, add `scroll-margin-top` to the sections.
 - The `ink` Button on hover becomes an ink outline with a transparent fill, with a permanent 2px border so it never changes size, because an ivory fill nearly vanished on the stone SEO/AEO section.
 - While the contact form is sending, the button is `aria-disabled="true"` instead of natively `disabled`, so keyboard focus stays on it after a failed send; the spec says the button is disabled and this keeps that meaning for assistive technology.
 - The thanks page's vermilion block starts below the header on an ivory strip, not under it, because the nav's vermilion hover underline vanished on a vermilion ground.
 - The About portrait is upscaled on 2x displays until a larger file arrives, at 1024px two skill titles wrap to two lines, and at two columns the sixth skills cell is empty.
 - The contact panel turns vermilion on success, fields go two-column from 640px, and the short thanks page shows ivory under the footer at 1440x900, as the 404 page does.
-- The "See the service" link's `aria-label` on About ("See the UX/UI Engineering service") does not contain the visible text as one string (WCAG 2.5.3); a visible text plus an sr-only suffix would fix it.
 
 ## Redesign roadmap and where we are (old Vite app, historical)
 
@@ -273,7 +277,7 @@ Pillars render alphabetically by directory name. Only UX/UI Design currently has
 - **Astro rebuild: Astro can drop the line break between text and an inline element in `.astro` markup.** The About bio rendered "onmy blog" where "tooling on" and `<a>` sat on separate lines. Fix: put `{' '}` before the element, or keep them on one line. Check with `grep -o 'tooling on <a' dist/about/index.html`. Any sentence that ends a line before a link has the same risk.
 - **Astro rebuild: a natively `disabled` button loses keyboard focus in Chrome.** After a failed send the contact form dropped a keyboard user to the top of the page. Fix: the button is `aria-disabled="true"` while sending, and a `sending` flag in `src/lib/contactForm.ts` blocks a double send.
 - **Astro rebuild: `astro dev` answers the contact form's POST with 200.** The dev server renders the route for any method, so a local send shows the confirmation and a real failure cannot occur. Simulate success and failure by intercepting the request in a browser script. Only a deployed Netlify build tests the real submission.
-- **Astro rebuild: the Playwright MCP server can drop mid-session.** The Playwright library in the npx cache can drive the installed Chrome from a node script (`pw.chromium.launch({ channel: 'chrome' })`) as a full replacement: screenshots, hover, focus, keyboard, form behaviour and network requests. See `.superpowers/sdd/2026-10-12-services-about-contact/browser-howto.md`.
+- **Astro rebuild: the Playwright MCP server can drop mid-session.** The Playwright library in the npx cache can drive the installed Chrome from a node script (`pw.chromium.launch({ channel: 'chrome' })`) as a full replacement: screenshots, hover, focus, keyboard, form behaviour and network requests. Find the library with `ls -d ~/.npm/_npx/*/node_modules/playwright-core`, `require` it in a `.cjs` script and launch with `pw.chromium.launch({ channel: 'chrome' })`.
 - **Astro rebuild: the `ink` Button keeps a permanent 2px border.** Its hover is an ink outline on a transparent fill, so it is the same size in every state. The header's `current` button has its own style (an inset ring) so the header does not shift between pages.
 - **Astro rebuild: the site header is `absolute`, not fixed.** It scrolls away, so anchor targets such as the Services sections need no scroll offset.
 - **Astro rebuild: a vermilion ground under the absolute header hides the nav's vermilion hover underline.** Keep the header on ivory, as the thanks page does.

@@ -34,7 +34,7 @@ Source of truth: `docs/superpowers/specs/2026-10-12-design-foundation-home-desig
 - Ivory is the page. Ink is text on ivory and the background of dark sections. Vermilion is the only accent. Stone is a neutral fill.
 - There is no dark theme. Dark is a section style.
 - Small vermilion text appears only on ink. Text on a vermilion fill is ink.
-- A vermilion block with `mix-blend-mode: multiply` tints the part of a black-and-white cut-out portrait it covers.
+- On Home, a vermilion block with `mix-blend-mode: multiply` tints the part of a black-and-white cut-out portrait it covers, so the block samples slightly darker than brand vermilion. On About the block is a solid vermilion fill and the portrait itself multiplies onto it, so the block stays exact brand colour.
 
 ## Type
 
@@ -50,6 +50,7 @@ Source of truth: `docs/superpowers/specs/2026-10-12-design-foundation-home-desig
 - Monospace numbering on list items. No numbered labels on section headings.
 - Rotated monospace labels on section edges.
 - Square corners. Square ink arrow button, filled vermilion button, outlined ink button.
+- The `ink` button variant has an ink fill and becomes an ink outline on hover, with a permanent 2px border so it never changes size. The `current` state is an ink fill for the button that points at the page you are on.
 
 ## Motion
 
