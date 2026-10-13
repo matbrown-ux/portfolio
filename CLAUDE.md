@@ -17,7 +17,7 @@ The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**,
 
 - **No em dashes (`—`) in any visible copy.** Use colons, commas, or reword. This applies to page text, MDX body, captions, alt text, frontmatter, and component strings. (It does not need to apply to non-rendered code comments, but stay consistent.)
 - **In MDX, comments are `{/* ... */}`** — never HTML `<!-- ... -->` (breaks the MDX parser).
-- **Never fabricate metrics or results for real clients.** These are real businesses. Use `"00"` placeholders in `<Metrics>` with a `TODO` comment, and only state facts the user has provided. (`'Aiwi`'s `#1` local ranking is a confirmed fact; numeric counts are still placeholders.)
+- **Never fabricate metrics or results for real clients.** These are real businesses. Use `"00"` placeholders in `<Outcome>` with a `TODO` comment, and only state facts the user has provided. (`'Aiwi`'s `#1` local ranking is a confirmed fact; numeric counts are still placeholders.)
 
 ### Copy guardrails
 

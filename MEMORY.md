@@ -12,7 +12,7 @@ On 2026-10-12 the owner decided to redesign the site completely and move to thei
 - **Tokens and fonts:** `src/styles/global.css` `@theme` holds `ivory`, `ink`, `vermilion`, `stone` and `line-dark`, plus the `type-display` and `type-label` utilities. Anton, Archivo and JetBrains Mono are self-hosted through Astro's font handling.
 - **Layout:** `src/layouts/BaseLayout.astro` owns the head (title, description, canonical, OG, Twitter) and the inline script that sets the `js` and `reveals-ready` classes on `<html>`. Pages are `index.astro` (Home), `404.astro` and, from sub-project 2, `work/index.astro` and `work/[slug].astro`.
 - **Shell:** `src/components/nav/` has `SiteHeader.astro`, `SiteFooter.astro` and the `MobileMenu.tsx` React island (with `focusTrap.ts`).
-- **Home:** six sections under `src/components/home/`: `Hero`, `DisciplineStrip`, `StatementBand`, `FeaturedWork`, `AboutTeaser`. `ContactBand` moved to `src/components/sections/` in sub-project 2 so the case study pages share it.
+- **Home:** five sections under `src/components/home/`: `Hero`, `DisciplineStrip`, `StatementBand`, `FeaturedWork`, `AboutTeaser`. `ContactBand` moved to `src/components/sections/` in sub-project 2 so the case study pages share it.
 - **Primitives:** `src/components/ui/` (`Button`, `ArrowButton`, `VerticalLabel`) and `src/components/brand/` (`Logo`, `ScriptArt`).
 - **Behaviour modules in `src/lib/`:** `typewriter`, `typewriterElement`, `reveal`, `motionTokens`, `gsap`, `featuredWork`, each with a co-located test.
 - **Script art:** `scripts/script-art/` (`generate.mjs`, `shape.mjs`, `svg.mjs`, `artList.mjs`, with tests) turns `src/assets/script/phrases.json` into one SVG per entry in `public/script/*.svg`, plus the manifest `src/assets/script/art.json` that `ScriptArt.astro` reads, via `npm run script-art`. The Gloss And Bloom font files stay in the git-ignored `.fonts/` folder.
@@ -48,7 +48,7 @@ Decisions the final review left for the owner, answered 2026-10-12:
 
 - **Pages:** `src/pages/work/index.astro` and `src/pages/work/[slug].astro`.
 - **Components:** `src/components/case-study/` (`CaseStudyHero`, `AtAGlance`, `Chapter`, `PullQuote`, `Walkthrough`, `Gallery`, `Outcome`, `NextProject`), `src/components/work/` (`WorkHeader`, `WorkRow`), `src/components/media/MediaSlot.astro` and `src/components/sections/ContactBand.astro`.
-- **Modules in `src/lib/`, each with a test:** `caseStudies` (case study numbering, next project, Work rows, project span), `media` and `caseStudyMedia` (resolve a media path under `src/assets/case-studies/<slug>/`, poster rules, tile media), `galleryLayout`, `videoInView` (plays a muted video only while it is on screen; wired into the closing script in `BaseLayout.astro`) and `host` (the link label for `liveUrl`).
+- **Modules in `src/lib/`, each with a test:** `caseStudies` (case study numbering, next project, Work rows, project span), `media` and `caseStudyMedia` (resolve a media path under `src/assets/case-studies/<slug>/`, poster rules, tile media), `galleryLayout`, `titleFit` (scales long client names down by character count), `videoInView` (plays a muted video only while it is on screen; wired into the closing script in `BaseLayout.astro`) and `host` (the link label for `liveUrl`).
 - **Schema:** `title`, `headline` (the page `h1`), `summary`, `date`, `year`, `tags`, `services`, `stack`, `role`, `result`, and optional `client`, `liveUrl`, `ogImage`, `heroNote`, `media.hero`, `media.tile`. Home's featured work tiles now show a case study's tile media when it has one.
 - **Script art:** two new phrases in `src/assets/script/phrases.json`, `selected` and `case-study`.
 - **Media:** `src/assets/case-studies/<slug>/` holds the images and clips (see the README there). No real media has been added yet.
@@ -61,7 +61,7 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - Walkthrough captures: 2 for Vamp Network and 3 for The Booking Flow.
 - Gallery photography: 2 images for 'Aiwi Waffles.
 - A short `heroNote` for 'Aiwi Waffles. Its hero note currently falls back to the summary, clamped to six lines.
-- One real video clip, so playback can be checked. Only the video markup has been verified so far.
+- One real video clip, so playback can be checked. A `.webm` has been played in the browser; an `.mp4` has not.
 
 **Decisions made during the sub-project 2 build, for the owner to confirm:**
 
@@ -70,7 +70,14 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - 'Aiwi Waffles' `summary` is now quoted in the frontmatter, with no word changed, because YAML had cut it at " #1".
 - The hero note is clamped to six lines, so a long summary shows an ellipsis until a short `heroNote` is supplied.
 - When Work rows stack below 1024px, each row's media block is inset by the row gutter so the row's own surface frames it; media stays first and the palette is unchanged.
-- The ledger also marks these for the owner: the outcome chapter heading wraps to two lines and keeps the rail; 'Aiwi Waffles' outcome panel is about 900px tall; the two dark placeholders in a five-item gallery stack in one column; below 1280px Vamp Network's Services note falls under the quote band; The Booking Flow's name takes three lines at 1440 and does not reach the vermilion block; the Work row focus ring is about 2.6:1 where it crosses the stone block, under the 3:1 minimum for non-text.
+- Gallery layout: the first item is large only for three and five items. Two images are equal halves (so 'Aiwi Waffles' two images sit side by side), and seven or more use a plain three-column grid.
+- A video inside a link (a Work row, a Home tile) gets no controls under reduced motion or when the browser refuses autoplay, because controls nested in a link cannot be used, so a recording made only for a tile could not be played there.
+- Long client names are scaled down by character count (`titleFit`); a single word over about 20 letters can still overflow.
+- Pull quote that ends a chapter: it leaves an empty gridded strip under the vermilion band (seen under 'Aiwi Waffles' "The challenge"). Whether to pull the band flush is a design call.
+- Looping videos have no pause control for visitors who allow motion (WCAG 2.2.2). Settle this before the first real recording ships; the simplest fix is click or Enter to toggle play on a video outside a link.
+- The chapter headings ("Overview", "The challenge", "The approach", "The outcome") are generic labels that come from the MDX and are the owner's to rewrite.
+- An `.mp4` has not been played, only a `.webm`.
+- The ledger also marks these for the owner: the outcome chapter heading wraps to two lines and keeps the rail; 'Aiwi Waffles' outcome panel is about 900px tall; the two dark placeholders in a five-item gallery stack in one column; below 1280px Vamp Network's Services note falls under the quote band; The Booking Flow's name takes three lines at 1440 and does not reach the vermilion block.
 
 ## Redesign roadmap and where we are (old Vite app, historical)
 
