@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css'
 import { Font } from 'astro:assets'
+import SiteHeader from '../components/nav/SiteHeader.astro'
+import SiteFooter from '../components/nav/SiteFooter.astro'
 
 interface Props {
   title: string
@@ -39,9 +41,20 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     {ogImage && <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />}
     <slot name="head" />
   </head>
-  <body>
-    <main>
+  <body id="top">
+    <a
+      href="#main"
+      class="type-label sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-ink focus:px-4 focus:py-3 focus:text-ivory"
+      >Skip to content</a
+    >
+    <SiteHeader />
+    <main id="main" tabindex="-1" class="outline-none">
       <slot />
     </main>
+    <SiteFooter />
+    <script>
+      import { initReveals } from '../lib/reveal'
+      initReveals()
+    </script>
   </body>
 </html>

@@ -1,0 +1,35 @@
+---
+import Logo from '../brand/Logo.astro'
+import Button from '../ui/Button.astro'
+import MobileMenu from './MobileMenu.tsx'
+import { contactLink, isCurrent, primaryNav } from '../../content/navigation'
+
+const { pathname } = Astro.url
+---
+
+<header class="absolute inset-x-0 top-0 z-40">
+  <div class="mx-auto flex max-w-[1600px] items-center gap-10 px-6 py-5 md:px-12">
+    <a href="/" aria-label="Mathew Brown, home" class="block w-16 text-ink md:w-[4.5rem]"><Logo /></a>
+    <nav aria-label="Primary" class="hidden md:block lg:ml-8">
+      <ul role="list" class="flex gap-10 lg:gap-14">
+        {
+          primaryNav.map(({ label, href }) => (
+            <li>
+              <a
+                href={href}
+                aria-current={isCurrent(href, pathname) ? 'page' : undefined}
+                class="type-label underline-offset-8 decoration-vermilion decoration-2 hover:underline aria-[current=page]:underline"
+              >
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="ml-auto hidden md:block"><Button href={contactLink.href}>{contactLink.label}</Button></div>
+    <div class="ml-auto md:hidden">
+      <MobileMenu client:media="(max-width: 767px)" links={primaryNav} contact={contactLink} pathname={pathname} />
+    </div>
+  </div>
+</header>

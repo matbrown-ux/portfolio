@@ -1,0 +1,24 @@
+---
+import Logo from '../brand/Logo.astro'
+import { footerNav } from '../../content/navigation'
+---
+
+<footer class="bg-ink text-ivory">
+  <div class="mx-auto flex max-w-[1600px] flex-col gap-8 px-6 py-8 md:flex-row md:items-center md:gap-12 md:px-12">
+    <a href="/" aria-label="Mathew Brown, home" class="block w-16"><Logo /></a>
+    <nav aria-label="Footer">
+      <ul role="list" class="flex flex-wrap gap-x-10 gap-y-3">
+        {
+          footerNav.map(({ label, href }) => (
+            <li>
+              <a href={href} class="type-label underline-offset-8 decoration-vermilion decoration-2 hover:underline">
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a href="#top" class="type-label opacity-70 hover:opacity-100 md:ml-auto">Back to top <span aria-hidden="true">↑</span></a>
+  </div>
+</footer>
