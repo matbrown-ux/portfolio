@@ -53,6 +53,48 @@
   }
 }
 
+/* The site header's scroll states, set by src/lib/headerScroll.ts as data-header-state.
+   With no state (no JavaScript) and in the `top` state the header is as SiteHeader.astro writes
+   it: absolute over the hero, no background. Once the page has scrolled past it, it is fixed:
+   `hidden` parks it just above the viewport and `shown` sets it at the top edge on an ivory bar
+   with an ink rule, so it reads on every section colour. It is out of the flow in every state. */
+[data-site-header]:is([data-header-state="hidden"], [data-header-state="shown"]) {
+  position: fixed;
+  background: var(--color-ivory);
+  border-bottom: 1px solid var(--color-ink);
+}
+
+[data-site-header][data-header-state="hidden"] {
+  transform: translateY(-100%);
+}
+
+/* Only a change between hidden and shown slides (the script marks it). Arriving at the top or
+   leaving it is a swap that happens in place or off screen. 0.2s is DURATION.fast in
+   src/lib/motionTokens.ts and the curve is the CSS form of its EASE.out (power3.out); keep them
+   in step. Under reduced motion there is no transition, so the header appears and disappears. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-site-header][data-header-slide] {
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+}
+
+/* The open mobile menu is a fixed panel inside the header. A transform on the header, even
+   mid-slide, would make the header the panel's containing block and shrink it to the bar. */
+[data-site-header]:has([aria-expanded="true"]) {
+  transform: none;
+  transition: none;
+}
+
+/* On paper a fixed header would repeat on every sheet. */
+@media print {
+  [data-site-header][data-header-state] {
+    position: absolute;
+    transform: none;
+    background: none;
+    border-bottom: 0;
+  }
+}
+
 /* Anton, uppercase, tight. Size is set per use with a text-[clamp(...)] class. */
 @utility type-display {
   font-family: var(--font-display);
