@@ -16,6 +16,7 @@
     "test:watch": "vitest",
     "typecheck": "astro check",
     "script-art": "node scripts/script-art/generate.mjs",
+    "favicons": "node scripts/favicons/generate.mjs",
     "prepare": "git config core.hooksPath .githooks 2>/dev/null || true"
   },
   "dependencies": {

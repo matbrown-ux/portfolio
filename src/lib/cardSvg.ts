@@ -37,7 +37,7 @@ export interface Mark {
   height: number
 }
 
-/** Read the MB mark's outline and size from its SVG file. */
+/** Read the MB mark's outline and size from its SVG file. scripts/favicons/generate.mjs repeats these two patterns. */
 export function markFromSvg(source: string): Mark {
   const viewBox = /viewBox="0 0 ([\d.]+) ([\d.]+)"/.exec(source)
   if (!viewBox) throw new Error('The mark SVG has no viewBox')
