@@ -4,6 +4,11 @@ import { Font } from 'astro:assets'
 import SiteHeader from '../components/nav/SiteHeader.astro'
 import SiteFooter from '../components/nav/SiteFooter.astro'
 import ShareMeta from '../components/seo/ShareMeta.astro'
+import portrait from '../assets/portraits/about.png'
+import JsonLd from '../components/seo/JsonLd.astro'
+import { disciplines } from '../content/disciplines'
+import { person } from '../content/person'
+import { personNode, websiteNode, type Node } from '../lib/structuredData'
 
 interface Props {
   title: string
@@ -12,11 +17,14 @@ interface Props {
   noindex?: boolean
   /** Let the page's single top-level element stretch to fill `main`, for short pages that must reach the footer. */
   fill?: boolean
+  /** This page's own schema.org nodes, added to the person and the site. */
+  schema?: Node[]
 }
 
-const { title, description, type = 'website', noindex = false, fill = false } = Astro.props
+const { title, description, type = 'website', noindex = false, fill = false, schema = [] } = Astro.props
 const fullTitle = `${title} | Mathew Brown`
 const canonical = new URL(Astro.url.pathname, Astro.site)
+const siteNodes = [personNode(person, disciplines.map((discipline) => discipline.title), new URL(portrait.src, Astro.site).href), websiteNode()]
 ---
 
 <!doctype html>
@@ -49,6 +57,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
+    <JsonLd nodes={[...siteNodes, ...schema]} />
     <slot name="head" />
   </head>
   <body id="top" class="flex min-h-screen min-h-svh flex-col">

@@ -15,6 +15,10 @@ export interface ArticleEntry {
   data: { title: string; description: string; date: Date }
 }
 
+/** The blog index's description: its meta description and its structured data. */
+export const BLOG_DESCRIPTION =
+  'Articles on UX/UI engineering, SEO and AEO, agentic workflows, brand development and SaaS development by Mathew Brown.'
+
 export function topicSlug(articleId: string): string {
   return articleId.split('/')[0]
 }

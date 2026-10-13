@@ -7,7 +7,8 @@ import ArticleRow from '../../components/blog/ArticleRow.astro'
 import TopicIndex from '../../components/blog/TopicIndex.astro'
 import ContactBand from '../../components/sections/ContactBand.astro'
 import { disciplines } from '../../content/disciplines'
-import { articleCard, countLabel, indexIntro, latestArticles, requireTopic, topicGroups, topicSlug } from '../../lib/blog'
+import { blogNode } from '../../lib/structuredData'
+import { BLOG_DESCRIPTION, articleCard, countLabel, indexIntro, latestArticles, requireTopic, topicGroups, topicSlug } from '../../lib/blog'
 
 const topics = await getCollection('blogTopics')
 const articles = await getCollection('blogArticles')
@@ -15,10 +16,7 @@ const [latest, ...more] = latestArticles(articles, 3).map((article) => articleCa
 const intro = indexIntro(topics.length, disciplines.length)
 ---
 
-<BaseLayout
-  title="Blog"
-  description="Articles on UX/UI engineering, SEO and AEO, agentic workflows, brand development and SaaS development by Mathew Brown."
->
+<BaseLayout title="Blog" description={BLOG_DESCRIPTION} schema={[blogNode(BLOG_DESCRIPTION)]}>
   <BlogHeader topics={countLabel(topics.length, 'topic', 'topics')} articles={countLabel(articles.length, 'article', 'articles')} />
   {latest && <LatestArticle card={latest} />}
   {

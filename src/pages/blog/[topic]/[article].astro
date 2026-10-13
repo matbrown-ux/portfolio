@@ -8,6 +8,7 @@ import Terms from '../../../components/blog/Terms.astro'
 import Term from '../../../components/blog/Term.astro'
 import ContactBand from '../../../components/sections/ContactBand.astro'
 import { disciplines } from '../../../content/disciplines'
+import { articlePageNodes } from '../../../lib/structuredData'
 import { articleCard, articleSlug, breadcrumb, contentsHeadings, formatDate, isoDate, nextTiles, requireDiscipline, requireTopic, topicHref, topicSlug } from '../../../lib/blog'
 
 export async function getStaticPaths() {
@@ -25,7 +26,7 @@ const contents = contentsHeadings(headings)
 const { updated } = article.data
 ---
 
-<BaseLayout title={article.data.title} description={article.data.description} type="article">
+<BaseLayout title={article.data.title} description={article.data.description} type="article" schema={articlePageNodes(article, topic)}>
   <article>
     <ArticleHeader
       crumbs={breadcrumb(discipline, topic, 'article')}

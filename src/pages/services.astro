@@ -6,6 +6,7 @@ import ServiceJumpNav from '../components/services/ServiceJumpNav.astro'
 import ServiceSection from '../components/services/ServiceSection.astro'
 import ContactBand from '../components/sections/ContactBand.astro'
 import { disciplines } from '../content/disciplines'
+import { servicesNode, webPageNode } from '../lib/structuredData'
 import { serviceSections } from '../lib/serviceSections'
 
 const sections = serviceSections(disciplines, await getCollection('caseStudies'))
@@ -14,6 +15,7 @@ const sections = serviceSections(disciplines, await getCollection('caseStudies')
 <BaseLayout
   title="UX/UI Engineering, SEO & AI Workflow Services"
   description="I offer UX/UI engineering, SEO and AEO, agentic workflows, brand development and SaaS development as a freelancer. See what each one includes and the work behind it."
+  schema={[webPageNode('WebPage', '/services', 'UX/UI Engineering, SEO & AI Workflow Services'), servicesNode(disciplines)]}
 >
   <ServicesHeader count={disciplines.length} />
   <ServiceJumpNav disciplines={disciplines} />

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { Discipline } from '../content/disciplines'
 import {
+  BLOG_DESCRIPTION,
   articleCard,
   articleHref,
   articleSlug,
@@ -290,5 +291,13 @@ describe('nextTiles', () => {
       cta: 'Back to the blog',
       href: '/blog',
     })
+  })
+})
+
+describe('BLOG_DESCRIPTION', () => {
+  it('is a sentence with no dash characters', () => {
+    expect(BLOG_DESCRIPTION.length).toBeGreaterThan(40)
+    expect(BLOG_DESCRIPTION).not.toMatch(/[\u2013\u2014]/)
+    expect(BLOG_DESCRIPTION.endsWith('.')).toBe(true)
   })
 })

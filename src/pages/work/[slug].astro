@@ -10,6 +10,7 @@ import Walkthrough from '../../components/case-study/Walkthrough.astro'
 import Gallery from '../../components/case-study/Gallery.astro'
 import Outcome from '../../components/case-study/Outcome.astro'
 import ContactBand from '../../components/sections/ContactBand.astro'
+import { caseStudyPageNodes } from '../../lib/structuredData'
 import { caseStudyNumber, nextCaseStudy } from '../../lib/caseStudies'
 
 export async function getStaticPaths() {
@@ -23,7 +24,7 @@ const { Content } = await render(entry)
 const next = nextCaseStudy(all, entry.id)
 ---
 
-<BaseLayout title={entry.data.headline} description={entry.data.summary} type="article">
+<BaseLayout title={entry.data.headline} description={entry.data.summary} type="article" schema={caseStudyPageNodes(entry)}>
   <CaseStudyHero entry={entry} number={caseStudyNumber(all, entry.id)} />
   <AtAGlance entry={entry} />
   <div class="cs-body">
