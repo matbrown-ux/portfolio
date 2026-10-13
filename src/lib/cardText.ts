@@ -43,17 +43,37 @@ export interface TitleFit {
   lines: string[]
 }
 
+/** No title is set smaller than this, in pixels. */
+export const MIN_TITLE_SIZE = 24
+
+/** Each step below the smallest listed size multiplies it by this. */
+export const TITLE_STEP = 0.9
+
+function fits(font: CardFont, lines: string[], size: number, space: { maxWidth: number; maxLines: number }): boolean {
+  return lines.length <= space.maxLines && lines.every((line) => textWidth(font, line, size) <= space.maxWidth)
+}
+
 /**
  * The largest of `sizes` (given largest first) at which the title wraps into at most `maxLines`
- * lines, each no wider than `maxWidth`. When none fits, the smallest size with every word kept.
+ * lines, each no wider than `maxWidth`. When none fits, it steps down from the smallest size by
+ * `TITLE_STEP` (one decimal) until it fits, stopping at `MIN_TITLE_SIZE`: the result is then the
+ * last size tried at or above the floor, with every word kept.
  */
 export function fitTitle(font: CardFont, text: string, space: { maxWidth: number; maxLines: number; sizes: readonly number[] }): TitleFit {
   for (const size of space.sizes) {
     const lines = wrapTitle(font, text, size, space.maxWidth)
-    if (lines.length <= space.maxLines && lines.every((line) => textWidth(font, line, size) <= space.maxWidth)) return { size, lines }
+    if (fits(font, lines, size, space)) return { size, lines }
   }
-  const size = space.sizes[space.sizes.length - 1]
-  return { size, lines: wrapTitle(font, text, size, space.maxWidth) }
+  let size = space.sizes[space.sizes.length - 1]
+  let lines = wrapTitle(font, text, size, space.maxWidth)
+  for (;;) {
+    const next = Math.round(size * TITLE_STEP * 10) / 10
+    if (next < MIN_TITLE_SIZE) break
+    size = next
+    lines = wrapTitle(font, text, size, space.maxWidth)
+    if (fits(font, lines, size, space)) break
+  }
+  return { size, lines }
 }
 
 /** The outline of a string as SVG path data, its first glyph's origin at (`x`, `baseline`). */

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { fitTitle, textPath, textWidth, wrapTitle, type CardFont, type GlyphPath } from './cardText'
+import { fitTitle, MIN_TITLE_SIZE, TITLE_STEP, textPath, textWidth, wrapTitle, type CardFont, type GlyphPath } from './cardText'
 
 // A path double that only remembers where its origin ends up.
 function point(x: number, y: number): GlyphPath {
@@ -64,10 +64,26 @@ describe('fitTitle', () => {
     expect(fitTitle(font, 'AA BB CC DD EE FF', space)).toEqual({ size: 60, lines: ['AA BB CC', 'DD EE FF'] })
   })
 
-  it('falls back to the smallest size when nothing fits, without dropping any word', () => {
-    const fit = fitTitle(font, 'AAAAAAAAAAAAAAA BB', space)
-    expect(fit.size).toBe(60)
-    expect(fit.lines).toEqual(['AAAAAAAAAAAAAAA', 'BB'])
+  it('keeps stepping down by a tenth past the smallest size until one long word fits the width', () => {
+    // 60, 54, 48.6, 43.7 are all too wide for 14 characters in 300; 39.3 is 275.1 wide.
+    expect(fitTitle(font, 'AAAAAAAAAAAAAA', space)).toEqual({ size: 39.3, lines: ['AAAAAAAAAAAAAA'] })
+  })
+
+  it('keeps stepping down past the smallest size until the title fits the line limit', () => {
+    // At 43.7 the first two words share a line (284 wide), so there are two lines.
+    expect(fitTitle(font, 'AAAAAA BBBBBB CCCCCC', space)).toEqual({ size: 43.7, lines: ['AAAAAA BBBBBB', 'CCCCCC'] })
+  })
+
+  it('stops at the floor when even that does not fit, without dropping any word', () => {
+    const fit = fitTitle(font, 'A'.repeat(40) + ' BB', space)
+    expect(fit.size).toBe(25.8)
+    expect(fit.size).toBeGreaterThanOrEqual(MIN_TITLE_SIZE)
+    expect(fit.lines).toEqual(['A'.repeat(40), 'BB'])
+  })
+
+  it('exports the floor and the step', () => {
+    expect(MIN_TITLE_SIZE).toBe(24)
+    expect(TITLE_STEP).toBe(0.9)
   })
 })
 
