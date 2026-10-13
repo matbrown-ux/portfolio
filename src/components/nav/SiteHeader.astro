@@ -27,7 +27,7 @@ const { pathname } = Astro.url
         }
       </ul>
     </nav>
-    <div class="ml-auto hidden md:block"><Button href={contactLink.href}>{contactLink.label}</Button></div>
+    <div class="ml-auto hidden md:block"><Button href={contactLink.href} current={isCurrent(contactLink.href, pathname)}>{contactLink.label}</Button></div>
     <div class="ml-auto md:hidden">
       <MobileMenu client:media="not all and (min-width: 48rem)" links={primaryNav} contact={contactLink} pathname={pathname} />
     </div>

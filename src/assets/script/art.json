@@ -23,5 +23,15 @@
     "src": "/script/case-study.svg",
     "width": 5325,
     "height": 1640
+  },
+  "what-i-do": {
+    "src": "/script/what-i-do.svg",
+    "width": 4701,
+    "height": 1505
+  },
+  "always-building": {
+    "src": "/script/always-building.svg",
+    "width": 8022,
+    "height": 1501
   }
 }

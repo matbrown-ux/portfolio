@@ -11,7 +11,7 @@ export default defineConfig({
   site: 'https://matbrown.io',
   // Straight quotes and plain hyphens stay as written: no smart punctuation in Markdown or MDX.
   markdown: { processor: satteri({ features: { smartPunctuation: false } }) },
-  integrations: [react(), mdx(), sitemap()],
+  integrations: [react(), mdx(), sitemap({ filter: (page) => !page.includes('/contact/thanks') })],
   fonts: [
     {
       provider: fontProviders.fontsource(),

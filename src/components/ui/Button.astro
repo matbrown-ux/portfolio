@@ -1,25 +1,31 @@
 ---
 interface Props {
   href: string
-  variant?: 'accent' | 'outline'
+  variant?: 'accent' | 'outline' | 'ink'
   /** The background the button sits on; decides the hover colours. */
   on?: 'light' | 'dark'
+  /** This button points at the page being viewed. */
+  current?: boolean
   class?: string
 }
 
-const { href, variant = 'accent', on = 'light', class: className } = Astro.props
+const { href, variant = 'accent', on = 'light', current = false, class: className } = Astro.props
 
 const styles = {
   accent: on === 'dark' ? 'bg-vermilion text-ink hover:bg-ivory focus-visible:outline-ivory' : 'bg-vermilion text-ink hover:bg-ink hover:text-ivory focus-visible:outline-ink',
   outline: 'border-2 border-ink text-ink hover:bg-ink hover:text-ivory focus-visible:outline-ink',
+  ink: 'bg-ink text-ivory hover:bg-ivory hover:text-ink focus-visible:outline-ink',
 }
+// On its own page the button is ink, so it reads as the current location rather than a call to action.
+const look = current ? styles.ink : styles[variant]
 ---
 
 <a
   href={href}
+  aria-current={current ? 'page' : undefined}
   class:list={[
     'type-label group inline-flex items-center gap-2 px-5 py-3.5 transition-colors duration-200',
-    styles[variant],
+    look,
     className,
   ]}
 >
