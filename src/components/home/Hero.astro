@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets'
+import portrait from '../../assets/portraits/hero.png'
+import ArrowButton from '../ui/ArrowButton.astro'
+import VerticalLabel from '../ui/VerticalLabel.astro'
+
+const words = ['ux', 'ui', 'seo', 'ai']
+---
+
+<section class="relative isolate overflow-hidden bg-ivory lg:h-svh lg:max-h-[1000px] lg:min-h-[640px]">
+  {/* Rotating word. Decorative: the h1 below carries the meaning. */}
+  <p
+    class="font-display px-6 pt-28 text-[clamp(6rem,14.5vw,15rem)] leading-[0.9] md:px-12 lg:absolute lg:left-0 lg:top-[29%] lg:pt-0 lg:text-[13vw] xl:text-[clamp(6rem,14.5vw,15rem)]"
+    aria-hidden="true"
+  >
+    <span data-typewriter data-words={words.join(',')}>{words[0]}</span>.<span class="caret"></span>
+  </p>
+
+  <div
+    class="relative z-10 grid max-w-xl gap-5 px-6 pt-8 md:px-12 lg:absolute lg:left-[33%] lg:top-[21%] lg:w-[19%] lg:max-w-none lg:px-0 lg:pt-0 xl:top-[24%] xl:w-[27%] xl:grid-cols-2 xl:gap-8"
+  >
+    <h1 class="type-label before:mb-3 before:block before:h-0.5 before:w-10 before:bg-ink">
+      UX/UI Engineer, SEO Specialist &amp; AI Workflow Developer
+    </h1>
+    <p class="type-label font-medium">
+      I'm Mathew Brown. I design and build interfaces, get them found in search, and automate the busywork with AI
+      agents.
+    </p>
+  </div>
+
+  <VerticalLabel class="absolute right-6 top-28 border-r-2 border-ink pr-2 md:right-12 lg:top-[14%] lg:text-sm">
+    Mathew Brown<br />Freelance<br />Available 2026
+  </VerticalLabel>
+
+  <p
+    class="font-display absolute bottom-[6%] left-12 hidden rotate-180 text-[clamp(3rem,6.6vw,6.5rem)] leading-none [writing-mode:vertical-rl] lg:block"
+    aria-hidden="true"
+  >
+    001
+  </p>
+
+  <div class="relative mt-10 h-[110vw] max-h-[720px] lg:static lg:mt-0 lg:h-auto lg:max-h-none">
+    <Image
+      src={portrait}
+      alt="Mathew Brown"
+      widths={[480, 720, 952]}
+      sizes="(min-width: 1024px) 32vw, 60vw"
+      loading="eager"
+      fetchpriority="high"
+      class="absolute bottom-0 right-[10%] h-[96%] w-auto lg:h-[min(93%,58vw)]"
+      data-reveal="rise"
+      data-reveal-on="load"
+      data-reveal-delay="0.25"
+    />
+    <div
+      class="absolute inset-x-0 bottom-0 top-1/2 bg-vermilion mix-blend-multiply lg:left-[33%]"
+      data-reveal="wipe"
+      data-reveal-on="load"
+    >
+    </div>
+    <ArrowButton href="#what-i-do" label="Scroll to what I do" class="absolute bottom-[6%] left-6 md:left-12 lg:left-[33%]" />
+  </div>
+</section>
+
+<script>
+  import { parseWords } from '../../lib/typewriter'
+  import { startTypewriter } from '../../lib/typewriterElement'
+
+  // Start after the block has wiped in and the portrait has risen.
+  document.querySelectorAll<HTMLElement>('[data-typewriter]').forEach((el) => {
+    startTypewriter(el, parseWords(el.dataset.words), { startDelay: 1400 })
+  })
+</script>
