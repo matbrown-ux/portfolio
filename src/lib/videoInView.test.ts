@@ -149,6 +149,68 @@ describe('initVideosInView', () => {
     expect(el.controls).toBe(false)
   })
 
+  describe('the pause button', () => {
+    const toggle = () => document.querySelector<HTMLButtonElement>('button[data-video-toggle]')
+
+    it('puts a pause button straight after a video that plays by itself', () => {
+      const el = video()
+      initVideosInView()
+      expect(el.nextElementSibling).toBe(toggle())
+      expect(toggle()).toHaveAttribute('type', 'button')
+      expect(toggle()).toHaveAccessibleName('Pause video')
+      expect(toggle()).toHaveTextContent('Pause')
+    })
+
+    it('pauses on a press and keeps the video paused while it is on screen', () => {
+      const el = video()
+      initVideosInView()
+      toggle()!.click()
+      expect(el.pause).toHaveBeenCalledTimes(1)
+      expect(toggle()).toHaveAccessibleName('Play video')
+      expect(toggle()).toHaveTextContent('Play')
+      callback([{ target: el, isIntersecting: true, intersectionRatio: 1 }])
+      expect(el.play).not.toHaveBeenCalled()
+    })
+
+    it('plays again on a second press, and scrolling works as before', () => {
+      const el = video()
+      initVideosInView()
+      toggle()!.click()
+      toggle()!.click()
+      expect(el.play).toHaveBeenCalledTimes(1)
+      expect(toggle()).toHaveAccessibleName('Pause video')
+      callback([{ target: el, isIntersecting: true, intersectionRatio: 1 }])
+      expect(el.play).toHaveBeenCalledTimes(2)
+    })
+
+    it('gives a video inside a link no button, since a button nested in a link cannot be used', () => {
+      const link = document.createElement('a')
+      link.href = '/work/example'
+      document.body.append(link)
+      link.append(video())
+      initVideosInView()
+      expect(toggle()).toBeNull()
+    })
+
+    it('adds no button under reduced motion, where the native controls do the job', () => {
+      installMatchMedia({ [REDUCED_QUERY]: true })
+      video()
+      initVideosInView()
+      expect(toggle()).toBeNull()
+    })
+
+    it('removes the button when the browser refuses to play, leaving the native controls', async () => {
+      await refuse('NotAllowedError', false)
+      expect(toggle()).toBeNull()
+    })
+
+    it('removes the button on cleanup', () => {
+      video()
+      initVideosInView()()
+      expect(toggle()).toBeNull()
+    })
+  })
+
   it('only looks inside the given root', () => {
     const outside = video()
     const root = document.createElement('section')

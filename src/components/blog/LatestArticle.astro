@@ -14,6 +14,7 @@ const fit = `--fit:${titleFit(card.title, { charsPerLine: 11, maxLines: 4 })}`
 
 <section aria-labelledby="latest-heading">
   <h2 id="latest-heading" class="sr-only">Latest article</h2>
+  {/* The whole card is the link, but only the button answers the pointer, so its hover reads as the button's own. */}
   {/* The ring crosses a vermilion and an ink panel, so it pairs an ivory line with an ink one. */}
   <a
     href={card.href}
@@ -31,9 +32,9 @@ const fit = `--fit:${titleFit(card.title, { charsPerLine: 11, maxLines: 4 })}`
         <div class="pt-4"><dt class="type-label">Published</dt><dd class="type-label"><time datetime={card.dateIso}>{card.dateLabel}</time></dd></div>
         <div class="pt-4"><dt class="type-label">Reading time</dt><dd class="type-label">{card.readLabel}</dd></div>
       </dl>
-      <span class="type-label mt-6 inline-flex items-center gap-2 self-start bg-vermilion px-5 py-3.5 text-ink transition-colors duration-200 group-hover:bg-ivory group-focus-visible:bg-ivory">
+      <span class="type-label mt-6 inline-flex items-center gap-2 self-start bg-vermilion px-5 py-3.5 text-ink transition-colors duration-200 group/button hover:bg-ivory group-focus-visible:bg-ivory">
         Read the article
-        <span aria-hidden="true" class="inline-block transition-transform duration-200 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5 motion-reduce:transition-none">↗</span>
+        <span aria-hidden="true" class="inline-block transition-transform duration-200 motion-safe:group-hover/button:-translate-y-0.5 motion-safe:group-hover/button:translate-x-0.5 motion-reduce:transition-none">↗</span>
       </span>
     </div>
   </a>

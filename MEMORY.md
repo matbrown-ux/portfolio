@@ -78,7 +78,7 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - A video inside a link (a Work row, a Home tile) gets no controls under reduced motion or when the browser refuses autoplay, because controls nested in a link cannot be used, so a recording made only for a tile could not be played there.
 - Long client names are scaled down by character count (`titleFit`); a single word over about 20 letters can still overflow.
 - Pull quote that ends a chapter: it leaves an empty gridded strip under the vermilion band (seen under 'Aiwi Waffles' "The challenge"). Whether to pull the band flush is a design call.
-- Looping videos have no pause control for visitors who allow motion (WCAG 2.2.2). Settle this before the first real recording ships; the simplest fix is click or Enter to toggle play on a video outside a link.
+- A looping video outside a link gets a "Pause" / "Play" button in its bottom right corner (`src/lib/videoInView.ts`); a video the visitor paused stays paused when scrolled back into view. A video inside a link (a Work row, a Home tile) has no control, because a button nested in a link cannot be used, so WCAG 2.2.2 is still unmet for those. No real recording is on the site yet, so the button has only been tested in unit tests.
 - The chapter headings ("Overview", "The challenge", "The approach", "The outcome") are generic labels that come from the MDX and are the owner's to rewrite.
 - An `.mp4` has not been played, only a `.webm`.
 - The ledger also marks these for the owner: the outcome chapter heading wraps to two lines and keeps the rail; 'Aiwi Waffles' outcome panel is about 900px tall; the two dark placeholders in a five-item gallery stack in one column; below 1280px Vamp Network's Services note falls under the quote band; The Booking Flow's name takes three lines at 1440 and does not reach the vermilion block.
@@ -182,7 +182,7 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - Back after an in-place send does not change the page by itself: a `pushState` entry fires `popstate`, and `contactForm.ts` reloads when the address and the page disagree.
 - The Cloudflare token appears HTML-escaped in the built page (`data-cf-beacon="{&quot;token&quot;...}"`), which browsers decode.
 - `npx lighthouse` works here with the installed Chrome (`--chrome-flags="--headless=new"`). A `noindex` page scores 66 for SEO because of the `is-crawlable` audit; that is correct for the topic pages with no article and the 404.
-- Contrast findings left for the owner: three pieces of large vermilion display type on ivory measure 2.69:1 against the 3:1 needed for large text (the "and" in `AboutBio.astro:4`, the step numbers in `Walkthrough.astro:48`, the giant figure in `Outcome.astro:20`). Each is a one-class change to ink. They wait on the owner because the vermilion type is part of approved designs.
+- Contrast findings the owner accepted on 2026-10-13: three pieces of large vermilion display type on ivory measure 2.69:1 against the 3:1 needed for large text (the "and" in `AboutBio.astro:4`, the step numbers in `Walkthrough.astro:48`, the giant figure in `Outcome.astro:20`). They stay vermilion as a design decision, so Lighthouse accessibility reads 96 and axe reports them on `/about/` and the case study pages. Do not change them. The owner also accepted the article link underline and the favicon mark at 92%.
 - An accessibility scan run before scroll reveals have fired under-reports contrast failures (Lighthouse scored About phone 100 while axe, settled, flagged the same element). Scan with reduced motion, or after scrolling the page top to bottom.
 
 **Owner inputs still needed for sub-project 5:**
@@ -193,7 +193,7 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - Switch on Netlify Forms and its notification email, then send one real test enquiry and confirm it arrives.
 - Create the Cloudflare Web Analytics site and supply its token, whenever ready. The site launches with analytics off.
 - Check Safari, Firefox and a real phone, and look at a real browser tab strip for the favicon. None of these has been run.
-- Decide the three audit contrast findings (the About bio's vermilion "and", the Walkthrough step numbers, the giant Outcome figure at `Outcome.astro:20`) and the article link underline.
+- (Decided 2026-10-13: the three contrast findings and the article link underline stay as designed.)
 - Case study hero captures, whenever they exist; the cards pick them up.
 
 **Domain day checklist** (the site is built on `feat/astro-rebuild` and is not live):
