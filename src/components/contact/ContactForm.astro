@@ -59,7 +59,9 @@ const required = 'text-vermilion'
       <input id="company" name="company" type="text" required autocomplete="organization" placeholder="Company or project name" class={control} />
       <p id="company-error" data-error-for="company" class={error} hidden></p>
     </div>
-    <div>
+    {/* Between lg and xl the panel is a narrow column beside the intro, and half of it is too
+        narrow for the longer service names, so the two selects each take a full row there. */}
+    <div class="lg:max-xl:col-span-2">
       <label for="projectType" class={label}>Project type <span class={required} aria-hidden="true">*</span></label>
       <div class="relative">
         <select id="projectType" name="projectType" required class:list={select}>
@@ -71,7 +73,7 @@ const required = 'text-vermilion'
       </div>
       <p id="projectType-error" data-error-for="projectType" class={error} hidden></p>
     </div>
-    <div>
+    <div class="lg:max-xl:col-span-2">
       <label for="budget" class={label}>Budget <span class={required} aria-hidden="true">*</span></label>
       <div class="relative">
         <select id="budget" name="budget" required class:list={select}>
