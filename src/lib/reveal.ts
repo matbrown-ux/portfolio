@@ -64,6 +64,9 @@ export function initReveals(root: ParentNode = document): () => void {
         ease: config.kind === 'wipe' ? EASE.wipe : EASE.out,
         delay: config.delay,
         force3D: false,
+        // GSAP otherwise writes the start state on its next tick, so a load reveal would show
+        // for a frame once the stylesheet's hold is released.
+        lazy: false,
         clearProps: config.kind === 'wipe' ? 'clipPath' : 'transform',
         scrollTrigger: config.onLoad ? undefined : { trigger: el, start: 'top 85%', once: true },
       })
