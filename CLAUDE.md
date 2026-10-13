@@ -40,7 +40,7 @@ The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**,
 - **Every page gets its share card from `shareCards` in `src/lib/shareCards.ts`.** A new page, case study, topic or article needs a card entry (or the rule that builds it); a page with none falls back to Home's. Card titles set on at most two lines and never end a line on "&".
 - **Structured data states only what the page shows.** `BaseLayout.astro` adds Person and WebSite everywhere; a page adds its own nodes through the `schema` prop, built by a tested function in `src/lib/structuredData.ts`. A case study `result` is a placeholder and never goes in structured data.
 - **`npm run build` runs `scripts/check-dist`** after Astro and fails the build, naming the page and the rule, when: `noindex` and the sitemap disagree; an indexable page lacks exactly one `h1`, a title, a description or a canonical equal to its own address; a page lacks a built share image or valid Person and WebSite JSON-LD; text, `alt`, `title`, `content` or `aria-label` has an em or en dash; a required file (`robots.txt`, `llms.txt`, `rss.xml`, the favicons, the manifest) is missing; or `llms.txt` or `rss.xml` links to a page that was not built. Fix the page, not the rule.
-- Page URLs in generated files (canonical, sitemap, structured data, `llms.txt`, RSS) end with a slash; internal `href`s do not.
+- Page URLs in generated files (canonical, sitemap, structured data, `llms.txt`, RSS) end with a slash; internal `href`s do not (the contact form's `action="/contact/thanks/"` is the one exception in `src/`).
 
 ## 4. Design & brand conventions
 

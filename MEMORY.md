@@ -182,7 +182,8 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - Back after an in-place send does not change the page by itself: a `pushState` entry fires `popstate`, and `contactForm.ts` reloads when the address and the page disagree.
 - The Cloudflare token appears HTML-escaped in the built page (`data-cf-beacon="{&quot;token&quot;...}"`), which browsers decode.
 - `npx lighthouse` works here with the installed Chrome (`--chrome-flags="--headless=new"`). A `noindex` page scores 66 for SEO because of the `is-crawlable` audit; that is correct for the topic pages with no article and the 404.
-- axe-core checks large display type against 3:1. Vermilion on ivory is 2.69:1, so any vermilion display text on ivory is flagged (the About bio's "and", the Walkthrough step numbers on a phone). Both are decorative and left for the owner.
+- Contrast findings left for the owner: three pieces of large vermilion display type on ivory measure 2.69:1 against the 3:1 needed for large text (the "and" in `AboutBio.astro:4`, the step numbers in `Walkthrough.astro:48`, the giant figure in `Outcome.astro:20`). Each is a one-class change to ink. They wait on the owner because the vermilion type is part of approved designs.
+- An accessibility scan run before scroll reveals have fired under-reports contrast failures (Lighthouse scored About phone 100 while axe, settled, flagged the same element). Scan with reduced motion, or after scrolling the page top to bottom.
 
 **Owner inputs still needed for sub-project 5:**
 
