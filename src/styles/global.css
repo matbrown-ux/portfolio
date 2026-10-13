@@ -179,6 +179,22 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   margin-top: 0.6rem;
 }
 
+/* Other Markdown written in a chapter (a heading, a quote) keeps off the screen edge. */
+.cs-chapter-body > :not(:is(p, ul, ol, .cs-block)) {
+  padding-inline: 1.5rem;
+}
+
+.cs-chapter-body > ol:not(.cs-block) {
+  list-style: decimal;
+  padding-left: 2.75rem;
+}
+
+/* Preflight strips the underline from links, so prose links get it back. */
+.cs-chapter-body > :is(p, ul, ol):not(.cs-block) a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .cs-chapter-body strong {
   font-weight: 600;
 }
@@ -186,6 +202,14 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
 @media (width >= 48rem) {
   .cs-chapter-body > :is(p, ul, ol):not(.cs-block) {
     padding-inline: 3rem;
+  }
+
+  .cs-chapter-body > :not(:is(p, ul, ol, .cs-block)) {
+    padding-inline: 3rem;
+  }
+
+  .cs-chapter-body > ol:not(.cs-block) {
+    padding-left: 4.25rem;
   }
 
   .cs-chapter-body > ul:not(.cs-block) {
@@ -212,6 +236,14 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
     padding-inline: 1.25rem 2rem;
   }
 
+  .cs-chapter-body > :not(:is(p, ul, ol, .cs-block)) {
+    padding-inline: 1.25rem 2rem;
+  }
+
+  .cs-chapter-body > ol:not(.cs-block) {
+    padding-left: 2.5rem;
+  }
+
   .cs-chapter-body > ul:not(.cs-block) {
     padding-left: 2.5rem;
   }
@@ -221,30 +253,36 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
     grid-column: 1 / -1;
   }
 
-  /* The outcome chapter splits: heading and prose on the left, the metrics panel on the right,
-     from the chapter's top edge to its bottom edge. The prose keeps clear of the giant value
-     that hangs off the panel's left edge. */
-  .cs-chapter:has(.cs-outcome) > h2,
-  .cs-chapter:has(.cs-outcome) .cs-chapter-body > :not(.cs-block) {
-    grid-column: 2 / 4;
-  }
+  /* Without :has() support the outcome chapter keeps the stacked layout, so none of the split
+     rules apply. */
+  @supports selector(:has(*)) {
+    /* The outcome chapter splits: heading and prose on the left, the metrics panel on the right,
+       from the chapter's top edge to its bottom edge. The prose keeps clear of the giant value
+       that hangs off the panel's left edge. */
+    .cs-chapter:has(.cs-outcome) > h2,
+    .cs-chapter:has(.cs-outcome) .cs-chapter-body > :not(.cs-block) {
+      grid-column: 2 / 4;
+    }
 
-  .cs-chapter:has(.cs-outcome) .cs-chapter-body > :not(.cs-block) {
-    max-width: 20rem;
-    padding-right: 0;
-  }
+    .cs-chapter:has(.cs-outcome) .cs-chapter-body > :not(.cs-block) {
+      max-width: 20rem;
+      padding-right: 0;
+    }
 
-  .cs-chapter-body > .cs-outcome {
-    grid-column: 4 / -1;
-    grid-row: 1 / span 40;
-    margin-block: calc(var(--cs-pad) * -1);
-  }
+    /* `span 40` and the quote's `grid-row: 42` are a pair: the panel covers rows 1 to 40, and the
+       quote sits below it. Change one and change the other. */
+    .cs-chapter-body > .cs-outcome {
+      grid-column: 4 / -1;
+      grid-row: 1 / span 40;
+      margin-block: calc(var(--cs-pad) * -1);
+    }
 
-  /* A pull quote in the outcome chapter cannot cross the panel, so it closes the chapter as a
-     full-width band under the split, flush with the panel above and the chapter's bottom edge. */
-  .cs-chapter:has(.cs-outcome) .cs-chapter-body > .cs-quote {
-    grid-row: 42;
-    margin-top: var(--cs-pad);
-    margin-bottom: calc(var(--cs-pad) * -1);
+    /* A pull quote in the outcome chapter cannot cross the panel, so it closes the chapter as a
+       full-width band under the split, flush with the panel above and the chapter's bottom edge. */
+    .cs-chapter:has(.cs-outcome) .cs-chapter-body > .cs-quote {
+      grid-row: 42;
+      margin-top: var(--cs-pad);
+      margin-bottom: calc(var(--cs-pad) * -1);
+    }
   }
 }

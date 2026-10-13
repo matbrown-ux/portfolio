@@ -35,8 +35,8 @@ const [headline] = metrics
       {
         metrics.map((metric) => (
           <div class="grid grid-cols-[minmax(6rem,11rem)_1fr] items-baseline border-t border-line-dark pt-4">
-            <dd class="font-display order-1 text-[clamp(3.5rem,6.4vw,6.5rem)] leading-[0.9] text-vermilion">{metric.value}</dd>
             <dt class="type-label order-2">{metric.label}</dt>
+            <dd class="font-display order-1 text-[clamp(3.5rem,6.4vw,6.5rem)] leading-[0.9] text-vermilion">{metric.value}</dd>
           </div>
         ))
       }
