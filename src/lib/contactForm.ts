@@ -9,6 +9,8 @@ export interface ContactFormOptions {
   send?: typeof fetch
   /** How long a send may take before it counts as failed, in milliseconds. Defaults to 15000. */
   timeoutMs?: number
+  /** How to reload the page when the visitor goes Back or Forward after a send. Defaults to `window.location.reload()`. */
+  reload?: () => void
 }
 
 const SENDING = 'Sending'
@@ -26,6 +28,7 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
   const search = options.search ?? window.location.search
   const send: typeof fetch = options.send ?? ((input, init) => fetch(input, init))
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS
+  const reload = options.reload ?? (() => window.location.reload())
   const panel = form.closest('[data-contact-panel]')
   const confirmation = panel?.querySelector<HTMLElement>('[data-contact-confirmation]') ?? null
   const formError = form.querySelector<HTMLElement>('[data-form-error]')
@@ -37,6 +40,7 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
   // down and coming up, and swallow the click. The submit validates every field anyway.
   let pressing = false
   let timer: ReturnType<typeof setTimeout> | undefined
+  let shownPath = window.location.pathname
 
   const control = (field: ContactField) => form.elements.namedItem(field) as Control | null
   const isRequired = (name: string): name is ContactField => (REQUIRED_CONTACT_FIELDS as string[]).includes(name)
@@ -79,6 +83,15 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
     if (name && isRequired(name)) check(name)
   }
 
+  // Back or Forward would leave this page's content under a different address (the confirmation
+  // at /contact, or the form at /contact/thanks/), so when the address no longer matches what is
+  // on screen, a fresh load shows the real page for it.
+  function onHistory() {
+    if (window.location.pathname === shownPath) return
+    window.removeEventListener('popstate', onHistory)
+    reload()
+  }
+
   /**
    * Cloudflare Web Analytics counts page views only. Moving the address to the thanks page,
    * without a reload, is what lets an enquiry sent in place be counted as one. The enquiry is
@@ -87,7 +100,10 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
   function showThanksAddress() {
     try {
       const thanks = form!.getAttribute('action')
-      if (thanks && window.location.pathname !== thanks) window.history.pushState({}, '', thanks)
+      if (thanks && window.location.pathname !== thanks) {
+        window.history.pushState({}, '', thanks)
+        shownPath = thanks
+      }
     } catch {
       // The address stays as it is; the confirmation still shows.
     }
@@ -158,6 +174,7 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
     if (title) projectType.value = title
   }
 
+  window.addEventListener('popstate', onHistory)
   form.addEventListener('focusout', onLeave)
   form.addEventListener('submit', onSubmit)
   button?.addEventListener('pointerdown', onPressStart)
@@ -167,6 +184,7 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
   return () => {
     clearTimeout(timer)
     timer = undefined
+    window.removeEventListener('popstate', onHistory)
     button?.removeEventListener('pointerdown', onPressStart)
     button?.removeEventListener('pointerup', onPressEnd)
     button?.removeEventListener('pointercancel', onPressEnd)

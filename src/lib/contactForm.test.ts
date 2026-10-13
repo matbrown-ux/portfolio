@@ -234,6 +234,74 @@ describe('initContactForm', () => {
     expect(document.activeElement).toBe(ui.heading)
   })
 
+  describe('history navigation after the address change', () => {
+    const pop = () => window.dispatchEvent(new PopStateEvent('popstate'))
+
+    const mountedDocument = () => {
+      mount()
+      return document
+    }
+
+    async function sendWith(send: typeof fetch, reload: () => void) {
+      window.history.replaceState({}, '', '/contact')
+      const ui = mount()
+      const cleanup = initContactForm(document, { search: '', send, reload })
+      fill(ui)
+      submit(ui.form)
+      await settle()
+      return cleanup
+    }
+
+    it('reloads the page once on Back or Forward after a successful send', async () => {
+      const reload = vi.fn()
+      const cleanup = await sendWith(ok(), reload)
+      window.history.replaceState({}, '', '/contact')
+      pop()
+      pop()
+      expect(reload).toHaveBeenCalledTimes(1)
+      cleanup()
+    })
+
+    it('reloads on Forward to the thanks address from a freshly loaded form', () => {
+      window.history.replaceState({}, '', '/contact')
+      const reload = vi.fn()
+      const cleanup = initContactForm(mountedDocument(), { search: '', reload })
+      window.history.replaceState({}, '', '/contact/thanks/')
+      pop()
+      expect(reload).toHaveBeenCalledTimes(1)
+      cleanup()
+    })
+
+    it('does not reload on a history change after a failed send', async () => {
+      const reload = vi.fn()
+      const cleanup = await sendWith(vi.fn().mockResolvedValue({ ok: false, status: 500 }), reload)
+      pop()
+      expect(reload).not.toHaveBeenCalled()
+      cleanup()
+    })
+
+    it('does not reload when the address could not be changed', async () => {
+      const reload = vi.fn()
+      const push = vi.spyOn(window.history, 'pushState').mockImplementation(() => {
+        throw new DOMException('Blocked', 'SecurityError')
+      })
+      const cleanup = await sendWith(ok(), reload)
+      push.mockRestore()
+      pop()
+      expect(reload).not.toHaveBeenCalled()
+      cleanup()
+    })
+
+    it('stops listening once the form is cleaned up', async () => {
+      const reload = vi.fn()
+      const cleanup = await sendWith(ok(), reload)
+      cleanup()
+      window.history.replaceState({}, '', '/contact')
+      pop()
+      expect(reload).not.toHaveBeenCalled()
+    })
+  })
+
   it('marks the button busy while sending and sends only once on a double submit', async () => {
     const ui = mount()
     let finish: (value: { ok: boolean; status: number }) => void = () => {}
