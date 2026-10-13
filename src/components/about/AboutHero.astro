@@ -21,8 +21,19 @@ import VerticalLabel from '../ui/VerticalLabel.astro'
     About Mathew Brown: UX/UI Engineer &amp; SEO Specialist
   </h1>
 
-  <div class="relative mt-10 h-[110vw] max-h-[640px] lg:absolute lg:inset-y-0 lg:left-[calc(var(--gutter)+min(52%,832px))] lg:right-0 lg:mt-0 lg:h-auto lg:max-h-none">
-    <div class="absolute inset-x-0 bottom-0 top-[24.5%] lg:top-[26.7%] bg-vermilion" data-reveal="wipe" data-reveal-on="load"></div>
+  {/* The block starts at the portrait's shoulders at every width. Both are tied to the same two
+      numbers: --portrait-h is the portrait's height as a share of this box, and --shoulders is how
+      far down the image the shoulder line sits (about row 380 of the 874px file, where the neck
+      meets the shoulders). The portrait is anchored to the bottom, so the shoulder line is
+      --portrait-h * (1 - --shoulders) above the bottom, and that is where the block's top goes. */}
+  <div
+    class="relative mt-10 h-[110vw] max-h-[640px] [--portrait-h:92%] [--shoulders:0.435] lg:absolute lg:inset-y-0 lg:left-[calc(var(--gutter)+min(52%,832px))] lg:right-0 lg:mt-0 lg:h-auto lg:max-h-none lg:[--portrait-h:89.5%]"
+  >
+    <div class="absolute inset-x-0 bottom-0 top-[calc(100%-var(--portrait-h)*(1-var(--shoulders)))] bg-vermilion" data-reveal="wipe" data-reveal-on="load"></div>
+    {/* The portrait multiplies onto whatever is behind it, so the one block stays exact brand
+        vermilion: black stays black, the greys take the vermilion where they overlap the block, and
+        above the block they sit on ivory as a plain black-and-white cut-out. The section's isolate
+        keeps the blend inside the hero. */}
     <Image
       src={portrait}
       alt="Mathew Brown in profile"
@@ -30,14 +41,12 @@ import VerticalLabel from '../ui/VerticalLabel.astro'
       sizes="(min-width: 1024px) 34vw, 80vw"
       loading="eager"
       fetchpriority="high"
-      class="absolute bottom-0 left-[12%] h-[92%] w-auto max-w-none lg:left-[min(5.3vw,5.3rem)] lg:h-[89.5%]"
+      class="absolute bottom-0 left-[12%] h-(--portrait-h) w-auto max-w-none mix-blend-multiply lg:left-[min(5.3vw,5.3rem)]"
     />
-    {/* Tints the part of the cut-out that overlaps the block. It wipes in with the block. */}
-    <div class="absolute inset-x-0 bottom-0 top-[24.5%] lg:top-[26.7%] bg-vermilion mix-blend-multiply" data-reveal="wipe" data-reveal-on="load" aria-hidden="true"></div>
   </div>
 
-  {/* On the block from lg up, so it is ink. */}
-  <VerticalLabel class="absolute right-6 top-28 z-10 border-r-2 border-ink pr-2 text-ink md:right-12 lg:right-[calc(var(--gutter)+3rem)] lg:top-[31%] lg:text-sm">
+  {/* On ivory at every width: from lg up it sits above the block, at the right edge of the hero. */}
+  <VerticalLabel class="absolute right-6 top-28 z-10 border-r-2 border-ink pr-2 text-ink md:right-12 lg:right-[calc(var(--gutter)+3rem)] lg:top-[17%] lg:text-sm">
     O'ahu, Hawai'i<br />Working remotely
   </VerticalLabel>
 </section>
