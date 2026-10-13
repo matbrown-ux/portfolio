@@ -6,7 +6,7 @@
 
 ## 1. This is an Astro project, NOT Next.js
 
-The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**, with MDX for content. The site is being rebuilt from scratch on `feat/astro-rebuild`; the previous React + Vite + vite-react-ssg app lives on `feat/site-pass` and is the reference to port from (`git show feat/site-pass:<path>`).
+The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**, with MDX for content. The site is being rebuilt from scratch on `feat/astro-rebuild`; the previous React + Vite + vite-react-ssg app is in this branch's history, ending at commit `0bfb10a`, and is the reference to port from (`git show 0bfb10a:<path>`). Its own branches were deleted on 2026-10-12.
 
 - **Ignore any `"use client"` suggestions** and other Next.js-specific advice (App Router, `next/*`, server actions, etc.). They do not apply here.
 - Routing is file-based in `src/pages/`. Head and SEO tags live in `src/layouts/BaseLayout.astro`, so they are in the prerendered HTML.
