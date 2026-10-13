@@ -4,11 +4,17 @@ import { featuredWork } from '../../lib/featuredWork'
 
 const tiles = featuredWork(await getCollection('caseStudies'))
 
-// Small vermilion text is only allowed on ink, so only the dark tile gets a vermilion number.
+// Each tile swaps fill on hover and focus. Small vermilion text is only allowed on ink, so only the
+// dark tile has a vermilion number, and it turns ink when the tile turns vermilion.
+const cell = {
+  tall: 'md:row-span-2',
+  accent: '',
+  dark: '',
+}
 const surface = {
-  tall: 'bg-stone text-ink md:row-span-2',
-  accent: 'bg-vermilion text-ink',
-  dark: 'bg-ink text-ivory',
+  tall: 'bg-stone text-ink hover:bg-ink hover:text-ivory focus-visible:bg-ink focus-visible:text-ivory',
+  accent: 'bg-vermilion text-ink hover:bg-ink hover:text-ivory focus-visible:bg-ink focus-visible:text-ivory',
+  dark: 'bg-ink text-ivory hover:bg-vermilion hover:text-ink focus-visible:bg-vermilion focus-visible:text-ink',
 }
 ---
 
@@ -19,9 +25,14 @@ const surface = {
       <ul role="list" class="grid flex-1 gap-4 md:auto-rows-[minmax(15rem,17vw)] md:grid-cols-[1.15fr_1fr]">
         {
           tiles.map((tile, i) => (
-            <li class:list={[surface[tile.variant]]} data-reveal="rise" data-reveal-index={i}>
-              <a href={tile.href} class="group flex h-full min-h-52 flex-col p-6 focus-visible:-outline-offset-4 lg:p-7">
-                <span class:list={['type-label text-sm', tile.variant === 'dark' && 'text-vermilion']}>{tile.number} /</span>
+            <li class:list={[cell[tile.variant]]} data-reveal="rise" data-reveal-index={i}>
+              <a href={tile.href} class:list={['group flex h-full min-h-52 flex-col p-6 transition-colors duration-200 focus-visible:-outline-offset-4 motion-reduce:transition-none lg:p-7', surface[tile.variant]]}>
+                <span
+                  class:list={[
+                    'type-label text-sm',
+                    tile.variant === 'dark' && 'text-vermilion transition-colors duration-200 group-hover:text-ink group-focus-visible:text-ink motion-reduce:transition-none',
+                  ]}
+                >{tile.number} /</span>
                 <h3 class="type-display mt-2 max-w-[10ch] text-[clamp(2rem,3.1vw,3.25rem)]">{tile.title}</h3>
                 <p class="type-label mt-3 font-medium">{tile.tags.join(', ')}</p>
                 <span
