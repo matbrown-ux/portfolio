@@ -15,12 +15,15 @@ const slot = caseStudyMedia(media?.hero ?? { alt: `${title} hero capture` }, `${
 
 // Small vermilion text is only allowed on ink, so only the ink row has a vermilion number.
 // The stone row's media is outlined: where it breaks out of the vermilion block it sits on stone.
-// The focus ring crosses both the row and its block, so it takes a colour that shows on each. It is
-// drawn by a pseudo-element on top: the block is positioned, so it would cover an inset outline.
+// The focus ring crosses both the row and its block, so it has to show on each. It is drawn by a
+// pseudo-element on top: the block is positioned, so it would cover an inset outline. Ink alone
+// clears 3:1 on stone and on vermilion. Vermilion does on ink but not on stone or ivory (about
+// 2.3:1 and 2.7:1), so those two rows pair it with an ink line, which carries the ring there.
+const pairedRing = 'after:border-vermilion focus-visible:after:outline-2 focus-visible:after:outline-ink'
 const surface = {
   stone: { row: 'bg-stone text-ink', block: 'bg-vermilion', arrow: 'bg-ink text-ivory', tone: 'light', media: 'border-2 border-ink', ring: 'after:border-ink' },
-  ink: { row: 'bg-ink text-ivory', block: 'bg-stone', arrow: 'bg-vermilion text-ink', tone: 'light', media: '', ring: 'after:border-vermilion' },
-  ivory: { row: 'bg-ivory text-ink', block: 'bg-ink', arrow: 'bg-ink text-ivory', tone: 'dark', media: '', ring: 'after:border-vermilion' },
+  ink: { row: 'bg-ink text-ivory', block: 'bg-stone', arrow: 'bg-vermilion text-ink', tone: 'light', media: '', ring: pairedRing },
+  ivory: { row: 'bg-ivory text-ink', block: 'bg-ink', arrow: 'bg-ink text-ivory', tone: 'dark', media: '', ring: pairedRing },
 } as const
 const look = surface[row.surface]
 
