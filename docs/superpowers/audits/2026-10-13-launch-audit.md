@@ -82,3 +82,5 @@ Until the first three are decided, the bar (accessibility 100 and no serious axe
 - Performance: measured on the Netlify preview, not here.
 - The `X-Robots-Tag: noindex` header: the local file server does not serve `netlify.toml` headers. It is checked on the deployed preview.
 - Safari, Firefox, a real phone and a real browser tab strip.
+- The spec's JavaScript-off pass and keyboard-order pass: both belong to the preview audit and were not run locally.
+- Share cards on the Netlify address: `og:image` addresses are built on `https://matbrown.io`, which is still a parking page, so a link-preview tool (LinkedIn's Post Inspector, for one) pointed at the Netlify address will show no image until the domain moves. That is not a failure of launch step 7. Until then, check a card by opening `/og/<path>.png` on the Netlify address directly.

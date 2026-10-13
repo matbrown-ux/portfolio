@@ -54,7 +54,7 @@ The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**,
 
 ## 5. Content pipeline
 
-- Collections are defined in `src/content.config.ts`. Case studies are `src/content/case-studies/<slug>.mdx`; the entry `id` is the slug. Frontmatter: `title`, `headline` (the page `h1`), `summary`, `date`, `year`, `tags`, `services`, `stack`, `role`, `result`, and optional `client`, `liveUrl`, `ogImage`, `heroNote`, `media.hero`, `media.tile`.
+- Collections are defined in `src/content.config.ts`. Case studies are `src/content/case-studies/<slug>.mdx`; the entry `id` is the slug. Frontmatter: `title`, `headline` (the page `h1`), `summary`, `date`, `year`, `tags`, `services`, `stack`, `role`, `result`, and optional `client`, `liveUrl`, `heroNote`, `media.hero`, `media.tile`.
 - Case study bodies are `<Chapter title>` sections containing prose and the blocks `<PullQuote text>`, `<Walkthrough steps>`, `<Gallery images>` and `<Outcome metrics>` (`src/components/case-study/`). Chapters number themselves. The first metric in `<Outcome>` is the headline one. There is no before/after slider; the owner retired it.
 - **Media** lives in `src/assets/case-studies/<slug>/` and is referenced by its path inside that folder (see the README there). Every media slot takes `{ src, alt, poster }`: no `src` shows a labelled placeholder, a video needs a `poster`, and a `src` that matches no file stops the build. `alt` doubles as the placeholder's label, so write it to say what belongs there.
 - **Never fabricate metrics or results.** Placeholder values (`"00"`, "Result pending...") are shown as written until the owner supplies real ones.
