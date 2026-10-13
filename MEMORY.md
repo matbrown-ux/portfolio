@@ -97,7 +97,7 @@ Decisions the final review left for the owner, answered 2026-10-12:
 
 - Enable Netlify Forms for the site and set where submissions go.
 - After the first deploy, send one test enquiry and confirm it arrives. A host that answers the form's POST with success while Netlify Forms is not enabled would show the visitor the confirmation and lose the message.
-- Confirm the Brand Development and SaaS Development copy in `disciplines.ts`.
+- (Done 2026-10-13: the owner confirmed the Brand Development and SaaS Development copy in `disciplines.ts`.)
 - A larger About portrait (`about.png` is 626x874 and is upscaled on 2x displays at desktop widths).
 - Check the portrait blend (each portrait multiplying onto its vermilion block: Home hero, Home About teaser, About hero) and the contact form in Safari and Firefox and on a real phone.
 - Checks not run in this build: a real Netlify submission, Safari and Firefox, a real iOS device.
