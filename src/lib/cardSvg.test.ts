@@ -81,6 +81,14 @@ describe('cardSvg', () => {
     expect(svg).toContain('M60,486')
   })
 
+  it('keeps a title to two lines, stepping it down when it would need a third', () => {
+    // At 138 the three words take a line each. 'BUTTON STATES' is 13 characters: 110 is the first size at which it fits (715).
+    const { svg } = build(undefined, 'Button states convert')
+    expect(svg).toContain('M60,387')
+    expect(svg).toContain('M60,486')
+    expect(svg).not.toContain('M60,237.6')
+  })
+
   it('steps a long title down so it stays clear of the block', () => {
     const { svg } = build(undefined, 'Supercalifragilistic')
     // 20 characters must be at most 732 wide: 66 is the first size that fits (660).

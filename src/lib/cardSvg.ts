@@ -10,7 +10,7 @@ export const CARD = {
   blockWidth: 360,
   captureBlockWidth: 552,
   titleSizes: [138, 124, 110, 98, 86, 76, 66, 58, 50],
-  maxLines: 3,
+  maxLines: 2,
   lineHeight: 0.9,
   /** The last title baseline sits this far above the bottom edge. */
   titleBottom: 144,

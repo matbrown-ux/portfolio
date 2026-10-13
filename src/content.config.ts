@@ -27,7 +27,6 @@ const caseStudies = defineCollection({
     client: z.string().optional(),
     liveUrl: z.url().optional(),
     result: z.string(),
-    ogImage: z.string().optional(),
     heroNote: z.string().optional(),
     media: z.strictObject({ hero: mediaRef.optional(), tile: mediaRef.optional() }).optional(),
   }),

@@ -3,18 +3,18 @@ import '../styles/global.css'
 import { Font } from 'astro:assets'
 import SiteHeader from '../components/nav/SiteHeader.astro'
 import SiteFooter from '../components/nav/SiteFooter.astro'
+import ShareMeta from '../components/seo/ShareMeta.astro'
 
 interface Props {
   title: string
   description: string
-  ogImage?: string
   type?: 'website' | 'article'
   noindex?: boolean
   /** Let the page's single top-level element stretch to fill `main`, for short pages that must reach the footer. */
   fill?: boolean
 }
 
-const { title, description, ogImage, type = 'website', noindex = false, fill = false } = Astro.props
+const { title, description, type = 'website', noindex = false, fill = false } = Astro.props
 const fullTitle = `${title} | Mathew Brown`
 const canonical = new URL(Astro.url.pathname, Astro.site)
 ---
@@ -40,11 +40,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
-    {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
+    <ShareMeta />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    {ogImage && <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />}
     <slot name="head" />
   </head>
   <body id="top" class="flex min-h-screen min-h-svh flex-col">

@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content'
+import { disciplines } from '../../content/disciplines'
+import { cardFor, ogImagePath, shareCards } from '../../lib/shareCards'
+
+// A page with no card of its own (the 404, the thanks page) shares the Home card.
+const cards = shareCards({
+  disciplines,
+  caseStudies: await getCollection('caseStudies'),
+  topics: await getCollection('blogTopics'),
+  articles: await getCollection('blogArticles'),
+})
+const card = cardFor(cards, Astro.url.pathname)
+const image = new URL(ogImagePath(card.path), Astro.site)
+const alt = `${card.label}: ${card.title}`
+---
+
+<meta property="og:image" content={image} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={alt} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={alt} />
