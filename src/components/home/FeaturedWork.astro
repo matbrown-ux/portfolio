@@ -1,8 +1,13 @@
 ---
 import { getCollection } from 'astro:content'
+import MediaSlot from '../media/MediaSlot.astro'
+import { tileMedia } from '../../lib/caseStudyMedia'
 import { featuredWork } from '../../lib/featuredWork'
 
-const tiles = featuredWork(await getCollection('caseStudies'))
+const entries = await getCollection('caseStudies')
+const tiles = featuredWork(entries)
+// Media per tile id; null leaves the tile a plain colour block.
+const media = Object.fromEntries(entries.map((entry) => [entry.id, tileMedia(entry.data.media?.tile, `${entry.id} tile`)]))
 
 // Each tile swaps fill on hover and focus. Small vermilion text is only allowed on ink, so only the
 // dark tile has a vermilion number, and it turns ink when the tile turns vermilion.
@@ -24,26 +29,35 @@ const surface = {
     <div class="mt-8 flex flex-col gap-4 lg:mt-12 lg:flex-row">
       <ul role="list" class="grid flex-1 gap-4 md:auto-rows-[minmax(15rem,17vw)] md:grid-cols-[1.15fr_1fr]">
         {
-          tiles.map((tile, i) => (
+          tiles.map((tile, i) => {
+            const tileImage = media[tile.id]
+            return (
             <li class:list={[cell[tile.variant]]} data-reveal="rise" data-reveal-index={i}>
-              <a href={tile.href} class:list={['group flex h-full min-h-52 flex-col p-6 transition-colors duration-200 focus-visible:-outline-offset-4 motion-reduce:transition-none lg:p-7', surface[tile.variant]]}>
+              <a href={tile.href} class:list={['group relative isolate flex h-full overflow-hidden min-h-52 flex-col p-6 transition-colors duration-200 focus-visible:-outline-offset-4 motion-reduce:transition-none lg:p-7', surface[tile.variant]]}>
+                {tileImage && (
+                  <>
+                    <MediaSlot media={tileImage} class="absolute inset-0" sizes="(min-width: 768px) 50vw, 100vw" />
+                    <span class="absolute inset-0 bg-inherit opacity-80 transition-opacity duration-200 group-hover:opacity-90 motion-reduce:transition-none" aria-hidden="true" />
+                  </>
+                )}
                 <span
                   class:list={[
-                    'type-label text-sm',
+                    'type-label relative text-sm',
                     tile.variant === 'dark' && 'text-vermilion transition-colors duration-200 group-hover:text-ink group-focus-visible:text-ink motion-reduce:transition-none',
                   ]}
                 >{tile.number} /</span>
-                <h3 class="type-display mt-2 max-w-[10ch] text-[clamp(2rem,3.1vw,3.25rem)]">{tile.title}</h3>
-                <p class="type-label mt-3 font-medium">{tile.tags.join(', ')}</p>
+                <h3 class="type-display relative mt-2 max-w-[10ch] text-[clamp(2rem,3.1vw,3.25rem)]">{tile.title}</h3>
+                <p class="type-label relative mt-3 font-medium">{tile.tags.join(', ')}</p>
                 <span
-                  class="mt-auto inline-block pt-6 text-2xl transition-transform duration-200 motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:translate-x-1 motion-reduce:transition-none"
+                  class="relative mt-auto inline-block pt-6 text-2xl transition-transform duration-200 motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:translate-x-1 motion-reduce:transition-none"
                   aria-hidden="true"
                 >
                   ↗
                 </span>
               </a>
             </li>
-          ))
+            )
+          })
         }
       </ul>
       <a
