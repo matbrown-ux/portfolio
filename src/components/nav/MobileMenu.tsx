@@ -21,6 +21,7 @@ export function MobileMenu({ links, contact, pathname }: Props) {
   const toggleRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const wasOpen = useRef(false)
+  const contactCurrent = isCurrent(contact.href, pathname)
 
   // The panel is hidden at md and up, so an open menu would leave the page locked.
   useEffect(() => {
@@ -122,7 +123,13 @@ export function MobileMenu({ links, contact, pathname }: Props) {
               })}
             </ul>
           </nav>
-          <a href={contact.href} className="type-label mt-auto inline-flex items-center gap-2 self-start bg-vermilion px-5 py-3.5 text-ink focus-visible:outline-ivory">
+          {/* On the contact pages the call to action is the current page: ivory instead of vermilion,
+              the same switch the header's button makes at desktop widths. */}
+          <a
+            href={contact.href}
+            aria-current={contactCurrent ? 'page' : undefined}
+            className={`type-label mt-auto inline-flex items-center gap-2 self-start px-5 py-3.5 text-ink focus-visible:outline-ivory ${contactCurrent ? 'bg-ivory' : 'bg-vermilion'}`}
+          >
             {contact.label}
             <span aria-hidden="true">↗</span>
           </a>

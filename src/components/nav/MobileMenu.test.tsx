@@ -39,6 +39,19 @@ describe('MobileMenu', () => {
     expect(screen.getByRole('link', { name: 'About' })).not.toHaveAttribute('aria-current')
   })
 
+  it('marks the call to action as the current page on the contact pages', async () => {
+    const { user, toggle } = setup('/contact/thanks/')
+    await user.click(toggle)
+    expect(screen.getByRole('link', { name: 'Start a project' })).toHaveAttribute('aria-current', 'page')
+    expect(screen.getByRole('link', { name: 'Work' })).not.toHaveAttribute('aria-current')
+  })
+
+  it('leaves the call to action unmarked on every other page', async () => {
+    const { user, toggle } = setup('/work')
+    await user.click(toggle)
+    expect(screen.getByRole('link', { name: 'Start a project' })).not.toHaveAttribute('aria-current')
+  })
+
   it('closes on Escape and returns focus to the toggle', async () => {
     const { user, toggle } = setup()
     await user.click(toggle)
