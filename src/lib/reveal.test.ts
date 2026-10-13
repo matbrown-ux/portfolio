@@ -131,8 +131,8 @@ describe('initReveals', () => {
     expect(document.documentElement.classList.contains('reveals-ready')).toBe(true)
   })
 
-  it('leaves no load reveal held hidden after cleanup', () => {
-    // The stylesheet pre-hides load reveals while <html> matches .js:not(.reveals-ready).
+  it('leaves no reveal held hidden after cleanup', () => {
+    // The stylesheet pre-hides every reveal while <html> matches .js:not(.reveals-ready).
     document.documentElement.classList.add('js')
     const node = el({ 'data-reveal': 'rise', 'data-reveal-on': 'load' })
     initReveals()()

@@ -10,8 +10,8 @@ interface Props {
 const { href, variant = 'accent', on = 'light', class: className } = Astro.props
 
 const styles = {
-  accent: on === 'dark' ? 'bg-vermilion text-ink hover:bg-ivory focus-visible:outline-ivory' : 'bg-vermilion text-ink hover:bg-ink hover:text-ivory',
-  outline: 'border-2 border-ink text-ink hover:bg-ink hover:text-ivory',
+  accent: on === 'dark' ? 'bg-vermilion text-ink hover:bg-ivory focus-visible:outline-ivory' : 'bg-vermilion text-ink hover:bg-ink hover:text-ivory focus-visible:outline-ink',
+  outline: 'border-2 border-ink text-ink hover:bg-ink hover:text-ivory focus-visible:outline-ink',
 }
 ---
 

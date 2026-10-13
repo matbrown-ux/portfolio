@@ -15,10 +15,6 @@
 }
 
 @layer base {
-  html {
-    scroll-padding-top: 5rem;
-  }
-
   @media (prefers-reduced-motion: no-preference) {
     html {
       scroll-behavior: smooth;
@@ -38,10 +34,10 @@
   }
 }
 
-/* Load reveals wait hidden until reveal.ts has applied their start states (or the
+/* Every reveal waits hidden until reveal.ts has applied its start state (or the
    inline failsafe in BaseLayout fires). Without JavaScript nothing is hidden. */
 @media (prefers-reduced-motion: no-preference) {
-  html.js:not(.reveals-ready) [data-reveal-on="load"] {
+  html.js:not(.reveals-ready) [data-reveal] {
     visibility: hidden;
   }
 }
