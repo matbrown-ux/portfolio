@@ -54,7 +54,10 @@ The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**,
 - Case study bodies are `<Chapter title>` sections containing prose and the blocks `<PullQuote text>`, `<Walkthrough steps>`, `<Gallery images>` and `<Outcome metrics>` (`src/components/case-study/`). Chapters number themselves. The first metric in `<Outcome>` is the headline one. There is no before/after slider; the owner retired it.
 - **Media** lives in `src/assets/case-studies/<slug>/` and is referenced by its path inside that folder (see the README there). Every media slot takes `{ src, alt, poster }`: no `src` shows a labelled placeholder, a video needs a `poster`, and a `src` that matches no file stops the build. `alt` doubles as the placeholder's label, so write it to say what belongs there.
 - **Never fabricate metrics or results.** Placeholder values (`"00"`, "Result pending...") are shown as written until the owner supplies real ones.
-- `src/content/disciplines.ts` is the single source for the five disciplines. `src/content/navigation.ts` is the single source for nav links.
+- `src/content/disciplines.ts` is the single source for the five disciplines: Home's strip, the Services sections (through `src/lib/serviceSections.ts`), About's skills and the Contact project-type select all read it. `src/content/navigation.ts` is the single source for nav links.
+- `src/content/about.ts` holds the facts in About's "By the numbers" strip. They are the owner's own statements; change a number only when the owner gives a new one.
+- `src/content/contactOptions.ts` holds the contact form's budget ranges.
+- **The contact form** (`src/components/contact/ContactForm.astro`) is plain HTML posted to Netlify Forms, and must keep working without JavaScript: keep `name="contact"`, `data-netlify`, the hidden `form-name` input, the honeypot and `action="/contact/thanks/"`. `src/lib/contactForm.ts` adds inline validation, the `?service=<slug>` preselect and the in-place send; it finds things by the `data-` attributes in the form, so keep those when restyling. A real submission can only be tested on a deployed Netlify build.
 - Blog pillars are `src/content/blog/<slug>/index.mdx` with articles in the same folder. They are not wired to a collection yet.
 
 ## 6. Verification
