@@ -6,11 +6,11 @@ brand
 
 ## Users
 
-Founders and business owners evaluating a UX/UI engineer, SEO specialist, or agentic workflow developer for a significant project. They arrive comparison-shopping, carry real budget, and are deciding whether Mathew is worth the investment. Their context: pressed for time, high standards, low tolerance for ambiguity. The job is not to browse — it's to reach a fast, confident hiring decision.
+Founders and business owners evaluating a UX/UI engineer, SEO specialist, or agentic workflow developer for a significant project. They arrive comparison-shopping, carry real budget, and are deciding whether Mathew is worth the investment. Their context: pressed for time, high standards, low tolerance for ambiguity. The job is not to browse: it's to reach a fast, confident hiring decision.
 
 ## Product Purpose
 
-A personal portfolio that converts high-value freelance clients across five disciplines: UX/UI Engineering, SEO/AEO, Agentic Workflows, Brand Development, and SaaS Development. Success looks like a potential client arriving, feeling immediately certain they've found a credible expert, and initiating contact with a real project. The site must do the selling — Mathew shouldn't have to.
+A personal portfolio that converts high-value freelance clients across five disciplines: UX/UI Engineering, SEO/AEO, Agentic Workflows, Brand Development, and SaaS Development. Success looks like a potential client arriving, feeling immediately certain they've found a credible expert, and initiating contact with a real project. The site must do the selling. Mathew shouldn't have to.
 
 ## Brand Personality
 
