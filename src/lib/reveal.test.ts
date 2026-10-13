@@ -5,6 +5,7 @@ import { initReveals, parseReveal, revealTween } from './reveal'
 
 afterEach(() => {
   document.body.innerHTML = ''
+  document.documentElement.className = ''
 })
 
 afterAll(() => {
@@ -103,5 +104,28 @@ describe('initReveals', () => {
     document.body.append(root)
     initReveals(root)()
     expect(outside.getAttribute('style')).toBeNull()
+  })
+
+  it('marks the document reveals-ready once its tweens exist', () => {
+    el({ 'data-reveal': 'fade', 'data-reveal-on': 'load' })
+    const cleanup = initReveals()
+    expect(document.documentElement.classList.contains('reveals-ready')).toBe(true)
+    cleanup()
+  })
+
+  it('marks the document reveals-ready under reduced motion', () => {
+    installMatchMedia({ [REDUCED_QUERY]: true })
+    el({ 'data-reveal': 'rise', 'data-reveal-on': 'load' })
+    initReveals()()
+    expect(document.documentElement.classList.contains('reveals-ready')).toBe(true)
+  })
+
+  it('leaves no load reveal held hidden after cleanup', () => {
+    // The stylesheet pre-hides load reveals while <html> matches .js:not(.reveals-ready).
+    document.documentElement.classList.add('js')
+    const node = el({ 'data-reveal': 'rise', 'data-reveal-on': 'load' })
+    initReveals()()
+    expect(document.documentElement.matches('.js:not(.reveals-ready)')).toBe(false)
+    expect(node.style.visibility).not.toBe('hidden')
   })
 })

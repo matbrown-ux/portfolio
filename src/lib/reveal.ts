@@ -31,13 +31,25 @@ export function revealTween(kind: RevealKind): { from: gsap.TweenVars; to: gsap.
   return { from: { autoAlpha: 0 }, to: { autoAlpha: 1 } }
 }
 
+/** Set on <html> once load reveals no longer need the stylesheet to hold them hidden. */
+const READY_CLASS = 'reveals-ready'
+
+function markRevealsReady(): void {
+  document.documentElement.classList.add(READY_CLASS)
+}
+
 /**
  * Animate every [data-reveal] element under `root`. Elements stay fully visible
  * unless this runs and motion is allowed, so nothing is hidden without JavaScript.
+ * The stylesheet holds load reveals hidden until this marks the document ready,
+ * which it does only after their start states are applied, so they never flash.
  * Returns a cleanup function.
  */
 export function initReveals(root: ParentNode = document): () => void {
-  if (prefersReducedMotion()) return () => {}
+  if (prefersReducedMotion()) {
+    markRevealsReady()
+    return () => {}
+  }
 
   // Tweens created inside the context are reverted together, so cleanup restores each
   // element's inline styles as well as stopping its tween and scroll trigger.
@@ -58,5 +70,9 @@ export function initReveals(root: ParentNode = document): () => void {
     })
   }, root)
 
+  markRevealsReady()
+
+  // Cleanup leaves the ready class in place: removing it would let the stylesheet
+  // hide the load reveals that revert() has just restored.
   return () => ctx.revert()
 }

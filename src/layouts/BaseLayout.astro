@@ -22,6 +22,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      document.documentElement.classList.add('js')
+      setTimeout(() => document.documentElement.classList.add('reveals-ready'), 3000)
+    </script>
     <Font cssVariable="--font-anton" preload />
     <Font cssVariable="--font-archivo" preload />
     <Font cssVariable="--font-jetbrains-mono" />

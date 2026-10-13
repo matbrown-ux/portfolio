@@ -38,6 +38,14 @@
   }
 }
 
+/* Load reveals wait hidden until reveal.ts has applied their start states (or the
+   inline failsafe in BaseLayout fires). Without JavaScript nothing is hidden. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js:not(.reveals-ready) [data-reveal-on="load"] {
+    visibility: hidden;
+  }
+}
+
 /* Anton, uppercase, tight. Size is set per use with a text-[clamp(...)] class. */
 @utility type-display {
   font-family: var(--font-display);
