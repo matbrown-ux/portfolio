@@ -7,7 +7,17 @@
 
 On 2026-10-12 the owner decided to redesign the site completely and move to their preferred stack: **Astro + React islands + Tailwind v4 + GSAP**. The rebuild is a clean scaffold on `feat/astro-rebuild` (branched from `feat/site-pass` @ 0bfb10a). Everything below this section describes the old React + Vite app, which still lives on `feat/site-pass`; use it as the reference to port from, not as a description of this branch.
 
-**What the scaffold has:** Astro 7 static output with `site: https://matbrown.io`, `@astrojs/react`, `@astrojs/mdx`, `@astrojs/sitemap`, Tailwind v4 via `@tailwindcss/vite` (`src/styles/global.css`), `gsap` + `@gsap/react`, Vitest 5 + jsdom + Testing Library (`vitest.config.ts` uses Astro's `getViteConfig`; setup in `src/test/setup.ts`), `astro check` as `npm run typecheck`. `src/layouts/BaseLayout.astro` owns the head (title, description, canonical, OG, Twitter, absolute image URLs). Pages: `index.astro` and `404.astro`, both unstyled placeholders. `netlify.toml` no longer has the SPA catch-all redirect.
+**What exists now (sub-project 1):** Astro 7 static output with `site: https://matbrown.io`, `@astrojs/react`, `@astrojs/mdx`, `@astrojs/sitemap`, Tailwind v4 via `@tailwindcss/vite`, `gsap` + `@gsap/react`, Vitest 5 + jsdom + Testing Library (setup in `src/test/setup.ts`), and `astro check` as `npm run typecheck`.
+
+- **Tokens and fonts:** `src/styles/global.css` `@theme` holds `ivory`, `ink`, `vermilion`, `stone` and `line-dark`, plus the `type-display` and `type-label` utilities. Anton, Archivo and JetBrains Mono are self-hosted through Astro's font handling.
+- **Layout:** `src/layouts/BaseLayout.astro` owns the head (title, description, canonical, OG, Twitter) and the inline script that sets the `js` and `reveals-ready` classes on `<html>`. Pages are `index.astro` (Home) and `404.astro`.
+- **Shell:** `src/components/nav/` has `SiteHeader.astro`, `SiteFooter.astro` and the `MobileMenu.tsx` React island (with `focusTrap.ts`).
+- **Home:** six sections under `src/components/home/`: `Hero`, `DisciplineStrip`, `StatementBand`, `FeaturedWork`, `AboutTeaser`, `ContactBand`.
+- **Primitives:** `src/components/ui/` (`Button`, `ArrowButton`, `VerticalLabel`) and `src/components/brand/` (`Logo`, `ScriptArt`).
+- **Behaviour modules in `src/lib/`:** `typewriter`, `typewriterElement`, `reveal`, `motionTokens`, `gsap`, `featuredWork`, each with a co-located test.
+- **Script art:** `scripts/script-art/` (`generate.mjs`, `shape.mjs`, `svg.mjs`, `artList.mjs`, with tests) turns `src/assets/script/phrases.json` into `src/assets/script/art.json` via `npm run script-art`. The Gloss And Bloom font files stay in the git-ignored `.fonts/` folder.
+- **Content:** `src/content.config.ts` defines the `caseStudies` collection (glob loader over `src/content/case-studies/*.mdx`; schema is only `title`, `date`, `tags`, optional `client`). `src/content/disciplines.ts` and `src/content/navigation.ts` are the single sources for the five disciplines and the nav links.
+- **Build status:** Task 13 (final verification pass) is the remaining task on the plan. `netlify.toml` no longer has the SPA catch-all redirect.
 
 **Kept from the old app:** the 13 MDX files in `src/content/` (not wired to content collections yet; case study bodies still use the old `<Chapter>`, `<Walkthrough>`, `<Gallery>`, `<BeforeAfter>`, `<Outcome>`, `<PullQuote>` components, which do not exist here), everything in `public/images/`, the tdd-kit, and the docs.
 
@@ -19,13 +29,13 @@ On 2026-10-12 the owner decided to redesign the site completely and move to thei
 
 | # | Sub-project | Spec | Status |
 |---|-------------|------|--------|
-| 1 | Design foundation + Home | `docs/superpowers/specs/2026-10-12-design-foundation-home-design.md` (reference image in `docs/superpowers/specs/assets/`) | Spec approved; plan next |
+| 1 | Design foundation + Home | `docs/superpowers/specs/2026-10-12-design-foundation-home-design.md` (reference image in `docs/superpowers/specs/assets/`) | Built; awaiting owner review |
 | 2 | Work: content collections, Work index, case study template | none yet | Not started |
 | 3 | Services, About, Contact | none yet | Not started |
 | 4 | Blog | none yet | Not started |
 | 5 | SEO/AEO layer and launch | none yet | Not started |
 
-**Owner inputs still needed for sub-project 1:** approval of the drafted Home copy (table in the spec), new images or video for the three project tiles (the old case study cover SVGs are being removed), confirmation of "Available 2026", and a check that the font licence allows outlined artwork.
+**Owner inputs still needed for sub-project 1:** approval of the drafted Home copy (table in the spec), new images or video for the three project tiles (the old case study cover SVGs are being removed), confirmation of "Available 2026", and a check that the font licence allows outlined artwork. Items the build ledger marks for the owner to confirm: the word "memorable" overlaps the top of "average" in the statement band at all widths (deepest at 390); the Home hero word is slightly smaller than the mockup between 1024 and 1279 (about 150px vs 169px glyph height at 1440); the statement band's right half is empty at 1024; the featured work tile order follows the case study dates (Vamp Network, The Booking Flow, 'Aiwi Waffles), so reorder by editing `date`; tile numbers are ink on stone and vermilion tiles because small vermilion text is only allowed on ink.
 
 ## Redesign roadmap and where we are (old Vite app, historical)
 
@@ -174,6 +184,12 @@ Pillars render alphabetically by directory name. Only UX/UI Design currently has
 
 ## Known characteristics / gotchas
 
+- **Astro rebuild: load reveals flashed visible before animating.** Elements marked `data-reveal-on="load"` painted at full opacity for a frame or two before GSAP set their start state. Fix, in three parts: CSS `html.js:not(.reveals-ready) [data-reveal-on="load"]` holds them hidden (only when JavaScript has run and motion is allowed); the inline head script in `BaseLayout.astro` adds `js` to `<html>` and adds `reveals-ready` after 3 seconds as a failsafe; and the reveal tweens in `src/lib/reveal.ts` use `lazy: false` so GSAP writes the start state synchronously. A code comment is the only guard for `lazy: false` (jsdom cannot detect it).
+- **Astro rebuild: `initReveals` cleanup must revert, not kill.** Killing the tweens leaves elements at their hidden start state. Cleanup reverts them so nothing stays hidden.
+- **Astro rebuild: self-hosted fonts are hashed.** Astro emits the font files under `dist/_astro/fonts/` with a hashed family name, so grepping `dist/index.html` for the literal "Anton" fails. Verify by checking that the font files exist in `dist/` and that a `font-family` rule is present.
+- **Astro rebuild: `dist/index.html` is one minified line.** `grep -c` counts lines, so it always returns 1. Count matches with `grep -o ... | wc -l`.
+- **Astro rebuild: the mobile menu panel needs `overflow-y-auto`.** The body scroll is locked while the menu is open, so on a short viewport the last links and the call to action were unreachable. The panel (`#mobile-menu`) now scrolls on its own.
+- **Astro rebuild: logical padding swaps axes under `writing-mode: vertical-rl`.** Tailwind 4's `px` and `py` are logical properties, so on the rotated vertical label they applied to the wrong axis and the label sat hard against the bottom edge. Use physical utilities such as `pt-10` there; after the 180 degree rotation it becomes the visual bottom inset.
 - **GSAP `force3D: false` when animating dark elements.** GSAP's default (`force3D: "auto"`) promotes the element to a 3D GPU layer during a transform tween, which on some Chrome/GPU combos paints a dark element on a dark background as a solid black rectangle until the tween ends and the layer is dropped. Set `force3D: false` on tweens that move/scale dark surfaces (hero circle, curtain panels). Same root cause as the dark-`Card` hover-lift artifact noted in CLAUDE.md.
 - **GSAP ScrollTrigger restores scroll on route change.** It remembers the window scroll position and restores it on its post-navigation refresh, landing SPA navigation at the previous scroll (e.g. case-study → next-project at the bottom). Fix: call `ScrollTrigger.clearScrollMemory()` before `scrollTo(0,0)` (done in `PageCurtain`).
 - **Entrance animations + the curtain.** Because the curtain swaps content while covered, a new page's mount-time entrance animations would play hidden behind it. Solved for everything built on `useScrollReveal` (covers, `RevealText`, `CountUp`, case study modules): it reads `useEntranceDelay()` and holds its animation until the curtain has lifted (verified: after a click from a case study to the next, the h1 words stay masked until about 1.2s after the swap, then reveal). Any new above-the-fold mount animation should go through `useScrollReveal` or consume `useEntranceDelay()` itself.

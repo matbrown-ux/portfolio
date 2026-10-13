@@ -12,7 +12,6 @@ The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**,
 - Routing is file-based in `src/pages/`. Head and SEO tags live in `src/layouts/BaseLayout.astro`, so they are in the prerendered HTML.
 - Default to static `.astro` markup. Use a React island (`client:*`) only where there is real interaction, and keep its logic in `.ts`/`.tsx` so it is testable.
 - Animation is **GSAP only**. Do not add `motion` / Framer Motion.
-- Sections 4 and 5 below describe the pre-rebuild site (tokens, components, content pipeline). Treat them as history until they are rewritten for the new design.
 
 ## 2. Content & copy rules
 
@@ -41,23 +40,24 @@ The stack is **Astro (static output) + React islands + Tailwind CSS v4 + GSAP**,
 
 ## 4. Design & brand conventions
 
-- Use the brand tokens from `src/styles/globals.css` `@theme` (`directors-black`, `secondary-dark`, `vermilion`, `cream`, `muted-prose`, `border-line`). Don't hardcode off-palette colors.
-- Aesthetic: dark, editorial, big display type (clamp sizing, tight tracking), vermilion accents, numbered sections, generous spacing, alternating left/centered section alignment.
-- **Vermilion is the single accent** — use it for active states, hover, section numbers, required-field `*`, and small rules.
-- **Hover lifts must not use `transform`/GPU promotion on dark cards** — it triggers a compositing black-bar artifact on some hardware. Use a `position: top` lift instead (see `src/components/ui/Card.tsx`). Pair with a vermilion border + glow.
-- **All animation must respect `prefers-reduced-motion`** (use the `useReducedMotion` hook, as the animation components do).
-- Cover/placeholder images are **hand-built SVGs at 1600×900 (16:9)** matching the existing cover system in `public/images/`.
+- Tokens live in `src/styles/global.css` `@theme`: `ivory`, `ink`, `vermilion`, `stone`, `line-dark`. Don't hardcode off-palette colours.
+- Aesthetic: brutalist on a light ground. Ivory page, ink type, large solid vermilion blocks, black-and-white cut-out portraits, very large Anton display type, square corners. `DESIGN.md` has the full system.
+- **Vermilion is the single accent.** Small vermilion text is allowed only on ink; text on a vermilion fill is ink.
+- Type utilities: `type-display` (Anton, uppercase) and `type-label` (JetBrains Mono, small, tracked). Body text is Archivo.
+- **Gloss And Bloom is decoration only** and ships as generated SVG. The font files live in the git-ignored `.fonts/` folder and must never be committed (the repo is public). To add a phrase or stroke: edit `src/assets/script/phrases.json`, run `npm run script-art`, commit the generated files.
+- **Hover effects must not move ink surfaces with `transform`** (GPU compositing artifact on some hardware). Change colour, or move a small glyph inside. GSAP tweens on ink surfaces use `force3D: false`.
+- **All animation respects `prefers-reduced-motion`,** and nothing is hidden unless JavaScript has run. Declare reveals with `data-reveal` (see `src/lib/reveal.ts`); take durations and eases from `src/lib/motionTokens.ts`.
 
 ## 5. Content pipeline
 
-- New case study: add `src/content/case-studies/<slug>.mdx` with full frontmatter (`title`, `headline`, `slug`, `summary`, `tags`, `coverImage`, `date`, `year`, `result`, optional `client`, `ogImage`, `liveUrl`, `role`, `services`, `stack`). It auto-appears, sorted by `date` desc. Case study bodies are built from `<Chapter>` sections with `<Walkthrough>`, `<Gallery>`, `<BeforeAfter>`, `<Outcome>`, and `<PullQuote>` (see `src/components/mdx/case-study/`).
-- New blog pillar: add `src/content/blog/<slug>/index.mdx`; articles go in the same folder. Give each a `coverImage`.
-- Frontmatter shapes live in `src/types/content.ts` — update the interface when adding fields.
+- Collections are defined in `src/content.config.ts`. Case studies are `src/content/case-studies/<slug>.mdx`; the entry `id` is the slug. The schema currently covers only what Home needs (`title`, `date`, `tags`, optional `client`); the full schema and the case study page components arrive with the Work sub-project.
+- `src/content/disciplines.ts` is the single source for the five disciplines. `src/content/navigation.ts` is the single source for nav links.
+- Blog pillars are `src/content/blog/<slug>/index.mdx` with articles in the same folder. They are not wired to a collection yet.
 
 ## 6. Verification
 
-- `agent-browser` is installed globally for visual verification. Drive the running dev server, point it at the system Chrome (`--executable-path "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"`), screenshot, and clean up temp files + `agent-browser close` when done.
-- Note: scroll-triggered (`whileInView`) content stays invisible in a full-page screenshot until scrolled into view — scroll the element into view before capturing.
+- Use the Playwright MCP tools for browser checks against your own dev server (`npx astro dev --port 4321`). Screenshots go in `.playwright-mcp/`, which is git-ignored. Don't kill dev servers by process name.
+- Scroll-triggered reveals stay at their start state in a full-page screenshot until scrolled into view. Scroll the element into view, or emulate reduced motion, before capturing.
 
 ## 7. Misc
 
