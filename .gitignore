@@ -7,6 +7,9 @@ node_modules
 dist
 dist-ssr
 
+# Astro generated types
+.astro/
+
 # Environment files
 .env
 .env.local
@@ -37,3 +40,12 @@ coverage
 .agent-browser/
 auth.json
 *.har
+
+# Subagent-driven-development scratch
+.superpowers/
+
+# Purchased fonts (local only, the repo is public: never commit)
+.fonts/
+
+# Playwright MCP output
+.playwright-mcp/

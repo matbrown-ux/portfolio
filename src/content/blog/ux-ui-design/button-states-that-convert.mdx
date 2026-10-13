@@ -1,43 +1,61 @@
 ---
-title: Button States That Convert
-slug: button-states-that-convert
+title: Button states that convert
 description: A practical guide to designing button states that communicate clearly and drive action.
 date: "2026-05-31"
-pillar: ux-ui-design
 keywords: ["button design", "UI states", "conversion", "UX engineering"]
 ---
 
 ## Why button states matter
 
-Most buttons have five states: default, hover, focus, active, and disabled. Most implementations only style two of them.
+Most buttons have five states: default, hover, focus, active and disabled. Most implementations only style two of them.
 
-This is a missed opportunity, not just for accessibility, but for the kind of micro-polish that separates professional interfaces from amateur ones.
+That leaves keyboard users without a visible focus state, and it leaves out the small details that make an interface feel finished.
 
 ## The five states
 
-**Default**: the button at rest. Clean, readable, with enough visual weight to signal "this is clickable."
+<Terms>
+<Term name="Default">
 
-**Hover**: the button responding to cursor proximity. Use a subtle shift: color change, slight lift with `translateY(-2px)`, or a shadow. Not all three at once.
+This is the button at rest. It should be clean and readable, with enough visual weight to show it can be clicked.
 
-**Focus**: critical for keyboard navigation and accessibility. Use a visible `outline` or `ring` that passes WCAG 4.5:1 contrast against the background. Never `outline: none` without a replacement.
+</Term>
+<Term name="Hover">
 
-**Active**: the button being pressed. A slight compress (`scale(0.98)`) communicates "I heard you" to the user.
+This is the button responding to the cursor. Use one subtle change: a colour change, a slight lift with `translateY(-2px)`, or a shadow. Don't use all three at once.
 
-**Disabled**: the button that can't be clicked. Reduce opacity to 40–50%, change the cursor to `not-allowed`, and remove all hover effects.
+</Term>
+<Term name="Focus">
+
+This state matters most for keyboard navigation and accessibility. Use a visible `outline` or ring that passes WCAG 4.5:1 contrast against the background. Never set `outline: none` without a replacement.
+
+</Term>
+<Term name="Active">
+
+This is the button being pressed. A slight compress with `scale(0.98)` tells the user the press registered.
+
+</Term>
+<Term name="Disabled">
+
+This is the button that can't be clicked. Reduce opacity to 40 to 50%, change the cursor to `not-allowed`, and remove all hover effects.
+
+</Term>
+</Terms>
 
 ## Implementation
 
+Here are all five states on one button, written with this site's colour tokens.
+
 ```tsx
 <button
-  className="px-6 py-3 bg-vermilion text-cream
-    hover:-translate-y-0.5 hover:bg-vermilion-hover
-    focus:outline-none focus:ring-2 focus:ring-vermilion focus:ring-offset-2 focus:ring-offset-directors-black
+  className="px-6 py-3 bg-vermilion text-ink
+    hover:bg-ink hover:text-ivory
+    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink
     active:scale-[0.98]
-    disabled:opacity-40 disabled:cursor-not-allowed disabled:translate-y-0
-    transition-all duration-200"
+    disabled:opacity-40 disabled:cursor-not-allowed
+    transition-colors duration-200"
 >
   Click me
 </button>
 ```
 
-The key insight: each state communicates something specific. Design them as a system, not as afterthoughts.
+Each state tells the user something specific, so design all five together as one system.

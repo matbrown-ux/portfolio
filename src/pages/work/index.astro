@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import WorkHeader from '../../components/work/WorkHeader.astro'
+import WorkRow from '../../components/work/WorkRow.astro'
+import ContactBand from '../../components/sections/ContactBand.astro'
+import { workIndexNodes } from '../../lib/structuredData'
+import { projectSpan, workRows } from '../../lib/caseStudies'
+
+const entries = await getCollection('caseStudies')
+const rows = workRows(entries)
+const span = projectSpan(entries)
+---
+
+<BaseLayout
+  title="UX/UI Engineering & SEO Case Studies"
+  description="Case studies from my work as a freelance UX/UI engineer and SEO specialist: what I was asked to do, what I built and what came of it."
+  schema={workIndexNodes(rows.map((row) => row.entry))}
+>
+  <WorkHeader count={span.count} years={span.years} />
+  <ul role="list">
+    {rows.map((row) => <WorkRow row={row} />)}
+  </ul>
+  <ContactBand />
+</BaseLayout>

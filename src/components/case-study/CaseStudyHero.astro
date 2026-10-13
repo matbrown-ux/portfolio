@@ -1,0 +1,68 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import ScriptArt from '../brand/ScriptArt.astro'
+import MediaSlot from '../media/MediaSlot.astro'
+import VerticalLabel from '../ui/VerticalLabel.astro'
+import { caseStudyMedia } from '../../lib/caseStudyMedia'
+import { hostLabel } from '../../lib/host'
+import { heroNameFit } from '../../lib/titleFit'
+
+interface Props {
+  entry: CollectionEntry<'caseStudies'>
+  /** Position in the newest-first list, for example "001". */
+  number: string
+}
+
+const { entry, number } = Astro.props
+const { title, headline, year, liveUrl, heroNote, summary, media } = entry.data
+const hero = caseStudyMedia(media?.hero ?? { alt: `${title} hero capture` }, `${entry.id} hero`)
+// A long client name is set smaller, and from lg up kept to the left column, so it clears the
+// note beside it and the headline below. The three current names stay at full size in the wide box.
+const name = heroNameFit(title)
+---
+
+<section class="relative isolate overflow-hidden bg-ivory lg:h-[54vw] lg:max-h-[900px] lg:min-h-[620px]">
+  <div class="absolute inset-x-0 bottom-0 top-[58%] bg-vermilion lg:left-[34%] lg:top-[44%]" data-reveal="wipe" data-reveal-on="load"></div>
+
+  <p class="type-label relative px-6 pt-28 text-sm md:px-12 lg:absolute lg:left-0 lg:top-[17%] lg:pt-0" aria-hidden="true">{number}</p>
+
+  {/* The client name sits on top of the vermilion block where they cross. Decorative: the h1 is the headline. */}
+  <p class:list={['type-display relative z-10 mt-3 inline-block px-6 text-[length:calc(clamp(4.5rem,19vw,7rem)*var(--fit))] leading-[0.88] lg:text-[length:calc(clamp(3.5rem,9.4vw,9.5rem)*var(--fit-lg))] md:px-12 lg:absolute lg:left-0 lg:top-[22%] lg:mt-0', name.column ? 'lg:max-w-[34%] lg:pr-4' : 'lg:max-w-[46%]']} style={`--fit:${name.fit};--fit-lg:${name.fitLg}`} aria-hidden="true">
+    {title}
+    <ScriptArt name="case-study" class="absolute -bottom-[0.34em] left-3 w-[min(60%,2.6em)] -rotate-6 md:left-9" reveal="wipe" delay={0.5} />
+  </p>
+
+  <VerticalLabel class="absolute right-6 top-28 border-r-2 border-ink pr-2 md:right-12 lg:top-[max(15%,7.25rem)] lg:text-sm">
+    Case study<br />{year}
+  </VerticalLabel>
+
+  <h1 class="type-label relative z-10 mt-10 max-w-sm px-6 before:mb-3 before:block before:h-0.5 before:w-10 before:bg-ink md:px-12 lg:absolute lg:bottom-[9%] lg:left-0 lg:mt-0 lg:max-w-[24%]">
+    {headline}
+  </h1>
+
+  {/* One row from the block's left edge: the note above the live link, then the media, which takes
+      the width the link leaves, so a long host name never runs under the frame. */}
+  <div class="relative z-10 mx-6 mb-10 mt-10 flex flex-col gap-8 md:mx-12 lg:absolute lg:bottom-[9%] lg:left-[34%] lg:right-[max(7%,6.5rem)] lg:top-[19%] lg:m-0 lg:flex-row lg:gap-5">
+    <div class="order-2 flex shrink-0 flex-col justify-between lg:order-none lg:min-w-[12rem]">
+      <div class="hidden w-0 min-w-full pl-3.5 pt-[1.6vw] before:mb-2 before:block before:size-3 before:border-l-2 before:border-t-2 before:border-ink lg:block">
+        <p class="type-label line-clamp-6 font-medium">{heroNote ?? summary}</p>
+      </div>
+      {
+        liveUrl && (
+          <a href={liveUrl} rel="noopener" class="group inline-flex items-center gap-3 self-start text-ink focus-visible:outline-ink">
+            <span class="grid size-14 place-items-center bg-ink text-xl text-ivory transition-colors duration-200 group-hover:bg-ivory group-hover:text-ink lg:size-[4.5rem]" aria-hidden="true">
+              ↗
+            </span>
+            <span class="type-label">
+              Visit live site<br />
+              {hostLabel(liveUrl)}
+            </span>
+          </a>
+        )
+      }
+    </div>
+    <div class="min-w-0 lg:flex-1" data-reveal="rise" data-reveal-on="load" data-reveal-delay="0.25">
+      <MediaSlot media={hero} frame="browser" url={liveUrl && hostLabel(liveUrl)} eager class="aspect-[4/3] lg:aspect-auto lg:h-full" sizes="(min-width: 1024px) 45vw, 100vw" />
+    </div>
+  </div>
+</section>

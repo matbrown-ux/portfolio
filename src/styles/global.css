@@ -1,0 +1,608 @@
+@import "tailwindcss" source("../");
+
+@theme inline {
+  --font-display: var(--font-anton);
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+@theme {
+  --color-ivory: #f4f0e6;
+  --color-ink: #0c0c0c;
+  --color-vermilion: #f86343;
+  --color-stone: #e4dfd3;
+  --color-line-dark: rgb(244 240 230 / 0.16);
+}
+
+@layer base {
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+}
+
+/* Every reveal waits hidden until reveal.ts has applied its start state (or the
+   inline failsafe in BaseLayout fires). Without JavaScript nothing is hidden. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js:not(.reveals-ready) [data-reveal] {
+    visibility: hidden;
+  }
+}
+
+/* A reveal that has not fired yet still carries its start state inline. On paper or in a
+   saved PDF nothing scrolls, so every reveal is shown at rest. */
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
+
+/* The site header's scroll states, set by src/lib/headerScroll.ts as data-header-state.
+   With no state (no JavaScript) and in the `top` state the header is as SiteHeader.astro writes
+   it: absolute over the hero, no background. Once the page has scrolled past it, it is fixed:
+   `hidden` parks it just above the viewport and `shown` sets it at the top edge on an ivory bar
+   with an ink rule, so it reads on every section colour. It is out of the flow in every state. */
+[data-site-header]:is([data-header-state="hidden"], [data-header-state="shown"]) {
+  position: fixed;
+  background: var(--color-ivory);
+  border-bottom: 1px solid var(--color-ink);
+}
+
+[data-site-header][data-header-state="hidden"] {
+  transform: translateY(-100%);
+}
+
+/* Only a change between hidden and shown slides (the script marks it). Arriving at the top or
+   leaving it is a swap that happens in place or off screen. 0.2s is DURATION.fast in
+   src/lib/motionTokens.ts and the curve is the CSS form of its EASE.out (power3.out); keep them
+   in step. Under reduced motion there is no transition, so the header appears and disappears. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-site-header][data-header-slide] {
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+}
+
+/* The open mobile menu is a fixed panel inside the header. A transform on the header, even
+   mid-slide, would make the header the panel's containing block and shrink it to the bar. */
+[data-site-header]:has([aria-expanded="true"]) {
+  transform: none;
+  transition: none;
+}
+
+/* On paper a fixed header would repeat on every sheet. */
+@media print {
+  [data-site-header][data-header-state] {
+    position: absolute;
+    transform: none;
+    background: none;
+    border-bottom: 0;
+  }
+}
+
+/* Anton, uppercase, tight. Size is set per use with a text-[clamp(...)] class. */
+@utility type-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+/* Small tracked monospace label: nav, numbers, tile metadata, buttons. */
+@utility type-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.09em;
+  height: 0.72em;
+  margin-left: 0.04em;
+  background: var(--color-vermilion);
+  animation: caret-blink 1s steps(1) infinite;
+  /* Without JavaScript the word never changes, so there is no caret. */
+  visibility: hidden;
+}
+
+html.js .caret {
+  visibility: visible;
+}
+
+/* The word has come to rest: hide the caret without moving anything. */
+html.js [data-typewriter][data-typewriter-done] + .caret {
+  visibility: hidden;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret {
+    animation: none;
+  }
+}
+
+/* A slot with no media yet. Its label says what belongs there. */
+.media-placeholder {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-ink) 7%, transparent) 0 1rem,
+      transparent 1rem 2rem
+    ),
+    var(--color-stone);
+  color: color-mix(in srgb, var(--color-ink) 70%, transparent);
+}
+
+.media-placeholder-dark {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-ivory) 8%, transparent) 0 1rem,
+      transparent 1rem 2rem
+    ),
+    color-mix(in srgb, var(--color-ivory) 8%, var(--color-ink));
+  color: color-mix(in srgb, var(--color-ivory) 75%, transparent);
+}
+
+/* The introduction written in a topic's index.mdx. */
+.topic-intro p {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.topic-intro p + p {
+  margin-top: 1rem;
+}
+
+/* Under reduced motion a walkthrough clip shows native controls along its bottom edge. The name
+   tag would cover them (the play button, on the steps where it sits left), so it takes the top
+   corner while the controls are showing. */
+.cs-step:has(video[controls]) .cs-step-tag {
+  top: -1rem;
+  bottom: auto;
+}
+
+@media (width >= 48rem) {
+  .cs-step:has(video[controls]) .cs-step-tag {
+    top: 1.5rem;
+  }
+}
+
+/* Case study body: numbered chapters. From 80rem up they sit on a visible six-column grid. */
+.cs-body {
+  counter-reset: chapter;
+}
+
+.cs-chapter {
+  --cs-pad: 4rem;
+  counter-increment: chapter;
+  padding-block: var(--cs-pad);
+}
+
+.cs-chapter-number::before {
+  content: counter(chapter, decimal-leading-zero);
+}
+
+/* The slot wrapper dissolves so prose and blocks are placed on the chapter's own grid. */
+.cs-chapter-body {
+  display: contents;
+}
+
+/* Reading styles for prose written in a chapter. The gallery is a list too, so blocks are excluded. */
+.cs-chapter-body > :is(p, ul, ol):not(.cs-block) {
+  max-width: 42rem;
+  box-sizing: content-box;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  margin-bottom: 1.2rem;
+  padding-inline: 1.5rem;
+}
+
+.cs-chapter-body > ul:not(.cs-block) {
+  list-style: square;
+  padding-left: 2.75rem;
+}
+
+.cs-chapter-body > ul:not(.cs-block) > li + li {
+  margin-top: 0.6rem;
+}
+
+/* Other Markdown written in a chapter (a heading, a quote) keeps off the screen edge. */
+.cs-chapter-body > :not(:is(p, ul, ol, .cs-block)) {
+  padding-inline: 1.5rem;
+}
+
+.cs-chapter-body > ol:not(.cs-block) {
+  list-style: decimal;
+  padding-left: 2.75rem;
+}
+
+/* A list inside a prose list: Preflight removes its marker and indent, so it gets the same ones
+   as the list around it. */
+.article-prose > :is(ul, ol):not(.article-block) :is(ul, ol) {
+  margin-top: 0.6rem;
+  padding-left: 1.25rem;
+}
+
+.article-prose > :is(ul, ol):not(.article-block) ul {
+  list-style: square;
+}
+
+.article-prose > :is(ul, ol):not(.article-block) ol {
+  list-style: decimal;
+}
+
+.article-prose > :is(ul, ol):not(.article-block) :is(ul, ol) > li + li {
+  margin-top: 0.6rem;
+}
+
+/* A table is a block that scrolls sideways inside itself, so a wide one cannot widen the page.
+   Its words break only at spaces: breaking anywhere would squeeze every column to one letter
+   instead of letting the table scroll. */
+.article-prose > table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  margin-top: 1.6rem;
+  border-collapse: collapse;
+  overflow-wrap: normal;
+}
+
+.article-prose > table :is(th, td) {
+  padding: 0.75rem 1.5rem 0.75rem 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.article-prose > table th {
+  border-bottom: 2px solid var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: bottom;
+}
+
+.article-prose > table td {
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent);
+  font-size: 0.94em;
+  line-height: 1.55;
+}
+
+/* Preflight strips the underline from links, so prose links get it back. */
+.cs-chapter-body > :is(p, ul, ol):not(.cs-block) a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.cs-chapter-body strong {
+  font-weight: 600;
+}
+
+@media (width >= 48rem) {
+  .cs-chapter-body > :is(p, ul, ol):not(.cs-block) {
+    padding-inline: 3rem;
+  }
+
+  .cs-chapter-body > :not(:is(p, ul, ol, .cs-block)) {
+    padding-inline: 3rem;
+  }
+
+  .cs-chapter-body > ol:not(.cs-block) {
+    padding-left: 4.25rem;
+  }
+
+  .cs-chapter-body > ul:not(.cs-block) {
+    padding-left: 4.25rem;
+  }
+}
+
+@media (width >= 80rem) {
+  .cs-chapter {
+    --cs-pad: 5rem;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    background-image: linear-gradient(to right, color-mix(in srgb, var(--color-ink) 12%, transparent) 1px, transparent 1px);
+    background-size: calc(100% / 6) 100%;
+  }
+
+  .cs-chapter-body > * {
+    grid-column: 2 / 5;
+  }
+
+  .cs-chapter-body > :is(p, ul, ol):not(.cs-block) {
+    box-sizing: border-box;
+    max-width: none;
+    padding-inline: 1.25rem 2rem;
+  }
+
+  .cs-chapter-body > :not(:is(p, ul, ol, .cs-block)) {
+    padding-inline: 1.25rem 2rem;
+  }
+
+  .cs-chapter-body > ol:not(.cs-block) {
+    padding-left: 2.5rem;
+  }
+
+  .cs-chapter-body > ul:not(.cs-block) {
+    padding-left: 2.5rem;
+  }
+
+  /* Blocks written inside a chapter run the full width. */
+  .cs-chapter-body > .cs-block {
+    grid-column: 1 / -1;
+  }
+
+  /* Without :has() support the outcome chapter keeps the stacked layout, so none of the split
+     rules apply. */
+  @supports selector(:has(*)) {
+    /* The outcome chapter splits: heading and prose on the left, the metrics panel on the right,
+       from the chapter's top edge to its bottom edge. The prose keeps clear of the giant value
+       that hangs off the panel's left edge. */
+    .cs-chapter:has(.cs-outcome) > h2,
+    .cs-chapter:has(.cs-outcome) .cs-chapter-body > :not(.cs-block) {
+      grid-column: 2 / 4;
+    }
+
+    .cs-chapter:has(.cs-outcome) .cs-chapter-body > :not(.cs-block) {
+      max-width: 20rem;
+      padding-right: 0;
+    }
+
+    /* `span 40` and the quote's `grid-row: 42` are a pair: the panel covers rows 1 to 40, and the
+       quote sits below it. Change one and change the other. */
+    .cs-chapter-body > .cs-outcome {
+      grid-column: 4 / -1;
+      grid-row: 1 / span 40;
+      margin-block: calc(var(--cs-pad) * -1);
+    }
+
+    /* A pull quote in the outcome chapter cannot cross the panel, so it closes the chapter as a
+       full-width band under the split, flush with the panel above and the chapter's bottom edge. */
+    .cs-chapter:has(.cs-outcome) .cs-chapter-body > .cs-quote {
+      grid-row: 42;
+      margin-top: var(--cs-pad);
+      margin-bottom: calc(var(--cs-pad) * -1);
+    }
+  }
+}
+
+/* An article body: one reading column. Blocks such as <Terms> carry .article-block and set
+   their own type, so the element rules below skip them. */
+.article-prose {
+  /* 18px, growing with the page to 20px, so the column, set in ch on the page, keeps its measure. */
+  font-size: clamp(1.125rem, 1.36vw, 1.25rem);
+  /* A path or a URL with no space in it breaks where it must, so it cannot widen the page. A code
+     block is `white-space: pre`, so it still scrolls inside itself. */
+  overflow-wrap: anywhere;
+}
+
+.article-prose > * + * {
+  margin-top: 1.2rem;
+}
+
+.article-prose > :is(p, ul, ol):not(.article-block) {
+  line-height: 1.65;
+}
+
+.article-prose > h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 3.7vw, 3.5rem);
+  line-height: 0.98;
+  text-transform: uppercase;
+  margin-top: 3.5rem;
+  /* The header returns on a scroll up, so a jump to an earlier section must clear it. */
+  scroll-margin-top: 7rem;
+}
+
+.article-prose > h2:first-child {
+  margin-top: 0;
+}
+
+.article-prose > h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1;
+  text-transform: uppercase;
+  margin-top: 2.5rem;
+  scroll-margin-top: 7rem;
+}
+
+/* A small label heading under an h3. */
+.article-prose > h4 {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  scroll-margin-top: 7rem;
+}
+
+.article-prose > ul:not(.article-block) {
+  list-style: square;
+  padding-left: 1.25rem;
+}
+
+.article-prose > ol:not(.article-block) {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+
+.article-prose > :is(ul, ol):not(.article-block) > li + li {
+  margin-top: 0.6rem;
+}
+
+/* Preflight strips the underline from links, so prose links get it back. */
+.article-prose :is(p, li, dd) a {
+  text-decoration: underline;
+  text-decoration-color: var(--color-vermilion);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.article-prose strong {
+  font-weight: 600;
+}
+
+.article-prose > blockquote {
+  border-left: 3px solid var(--color-ink);
+  padding-left: 1.25rem;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+
+.article-prose > hr {
+  border: 0;
+  border-top: 3px solid var(--color-ink);
+  margin-block: 2.5rem;
+}
+
+.article-prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Inline code sits on stone; code inside a block keeps the block's colours. */
+.article-prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-weight: 500;
+  background: var(--color-stone);
+  padding: 0.1em 0.35em;
+}
+
+/* A code block: ink ground, ivory text, colours only from the palette. The theme in
+   astro.config.mjs uses these variables: tags and keywords, then the muted group (attributes,
+   operators, punctuation, comments). The bar shows the language. */
+.article-prose .astro-code {
+  --astro-code-foreground: var(--color-ivory);
+  --astro-code-background: var(--color-ink);
+  --astro-code-token-tag: var(--color-vermilion);
+  --astro-code-token-muted: color-mix(in srgb, var(--color-ivory) 72%, var(--color-ink));
+  margin-top: 1.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+/* The padding is on the code, as wide as its longest line, so the last character of a long line
+   scrolls clear of the block's edge. */
+.article-prose .astro-code > code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  padding: 1.25rem;
+  font-family: inherit;
+}
+
+/* The bar is as wide as the block, and stays put while the code scrolls under it. */
+.article-prose .astro-code::before {
+  content: attr(data-language);
+  position: sticky;
+  left: 0;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--color-line-dark);
+  color: var(--color-vermilion);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.article-prose .astro-code:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+/* On paper backgrounds are off by default, so the block is ink on the sheet inside an ink
+   border. The tokens take their colour from the variables inline, so the variables turn ink.
+   Nothing scrolls on paper, so a long line wraps. */
+@media print {
+  .article-prose .astro-code {
+    --astro-code-foreground: var(--color-ink);
+    --astro-code-background: transparent;
+    --astro-code-token-tag: var(--color-ink);
+    --astro-code-token-muted: var(--color-ink);
+    border: 1px solid var(--color-ink);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .article-prose .astro-code > code {
+    width: auto;
+    min-width: 0;
+  }
+
+  .article-prose .astro-code::before {
+    position: static;
+    border-bottom-color: var(--color-ink);
+    color: var(--color-ink);
+  }
+}
+
+/* <Terms>: a ruled list of named items. */
+.article-terms {
+  margin-top: 1.6rem;
+  border-top: 2px solid var(--color-ink);
+}
+
+.article-terms > div {
+  display: grid;
+  gap: 0.25rem 1.5rem;
+  padding-block: 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent);
+}
+
+.article-terms dt {
+  font-family: var(--font-display);
+  font-size: 1.25em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.article-terms dd {
+  font-size: 0.94em;
+  line-height: 1.55;
+}
+
+.article-terms dd > * + * {
+  margin-top: 0.6rem;
+}
+
+@media (width >= 40rem) {
+  .article-terms > div {
+    grid-template-columns: 9rem 1fr;
+  }
+}

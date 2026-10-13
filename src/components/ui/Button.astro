@@ -1,0 +1,43 @@
+---
+interface Props {
+  href: string
+  variant?: 'accent' | 'outline' | 'ink'
+  /** The background the button sits on; decides the hover colours. */
+  on?: 'light' | 'dark'
+  /** This button points at the page being viewed. */
+  current?: boolean
+  class?: string
+}
+
+const { href, variant = 'accent', on = 'light', current = false, class: className } = Astro.props
+
+const styles = {
+  accent: on === 'dark' ? 'bg-vermilion text-ink hover:bg-ivory focus-visible:outline-ivory' : 'bg-vermilion text-ink hover:bg-ink hover:text-ivory focus-visible:outline-ink',
+  outline: 'border-2 border-ink text-ink hover:bg-ink hover:text-ivory focus-visible:outline-ink',
+  // The border is there at rest too, so on hover and focus the button becomes an ink outline on
+  // whatever surface it sits on and nothing changes size.
+  ink: 'border-2 border-ink bg-ink text-ivory hover:bg-transparent hover:text-ink focus-visible:bg-transparent focus-visible:text-ink focus-visible:outline-ink',
+  // The current page's button: ink like the variant above, but its edge is an inset ring instead
+  // of a border, so its box is the same size as the accent button it replaces in the header.
+  current: 'bg-ink text-ivory inset-ring-2 inset-ring-ink hover:bg-transparent hover:text-ink focus-visible:bg-transparent focus-visible:text-ink focus-visible:outline-ink',
+}
+// On its own page the button is ink, so it reads as the current location rather than a call to action.
+const look = current ? styles.current : styles[variant]
+---
+
+<a
+  href={href}
+  aria-current={current ? 'page' : undefined}
+  class:list={[
+    'type-label group inline-flex items-center gap-2 px-5 py-3.5 transition-colors duration-200',
+    look,
+    className,
+  ]}
+>
+  <slot />
+  <span
+    aria-hidden="true"
+    class="inline-block transition-transform duration-200 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5 motion-reduce:transition-none"
+    >↗</span
+  >
+</a>

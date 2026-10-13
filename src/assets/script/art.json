@@ -1,0 +1,42 @@
+{
+  "memorable": {
+    "src": "/script/memorable.svg",
+    "width": 5239,
+    "height": 1162
+  },
+  "lets-talk": {
+    "src": "/script/lets-talk.svg",
+    "width": 4315,
+    "height": 1275
+  },
+  "strike": {
+    "src": "/script/strike.svg",
+    "width": 1571,
+    "height": 304
+  },
+  "selected": {
+    "src": "/script/selected.svg",
+    "width": 3937,
+    "height": 1303
+  },
+  "case-study": {
+    "src": "/script/case-study.svg",
+    "width": 5265,
+    "height": 1580
+  },
+  "what-i-do": {
+    "src": "/script/what-i-do.svg",
+    "width": 4641,
+    "height": 1445
+  },
+  "always-building": {
+    "src": "/script/always-building.svg",
+    "width": 7962,
+    "height": 1441
+  },
+  "notes": {
+    "src": "/script/notes.svg",
+    "width": 2323,
+    "height": 1275
+  }
+}

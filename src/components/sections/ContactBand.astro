@@ -1,0 +1,20 @@
+---
+import ScriptArt from '../brand/ScriptArt.astro'
+import Button from '../ui/Button.astro'
+import { contactLink } from '../../content/navigation'
+---
+
+<section class="overflow-hidden bg-ivory" aria-labelledby="contact-heading">
+  <div class="mx-auto max-w-[1600px] px-6 pb-14 pt-16 md:px-12 lg:pb-16 lg:pt-20">
+    <h2 id="contact-heading" class="type-display relative inline-block text-[clamp(3.5rem,11.5vw,12rem)]" data-reveal="rise">
+      Got a project?
+      <ScriptArt name="lets-talk" class="absolute left-[76%] top-[34%] w-[57%] -rotate-[8deg] max-sm:-bottom-[0.7em] max-sm:left-auto max-sm:right-0 max-sm:top-auto max-sm:w-3/5" reveal="wipe" delay={0.2} />
+    </h2>
+    <div class="mt-20 flex flex-wrap items-center gap-x-8 gap-y-4 sm:mt-10 lg:mt-14">
+      <Button href={contactLink.href}>{contactLink.label}</Button>
+      <a href="mailto:mat@matbrown.io" class="type-label underline-offset-8 decoration-vermilion decoration-2 hover:underline focus-visible:underline">
+        mat@matbrown.io
+      </a>
+    </div>
+  </div>
+</section>

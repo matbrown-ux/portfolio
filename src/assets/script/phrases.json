@@ -1,0 +1,10 @@
+[
+  { "name": "memorable", "text": "memorable", "fill": "#f86343" },
+  { "name": "lets-talk", "text": "let's talk", "fill": "#f86343" },
+  { "name": "strike", "stroke": "e", "fill": "#f86343" },
+  { "name": "selected", "text": "selected", "fill": "#f86343" },
+  { "name": "case-study", "text": "case study", "fill": "#f86343" },
+  { "name": "what-i-do", "text": "what I do", "fill": "#f86343" },
+  { "name": "always-building", "text": "always building", "fill": "#f86343" },
+  { "name": "notes", "text": "notes", "fill": "#f86343" }
+]

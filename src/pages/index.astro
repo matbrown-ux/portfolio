@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Hero from '../components/home/Hero.astro'
+import DisciplineStrip from '../components/home/DisciplineStrip.astro'
+import StatementBand from '../components/home/StatementBand.astro'
+import FeaturedWork from '../components/home/FeaturedWork.astro'
+import AboutTeaser from '../components/home/AboutTeaser.astro'
+import { PERSON_ID, webPageNode } from '../lib/structuredData'
+import ContactBand from '../components/sections/ContactBand.astro'
+---
+
+<BaseLayout
+  title="UX/UI Engineer, SEO Specialist & AI Workflow Developer"
+  description="I'm Mathew Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer."
+  schema={[webPageNode('WebPage', '/', 'UX/UI Engineer, SEO Specialist & AI Workflow Developer', { about: { '@id': PERSON_ID } })]}
+>
+  <Hero />
+  <DisciplineStrip />
+  <StatementBand />
+  <FeaturedWork />
+  <AboutTeaser />
+  <ContactBand />
+</BaseLayout>

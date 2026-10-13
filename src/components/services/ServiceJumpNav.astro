@@ -1,0 +1,29 @@
+---
+import type { Discipline } from '../../content/disciplines'
+
+interface Props {
+  disciplines: Discipline[]
+}
+
+const { disciplines } = Astro.props
+---
+
+<nav aria-label="Services on this page" class="bg-ink text-ivory">
+  <ul role="list" class="mx-auto grid max-w-[1600px] grid-cols-2 overflow-hidden md:grid-cols-3 xl:grid-cols-5">
+    {
+      disciplines.map((d) => (
+        <li class="group/cell -ml-px -mt-px border-l border-t border-line-dark">
+          <a
+            href={`#${d.slug}`}
+            class="group block h-full px-6 py-6 transition-colors duration-200 hover:bg-ivory hover:text-ink focus-visible:bg-ivory focus-visible:text-ink focus-visible:-outline-offset-4 motion-reduce:transition-none md:px-12 xl:px-7 xl:group-first/cell:pl-12"
+          >
+            <span class="type-label text-vermilion transition-colors duration-200 group-hover:text-ink group-focus-visible:text-ink motion-reduce:transition-none">{d.number}</span>
+            <span class="type-display mt-2 block text-[clamp(1.25rem,1.6vw,1.75rem)]">{d.title}</span>
+          </a>
+        </li>
+      ))
+    }
+    {/* Empty sixth cell: closes the grid lines when five links sit two or three across. */}
+    <li class="-ml-px -mt-px border-l border-t border-line-dark xl:hidden" aria-hidden="true"></li>
+  </ul>
+</nav>

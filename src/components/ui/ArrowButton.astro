@@ -1,0 +1,22 @@
+---
+interface Props {
+  href: string
+  /** Accessible name, since the button shows only an arrow. */
+  label: string
+  direction?: 'down' | 'up-right'
+  class?: string
+}
+
+const { href, label, direction = 'down', class: className } = Astro.props
+---
+
+<a
+  href={href}
+  aria-label={label}
+  class:list={[
+    'grid size-14 place-items-center bg-ink text-xl text-ivory transition-colors duration-200 hover:bg-ivory hover:text-ink lg:size-[4.5rem]',
+    className,
+  ]}
+>
+  <span aria-hidden="true">{direction === 'down' ? '↓' : '↗'}</span>
+</a>

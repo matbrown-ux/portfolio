@@ -1,0 +1,25 @@
+---
+import { person } from '../../content/person'
+---
+
+<section class="bg-ivory" aria-labelledby="about-bio-heading">
+  <div class="mx-auto grid max-w-[1600px] gap-10 px-6 py-16 md:px-12 lg:grid-cols-2 lg:gap-[min(5vw,5rem)] lg:py-[min(6vw,6rem)]">
+    <h2 id="about-bio-heading" class="type-display text-balance text-[clamp(2.5rem,4.3vw,4.25rem)] leading-[1.02]" data-reveal="rise">
+      One person across design, code <span class="text-vermilion">and</span> search.
+    </h2>
+    <div class="max-w-xl space-y-5 text-[clamp(1.0625rem,1.18vw,1.1875rem)] leading-relaxed lg:max-w-[min(36vw,36rem)]">
+      <p>
+        {person.description}{' '}I design interfaces, build them in production
+        React, set them up to rank in search, and connect them to AI workflows.
+      </p>
+      <p>
+        I work with founders and businesses who want one person across design, code and search. You talk to the person doing the work, so decisions are
+        quick and nothing gets lost in a handoff.
+      </p>
+      <p>
+        When I'm not building, I write about design engineering, technical SEO and agentic tooling on{' '}
+        <a href="/blog" class="underline decoration-vermilion decoration-2 underline-offset-4 hover:decoration-ink focus-visible:decoration-ink">my blog</a>.
+      </p>
+    </div>
+  </div>
+</section>

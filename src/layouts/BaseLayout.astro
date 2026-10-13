@@ -1,0 +1,91 @@
+---
+import '../styles/global.css'
+import { Font } from 'astro:assets'
+import SiteHeader from '../components/nav/SiteHeader.astro'
+import SiteFooter from '../components/nav/SiteFooter.astro'
+import ShareMeta from '../components/seo/ShareMeta.astro'
+import portrait from '../assets/portraits/about.png'
+import JsonLd from '../components/seo/JsonLd.astro'
+import { disciplines } from '../content/disciplines'
+import { person } from '../content/person'
+import { analytics } from '../content/analytics'
+import { BLOG_FEED_TITLE } from '../lib/blog'
+import { beacon } from '../lib/analytics'
+import { personNode, websiteNode, type Node } from '../lib/structuredData'
+
+interface Props {
+  title: string
+  description: string
+  type?: 'website' | 'article'
+  noindex?: boolean
+  /** Let the page's single top-level element stretch to fill `main`, for short pages that must reach the footer. */
+  fill?: boolean
+  /** This page's own schema.org nodes, added to the person and the site. */
+  schema?: Node[]
+}
+
+const { title, description, type = 'website', noindex = false, fill = false, schema = [] } = Astro.props
+const cloudflare = beacon(analytics, { context: process.env.CONTEXT })
+const fullTitle = `${title} | Mathew Brown`
+const canonical = new URL(Astro.url.pathname, Astro.site)
+const siteNodes = [personNode(person, disciplines.map((discipline) => discipline.title), new URL(portrait.src, Astro.site).href), websiteNode()]
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      document.documentElement.classList.add('js')
+      setTimeout(() => document.documentElement.classList.add('reveals-ready'), 3000)
+    </script>
+    <Font cssVariable="--font-anton" preload />
+    <Font cssVariable="--font-archivo" />
+    <Font cssVariable="--font-jetbrains-mono" preload />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title={BLOG_FEED_TITLE} href="/rss.xml" />
+    <meta name="theme-color" content="#f86343" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <ShareMeta />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <JsonLd nodes={[...siteNodes, ...schema]} />
+    <slot name="head" />
+  </head>
+  <body id="top" class="flex min-h-screen min-h-svh flex-col">
+    <a
+      href="#main"
+      class="type-label sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-ink focus:px-4 focus:py-3 focus:text-ivory"
+      >Skip to content</a
+    >
+    <SiteHeader />
+    <main id="main" tabindex="-1" class:list={['flex-1 outline-none', fill && 'flex flex-col']}>
+      <slot />
+    </main>
+    <SiteFooter />
+    <script>
+      import { initReveals } from '../lib/reveal'
+      import { initVideosInView } from '../lib/videoInView'
+      import { initHeaderScroll } from '../lib/headerScroll'
+      import { initTocSpy } from '../lib/tocSpy'
+      initReveals()
+      initVideosInView()
+      initHeaderScroll()
+      initTocSpy()
+    </script>
+    {cloudflare && <script is:inline defer src={cloudflare.src} data-cf-beacon={cloudflare['data-cf-beacon']} />}
+  </body>
+</html>

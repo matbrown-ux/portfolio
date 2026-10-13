@@ -1,0 +1,13 @@
+---
+interface Props {
+  /** The item's name, shown in display type. */
+  name: string
+}
+
+const { name } = Astro.props
+---
+
+<div>
+  <dt>{name}</dt>
+  <dd><slot /></dd>
+</div>

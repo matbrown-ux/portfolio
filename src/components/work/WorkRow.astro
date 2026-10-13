@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import MediaSlot from '../media/MediaSlot.astro'
+import { caseStudyMedia } from '../../lib/caseStudyMedia'
+import { titleFit } from '../../lib/titleFit'
+import type { WorkRow as WorkRowData } from '../../lib/caseStudies'
+
+interface Props {
+  row: WorkRowData<CollectionEntry<'caseStudies'>>
+}
+
+const { row } = Astro.props
+const { title, headline, result, role, year, media } = row.entry.data
+// The Work index uses the hero media; a row without it shows the labelled placeholder.
+const slot = caseStudyMedia(media?.hero ?? { alt: `${title} hero capture` }, `${row.entry.id} work row`)
+
+// Small vermilion text is only allowed on ink, so only the ink row has a vermilion number.
+// The stone row's media is outlined: where it breaks out of the vermilion block it sits on stone.
+// The focus ring crosses both the row and its block, so it has to show on each. It is drawn by a
+// pseudo-element on top: the block is positioned, so it would cover an inset outline. Ink alone
+// clears 3:1 on stone and on vermilion. Vermilion does on ink but not on stone or ivory (about
+// 2.3:1 and 2.7:1), so those two rows pair it with an ink line, which carries the ring there.
+const pairedRing = 'after:border-vermilion focus-visible:after:outline-2 focus-visible:after:outline-ink'
+const surface = {
+  stone: { row: 'bg-stone text-ink', block: 'bg-vermilion', arrow: 'bg-ink text-ivory', tone: 'light', media: 'border-2 border-ink', ring: 'after:border-ink' },
+  ink: { row: 'bg-ink text-ivory', block: 'bg-stone', arrow: 'bg-vermilion text-ink', tone: 'light', media: '', ring: pairedRing },
+  ivory: { row: 'bg-ivory text-ink', block: 'bg-ink', arrow: 'bg-ink text-ivory', tone: 'dark', media: '', ring: pairedRing },
+} as const
+const look = surface[row.surface]
+
+// A long client name is set smaller so its longest word stays inside the text column instead of
+// running under the media: about eleven characters fit a stacked row and eight a split one.
+const fit = `--fit:${titleFit(title, { charsPerLine: 11 })};--fit-lg:${titleFit(title, { charsPerLine: 8 })}`
+
+// From lg up the media breaks out of its block toward the text. The colour runs edge to edge, while
+// --gutter keeps the text and the media's outer edge on the site's 1600px column on wide screens.
+const side = {
+  right: { grid: 'lg:grid-cols-[1fr_1.25fr]', text: 'lg:pl-(--gutter) lg:pr-[8vw]', block: 'lg:order-last', media: 'lg:-left-[5vw] lg:right-[max(4vw,var(--gutter))]' },
+  left: { grid: 'lg:grid-cols-[1.25fr_1fr]', text: 'lg:pl-[9vw] lg:pr-(--gutter)', block: '', media: 'lg:-right-[5vw] lg:left-[max(4vw,var(--gutter))]' },
+} as const
+const place = side[row.mediaSide]
+---
+
+<li>
+  <a href={row.href} class:list={['group relative grid [--gutter:max(3rem,calc((100vw-1600px)/2+3rem))] after:pointer-events-none after:absolute after:inset-2 after:z-10 focus-visible:outline-hidden focus-visible:after:border-4 lg:min-h-[30vw]', look.row, look.ring, place.grid]}>
+    <div class:list={['flex flex-col px-6 py-10 md:px-12 lg:py-14', place.text]}>
+      <span class:list={['type-label text-sm', row.surface === 'ink' && 'text-vermilion']}>{row.number} /</span>
+      <h2 class="type-display mt-3 max-w-[9ch] text-[length:calc(clamp(3rem,7vw,7rem)*var(--fit))] lg:text-[length:calc(clamp(3rem,7vw,7rem)*var(--fit-lg))]" style={fit} data-reveal="rise">{title}</h2>
+      <p class="type-label mt-5 max-w-md">{headline}</p>
+      <p class="mt-5 max-w-md text-lg leading-snug">{result}</p>
+      <p class="type-label mt-auto flex items-center gap-8 pt-10">
+        <span>{role}</span>
+        <span>{year}</span>
+        <span class:list={['ml-auto grid size-14 shrink-0 place-items-center text-xl lg:size-[4.5rem]', look.arrow]} aria-hidden="true">
+          <span class="inline-block transition-transform duration-200 motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:translate-x-1 motion-safe:group-focus-visible:-translate-y-1 motion-safe:group-focus-visible:translate-x-1 motion-reduce:transition-none">↗</span>
+        </span>
+      </p>
+    </div>
+    {/* Stacked, the block is inset by the gutter so the row's own surface frames it and it reads as part of this row. */}
+    <div class:list={['relative order-first mx-6 mt-6 min-h-[60vw] md:mx-12 md:mt-12 lg:m-0 lg:min-h-0', look.block, place.block]}>
+      <MediaSlot media={slot} tone={look.tone} class={`absolute inset-6 lg:inset-y-[3vw] ${place.media} ${look.media}`} sizes="(min-width: 1024px) 55vw, 100vw" />
+    </div>
+  </a>
+</li>

@@ -1,0 +1,22 @@
+---
+import type { ArticleCard } from '../../lib/blog'
+
+interface Props {
+  card: ArticleCard
+}
+
+const { card } = Astro.props
+---
+
+<li class="border-b border-ink/15">
+  {/* The link reaches into the page gutter so its focus ring stands clear of the date and the arrow. */}
+  <a href={card.href} class="group -mx-4 grid gap-x-8 gap-y-3 px-4 py-8 focus-visible:-outline-offset-2 focus-visible:outline-ink lg:grid-cols-[9rem_minmax(0,1.2fr)_minmax(0,1fr)_3rem] lg:items-center">
+    <p class="type-label"><time datetime={card.dateIso}>{card.dateLabel}</time><br />{card.readLabel}</p>
+    <h3 class="type-display text-[clamp(2rem,3.4vw,3.5rem)] underline-offset-[0.12em] decoration-vermilion decoration-4 group-hover:underline group-focus-visible:underline">{card.title}</h3>
+    <p class="max-w-md leading-snug">{card.description}</p>
+    {/* Shown from lg up, where it has a column. Stacked, it would sit alone on a line under the description. */}
+    <span class="hidden text-3xl lg:block lg:text-right" aria-hidden="true">
+      <span class="inline-block transition-transform duration-200 motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:translate-x-1 motion-reduce:transition-none">↗</span>
+    </span>
+  </a>
+</li>

@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import ArticleHeader from '../../../components/blog/ArticleHeader.astro'
+import ArticleContents from '../../../components/blog/ArticleContents.astro'
+import ArticleNext from '../../../components/blog/ArticleNext.astro'
+import Terms from '../../../components/blog/Terms.astro'
+import Term from '../../../components/blog/Term.astro'
+import ContactBand from '../../../components/sections/ContactBand.astro'
+import { disciplines } from '../../../content/disciplines'
+import { articlePageNodes } from '../../../lib/structuredData'
+import { articleCard, articleSlug, breadcrumb, contentsHeadings, formatDate, isoDate, nextTiles, requireDiscipline, requireTopic, topicHref, topicSlug } from '../../../lib/blog'
+
+export async function getStaticPaths() {
+  const articles = await getCollection('blogArticles')
+  return articles.map((article) => ({ params: { topic: topicSlug(article.id), article: articleSlug(article.id) }, props: { article } }))
+}
+
+const { article } = Astro.props
+const topics = await getCollection('blogTopics')
+const articles = await getCollection('blogArticles')
+const topic = requireTopic(topics, topicSlug(article.id))
+const discipline = requireDiscipline(disciplines, topic.data.discipline)
+const { Content, headings } = await render(article)
+const contents = contentsHeadings(headings)
+const { updated } = article.data
+---
+
+<BaseLayout title={article.data.title} description={article.data.description} type="article" schema={articlePageNodes(article, topic)}>
+  <article>
+    <ArticleHeader
+      crumbs={breadcrumb(discipline, topic, 'article')}
+      card={articleCard(article, topic.data.title)}
+      updated={updated && { label: formatDate(updated), iso: isoDate(updated) }}
+      topic={{ title: topic.data.title, href: topicHref(topic.id) }}
+      discipline={discipline}
+    />
+    <div class:list={['mx-auto grid max-w-[1600px] gap-10 px-6 py-14 md:px-12 lg:py-20', contents.length > 0 && 'xl:grid-cols-[clamp(16rem,22vw,22rem)_minmax(0,1fr)] xl:gap-[clamp(4rem,6vw,6rem)]']}>
+      {contents.length > 0 && <ArticleContents headings={contents} />}
+      <div class="article-prose min-w-0 max-w-[64ch]">
+        <Content components={{ Terms, Term }} />
+      </div>
+    </div>
+  </article>
+  <ArticleNext tiles={nextTiles({ article, articles, topic, discipline, topicCount: topics.length, disciplineCount: disciplines.length })} />
+  <ContactBand />
+</BaseLayout>

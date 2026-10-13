@@ -1,0 +1,45 @@
+---
+import { getCollection, render } from 'astro:content'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import TopicHeader from '../../../components/blog/TopicHeader.astro'
+import TopicArticles from '../../../components/blog/TopicArticles.astro'
+import EmptyTopic from '../../../components/blog/EmptyTopic.astro'
+import ContactBand from '../../../components/sections/ContactBand.astro'
+import { disciplines } from '../../../content/disciplines'
+import { topicPageNodes } from '../../../lib/structuredData'
+import { articleCard, articlesInTopic, breadcrumb, countLabel, emptyTopicText, requireDiscipline, siblingTopics, topicHref } from '../../../lib/blog'
+
+export async function getStaticPaths() {
+  const topics = await getCollection('blogTopics')
+  return topics.map((topic) => ({ params: { topic: topic.id }, props: { topic } }))
+}
+
+const { topic } = Astro.props
+const topics = await getCollection('blogTopics')
+const articles = articlesInTopic(await getCollection('blogArticles'), topic.id)
+const discipline = requireDiscipline(disciplines, topic.data.discipline)
+const proof = (await getCollection('caseStudies')).find((study) => study.id === discipline.proofSlug)
+const { Content } = await render(topic)
+const siblings = siblingTopics(topics, topic).map((entry) => ({ title: entry.data.title, description: entry.data.description, href: topicHref(entry.id) }))
+---
+
+<BaseLayout title={topic.data.headline} description={topic.data.description} noindex={articles.length === 0} schema={topicPageNodes(topic)}>
+  <TopicHeader crumbs={breadcrumb(discipline, topic, 'topic')} title={topic.data.title} headline={topic.data.headline} discipline={discipline}>
+    <Content />
+  </TopicHeader>
+  {
+    articles.length > 0 ? (
+      <TopicArticles
+        title={topic.data.title}
+        count={countLabel(articles.length, 'article', 'articles')}
+        cards={articles.map((article) => articleCard(article, topic.data.title))}
+        disciplineTitle={discipline.title}
+        siblings={siblings}
+        allLabel={`All ${countLabel(topics.length, 'topic', 'topics', { words: true })}`}
+      />
+    ) : (
+      <EmptyTopic text={emptyTopicText(discipline.title, proof?.data.title ?? null)} discipline={discipline} />
+    )
+  }
+  <ContactBand />
+</BaseLayout>

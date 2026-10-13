@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets'
+import type { CaseStudyMedia } from '../../lib/caseStudyMedia'
+
+interface Props {
+  media: CaseStudyMedia
+  /** Which placeholder stripe reads on the surface behind this slot. */
+  tone?: 'light' | 'dark'
+  /** Wrap the media in the ink-outlined browser bar. */
+  frame?: 'browser'
+  /** Shown in the browser bar. */
+  url?: string
+  /** Load an image straight away (the case study hero). */
+  eager?: boolean
+  sizes?: string
+  class?: string
+}
+
+const { media, tone = 'light', frame, url, eager = false, sizes = '(min-width: 1024px) 50vw, 100vw', class: className } = Astro.props
+---
+
+<div class:list={['flex flex-col', frame === 'browser' && 'border-2 border-ink bg-ivory', className]}>
+  {
+    frame === 'browser' && (
+      <div class="type-label flex items-center gap-1.5 border-b-2 border-ink px-3 py-2 font-medium normal-case tracking-normal" aria-hidden="true">
+        <span class="size-2 bg-ink" />
+        <span class="size-2 bg-ink" />
+        <span class="size-2 bg-ink" />
+        {url && <span class="ml-3">{url}</span>}
+      </div>
+    )
+  }
+  <div class="relative min-h-0 flex-1">
+    {
+      media.kind === 'placeholder' && (
+        <div
+          class:list={[
+            'type-label grid h-full min-h-40 place-items-center p-6 text-center',
+            tone === 'dark' ? 'media-placeholder-dark' : 'media-placeholder',
+          ]}
+          role="img"
+          aria-label={`Placeholder: ${media.alt}`}
+        >
+          <p>
+            {media.alt}
+            <span class="mt-1 block font-medium">Screenshot, recording or photo to come</span>
+          </p>
+        </div>
+      )
+    }
+    {
+      media.kind === 'image' && (
+        <Image
+          src={media.image}
+          alt={media.alt}
+          widths={[640, 960, 1280, 1920]}
+          sizes={sizes}
+          loading={eager ? 'eager' : 'lazy'}
+          class="h-full w-full object-cover"
+        />
+      )
+    }
+    {
+      media.kind === 'video' && (
+        <video
+          data-play-in-view
+          muted
+          playsinline
+          loop
+          preload="none"
+          poster={media.poster.src}
+          aria-label={media.alt}
+          class="h-full w-full object-cover"
+        >
+          <source src={media.url} type={media.type} />
+        </video>
+      )
+    }
+  </div>
+</div>

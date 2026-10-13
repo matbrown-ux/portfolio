@@ -1,0 +1,55 @@
+---
+import ArticleRow from './ArticleRow.astro'
+import type { ArticleCard } from '../../lib/blog'
+
+interface Props {
+  title: string
+  /** For example "1 article". */
+  count: string
+  cards: ArticleCard[]
+  disciplineTitle: string
+  siblings: { title: string; description: string; href: string }[]
+  /** For example "All nine topics". */
+  allLabel: string
+}
+
+const { title, count, cards, disciplineTitle, siblings, allLabel } = Astro.props
+---
+
+<section class="bg-ivory" aria-labelledby="articles-heading">
+  <div class="mx-auto max-w-[1600px] px-6 pb-16 pt-8 md:px-12 lg:pb-20 lg:pt-12">
+    <div class="flex items-end justify-between gap-6 border-b-[3px] border-ink pb-5">
+      <h2 id="articles-heading" class="type-display text-[clamp(2rem,3.6vw,3.75rem)]">Articles on {title}</h2>
+      <p class="type-label shrink-0">{count}</p>
+    </div>
+    <ul role="list">
+      {cards.map((card) => <ArticleRow card={card} />)}
+    </ul>
+    <div class:list={['mt-14 grid bg-stone', siblings.length > 0 && 'lg:grid-cols-2']}>
+      {
+        siblings.length > 0 && (
+          <div class="p-6 lg:p-8">
+            <p class="type-label">Also in {disciplineTitle}</p>
+            <ul role="list" class="mt-3 grid gap-6">
+              {siblings.map((sibling) => (
+                <li>
+                  <a href={sibling.href} class="group block focus-visible:outline-ink">
+                    <span class="type-display block text-[clamp(1.5rem,2.3vw,2.25rem)] underline-offset-[0.12em] decoration-vermilion decoration-4 group-hover:underline group-focus-visible:underline">{sibling.title}</span>
+                    <span class="mt-2 block max-w-md leading-snug">{sibling.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+      <div class:list={['p-6 lg:p-8', siblings.length > 0 && 'border-t border-ink/15 lg:border-l lg:border-t-0']}>
+        <p class="type-label">Everything else</p>
+        <a href="/blog" class="group mt-3 block focus-visible:outline-ink">
+          <span class="type-display block text-[clamp(1.5rem,2.3vw,2.25rem)] underline-offset-[0.12em] decoration-vermilion decoration-4 group-hover:underline group-focus-visible:underline">{allLabel} <span aria-hidden="true">↗</span></span>
+          <span class="mt-2 block leading-snug">Back to the blog index.</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

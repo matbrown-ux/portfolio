@@ -1,0 +1,11 @@
+---
+import mark from '../../assets/logo/mb-mark.svg?raw'
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<span class:list={['block [&>svg]:block [&>svg]:h-auto [&>svg]:w-full', className]} aria-hidden="true" set:html={mark} />

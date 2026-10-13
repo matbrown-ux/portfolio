@@ -1,117 +1,164 @@
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { motion, AnimatePresence } from 'motion/react'
-import { SocialLinks } from './SocialLinks'
+import { useEffect, useRef, useState } from 'react'
+import { isCurrent, type NavLink } from '../../content/navigation'
+import { nextFocusIndex } from './focusTrap'
 
-const navItems = [
-  { label: 'About', to: '/about' },
-  { label: 'Services', to: '/services' },
-  { label: 'Work', to: '/work' },
-  { label: 'Blog', to: '/blog' },
-  { label: 'Contact', to: '/contact' },
-]
+/** Tailwind's md breakpoint, where the desktop nav takes over. In rem, as Tailwind compiles it. */
+const DESKTOP_QUERY = '(min-width: 48rem)'
 
-const EASE_OPEN: [number, number, number, number] = [0.16, 1, 0.3, 1]
-const EASE_CLOSE: [number, number, number, number] = [0.7, 0, 0.84, 0]
-const DURATION = 0.45
+interface Props {
+  links: NavLink[]
+  contact: NavLink
+  pathname: string
+  /** Profile links with their SVG icons, shown beside the call to action. */
+  profiles?: { label: string; href: string; icon: string }[]
+}
 
-export function MobileMenu() {
+/**
+ * Full-screen mobile navigation, built as a disclosure. Focus is trapped between
+ * the toggle and the menu, Escape closes and returns focus to the toggle, and page
+ * scroll is locked while open.
+ */
+export function MobileMenu({ links, contact, pathname, profiles = [] }: Props) {
   const [open, setOpen] = useState(false)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+  const wasOpen = useRef(false)
+  const contactCurrent = isCurrent(contact.href, pathname)
+
+  // The panel is hidden at md and up, so an open menu would leave the page locked.
+  useEffect(() => {
+    const query = window.matchMedia(DESKTOP_QUERY)
+    const onChange = (e: { matches: boolean }) => {
+      if (e.matches) setOpen(false)
+    }
+    query.addEventListener('change', onChange)
+    return () => query.removeEventListener('change', onChange)
+  }, [])
+
+  // Following a link and pressing Back can restore the page from the back-forward cache
+  // exactly as it was left: menu open, page locked.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) setOpen(false)
+    }
+    window.addEventListener('pageshow', onPageShow)
+    return () => window.removeEventListener('pageshow', onPageShow)
+  }, [])
+
+  useEffect(() => {
+    if (!open) {
+      if (wasOpen.current) toggleRef.current?.focus()
+      wasOpen.current = false
+      return
+    }
+    wasOpen.current = true
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const focusables = () =>
+      [toggleRef.current, ...Array.from(panelRef.current?.querySelectorAll<HTMLElement>('a[href]') ?? [])].filter(
+        (el): el is HTMLElement => el !== null,
+      )
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        setOpen(false)
+        return
+      }
+      if (e.key !== 'Tab') return
+      const items = focusables()
+      const next = nextFocusIndex(items.indexOf(document.activeElement as HTMLElement), items.length, e.shiftKey)
+      if (next < 0) return
+      e.preventDefault()
+      items[next].focus()
+    }
+
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = previousOverflow
+    }
+  }, [open])
 
   return (
-    <div className="md:hidden">
+    <div>
       <button
-        onClick={() => setOpen(!open)}
-        aria-label={open ? 'Close navigation' : 'Open navigation'}
+        ref={toggleRef}
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
-        className="text-cream p-1"
+        aria-controls="mobile-menu"
+        className={`relative z-[60] grid size-11 place-items-center ${open ? 'text-ivory' : 'text-ink'}`}
       >
         {open ? (
-          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <line x1="1" y1="1" x2="15" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="15" y1="1" x2="1" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <svg width="22" height="22" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <line x1="1" y1="1" x2="15" y2="15" stroke="currentColor" strokeWidth="2" />
+            <line x1="15" y1="1" x2="1" y2="15" stroke="currentColor" strokeWidth="2" />
           </svg>
         ) : (
-          <svg width="22" height="16" viewBox="0 0 20 14" fill="none" aria-hidden="true">
-            <line x1="0" y1="2" x2="20" y2="2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="0" y1="12" x2="13" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <svg width="26" height="16" viewBox="0 0 20 12" fill="none" aria-hidden="true">
+            <line x1="0" y1="1" x2="20" y2="1" stroke="currentColor" strokeWidth="2" />
+            <line x1="0" y1="11" x2="20" y2="11" stroke="currentColor" strokeWidth="2" />
           </svg>
         )}
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <>
-            {/* Backdrop — below navbar */}
-            <motion.div
-              className="fixed inset-0 z-40 bg-directors-black/60 backdrop-blur-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.25, ease: EASE_CLOSE } }}
-              transition={{ duration: 0.3, ease: EASE_OPEN }}
-              onClick={() => setOpen(false)}
-              aria-hidden="true"
-            />
-
-            {/* Drawer — below navbar (z-[55] < navbar z-[60]) */}
-            <motion.div
-              className="fixed top-0 right-0 h-full w-[70%] z-[55] bg-secondary-dark border-l border-border-line flex flex-col px-6 pt-6 pb-12"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%', transition: { duration: 0.3, ease: EASE_CLOSE } }}
-              transition={{ duration: DURATION, ease: EASE_OPEN }}
-            >
-              {/* Close button */}
-              <div className="flex justify-end mb-8">
-                <button
-                  onClick={() => setOpen(false)}
-                  aria-label="Close navigation"
-                  className="text-cream p-1"
-                >
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <line x1="1" y1="1" x2="15" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                    <line x1="15" y1="1" x2="1" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Nav items — stagger in */}
-              <nav className="flex flex-col gap-7">
-                {navItems.map(({ label, to }, i) => (
-                  <motion.div
-                    key={to}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.35, delay: 0.08 + i * 0.06, ease: EASE_OPEN }}
-                  >
-                    <NavLink
-                      to={to}
-                      onClick={() => setOpen(false)}
-                      className={({ isActive }) =>
-                        `text-2xl font-semibold tracking-tight transition-colors duration-200 ${
-                          isActive ? 'text-vermilion' : 'text-cream hover:text-vermilion'
-                        }`
-                      }
+      {open && (
+        <div ref={panelRef} id="mobile-menu" className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-ink px-6 pb-10 pt-28 text-ivory">
+          <nav aria-label="Mobile">
+            <ul role="list" className="space-y-3">
+              {links.map(({ label, href }) => {
+                const current = isCurrent(href, pathname)
+                return (
+                  <li key={href}>
+                    <a
+                      href={href}
+                      aria-current={current ? 'page' : undefined}
+                      className={`type-display block text-[clamp(3rem,16vw,5rem)] ${current ? 'text-vermilion' : ''}`}
                     >
                       {label}
-                    </NavLink>
-                  </motion.div>
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
+          </nav>
+          {/* On the contact pages the call to action is the current page: ivory instead of vermilion,
+              the same switch the header's button makes at desktop widths. */}
+          <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-4 self-start">
+            <a
+              href={contact.href}
+              aria-current={contactCurrent ? 'page' : undefined}
+              className={`type-label inline-flex items-center gap-2 px-5 py-3.5 text-ink focus-visible:outline-ivory ${contactCurrent ? 'bg-ivory' : 'bg-vermilion'}`}
+            >
+              {contact.label}
+              <span aria-hidden="true">↗</span>
+            </a>
+            {profiles.length > 0 && (
+              <ul role="list" aria-label="Profiles" className="flex">
+                {profiles.map(({ label, href, icon }) => (
+                  <li key={href}>
+                    <a
+                      href={href}
+                      aria-label={`${label}, opens in a new tab`}
+                      target="_blank"
+                      rel="me noopener"
+                      className="grid size-11 place-items-center text-ivory hover:text-vermilion focus-visible:text-vermilion focus-visible:outline-ivory"
+                    >
+                      {/* The markup is this repo's own SVG file, not content from outside. */}
+                      <span aria-hidden="true" className="block size-6 [&>svg]:block [&>svg]:size-full" dangerouslySetInnerHTML={{ __html: icon }} />
+                    </a>
+                  </li>
                 ))}
-              </nav>
-
-              <div className="mt-auto">
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3, delay: 0.4, ease: EASE_OPEN }}
-                >
-                  <SocialLinks />
-                </motion.div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+
+export default MobileMenu

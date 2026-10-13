@@ -1,0 +1,31 @@
+---
+import ScriptArt from '../brand/ScriptArt.astro'
+---
+
+<div class="px-6 pb-14 pt-32 md:px-12 lg:pb-20 lg:pt-[clamp(9rem,10.8vw,11rem)]">
+  {/* Decorative: the h1 below carries the keywords. */}
+  <p class="type-display relative inline-block text-[clamp(4.5rem,21vw,9rem)] leading-[0.86] lg:text-[clamp(4rem,12.4vw,12.5rem)]" aria-hidden="true">
+    Start a<br />project<span class="text-vermilion">.</span>
+    <ScriptArt name="lets-talk" class="absolute -top-[0.3em] left-[49%] w-[50%] -rotate-[7deg]" reveal="wipe" delay={0.3} />
+  </p>
+  <h1 class="type-label mt-12 max-w-xs before:mb-3 before:block before:h-0.5 before:w-10 before:bg-ink lg:mt-[clamp(4rem,6.5vw,6.5rem)]">
+    Hire a UX/UI Engineer &amp; SEO Specialist
+  </h1>
+  <p class="mt-6 max-w-md text-xl leading-snug">Tell me about your project and I'll be in touch.</p>
+  <dl class="mt-10 space-y-6">
+    <div>
+      <dt class="type-label">Email</dt>
+      <dd class="mt-1">
+        <a
+          href="mailto:mat@matbrown.io"
+          class="type-display text-[clamp(1.5rem,2.1vw,2.25rem)] underline-offset-8 decoration-vermilion decoration-2 hover:underline focus-visible:underline"
+          >mat@matbrown.io</a
+        >
+      </dd>
+    </div>
+    <div>
+      <dt class="type-label">Based</dt>
+      <dd class="mt-1 max-w-sm leading-snug">O'ahu, Hawai'i. I work with most clients remotely.</dd>
+    </div>
+  </dl>
+</div>
