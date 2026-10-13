@@ -95,17 +95,19 @@ const required = 'text-vermilion'
         Something went wrong. Email me at <a href="mailto:mat@matbrown.io" class="underline decoration-vermilion decoration-2 underline-offset-4 focus-visible:outline-ivory">mat@matbrown.io</a>.
       </p>
       <div class="flex flex-wrap items-center gap-6">
+        {/* While a send is in flight the button is aria-disabled and must not answer to hover, so the
+            hover fill and the arrow's nudge are both cancelled in that state. */}
         {/* The arrow sits beside the button's text, outside the button, because the script replaces
             the button's text with "Sending" and back, which would remove a glyph inside it. */}
         <span class="group relative inline-flex">
           <button
             type="submit"
             data-submit
-            class="type-label bg-vermilion py-5 pl-8 pr-13 text-[0.8125rem] text-ink transition-colors duration-200 hover:bg-ivory focus-visible:outline-ivory aria-disabled:cursor-wait aria-disabled:opacity-60 motion-reduce:transition-none"
+            class="type-label bg-vermilion py-5 pl-8 pr-13 text-[0.8125rem] text-ink transition-colors duration-200 hover:bg-ivory focus-visible:outline-ivory aria-disabled:cursor-wait aria-disabled:opacity-60 aria-disabled:hover:bg-vermilion motion-reduce:transition-none"
           >Send enquiry</button>
           <span
             aria-hidden="true"
-            class="type-label pointer-events-none absolute inset-y-0 right-8 flex items-center text-[0.8125rem] text-ink transition-transform duration-200 group-has-[[aria-disabled=true]]:opacity-60 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5 motion-reduce:transition-none"
+            class="type-label pointer-events-none absolute inset-y-0 right-8 flex items-center text-[0.8125rem] text-ink transition-transform duration-200 group-has-[[aria-disabled=true]]:opacity-60 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5 group-has-[[aria-disabled=true]]:translate-x-0! group-has-[[aria-disabled=true]]:translate-y-0! motion-reduce:transition-none"
             >↗</span
           >
         </span>
