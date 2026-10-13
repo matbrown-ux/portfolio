@@ -10,9 +10,11 @@ interface Props {
   ogImage?: string
   type?: 'website' | 'article'
   noindex?: boolean
+  /** Let the page's single top-level element stretch to fill `main`, for short pages that must reach the footer. */
+  fill?: boolean
 }
 
-const { title, description, ogImage, type = 'website', noindex = false } = Astro.props
+const { title, description, ogImage, type = 'website', noindex = false, fill = false } = Astro.props
 const fullTitle = `${title} | Mathew Brown`
 const canonical = new URL(Astro.url.pathname, Astro.site)
 ---
@@ -45,14 +47,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     {ogImage && <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />}
     <slot name="head" />
   </head>
-  <body id="top">
+  <body id="top" class="flex min-h-screen min-h-svh flex-col">
     <a
       href="#main"
       class="type-label sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-ink focus:px-4 focus:py-3 focus:text-ivory"
       >Skip to content</a
     >
     <SiteHeader />
-    <main id="main" tabindex="-1" class="outline-none">
+    <main id="main" tabindex="-1" class:list={['flex-1 outline-none', fill && 'flex flex-col']}>
       <slot />
     </main>
     <SiteFooter />
