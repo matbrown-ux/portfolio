@@ -10,16 +10,16 @@ On 2026-10-12 the owner decided to redesign the site completely and move to thei
 **What exists now (sub-project 1):** Astro 7 static output with `site: https://matbrown.io`, `@astrojs/react`, `@astrojs/mdx`, `@astrojs/sitemap`, Tailwind v4 via `@tailwindcss/vite`, `gsap` + `@gsap/react`, Vitest 5 + jsdom + Testing Library (setup in `src/test/setup.ts`), and `astro check` as `npm run typecheck`.
 
 - **Tokens and fonts:** `src/styles/global.css` `@theme` holds `ivory`, `ink`, `vermilion`, `stone` and `line-dark`, plus the `type-display` and `type-label` utilities. Anton, Archivo and JetBrains Mono are self-hosted through Astro's font handling.
-- **Layout:** `src/layouts/BaseLayout.astro` owns the head (title, description, canonical, OG, Twitter) and the inline script that sets the `js` and `reveals-ready` classes on `<html>`. Pages are `index.astro` (Home) and `404.astro`.
+- **Layout:** `src/layouts/BaseLayout.astro` owns the head (title, description, canonical, OG, Twitter) and the inline script that sets the `js` and `reveals-ready` classes on `<html>`. Pages are `index.astro` (Home), `404.astro` and, from sub-project 2, `work/index.astro` and `work/[slug].astro`.
 - **Shell:** `src/components/nav/` has `SiteHeader.astro`, `SiteFooter.astro` and the `MobileMenu.tsx` React island (with `focusTrap.ts`).
-- **Home:** six sections under `src/components/home/`: `Hero`, `DisciplineStrip`, `StatementBand`, `FeaturedWork`, `AboutTeaser`, `ContactBand`.
+- **Home:** six sections under `src/components/home/`: `Hero`, `DisciplineStrip`, `StatementBand`, `FeaturedWork`, `AboutTeaser`. `ContactBand` moved to `src/components/sections/` in sub-project 2 so the case study pages share it.
 - **Primitives:** `src/components/ui/` (`Button`, `ArrowButton`, `VerticalLabel`) and `src/components/brand/` (`Logo`, `ScriptArt`).
 - **Behaviour modules in `src/lib/`:** `typewriter`, `typewriterElement`, `reveal`, `motionTokens`, `gsap`, `featuredWork`, each with a co-located test.
 - **Script art:** `scripts/script-art/` (`generate.mjs`, `shape.mjs`, `svg.mjs`, `artList.mjs`, with tests) turns `src/assets/script/phrases.json` into one SVG per entry in `public/script/*.svg`, plus the manifest `src/assets/script/art.json` that `ScriptArt.astro` reads, via `npm run script-art`. The Gloss And Bloom font files stay in the git-ignored `.fonts/` folder.
-- **Content:** `src/content.config.ts` defines the `caseStudies` collection (glob loader over `src/content/case-studies/*.mdx`; schema is only `title`, `date`, `tags`, optional `client`). `src/content/disciplines.ts` and `src/content/navigation.ts` are the single sources for the five disciplines and the nav links.
+- **Content:** `src/content.config.ts` defines the `caseStudies` collection (glob loader over `src/content/case-studies/*.mdx`; the full schema is described under "What sub-project 2 added" below). `src/content/disciplines.ts` and `src/content/navigation.ts` are the single sources for the five disciplines and the nav links.
 - **Build status:** every task on the plan is done, including Task 13 (final verification pass) and the fix pass after the final review. `netlify.toml` no longer has the SPA catch-all redirect.
 
-**Kept from the old app:** the 13 MDX files in `src/content/` (3 case studies, 10 blog), everything else in `public/images/` (the blog cover SVGs and `case-studies/<slug>/og.png`), the tdd-kit, and the docs. The case study frontmatter is indexed by the `caseStudies` collection in `src/content.config.ts`, but the bodies are not rendered yet: they still use the old `<Chapter>`, `<Walkthrough>`, `<Gallery>`, `<BeforeAfter>`, `<Outcome>`, `<PullQuote>` components, which do not exist here. The `coverImage` frontmatter lines and the three case study cover SVGs were removed. The blog MDX is not wired to any collection.
+**Kept from the old app:** the 13 MDX files in `src/content/` (3 case studies, 10 blog), everything else in `public/images/` (the blog cover SVGs and `case-studies/<slug>/og.png`), the tdd-kit, and the docs. The case study frontmatter is indexed by the `caseStudies` collection in `src/content.config.ts`, and since sub-project 2 the bodies are rendered by `work/[slug].astro` with new `<Chapter>`, `<Walkthrough>`, `<Gallery>`, `<Outcome>` and `<PullQuote>` components (`<BeforeAfter>` is retired). The `coverImage` frontmatter lines and the three case study cover SVGs were removed. The blog MDX is not wired to any collection.
 
 **Removed from this branch (recover with `git show 0bfb10a:<path>`):** the old React components, pages and router, the old `src/lib/` modules (`src/lib/` now holds the new rebuild modules), `src/types/content.ts`, `motion`, `react-router-dom`, `react-helmet-async`, `vite-react-ssg`. `src/content/disciplines.ts` was ported back with new first-person blurbs (and has its test).
 
@@ -30,7 +30,7 @@ On 2026-10-12 the owner decided to redesign the site completely and move to thei
 | # | Sub-project | Spec | Status |
 |---|-------------|------|--------|
 | 1 | Design foundation + Home | `docs/superpowers/specs/2026-10-12-design-foundation-home-design.md` (reference image in `docs/superpowers/specs/assets/`) | Built; awaiting owner review |
-| 2 | Work: content collections, Work index, case study template. Also builds the optional image or video per featured work tile that the sub-project 1 spec deferred (video plays muted only while on screen, has a poster, and falls back to the poster under reduced motion); tiles are colour blocks until then | none yet | Not started |
+| 2 | Work: content collections, Work index, case study template | `docs/superpowers/specs/2026-10-12-work-case-studies-design.md` | Built; awaiting owner review |
 | 3 | Services, About, Contact | none yet | Not started |
 | 4 | Blog | none yet | Not started |
 | 5 | SEO/AEO layer and launch | none yet | Not started |
@@ -43,6 +43,34 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - Hero rotating word: stops after two cycles and the cursor disappears. Built.
 - Project tiles: change colour on hover and focus. Built.
 - Hero label direction: stays as built (bottom to top).
+
+**What sub-project 2 added:** the Work index and one page per case study, built from the three MDX files with no React island.
+
+- **Pages:** `src/pages/work/index.astro` and `src/pages/work/[slug].astro`.
+- **Components:** `src/components/case-study/` (`CaseStudyHero`, `AtAGlance`, `Chapter`, `PullQuote`, `Walkthrough`, `Gallery`, `Outcome`, `NextProject`), `src/components/work/` (`WorkHeader`, `WorkRow`), `src/components/media/MediaSlot.astro` and `src/components/sections/ContactBand.astro`.
+- **Modules in `src/lib/`, each with a test:** `caseStudies` (case study numbering, next project, Work rows, project span), `media` and `caseStudyMedia` (resolve a media path under `src/assets/case-studies/<slug>/`, poster rules, tile media), `galleryLayout`, `videoInView` (plays a muted video only while it is on screen; wired into the closing script in `BaseLayout.astro`) and `host` (the link label for `liveUrl`).
+- **Schema:** `title`, `headline` (the page `h1`), `summary`, `date`, `year`, `tags`, `services`, `stack`, `role`, `result`, and optional `client`, `liveUrl`, `ogImage`, `heroNote`, `media.hero`, `media.tile`. Home's featured work tiles now show a case study's tile media when it has one.
+- **Script art:** two new phrases in `src/assets/script/phrases.json`, `selected` and `case-study`.
+- **Media:** `src/assets/case-studies/<slug>/` holds the images and clips (see the README there). No real media has been added yet.
+
+**Owner inputs still needed for sub-project 2:**
+
+- Real result sentences for Vamp Network and The Booking Flow.
+- Real metrics for all three case studies (only 'Aiwi Waffles' "#1" local ranking is a confirmed fact; every other number is a `"00"` placeholder).
+- Per case study: a hero capture and a Home tile image or video.
+- Walkthrough captures: 2 for Vamp Network and 3 for The Booking Flow.
+- Gallery photography: 2 images for 'Aiwi Waffles.
+- A short `heroNote` for 'Aiwi Waffles. Its hero note currently falls back to the summary, clamped to six lines.
+- One real video clip, so playback can be checked. Only the video markup has been verified so far.
+
+**Decisions made during the sub-project 2 build, for the owner to confirm:**
+
+- The chapter six-column layout starts at `xl` (1280px), not `lg`, so everything stacks at 1024px as the acceptance list asks.
+- In 'Aiwi Waffles' outcome chapter the pull quote is drawn on desktop as a full-width vermilion band under the split, although in the MDX it sits between paragraphs two and three, so visual and reading order differ there.
+- 'Aiwi Waffles' `summary` is now quoted in the frontmatter, with no word changed, because YAML had cut it at " #1".
+- The hero note is clamped to six lines, so a long summary shows an ellipsis until a short `heroNote` is supplied.
+- When Work rows stack below 1024px, each row's media block is inset by the row gutter so the row's own surface frames it; media stays first and the palette is unchanged.
+- The ledger also marks these for the owner: the outcome chapter heading wraps to two lines and keeps the rail; 'Aiwi Waffles' outcome panel is about 900px tall; the two dark placeholders in a five-item gallery stack in one column; below 1280px Vamp Network's Services note falls under the quote band; The Booking Flow's name takes three lines at 1440 and does not reach the vermilion block; the Work row focus ring is about 2.6:1 where it crosses the stone block, under the 3:1 minimum for non-text.
 
 ## Redesign roadmap and where we are (old Vite app, historical)
 
@@ -198,6 +226,15 @@ Pillars render alphabetically by directory name. Only UX/UI Design currently has
 - **Astro rebuild: `dist/index.html` is one minified line.** `grep -c` counts lines, so it always returns 1. Count matches with `grep -o ... | wc -l`.
 - **Astro rebuild: the mobile menu panel needs `overflow-y-auto`.** The body scroll is locked while the menu is open, so on a short viewport the last links and the call to action were unreachable. The panel (`#mobile-menu`) now scrolls on its own.
 - **Astro rebuild: logical padding swaps axes under `writing-mode: vertical-rl`.** Tailwind 4's `px` and `py` are logical properties, so on the rotated vertical label they applied to the wrong axis and the label sat hard against the bottom edge. Use physical utilities such as `pt-10` there; after the 180 degree rotation it becomes the visual bottom inset.
+- **Astro rebuild: an unquoted YAML frontmatter value containing ` #` is cut off at the `#`.** YAML reads it as a comment, so 'Aiwi Waffles' `summary` lost everything from "#1" onward, including the meta description and the confirmed ranking. Fix: quote any frontmatter string that can contain ` #`.
+- **Astro rebuild: Tailwind `lg` is 1024px, so a 1024px viewport gets the `lg:` layout.** The hero, at-a-glance strip, next project and Work rows switch at `lg`, while the chapter six-column layout switches at `xl` (1280px). Keep that split in mind when adding a section next to a chapter, and use `xl:` for anything that must still be stacked at 1024.
+- **Astro rebuild: element selectors on MDX prose also hit block components.** `.cs-chapter-body > ul` matched the gallery's `<ul>`. Scope prose rules with `:not(.cs-block)`.
+- **Astro rebuild: gallery grids with explicit rows collapse or overflow.** `grid-auto-rows` does nothing once the grid has explicit `grid-rows-*`; an item with `aspect-ratio` does not stretch to its row; and a stretched item with no content height in `1fr` rows collapses to its minimum height. Give the sibling items an aspect ratio so they set the row height.
+- **Astro rebuild: a Work row's focus ring is an `::after` border, not an outline.** An inset outline on the link is painted below positioned children, and the media block is `relative`, so the ring showed only over the text half. The ring is an absolutely positioned `::after` with `z-10` and `pointer-events-none`, coloured per row (a `currentColor` ring vanishes where a block matches its text colour), and the native outline is `outline-hidden`.
+- **Astro rebuild: when Work rows stack, the media block reads as part of the row above.** Each block is the colour of the previous row's surface, so with media first it blended into that row. The block is inset by the row gutter (`--gutter`) so the row's own surface frames it.
+- **Astro rebuild: an outcome chapter that holds a pull quote draws the quote under the split.** On desktop the quote is a full-width band below the split, while in the MDX it sits mid-chapter, so visual and reading order differ. The outcome chapter CSS pairs `grid-row: 1 / span 40` with `grid-row: 42`, which breaks silently past 40 grid items.
+- **Astro rebuild: `z.string().url()` is flagged deprecated by `astro check`.** It is a hint, not an error, so `npm run typecheck` reports 0 errors and 1 hint. `z.url()` is the replacement if the owner wants the hint gone.
+- **Astro rebuild: Astro's dev server reloads the page on a source edit.** That destroys a Playwright `evaluate` in flight ("Execution context was destroyed"); navigate again after an edit. `astro dev` also detaches, so stop it with `npx astro dev stop` rather than the PID the shell prints.
 - **GSAP `force3D: false` when animating dark elements.** GSAP's default (`force3D: "auto"`) promotes the element to a 3D GPU layer during a transform tween, which on some Chrome/GPU combos paints a dark element on a dark background as a solid black rectangle until the tween ends and the layer is dropped. Set `force3D: false` on tweens that move/scale dark surfaces (hero circle, curtain panels). Same root cause as the dark-`Card` hover-lift artifact noted in CLAUDE.md.
 - **GSAP ScrollTrigger restores scroll on route change.** It remembers the window scroll position and restores it on its post-navigation refresh, landing SPA navigation at the previous scroll (e.g. case-study → next-project at the bottom). Fix: call `ScrollTrigger.clearScrollMemory()` before `scrollTo(0,0)` (done in `PageCurtain`).
 - **Entrance animations + the curtain.** Because the curtain swaps content while covered, a new page's mount-time entrance animations would play hidden behind it. Solved for everything built on `useScrollReveal` (covers, `RevealText`, `CountUp`, case study modules): it reads `useEntranceDelay()` and holds its animation until the curtain has lifted (verified: after a click from a case study to the next, the h1 words stay masked until about 1.2s after the swap, then reveal). Any new above-the-fold mount animation should go through `useScrollReveal` or consume `useEntranceDelay()` itself.
