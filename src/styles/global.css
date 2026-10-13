@@ -338,3 +338,181 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
     }
   }
 }
+
+/* An article body: one reading column. Blocks such as <Terms> carry .article-block and set
+   their own type, so the element rules below skip them. */
+.article-prose {
+  /* 18px, growing with the page to 20px, so the column, set in ch on the page, keeps its measure. */
+  font-size: clamp(1.125rem, 1.36vw, 1.25rem);
+}
+
+.article-prose > * + * {
+  margin-top: 1.2rem;
+}
+
+.article-prose > :is(p, ul, ol):not(.article-block) {
+  line-height: 1.65;
+}
+
+.article-prose > h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 3.7vw, 3.5rem);
+  line-height: 0.98;
+  text-transform: uppercase;
+  margin-top: 3.5rem;
+  /* The header returns on a scroll up, so a jump to an earlier section must clear it. */
+  scroll-margin-top: 7rem;
+}
+
+.article-prose > h2:first-child {
+  margin-top: 0;
+}
+
+.article-prose > h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1;
+  text-transform: uppercase;
+  margin-top: 2.5rem;
+  scroll-margin-top: 7rem;
+}
+
+.article-prose > ul:not(.article-block) {
+  list-style: square;
+  padding-left: 1.25rem;
+}
+
+.article-prose > ol:not(.article-block) {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+
+.article-prose > :is(ul, ol):not(.article-block) > li + li {
+  margin-top: 0.6rem;
+}
+
+/* Preflight strips the underline from links, so prose links get it back. */
+.article-prose :is(p, li, dd) a {
+  text-decoration: underline;
+  text-decoration-color: var(--color-vermilion);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.article-prose strong {
+  font-weight: 600;
+}
+
+.article-prose > blockquote {
+  border-left: 3px solid var(--color-ink);
+  padding-left: 1.25rem;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+
+.article-prose > hr {
+  border: 0;
+  border-top: 3px solid var(--color-ink);
+  margin-block: 2.5rem;
+}
+
+.article-prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Inline code sits on stone; code inside a block keeps the block's colours. */
+.article-prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-weight: 500;
+  background: var(--color-stone);
+  padding: 0.1em 0.35em;
+}
+
+/* A code block: ink ground, ivory text, colours only from the palette. The bar shows the language. */
+.article-prose .astro-code {
+  --astro-code-foreground: var(--color-ivory);
+  --astro-code-background: var(--color-ink);
+  --astro-code-token-keyword: var(--color-vermilion);
+  --astro-code-token-constant: var(--color-vermilion);
+  --astro-code-token-function: color-mix(in srgb, var(--color-ivory) 72%, var(--color-ink));
+  --astro-code-token-string: var(--color-ivory);
+  --astro-code-token-string-expression: var(--color-ivory);
+  --astro-code-token-parameter: color-mix(in srgb, var(--color-ivory) 72%, var(--color-ink));
+  --astro-code-token-punctuation: color-mix(in srgb, var(--color-ivory) 72%, var(--color-ink));
+  --astro-code-token-comment: color-mix(in srgb, var(--color-ivory) 60%, var(--color-ink));
+  --astro-code-token-link: var(--color-ivory);
+  margin-top: 1.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+/* The padding is on the code, as wide as its longest line, so the last character of a long line
+   scrolls clear of the block's edge. */
+.article-prose .astro-code > code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  padding: 1.25rem;
+  font-family: inherit;
+}
+
+/* The bar is as wide as the block, and stays put while the code scrolls under it. */
+.article-prose .astro-code::before {
+  content: attr(data-language);
+  position: sticky;
+  left: 0;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--color-line-dark);
+  color: var(--color-vermilion);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.article-prose .astro-code:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+/* <Terms>: a ruled list of named items. */
+.article-terms {
+  margin-top: 1.6rem;
+  border-top: 2px solid var(--color-ink);
+}
+
+.article-terms > div {
+  display: grid;
+  gap: 0.25rem 1.5rem;
+  padding-block: 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent);
+}
+
+.article-terms dt {
+  font-family: var(--font-display);
+  font-size: 1.25em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.article-terms dd {
+  font-size: 0.94em;
+  line-height: 1.55;
+}
+
+.article-terms dd > * + * {
+  margin-top: 0.6rem;
+}
+
+@media (width >= 40rem) {
+  .article-terms > div {
+    grid-template-columns: 9rem 1fr;
+  }
+}

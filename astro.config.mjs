@@ -14,7 +14,23 @@ const emptyTopics = emptyTopicSlugs('./src/content/blog')
 export default defineConfig({
   site: 'https://matbrown.io',
   // Straight quotes and plain hyphens stay as written: no smart punctuation in Markdown or MDX.
-  markdown: { processor: satteri({ features: { smartPunctuation: false } }) },
+  markdown: {
+    processor: satteri({ features: { smartPunctuation: false } }),
+    // Colours come from CSS variables set in global.css, so code uses only the site palette.
+    // A code block scrolls sideways, so it is focusable and named for keyboard and screen reader users.
+    shikiConfig: {
+      theme: 'css-variables',
+      transformers: [
+        {
+          pre(node) {
+            node.properties.tabindex = '0'
+            node.properties.role = 'region'
+            node.properties['aria-label'] = 'Code sample'
+          },
+        },
+      ],
+    },
+  },
   integrations: [
     react(),
     mdx(),

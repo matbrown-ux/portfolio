@@ -1,0 +1,29 @@
+---
+import type { Heading } from '../../lib/blog'
+
+interface Props {
+  headings: Heading[]
+}
+
+const { headings } = Astro.props
+---
+
+{/* tocSpy.ts finds this by data-toc and sets aria-current="location" on the link being read. 
+   Above the article (below xl) it is no wider than the reading column under it. */}
+<nav data-toc aria-labelledby="toc-heading" class="border-t-[3px] border-ink pt-4 max-xl:max-w-[41.25rem] xl:sticky xl:top-28 xl:self-start">
+  <h2 id="toc-heading" class="type-label">In this article</h2>
+  <ol role="list" class="mt-4">
+    {
+      headings.map((heading) => (
+        <li class="border-t border-ink/15">
+          <a
+            href={`#${heading.slug}`}
+            class="type-label block py-3 underline-offset-8 decoration-vermilion decoration-2 hover:underline focus-visible:outline-ink aria-[current=location]:pl-4 aria-[current=location]:shadow-[inset_3px_0_0_var(--color-ink)]"
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
