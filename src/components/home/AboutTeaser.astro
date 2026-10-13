@@ -13,14 +13,18 @@ import Button from '../ui/Button.astro'
   </p>
 
   <div class="relative h-[90vw] max-h-[560px] lg:static lg:h-auto lg:max-h-none">
+    {/* One solid block, so it is exact brand vermilion. It sits at the bottom of the section's
+        stack (above the ivory ground only), so the vertical "Mathew" stays on top of it. */}
+    <div class="absolute inset-x-0 bottom-0 top-[47%] -z-10 bg-vermilion lg:right-auto lg:w-[calc(var(--gutter)+min(58%,928px))]" data-reveal="wipe"></div>
+    {/* The portrait multiplies onto whatever is behind it: the greys take the vermilion where they
+        overlap the block and sit on ivory above it. The section's isolate keeps the blend inside. */}
     <Image
       src={portrait}
       alt="Mathew Brown in profile"
       widths={[480, 720, 1000]}
       sizes="(min-width: 1024px) 30vw, 70vw"
-      class="absolute bottom-0 left-[14%] h-[96%] w-auto lg:left-[calc(var(--gutter)+min(27%,432px))]"
+      class="absolute bottom-0 left-[14%] h-[96%] w-auto mix-blend-multiply lg:left-[calc(var(--gutter)+min(27%,432px))]"
     />
-    <div class="absolute inset-x-0 bottom-0 top-[47%] bg-vermilion mix-blend-multiply lg:right-auto lg:w-[calc(var(--gutter)+min(58%,928px))]" data-reveal="wipe"></div>
   </div>
 
   <div class="relative z-10 max-w-xl px-6 py-12 md:px-12 lg:absolute lg:left-[calc(var(--gutter)+min(60%,960px))] lg:right-[calc(var(--gutter)+3rem)] lg:top-[26%] lg:max-w-none lg:p-0">

@@ -40,6 +40,17 @@ const words = ['ux', 'ui', 'seo', 'ai']
   </p>
 
   <div class="relative mt-10 h-[110vw] max-h-[720px] lg:static lg:mt-0 lg:h-auto lg:max-h-none">
+    {/* One solid block, so it is exact brand vermilion. It sits at the bottom of the section's
+        stack (above the ivory ground only), so the type it meets stays on top of it. */}
+    <div
+      class="absolute inset-x-0 bottom-0 top-1/2 -z-10 bg-vermilion lg:left-[33%]"
+      data-reveal="wipe"
+      data-reveal-on="load"
+    >
+    </div>
+    {/* The portrait multiplies onto whatever is behind it: black stays black, the greys take the
+        vermilion where they overlap the block, and above the block they sit on ivory as a plain
+        black-and-white cut-out. The section's isolate keeps the blend inside the hero. */}
     <Image
       src={portrait}
       alt="Mathew Brown"
@@ -47,17 +58,11 @@ const words = ['ux', 'ui', 'seo', 'ai']
       sizes="(min-width: 1024px) 32vw, 60vw"
       loading="eager"
       fetchpriority="high"
-      class="absolute bottom-0 right-[10%] h-[96%] w-auto lg:h-[min(93%,58vw)]"
+      class="absolute bottom-0 right-[10%] h-[96%] w-auto mix-blend-multiply lg:h-[min(93%,58vw)]"
       data-reveal="rise"
       data-reveal-on="load"
       data-reveal-delay="0.25"
     />
-    <div
-      class="absolute inset-x-0 bottom-0 top-1/2 bg-vermilion mix-blend-multiply lg:left-[33%]"
-      data-reveal="wipe"
-      data-reveal-on="load"
-    >
-    </div>
     <ArrowButton href="#what-i-do" label="Scroll to what I do" class="absolute bottom-[6%] left-6 focus-visible:outline-ink md:left-12 lg:left-[33%]" />
   </div>
 </section>

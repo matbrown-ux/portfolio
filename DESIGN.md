@@ -34,7 +34,7 @@ Source of truth: `docs/superpowers/specs/2026-10-12-design-foundation-home-desig
 - Ivory is the page. Ink is text on ivory and the background of dark sections. Vermilion is the only accent. Stone is a neutral fill.
 - There is no dark theme. Dark is a section style.
 - Small vermilion text appears only on ink. Text on a vermilion fill is ink.
-- On Home, a vermilion block with `mix-blend-mode: multiply` tints the part of a black-and-white cut-out portrait it covers, so the block samples slightly darker than brand vermilion. On About the block is a solid vermilion fill and the portrait itself multiplies onto it, so the block stays exact brand colour.
+- All three portraits (Home hero, Home About teaser, About hero) sit on a solid vermilion block, and the black-and-white cut-out itself carries `mix-blend-mode: multiply`. The portrait takes the vermilion where it overlaps the block and sits on ivory outside it, and the block is exact brand vermilion `#f86343`. Do not tint a portrait with a vermilion multiply layer over the page: that layer samples about `#ed5d3c`. The owner asked for exact vermilion on 2026-10-12.
 
 ## Type
 
