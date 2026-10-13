@@ -1,3 +1,4 @@
+import { enquirySubject } from './contactSubject'
 import { reloadOnAddressMismatch } from './reloadOnAddressMismatch'
 import { REQUIRED_CONTACT_FIELDS, serviceFromQuery, validateContactField, type ContactField } from './contactValidation'
 
@@ -19,7 +20,7 @@ const DEFAULT_TIMEOUT_MS = 15000
 
 /**
  * Enhance the contact form: inline errors on leaving a field and on submit, the `?service=`
- * preselect, an in-place send to Netlify Forms, the confirmation and the move to the thanks address. Without this script the
+ * preselect, an in-place send to Netlify Forms with an email subject that names the sender, the confirmation and the move to the thanks address. Without this script the
  * form still posts by itself and the browser validates it. Returns a cleanup function.
  */
 export function initContactForm(root: ParentNode = document, options: ContactFormOptions = {}): () => void {
@@ -122,6 +123,10 @@ export function initContactForm(root: ParentNode = document, options: ContactFor
 
     const body = new URLSearchParams()
     for (const [key, value] of new FormData(form!)) if (typeof value === 'string') body.append(key, value)
+    // The form's own subject is the plain one a send without this script uses. Here the email can name the sender.
+    if (body.has('subject')) {
+      body.set('subject', enquirySubject({ name: body.get('name') ?? '', company: body.get('company') ?? '', projectType: body.get('projectType') ?? '' }))
+    }
 
     const controller = new AbortController()
     timer = setTimeout(() => controller.abort(), timeoutMs)
