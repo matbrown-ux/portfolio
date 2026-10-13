@@ -25,9 +25,10 @@ import { disciplines } from '../../content/disciplines'
             <a
               href={`/services#${d.slug}`}
               class="type-label mt-auto self-start underline-offset-8 decoration-vermilion decoration-2 hover:underline focus-visible:underline"
-              aria-label={`See the ${d.title} service`}
             >
-              See the service <span aria-hidden="true">↗</span>
+              {/* Kept on one line: Astro drops a line break between text and an inline element. The
+                  accessible name starts with the visible words (WCAG 2.5.3) and still names the discipline. */}
+              See the service<span class="sr-only">{' '}for {d.title}</span>{' '}<span aria-hidden="true">↗</span>
             </a>
           </li>
         ))
