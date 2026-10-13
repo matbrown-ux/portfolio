@@ -15,6 +15,7 @@ interface Props {
 }
 
 const { images } = Astro.props
+const slug = Astro.params.slug
 const layout = galleryLayout(images.length)
 ---
 
@@ -23,7 +24,7 @@ const layout = galleryLayout(images.length)
     images.map((image, i) => (
       <li class:list={['relative', layout.items[i].span]} data-reveal="rise" data-reveal-index={i}>
         <MediaSlot
-          media={caseStudyMedia({ src: image.src, alt: image.alt, poster: image.poster }, `gallery image "${image.alt}"`)}
+          media={caseStudyMedia({ src: image.src, alt: image.alt, poster: image.poster }, `${slug} gallery image "${image.alt}"`)}
           tone={layout.items[i].tone}
           class="h-full"
         />

@@ -8,10 +8,10 @@ export function mediaKey(globPath: string): string {
   return globPath.slice(PREFIX.length)
 }
 
-const imageModules = import.meta.glob<{ default: ImageMetadata }>('../assets/case-studies/**/*.{png,jpg,jpeg,webp,avif,svg}', {
+const imageModules = import.meta.glob<{ default: ImageMetadata }>('../assets/case-studies/**/*.{png,jpg,jpeg,webp,avif,svg,PNG,JPG,JPEG,WEBP,AVIF,SVG}', {
   eager: true,
 })
-const videoModules = import.meta.glob<string>('../assets/case-studies/**/*.{mp4,webm}', {
+const videoModules = import.meta.glob<string>('../assets/case-studies/**/*.{mp4,webm,MP4,WEBM}', {
   eager: true,
   query: '?url',
   import: 'default',

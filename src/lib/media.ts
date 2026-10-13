@@ -38,6 +38,16 @@ const ROOT = 'src/assets/case-studies/'
 const clean = (path: string) => path.replace(/^\.?\//, '')
 
 /**
+ * The error for a path with no file. The file map holds lower-case and UPPER-CASE
+ * extensions only, so a mixed-case one such as ".Jpg" gets a hint to rename it.
+ */
+function missingFile(context: string, path: string): Error {
+  const ext = path.slice(path.lastIndexOf('.') + 1)
+  const mixed = ext !== ext.toLowerCase() && ext !== ext.toUpperCase()
+  return new Error(`${context}: no file at ${ROOT}${path}${mixed ? ' (rename it with a lower-case extension)' : ''}`)
+}
+
+/**
  * Decide what a media slot shows. A missing or mistyped file throws, naming `context`,
  * so the build stops instead of shipping a placeholder where real media was meant.
  */
@@ -50,18 +60,18 @@ export function resolveMedia<I>(ref: MediaRef, files: MediaFiles<I>, context: st
 
   if (kind === 'image') {
     const image = files.images[src]
-    if (image === undefined) throw new Error(`${context}: no file at ${ROOT}${src}`)
+    if (image === undefined) throw missingFile(context, src)
     return { kind: 'image', alt: ref.alt, image }
   }
 
   const url = files.videos[src]
-  if (url === undefined) throw new Error(`${context}: no file at ${ROOT}${src}`)
+  if (url === undefined) throw missingFile(context, src)
   if (!ref.poster) throw new Error(`${context}: the video "${src}" needs a poster image`)
 
   const posterPath = clean(ref.poster)
   if (mediaKind(posterPath) !== 'image') throw new Error(`${context}: the poster "${posterPath}" must be an image`)
   const poster = files.images[posterPath]
-  if (poster === undefined) throw new Error(`${context}: no file at ${ROOT}${posterPath}`)
+  if (poster === undefined) throw missingFile(context, posterPath)
 
   return { kind: 'video', alt: ref.alt, url, type: videoType(src), poster }
 }

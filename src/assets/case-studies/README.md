@@ -10,6 +10,7 @@ Refer to a file by its path inside this folder, for example `vamp-network/dashbo
 
 - Images: `.png`, `.jpg`, `.jpeg`, `.webp`, `.avif`, `.svg`. They are resized and converted at build time.
 - Videos: `.mp4`, `.webm`. A video must have a `poster` image.
+- Extensions can be lower case or UPPER CASE (a camera's `IMG_1234.JPG` works as it is). Mixed case such as `.Jpg` is not found: rename it.
 - A slot with no `src` shows a labelled placeholder. A `src` that does not match a file stops the build and names the path.
 
 Where media goes:

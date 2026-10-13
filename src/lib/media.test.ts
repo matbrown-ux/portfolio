@@ -83,4 +83,17 @@ describe('resolveMedia', () => {
   it('does not find files outside the folder', () => {
     expect(() => resolveMedia({ src: '../logo/mb-mark.svg', alt: 'L' }, files, 'x')).toThrow('x: no file at')
   })
+
+  it('finds a camera file with an upper-case extension when the file map has it', () => {
+    const upper = { images: { 'vamp/IMG_1.JPG': 'IMG-UPPER' }, videos: { 'vamp/CLIP.MP4': '/assets/clip.mp4' } }
+    expect(resolveMedia({ src: 'vamp/IMG_1.JPG', alt: 'A' }, upper, 'x')).toMatchObject({ kind: 'image', image: 'IMG-UPPER' })
+    expect(resolveMedia({ src: 'vamp/CLIP.MP4', alt: 'A', poster: 'vamp/IMG_1.JPG' }, upper, 'x')).toMatchObject({ kind: 'video' })
+  })
+
+  it('tells the owner to use a lower-case extension when the case is mixed and the file is not found', () => {
+    expect(() => resolveMedia({ src: 'vamp/photo.Jpg', alt: 'A' }, files, 'x')).toThrow(
+      'x: no file at src/assets/case-studies/vamp/photo.Jpg (rename it with a lower-case extension)',
+    )
+    expect(() => resolveMedia({ src: 'vamp/typo.png', alt: 'A' }, files, 'x')).toThrow(/typo\.png$/)
+  })
 })
