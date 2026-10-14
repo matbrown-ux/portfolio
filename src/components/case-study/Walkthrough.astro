@@ -28,7 +28,7 @@ const slug = Astro.params.slug
     {
       steps.map((step, i) => (
         <li class="cs-step grid items-end gap-6 xl:grid-cols-[1.5fr_1fr] xl:gap-12 xl:even:grid-cols-[1fr_1.5fr]">
-          <div class:list={['relative', i % 2 === 1 && 'xl:order-2']} data-reveal="rise">
+          <div class:list={['media-backing relative', i % 2 === 1 && 'media-backing-left xl:order-2']} data-reveal="rise">
             <MediaSlot
               media={caseStudyMedia({ src: step.src, alt: step.alt, poster: step.poster }, `${slug} walkthrough step "${step.title}"`)}
               class="aspect-[16/9.4]"

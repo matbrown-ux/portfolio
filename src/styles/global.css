@@ -157,6 +157,34 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   color: color-mix(in srgb, var(--color-ink) 70%, transparent);
 }
 
+/* An ink block of diagonal lines that sits behind a walkthrough capture, offset down and outward,
+   so a pale screenshot does not melt into the ivory page. */
+.media-backing {
+  isolation: isolate;
+}
+
+.media-backing::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0.875rem -0.875rem -0.875rem 0.875rem;
+  background: repeating-linear-gradient(135deg, var(--color-ink) 0 0.1875rem, transparent 0.1875rem 0.5625rem);
+}
+
+.media-backing-left::before {
+  inset: 0.875rem 0.875rem -0.875rem -0.875rem;
+}
+
+@media (width >= 48rem) {
+  .media-backing::before {
+    inset: 1.25rem -1.25rem -1.25rem 1.25rem;
+  }
+
+  .media-backing-left::before {
+    inset: 1.25rem 1.25rem -1.25rem -1.25rem;
+  }
+}
+
 .media-placeholder-dark {
   background:
     repeating-linear-gradient(
