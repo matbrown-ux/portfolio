@@ -81,13 +81,18 @@ const chip = 'type-label pointer-events-none absolute top-3 z-20 bg-ink px-2.5 p
               aria-label={`${person.name}'s portfolio, before and after. Scroll to see the full page.`}
             >
               <Image src={after.image} alt={after.alt} widths={[720, 1080, 1440]} sizes="(min-width: 1024px) 60vw, 100vw" class="col-start-1 row-start-1 block h-auto w-full self-start" />
-              <Image
-                src={before.image}
-                alt={before.alt}
-                widths={[720, 1080, 1440]}
-                sizes="(min-width: 1024px) 60vw, 100vw"
-                class="col-start-1 row-start-1 block h-auto w-full self-start [clip-path:inset(0_calc(100%-var(--split))_0_0)]"
-              />
+              {/* The before layer runs the full height of the longer page on its own ivory, so below a
+                  shorter old page its side of the line is plain ivory, as the after side is below a
+                  shorter new page, and the after page never shows through on the before side. */}
+              <div class="col-start-1 row-start-1 self-stretch bg-ivory [clip-path:inset(0_calc(100%-var(--split))_0_0)]">
+                <Image
+                  src={before.image}
+                  alt={before.alt}
+                  widths={[720, 1080, 1440]}
+                  sizes="(min-width: 1024px) 60vw, 100vw"
+                  class="block h-auto w-full"
+                />
+              </div>
             </div>
             <div
               class="group absolute inset-y-0 left-[var(--split)] z-10 -ml-5 flex w-10 cursor-ew-resize touch-none justify-center focus-visible:outline-hidden"
