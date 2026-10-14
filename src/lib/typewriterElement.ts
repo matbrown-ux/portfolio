@@ -47,6 +47,8 @@ export function startTypewriter(el: HTMLElement, words: string[], options: Typew
       if (isWordStart(state, frame.state)) wordStarts++
       state = frame.state
       el.textContent = state.text
+      // The caret shows from here on: before the first letter changes there is nothing being typed.
+      el.setAttribute('data-typewriter-typing', '')
       if (shouldRest(state, words, wordStarts, options.cycles)) {
         markDone(el)
         return

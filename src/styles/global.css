@@ -141,7 +141,9 @@ html.site-loading {
   visibility: hidden;
 }
 
-html.js .caret {
+/* The caret shows once the typing starts (typewriterElement.ts marks the word), not while the
+   word is still resting before its first letter changes. */
+html.js [data-typewriter][data-typewriter-typing] + .caret {
   visibility: visible;
 }
 

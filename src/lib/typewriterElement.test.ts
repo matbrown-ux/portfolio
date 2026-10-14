@@ -43,6 +43,25 @@ describe('startTypewriter', () => {
     expect(el.textContent).toBe('u')
   })
 
+  it('marks the word as typing only once its first letter changes, so the caret waits for the typing', () => {
+    const el = element()
+    startTypewriter(el, ['ux', 'ai'], { timing, startDelay: 500 })
+    vi.advanceTimersByTime(599)
+    expect(el.hasAttribute('data-typewriter-typing')).toBe(false)
+    vi.advanceTimersByTime(1)
+    expect(el.textContent).toBe('u')
+    expect(el.hasAttribute('data-typewriter-typing')).toBe(true)
+  })
+
+  it('never marks the word as typing under reduced motion', () => {
+    installMatchMedia({ [REDUCED_QUERY]: true })
+    const el = element()
+    startTypewriter(el, ['ux', 'ai'], { timing })
+    vi.advanceTimersByTime(1000)
+    expect(el.hasAttribute('data-typewriter-typing')).toBe(false)
+    installMatchMedia({})
+  })
+
   it('stops when asked', () => {
     const el = element()
     const handle = startTypewriter(el, ['ux', 'ai'], { timing })
