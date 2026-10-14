@@ -12,6 +12,8 @@ export interface TypewriterOptions {
   timing?: TypewriterTiming
   /** Milliseconds to wait before the first hold begins. */
   startDelay?: number
+  /** Milliseconds the first word holds before it is deleted, in place of the timing's hold. */
+  firstHold?: number
   /** Full passes through the words before resting on the first one. Omit to loop forever. */
   cycles?: number
 }
@@ -40,7 +42,8 @@ export function startTypewriter(el: HTMLElement, words: string[], options: Typew
   let wordStarts = 0
   el.textContent = state.text
 
-  const schedule = () => {
+  /** Show the next frame after its own delay, or after `delay` when one is given. */
+  const schedule = (delay?: number) => {
     const frame = nextTypewriterFrame(state, words, timing)
     timer = setTimeout(() => {
       if (stopped) return
@@ -54,10 +57,12 @@ export function startTypewriter(el: HTMLElement, words: string[], options: Typew
         return
       }
       schedule()
-    }, frame.delay)
+    }, delay ?? frame.delay)
   }
 
-  timer = setTimeout(schedule, options.startDelay ?? 0)
+  // A set first hold replaces the hold on the first word, so its wait and the start delay are one.
+  if (options.firstHold !== undefined) schedule((options.startDelay ?? 0) + options.firstHold)
+  else timer = setTimeout(() => schedule(), options.startDelay ?? 0)
 
   return {
     stop() {

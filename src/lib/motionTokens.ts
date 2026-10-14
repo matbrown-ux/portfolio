@@ -68,6 +68,8 @@ export const HERO_ENTRANCE = {
   label: 0.9,
   /** A case study's script art, which sits on the client name. */
   art: 0.85,
+  /** Seconds the typed word rests after rising into place before the typing starts. */
+  typeAfterRest: 0.75,
   header: 1.35,
   strip: 1.35,
   /** Seconds between one "What I do" box and the next. */

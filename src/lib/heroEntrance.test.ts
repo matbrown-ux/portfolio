@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { HERO_ENTRANCE, PAGE_ENTRANCE, headerReveal, stripReveal } from './heroEntrance'
+import { DURATION } from './motionTokens'
+import { HERO_ENTRANCE, PAGE_ENTRANCE, headerReveal, stripReveal, typingStartsAt } from './heroEntrance'
 
 describe('HERO_ENTRANCE', () => {
   it('brings the hero in in order: block and portrait, then 001 and the word, then the copy left to right', () => {
@@ -69,5 +70,12 @@ describe('stripReveal', () => {
       'data-reveal-step': HERO_ENTRANCE.stripStep,
     })
     expect(stripReveal(0, PAGE_ENTRANCE)['data-reveal-delay']).toBe(PAGE_ENTRANCE.strip)
+  })
+})
+
+describe('typingStartsAt', () => {
+  it('is three quarters of a second after the word has finished rising into place', () => {
+    expect(HERO_ENTRANCE.typeAfterRest).toBe(0.75)
+    expect(typingStartsAt()).toBeCloseTo(HERO_ENTRANCE.word + DURATION.slow + 0.75, 5)
   })
 })

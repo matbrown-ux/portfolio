@@ -88,11 +88,12 @@ const words = ['ux', 'ui', 'seo', 'ai']
   import { parseWords } from '../../lib/typewriter'
   import { startTypewriter } from '../../lib/typewriterElement'
   import { whenPageRevealed } from '../../lib/siteLoader'
+  import { typingStartsAt } from '../../lib/heroEntrance'
 
-  // Start after the block has wiped in and the portrait has risen, which waits for the loader.
+  // The entrance waits for the loader; the typing starts once the word has risen into place and rested.
   whenPageRevealed().then(() => {
     document.querySelectorAll<HTMLElement>('[data-typewriter]').forEach((el) => {
-      startTypewriter(el, parseWords(el.dataset.words), { startDelay: 1400, cycles: 2 })
+      startTypewriter(el, parseWords(el.dataset.words), { startDelay: typingStartsAt() * 1000, firstHold: 0, cycles: 2 })
     })
   })
 </script>

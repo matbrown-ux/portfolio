@@ -1,4 +1,4 @@
-import { HERO_ENTRANCE, PAGE_ENTRANCE } from './motionTokens'
+import { DURATION, HERO_ENTRANCE, PAGE_ENTRANCE } from './motionTokens'
 
 export { HERO_ENTRANCE, PAGE_ENTRANCE }
 
@@ -22,4 +22,12 @@ export function stripReveal(index: number, entrance: { strip: number; stripStep:
     'data-reveal-index': index,
     'data-reveal-step': entrance.stripStep,
   }
+}
+
+/**
+ * Seconds into the hero's entrance when the typed word's first letter changes: the word rises in
+ * (a reveal takes DURATION.slow), rests for typeAfterRest, then the typing starts.
+ */
+export function typingStartsAt(): number {
+  return HERO_ENTRANCE.word + DURATION.slow + HERO_ENTRANCE.typeAfterRest
 }
