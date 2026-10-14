@@ -8,6 +8,7 @@ import Chapter from '../../components/case-study/Chapter.astro'
 import PullQuote from '../../components/case-study/PullQuote.astro'
 import Walkthrough from '../../components/case-study/Walkthrough.astro'
 import Gallery from '../../components/case-study/Gallery.astro'
+import BeforeAfter from '../../components/case-study/BeforeAfter.astro'
 import Outcome from '../../components/case-study/Outcome.astro'
 import ContactBand from '../../components/sections/ContactBand.astro'
 import { caseStudyPageNodes } from '../../lib/structuredData'
@@ -28,7 +29,7 @@ const next = nextCaseStudy(all, entry.id)
   <CaseStudyHero entry={entry} number={caseStudyNumber(all, entry.id)} />
   <AtAGlance entry={entry} />
   <div class="cs-body">
-    <Content components={{ Chapter, PullQuote, Walkthrough, Gallery, Outcome }} />
+    <Content components={{ Chapter, PullQuote, Walkthrough, Gallery, Outcome, BeforeAfter }} />
   </div>
   {next && <NextProject entry={next} />}
   <ContactBand />
