@@ -1,6 +1,6 @@
 # Scheduled article routine
 
-A cloud routine runs this file on Monday, Wednesday and Friday. Each run writes ONE blog article from the topical map, and opens a pull request for the owner to review. It never merges, and it never pushes to `main`.
+A cloud routine runs this file on Monday, Wednesday and Friday. Each run writes ONE blog article from the topical map, with a brief for two or three supporting images, and opens a pull request for the owner to review. It never merges, and it never pushes to `main`: an article reaches matbrown.io only when the owner merges its pull request.
 
 Read `CLAUDE.md` sections 2, 3 and 5 before you write. Every rule there applies. The rules below repeat the ones that matter most, and add the ones specific to this job.
 
@@ -43,19 +43,40 @@ Read `CLAUDE.md` sections 2, 3 and 5 before you write. Every rule there applies.
   - Be specific: name the tool, the property, the number and its source.
 - MDX: comments are `{/* ... */}`, never `<!-- -->`.
 
-## 4. Check it
+## 4. Plan the images
+
+The owner generates the images himself in Codex, so this run writes a brief, not image files.
+
+1. Choose two or three places where a picture helps the reader understand something: a process, a comparison, a structure, a before and after of a pattern. Skip decoration. Never put an image directly under the opening answer paragraph.
+2. At each place, put an MDX comment on its own line: `{/* IMAGE <n>: <one line saying what it shows> */}`. Comments do not render, so the article builds and reads fine before the images exist.
+3. Write `docs/content/image-briefs/<slug>.md` with, for each image:
+   - `File`: `src/content/blog/<topic>/images/<slug>-<n>.png`
+   - `Placement`: the heading it sits under and the marker comment it replaces
+   - `Alt text`: one plain sentence saying what the image shows, no dashes
+   - `Prompt`: a self-contained prompt for GPT Image, written to the style below
+   - `Size`: 1536 x 1024 (landscape) unless a tall diagram needs 1024 x 1536
+4. End the brief with the steps for whoever adds the images (the owner in Codex, or Claude in a local session): save each image to its `File` path, replace each marker with `![<alt text>](./images/<slug>-<n>.png)`, run `npm run build`, and commit to this pull request's branch. Astro converts the PNG files to WebP at build time.
+
+**Image style (put it in every prompt):** flat editorial illustration in a brutalist style on a warm ivory ground (#F4F0E6), with near-black ink (#0C0C0C) linework and solid shapes and a single vermilion accent (#F86343); no other colours, no gradients, square corners, thick outlines. It may mix wireframe (outlined boxes, placeholder lines) with comic book touches (offset ink shadows, halftone dots, speed lines). Diagrams, abstract interface wireframes, objects and metaphors only.
+
+**Never ask for:** text, labels or numbers inside the image (generated lettering is unreliable; put words in the article instead); real people or anyone's likeness; real logos or brand marks; screenshots, dashboards or charts that look like real data; any client's product, site or interface, which would read as a fabricated capture of real work.
+
+## 5. Check it
 
 1. `npm ci` (only on the first command of the run), then `npm run build`. The build runs `scripts/check-dist`, which fails on dashes, a missing title or description, and broken pages. Fix the article until the build passes.
 2. Read the article once more as an editor: cut filler, check that each `h2` answer stands on its own, and confirm that every claim has a source or comes from the owner's case studies.
 
-## 5. Ship it as a pull request
+## 6. Ship it as a pull request
 
 1. Branch `article/<slug>` from `origin/main`.
 2. In `docs/content/topical-map.json`, set this article's `status` to `in-review` and `branch` to the branch name.
-3. Commit the article and the map change together with the message `content: article "<title>"`, ending with the line `Co-Authored-By: Claude <noreply@anthropic.com>`. Never use `--no-verify` or bypass hooks.
-4. Push the branch and open a pull request against `main`, titled `Article: <title>`. The body lists: the topic, primary keyword, relevancy and difficulty scores, the questions answered, every external source used, and anything the owner should check (an opinion stated in his voice, a claim about his own work). Netlify posts a deploy preview link on the pull request.
-5. Do not merge. The owner merges it, which publishes the article.
+3. Commit the article, the image brief and the map change together with the message `content: article "<title>"`, ending with the line `Co-Authored-By: Claude <noreply@anthropic.com>`. Never use `--no-verify` or bypass hooks.
+4. Push the branch and open a pull request against `main`, titled `Article: <title>`. The body lists: the topic, primary keyword, relevancy and difficulty scores, the questions answered, every external source used, and anything the owner should check (an opinion stated in his voice, a claim about his own work). Netlify posts a deploy preview link on the pull request. Add a checklist at the end of the body:
+   - `[ ] Images generated and added (brief: docs/content/image-briefs/<slug>.md)`
+   - `[ ] Read on the deploy preview`
+   - `[ ] Facts and first-hand claims checked`
+5. Do not merge. The owner reviews the deploy preview, asks for changes if he wants them, adds the images, and merges it himself, which publishes the article.
 
-## 6. After the owner merges
+## 7. After the owner merges
 
 When an article's pull request is merged, its row's `status` is still `in-review` on `main`. At the start of each run, set `status` to `published` for every `in-review` row whose file now exists on `main`, and include that map change in this run's pull request.
