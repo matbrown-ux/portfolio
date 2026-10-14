@@ -15,6 +15,8 @@ interface Step {
   alt: string
   src?: string
   poster?: string
+  /** The placeholder's second line while the step has no capture. */
+  note?: string
   /** The name of an animated illustration to show in place of a capture. */
   art?: keyof typeof ART
 }
@@ -44,6 +46,7 @@ const slug = Astro.params.slug
               <MediaSlot
                 media={caseStudyMedia({ src: step.src, alt: step.alt, poster: step.poster }, `${slug} walkthrough step "${step.title}"`)}
                 frame="browser"
+                note={step.note}
                 areaClass="aspect-[16/9.4]"
                 sizes="(min-width: 1280px) 58vw, 100vw"
               />

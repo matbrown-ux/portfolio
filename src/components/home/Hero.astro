@@ -36,11 +36,10 @@ const words = ['ux', 'ui', 'seo', 'ai']
     </p>
   </div>
 
-  <div class="absolute right-6 top-28 md:right-12 lg:top-[14%]" data-reveal="rise" data-reveal-on="load" data-reveal-delay={HERO_ENTRANCE.label}>
-    <VerticalLabel class="border-r-2 border-ink pr-2 lg:text-sm">
-      Mathew Brown<br />Freelance<br />Available 2026
-    </VerticalLabel>
-  </div>
+  {/* Positioned itself, like the other pages' labels: iOS WebKit sizes a positioned wrapper around it one line wide. */}
+  <VerticalLabel class="absolute right-6 top-28 border-r-2 border-ink pr-2 md:right-12 lg:top-[14%] lg:text-sm" data-reveal="rise" data-reveal-on="load" data-reveal-delay={HERO_ENTRANCE.label}>
+    Mathew Brown<br />Freelance<br />Available 2026
+  </VerticalLabel>
 
   <p
     class="font-display absolute bottom-[6%] left-12 hidden rotate-180 text-[clamp(3rem,6.6vw,6.5rem)] leading-none [writing-mode:vertical-rl] lg:block"

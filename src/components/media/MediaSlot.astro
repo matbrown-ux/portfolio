@@ -15,12 +15,14 @@ interface Props {
   sizes?: string
   /** Classes for the media area alone, under the browser bar: its shape, for example. */
   areaClass?: string
+  /** The second line of a placeholder, for a reader of the published page. */
+  note?: string
   class?: string
   /** Any other attribute, such as a data-reveal, goes on the slot's outer element. */
   [attribute: `data-${string}`]: string | number | undefined
 }
 
-const { media, tone = 'light', frame, url, eager = false, sizes = '(min-width: 1024px) 50vw, 100vw', areaClass, class: className, ...rest } = Astro.props
+const { media, tone = 'light', frame, url, eager = false, note = 'Screenshot, recording or photo to come', sizes = '(min-width: 1024px) 50vw, 100vw', areaClass, class: className, ...rest } = Astro.props
 ---
 
 <div class:list={['flex flex-col', frame === 'browser' && 'border-2 border-ink bg-ivory', className]} {...rest}>
@@ -43,11 +45,11 @@ const { media, tone = 'light', frame, url, eager = false, sizes = '(min-width: 1
             tone === 'dark' ? 'media-placeholder-dark' : 'media-placeholder',
           ]}
           role="img"
-          aria-label={`Placeholder: ${media.alt}`}
+          aria-label={`${media.alt}. ${note}`}
         >
           <p>
             {media.alt}
-            <span class="mt-1 block font-medium">Screenshot, recording or photo to come</span>
+            <span class="mt-1 block font-medium">{note}</span>
           </p>
         </div>
       )
