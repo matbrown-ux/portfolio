@@ -30,7 +30,8 @@ const caseStudies = defineCollection({
     liveUrl: z.url().optional(),
     result: z.string(),
     heroNote: z.string().optional(),
-    media: z.strictObject({ hero: mediaRef.optional(), tile: mediaRef.optional() }).optional(),
+    // hero: the case study's own hero; tile: a Home tile (none at present); work: the Work index row.
+    media: z.strictObject({ hero: mediaRef.optional(), tile: mediaRef.optional(), work: mediaRef.optional() }).optional(),
   }),
 })
 

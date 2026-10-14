@@ -12,8 +12,8 @@ interface Props {
 
 const { row, titleEm } = Astro.props
 const { title, headline, result, role, year, media } = row.entry.data
-// The Work index uses the hero media; a row without it shows the labelled placeholder.
-const slot = caseStudyMedia(media?.hero ?? { alt: `${title} hero capture` }, `${row.entry.id} work row`)
+// The Work index uses the image made for it, else the hero media; a row with neither shows the labelled placeholder.
+const slot = caseStudyMedia(media?.work ?? media?.hero ?? { alt: `${title} hero capture` }, `${row.entry.id} work row`)
 
 // Small vermilion text is only allowed on ink, so only the ink row has a vermilion number.
 // The stone row's media is outlined: where it breaks out of the vermilion block it sits on stone.
