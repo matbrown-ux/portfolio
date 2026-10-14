@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { act } from 'react'
 import { describe, expect, it } from 'vitest'
@@ -80,8 +80,11 @@ describe('MobileMenu', () => {
     const { user, toggle } = setup()
     await user.click(toggle)
     await user.keyboard('{Escape}')
-    expect(screen.queryByRole('link')).not.toBeInTheDocument()
     expect(toggle).toHaveFocus()
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    // The panel stays, inert, while it animates out, then leaves the page.
+    expect(document.getElementById('mobile-menu')).toHaveAttribute('inert')
+    await waitFor(() => expect(screen.queryByRole('link')).not.toBeInTheDocument())
   })
 
   it('locks page scroll while open and restores the previous value', async () => {
@@ -106,6 +109,12 @@ describe('MobileMenu', () => {
     expect(toggle).toHaveFocus()
     await user.tab({ shift: true })
     expect(screen.getByRole('link', { name: /Start a project/ })).toHaveFocus()
+  })
+
+  it('marks each link, the call to action and the profile icons to animate in one after another', async () => {
+    const { user, toggle } = setup()
+    await user.click(toggle)
+    expect(document.querySelectorAll('#mobile-menu [data-menu-item]')).toHaveLength(links.length + 1)
   })
 
   it('lets the panel scroll its own content so short viewports can reach every link', async () => {
