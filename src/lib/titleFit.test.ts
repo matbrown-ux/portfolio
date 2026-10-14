@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { heroNameFit, titleFit } from './titleFit'
+import { heroNameFit, sharedTitleEm, titleFit, wordEm } from './titleFit'
 
 describe('titleFit', () => {
   it('leaves the three current titles at full size in the hero and the Work rows', () => {
@@ -54,5 +54,29 @@ describe('heroNameFit', () => {
 
   it('moves to the column for a name with short words that is only too tall', () => {
     expect(heroNameFit('Alpha Bravo Charlie Delta')).toEqual({ fit: 1, fitLg: 0.7, column: true })
+  })
+})
+
+describe('wordEm', () => {
+  it('is the width of a word set in Anton, in em, to within a few hundredths of the browser', () => {
+    // Measured in Chrome at 100px: OPTIMIZATION 5.043em, NETWORK 3.452em, WAFFLES 3.252em.
+    expect(wordEm('OPTIMIZATION')).toBeCloseTo(5.043, 1)
+    expect(wordEm('Network')).toBeCloseTo(3.452, 1)
+    expect(wordEm('waffles')).toBeCloseTo(3.252, 1)
+  })
+
+  it('counts a character it has no width for as the widest letter, so a word is never under-measured', () => {
+    expect(wordEm('é')).toBe(wordEm('M'))
+  })
+})
+
+describe('sharedTitleEm', () => {
+  it('is the longest word across every title, with a little room to spare', () => {
+    const titles = ['Portfolio Optimization', 'Vamp Network', "'Aiwi Waffles"]
+    expect(sharedTitleEm(titles)).toBeCloseTo(wordEm('OPTIMIZATION') * 1.04, 5)
+  })
+
+  it('does not change with the order of the titles', () => {
+    expect(sharedTitleEm(['Vamp Network', 'Portfolio Optimization'])).toBe(sharedTitleEm(['Portfolio Optimization', 'Vamp Network']))
   })
 })
