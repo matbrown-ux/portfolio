@@ -1,10 +1,10 @@
-import { gsap } from './gsap'
+import { gsap, type ScrollTrigger } from './gsap'
 import { DURATION, EASE, prefersReducedMotion, STAGGER } from './motionTokens'
 import { loaderActive, whenPageRevealed } from './siteLoader'
 
-export type RevealKind = 'rise' | 'wipe' | 'fade' | 'slide'
+export type RevealKind = 'rise' | 'wipe' | 'fade' | 'slide' | 'slide-right'
 
-const KINDS: readonly RevealKind[] = ['rise', 'wipe', 'fade', 'slide']
+const KINDS: readonly RevealKind[] = ['rise', 'wipe', 'fade', 'slide', 'slide-right']
 
 export interface RevealConfig {
   kind: RevealKind
@@ -41,7 +41,7 @@ export function parseReveal(el: HTMLElement): RevealConfig | null {
 /** Pixels a rise starts below its resting position. */
 const RISE_DISTANCE = 32
 
-/** Pixels a slide starts to the left of its resting position. */
+/** Pixels a slide starts to the side of its resting position: left for a slide, right for a slide-right. */
 const SLIDE_DISTANCE = 48
 
 export function revealTween(kind: RevealKind): { from: gsap.TweenVars; to: gsap.TweenVars } {
@@ -56,6 +56,7 @@ export function revealTween(kind: RevealKind): { from: gsap.TweenVars; to: gsap.
   // leaves it there, which a wipe on a rotated piece of script art has no reason to do.
   if (kind === 'rise') return { from: { opacity: 0, y: RISE_DISTANCE }, to: { opacity: 1, y: 0, force3D: false } }
   if (kind === 'slide') return { from: { opacity: 0, x: -SLIDE_DISTANCE }, to: { opacity: 1, x: 0, force3D: false } }
+  if (kind === 'slide-right') return { from: { opacity: 0, x: SLIDE_DISTANCE }, to: { opacity: 1, x: 0, force3D: false } }
   return { from: { opacity: 0 }, to: { opacity: 1 } }
 }
 
@@ -66,7 +67,7 @@ export function revealTween(kind: RevealKind): { from: gsap.TweenVars; to: gsap.
  */
 export function revealClearProps(kind: RevealKind): string {
   if (kind === 'wipe') return 'clipPath'
-  return kind === 'rise' || kind === 'slide' ? 'opacity,transform' : 'opacity'
+  return kind === 'rise' || kind === 'slide' || kind === 'slide-right' ? 'opacity,transform' : 'opacity'
 }
 
 /**
@@ -77,6 +78,17 @@ export function revealClearProps(kind: RevealKind): string {
  */
 export function revealStart(kind: RevealKind): string {
   return kind === 'rise' ? `top-=${RISE_DISTANCE} 85%` : 'top 85%'
+}
+
+/**
+ * The scroll trigger for a reveal: its own, or, with data-reveal-follow naming another element's
+ * id, that element's, so the two start together wherever each sits on the page.
+ */
+function scrollTriggerFor(el: HTMLElement, kind: RevealKind): ScrollTrigger.Vars {
+  const followed = el.dataset.revealFollow ? document.getElementById(el.dataset.revealFollow) : null
+  const followedKind = followed ? parseReveal(followed)?.kind : undefined
+  if (followed && followedKind) return { trigger: followed, start: revealStart(followedKind), once: true }
+  return { trigger: el, start: revealStart(kind), once: true }
 }
 
 /** Set on <html> once reveals no longer need the stylesheet to hold them hidden. */
@@ -124,7 +136,7 @@ export function initReveals(root: ParentNode = document): () => void {
         // for a frame once the stylesheet's hold is released.
         lazy: false,
         clearProps: revealClearProps(config.kind),
-        scrollTrigger: config.onLoad ? undefined : { trigger: el, start: revealStart(config.kind), once: true },
+        scrollTrigger: config.onLoad ? undefined : scrollTriggerFor(el, config.kind),
         paused: config.onLoad && holdForLoader,
       })
       if (config.onLoad && holdForLoader) whenPageRevealed().then(() => tween.play())

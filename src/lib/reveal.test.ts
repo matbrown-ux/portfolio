@@ -127,6 +127,15 @@ describe('the slide', () => {
   })
 })
 
+describe('the slide from the right', () => {
+  it('fades in from the right, moving only sideways, without 3D promotion', () => {
+    expect(revealTween('slide-right')).toEqual({ from: { opacity: 0, x: 48 }, to: { opacity: 1, x: 0, force3D: false } })
+    expect(revealClearProps('slide-right')).toBe('opacity,transform')
+    expect(revealStart('slide-right')).toBe('top 85%')
+    expect(parseReveal(el({ 'data-reveal': 'slide-right' }))?.kind).toBe('slide-right')
+  })
+})
+
 describe('revealClearProps', () => {
   it('clears exactly the properties each kind animates', () => {
     expect(revealClearProps('wipe')).toBe('clipPath')
@@ -189,6 +198,26 @@ describe('initReveals', () => {
     const [tween] = gsap.getTweensOf(node)
     expect(tween.scrollTrigger).toBeDefined()
     expect(tween.delay()).toBeCloseTo(STAGGER)
+    cleanup()
+  })
+
+  it('fires a reveal that follows another element on that element\'s scroll trigger', () => {
+    const heading = el({ 'data-reveal': 'rise', id: 'row-title' })
+    const image = el({ 'data-reveal': 'slide-right', 'data-reveal-follow': 'row-title' })
+    const cleanup = initReveals()
+    const own = gsap.getTweensOf(heading)[0].vars.scrollTrigger as ScrollTrigger.Vars
+    const followed = gsap.getTweensOf(image)[0].vars.scrollTrigger as ScrollTrigger.Vars
+    expect(followed.trigger).toBe(heading)
+    expect(followed.start).toBe(own.start)
+    cleanup()
+  })
+
+  it('falls back to its own trigger when the element it follows is missing', () => {
+    const image = el({ 'data-reveal': 'slide', 'data-reveal-follow': 'nowhere' })
+    const cleanup = initReveals()
+    const trigger = gsap.getTweensOf(image)[0].vars.scrollTrigger as ScrollTrigger.Vars
+    expect(trigger.trigger).toBe(image)
+    expect(trigger.start).toBe('top 85%')
     cleanup()
   })
 
