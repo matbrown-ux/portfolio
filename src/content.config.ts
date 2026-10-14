@@ -19,6 +19,8 @@ const caseStudies = defineCollection({
     headline: z.string(),
     summary: z.string(),
     date: z.coerce.date(),
+    /** Position in the owner's order of case studies; ones without it follow, newest first. */
+    order: z.number().int().positive().optional(),
     year: z.string(),
     tags: z.array(z.string()).min(1),
     services: z.array(z.string()).default([]),

@@ -16,6 +16,20 @@ describe('sortCaseStudies', () => {
   })
 })
 
+describe('sortCaseStudies with a set order', () => {
+  const ordered = (id: string, date: string, order?: number) => ({ id, data: { title: id, date: new Date(date), order } })
+
+  it('puts case studies with an order first, lowest number first, whatever their dates', () => {
+    const entries = [ordered('portfolio', '2026-07-31', 3), ordered('aiwi', '2025-11-01', 1), ordered('vamp', '2026-04-01', 2)]
+    expect(sortCaseStudies(entries).map((e) => e.id)).toEqual(['aiwi', 'vamp', 'portfolio'])
+  })
+
+  it('follows them with the ones that have no order, newest first', () => {
+    const entries = [ordered('older', '2025-01-01'), ordered('pinned', '2024-01-01', 1), ordered('newer', '2026-01-01')]
+    expect(sortCaseStudies(entries).map((e) => e.id)).toEqual(['pinned', 'newer', 'older'])
+  })
+})
+
 describe('workRows', () => {
   it('numbers rows, cycles the three surfaces and alternates the media side', () => {
     const four = [...three, entry('oldest', '2024-01-01')]

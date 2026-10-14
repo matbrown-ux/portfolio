@@ -1,12 +1,21 @@
 export interface CaseStudyEntry {
   /** The case study slug. */
   id: string
-  data: { title: string; date: Date }
+  data: { title: string; date: Date; order?: number }
 }
 
-/** Newest first, with the id as a stable tiebreak. Does not reorder the input. */
+/**
+ * The owner's order: case studies with an `order` first, lowest number first, then the rest newest
+ * first, with the id as a stable tiebreak. Does not reorder the input.
+ */
 export function sortCaseStudies<T extends CaseStudyEntry>(entries: T[]): T[] {
-  return [...entries].sort((a, b) => b.data.date.getTime() - a.data.date.getTime() || a.id.localeCompare(b.id))
+  const rank = (entry: T) => entry.data.order ?? Number.POSITIVE_INFINITY
+  return [...entries].sort(
+    (a, b) =>
+      (rank(a) === rank(b) ? 0 : rank(a) < rank(b) ? -1 : 1) ||
+      b.data.date.getTime() - a.data.date.getTime() ||
+      a.id.localeCompare(b.id),
+  )
 }
 
 export type RowSurface = 'stone' | 'ink' | 'ivory'
