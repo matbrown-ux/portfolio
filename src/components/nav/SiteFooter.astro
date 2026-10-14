@@ -10,12 +10,17 @@ const profiles = profileLinks()
   <div class="mx-auto flex max-w-[1600px] flex-col gap-8 px-6 py-8 md:flex-row md:items-center md:gap-8 md:px-12 lg:gap-12">
     <a href="/" aria-label="Mathew Brown, home" class="block w-16"><Logo /></a>
     <nav aria-label="Footer">
-      <ul role="list" class="flex flex-wrap gap-x-10 gap-y-3 md:gap-x-6 lg:gap-x-10">
+      {/* On a phone the links stack as display type, one to a row, like the mobile menu; from md up they sit in one line of labels. */}
+      <ul role="list" class="divide-y divide-ivory/20 md:flex md:flex-wrap md:gap-x-6 md:gap-y-3 md:divide-y-0 lg:gap-x-10">
         {
           footerNav.map(({ label, href }) => (
             <li>
-              <a href={href} class="type-label underline-offset-8 decoration-vermilion decoration-2 hover:underline">
+              <a
+                href={href}
+                class="group flex items-center justify-between py-3 text-[clamp(2.25rem,11vw,3rem)] max-md:type-display md:type-label md:py-0 md:underline-offset-8 md:decoration-vermilion md:decoration-2 md:hover:underline max-md:focus-visible:outline-ivory"
+              >
                 {label}
+                <span aria-hidden="true" class="font-sans text-[0.5em] text-vermilion transition-colors duration-200 group-hover:text-ivory md:hidden">→</span>
               </a>
             </li>
           ))
