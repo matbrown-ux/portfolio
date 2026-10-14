@@ -82,9 +82,8 @@ export const disciplines: Discipline[] = [
       'Tool integration',
       'Workflow design',
     ],
-    proofSlug: 'the-booking-flow',
+    proofSlug: 'vamp-network',
   },
-  // TODO: owner review (drafted from the 'Aiwi Waffles, The Booking Flow, and Vamp Network case studies)
   {
     number: '04',
     slug: 'brand-development',
@@ -100,7 +99,6 @@ export const disciplines: Discipline[] = [
     skills: ['Logo design', 'Visual identity systems', 'Brand messaging', 'Signage', 'Merchandise design', 'Graphic design'],
     proofSlug: 'aiwi-waffles',
   },
-  // TODO: owner review (drafted from The Booking Flow and Vamp Network case studies)
   {
     number: '05',
     slug: 'saas-development',
@@ -114,6 +112,6 @@ export const disciplines: Discipline[] = [
     ],
     cta: 'Build my SaaS',
     skills: ['React & Vite', 'Supabase', 'Authentication', 'API integrations', 'Dashboard design', 'Marketing sites'],
-    proofSlug: 'the-booking-flow',
+    proofSlug: 'aiwi-waffles',
   },
 ]

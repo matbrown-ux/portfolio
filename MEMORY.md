@@ -5,6 +5,8 @@
 
 ## Astro rebuild (read first, supersedes the roadmap below)
 
+> **2026-10-13: The Booking Flow case study was removed at the owner's request** (nothing shareable; the project stalled). It is replaced by `portfolio-optimization` (a Vamp Network service). Vamp Network's campaign analytics was never built and must not be claimed. Older notes below that mention The Booking Flow describe the site before this change.
+
 On 2026-10-12 the owner decided to redesign the site completely and move to their preferred stack: **Astro + React islands + Tailwind v4 + GSAP**. The rebuild is a clean scaffold on `feat/astro-rebuild` (branched from the old app's last commit, `0bfb10a`). Everything below this section describes the old React + Vite app. Its branches (`feat/interaction-case-studies`, `feat/work-index`, `feat/site-pass`) were deleted on 2026-10-12 because the owner does not want the old design; the code is still in this branch's history. Use `git show 0bfb10a:<path>` as the reference to port from, not as a description of this branch.
 
 **What exists now (sub-project 1):** Astro 7 static output with `site: https://matbrown.io`, `@astrojs/react`, `@astrojs/mdx`, `@astrojs/sitemap`, Tailwind v4 via `@tailwindcss/vite`, `gsap` + `@gsap/react`, Vitest 5 + jsdom + Testing Library (setup in `src/test/setup.ts`), and `astro check` as `npm run typecheck`.
