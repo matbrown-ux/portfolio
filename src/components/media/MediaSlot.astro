@@ -13,13 +13,17 @@ interface Props {
   /** Load an image straight away (the case study hero). */
   eager?: boolean
   sizes?: string
+  /** Classes for the media area alone, under the browser bar: its shape, for example. */
+  areaClass?: string
   class?: string
+  /** Any other attribute, such as a data-reveal, goes on the slot's outer element. */
+  [attribute: `data-${string}`]: string | number | undefined
 }
 
-const { media, tone = 'light', frame, url, eager = false, sizes = '(min-width: 1024px) 50vw, 100vw', class: className } = Astro.props
+const { media, tone = 'light', frame, url, eager = false, sizes = '(min-width: 1024px) 50vw, 100vw', areaClass, class: className, ...rest } = Astro.props
 ---
 
-<div class:list={['flex flex-col', frame === 'browser' && 'border-2 border-ink bg-ivory', className]}>
+<div class:list={['flex flex-col', frame === 'browser' && 'border-2 border-ink bg-ivory', className]} {...rest}>
   {
     frame === 'browser' && (
       <div class="type-label flex items-center gap-1.5 border-b-2 border-ink px-3 py-2 font-medium normal-case tracking-normal" aria-hidden="true">
@@ -30,7 +34,7 @@ const { media, tone = 'light', frame, url, eager = false, sizes = '(min-width: 1
       </div>
     )
   }
-  <div class="relative min-h-0 flex-1">
+  <div class:list={['relative min-h-0 flex-1', areaClass]}>
     {
       media.kind === 'placeholder' && (
         <div

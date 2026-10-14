@@ -3,6 +3,7 @@ import { installMatchMedia, REDUCED_QUERY } from '../test/matchMedia'
 import { gsap, ScrollTrigger } from './gsap'
 import { STAGGER } from './motionTokens'
 import { initReveals, parseReveal, revealClearProps, revealStart, revealTween } from './reveal'
+import { LOADING_CLASS, REVEAL_EVENT } from './siteLoader'
 
 afterEach(() => {
   document.body.innerHTML = ''
@@ -58,6 +59,16 @@ describe('parseReveal', () => {
     }
   })
 
+  it('takes a step other than STAGGER between indexes from data-reveal-step', () => {
+    const node = el({ 'data-reveal': 'slide', 'data-reveal-delay': '1', 'data-reveal-index': '3', 'data-reveal-step': '0.12' })
+    expect(parseReveal(node)?.delay).toBeCloseTo(1 + 3 * 0.12)
+  })
+
+  it('reads a first-screen reveal as a load reveal that keeps only its stagger if it falls back to scroll', () => {
+    const node = el({ 'data-reveal': 'slide', 'data-reveal-on': 'first-screen', 'data-reveal-delay': '1.3', 'data-reveal-index': '2' })
+    expect(parseReveal(node)).toEqual({ kind: 'slide', delay: 1.3 + 2 * STAGGER, onLoad: true, scrollDelay: 2 * STAGGER })
+  })
+
   it('ignores unknown kinds and missing attributes', () => {
     expect(parseReveal(el({ 'data-reveal': 'spin' }))).toBeNull()
     expect(parseReveal(el({}))).toBeNull()
@@ -108,6 +119,23 @@ describe('revealTween', () => {
   })
 })
 
+describe('the slide', () => {
+  it('fades in from the left, moving only sideways, without 3D promotion', () => {
+    expect(revealTween('slide')).toEqual({ from: { opacity: 0, x: -48 }, to: { opacity: 1, x: 0, force3D: false } })
+    expect(revealClearProps('slide')).toBe('opacity,transform')
+    expect(revealStart('slide')).toBe('top 85%')
+  })
+})
+
+describe('the slide from the right', () => {
+  it('fades in from the right, moving only sideways, without 3D promotion', () => {
+    expect(revealTween('slide-right')).toEqual({ from: { opacity: 0, x: 48 }, to: { opacity: 1, x: 0, force3D: false } })
+    expect(revealClearProps('slide-right')).toBe('opacity,transform')
+    expect(revealStart('slide-right')).toBe('top 85%')
+    expect(parseReveal(el({ 'data-reveal': 'slide-right' }))?.kind).toBe('slide-right')
+  })
+})
+
 describe('revealClearProps', () => {
   it('clears exactly the properties each kind animates', () => {
     expect(revealClearProps('wipe')).toBe('clipPath')
@@ -138,6 +166,65 @@ describe('initReveals', () => {
     const node = el({ 'data-reveal': 'fade', 'data-reveal-on': 'load' })
     const cleanup = initReveals()
     expect(node.style.opacity).toBe('0')
+    cleanup()
+  })
+
+  it('holds a load reveal at its start state until the site loader lifts, then plays it', async () => {
+    document.documentElement.classList.add(LOADING_CLASS)
+    const node = el({ 'data-reveal': 'fade', 'data-reveal-on': 'load' })
+    const cleanup = initReveals()
+    const [tween] = gsap.getTweensOf(node)
+    expect(node.style.opacity).toBe('0')
+    expect(tween.paused()).toBe(true)
+    document.dispatchEvent(new Event(REVEAL_EVENT))
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(tween.paused()).toBe(false)
+    cleanup()
+  })
+
+  it('plays a first-screen reveal with the load sequence when it is on screen', () => {
+    const node = el({ 'data-reveal': 'slide', 'data-reveal-on': 'first-screen', 'data-reveal-delay': '1.3' })
+    const cleanup = initReveals()
+    const [tween] = gsap.getTweensOf(node)
+    expect(tween.scrollTrigger).toBeUndefined()
+    expect(tween.delay()).toBeCloseTo(1.3)
+    cleanup()
+  })
+
+  it('plays a first-screen reveal on scroll, with only its stagger, when it starts below the screen', () => {
+    const node = el({ 'data-reveal': 'slide', 'data-reveal-on': 'first-screen', 'data-reveal-delay': '1.3', 'data-reveal-index': '1' })
+    node.getBoundingClientRect = () => ({ top: window.innerHeight + 10 }) as DOMRect
+    const cleanup = initReveals()
+    const [tween] = gsap.getTweensOf(node)
+    expect(tween.scrollTrigger).toBeDefined()
+    expect(tween.delay()).toBeCloseTo(STAGGER)
+    cleanup()
+  })
+
+  it('fires a reveal that follows another element on that element\'s scroll trigger', () => {
+    const heading = el({ 'data-reveal': 'rise', id: 'row-title' })
+    const image = el({ 'data-reveal': 'slide-right', 'data-reveal-follow': 'row-title' })
+    const cleanup = initReveals()
+    const own = gsap.getTweensOf(heading)[0].vars.scrollTrigger as ScrollTrigger.Vars
+    const followed = gsap.getTweensOf(image)[0].vars.scrollTrigger as ScrollTrigger.Vars
+    expect(followed.trigger).toBe(heading)
+    expect(followed.start).toBe(own.start)
+    cleanup()
+  })
+
+  it('falls back to its own trigger when the element it follows is missing', () => {
+    const image = el({ 'data-reveal': 'slide', 'data-reveal-follow': 'nowhere' })
+    const cleanup = initReveals()
+    const trigger = gsap.getTweensOf(image)[0].vars.scrollTrigger as ScrollTrigger.Vars
+    expect(trigger.trigger).toBe(image)
+    expect(trigger.start).toBe('top 85%')
+    cleanup()
+  })
+
+  it('plays a load reveal straight away when there is no loader', () => {
+    const node = el({ 'data-reveal': 'fade', 'data-reveal-on': 'load' })
+    const cleanup = initReveals()
+    expect(gsap.getTweensOf(node)[0].paused()).toBe(false)
     cleanup()
   })
 

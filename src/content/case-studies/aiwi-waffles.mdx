@@ -1,21 +1,32 @@
 ---
 title: "'Aiwi Waffles"
-headline: "Brand Identity & Shopify UX/UI Design for a Food & Beverage Brand"
+headline: "Brand Identity, Local SEO & a Custom Operations Dashboard for a Food & Beverage Brand"
 slug: aiwi-waffles
-summary: "Full brand identity and Shopify storefront for a waffle company, from logo and signage to a merch line, plus a Google Business Profile and local SEO push that ranked the storefront #1 for multiple keywords and drove tourist foot traffic."
-tags: ["Branding", "UX/UI Design", "Shopify", "Local SEO"]
+summary: "Brand identity, a Shopify storefront and local SEO that ranked a Waikiki waffle shop #1 on Google, followed by a custom marketing site and Home Base, a private dashboard for the shop's sales, team, checklists and training."
+tags: ["Branding", "UX/UI Design", "Shopify", "Local SEO", "SaaS Development", "AI Workflows"]
 date: "2025-11-01"
+order: 1
 year: "2025"
-result: "Ranked #1 on Google for multiple local keywords, driving tourist foot traffic into the store."
+result: "Ranks #1 on Google for local searches, with 13,000 views a month and search visits worth more than $1,000 a day at the Waikiki location."
+heroNote: "The Shopify storefront I built. A custom site and the Home Base dashboard are in build now."
 liveUrl: "https://aiwiwaffles.com"
 role: "Lead Designer & Developer"
-services: ["Brand Identity", "UX/UI Design", "Shopify Development", "SEO/AEO", "Local SEO"]
-stack: ["Shopify"]
+services: ["Brand Identity", "UX/UI Design", "Shopify Development", "SEO/AEO", "Local SEO", "SaaS Development", "AI Workflows"]
+stack: ["Shopify", "Astro", "React", "Tailwind CSS", "Square API"]
+media:
+  hero:
+    src: aiwi-waffles/storefront.jpg
+    alt: The 'Aiwi Waffles Shopify storefront homepage, with a waffle topped with cream, strawberries and blueberries
+  work:
+    src: aiwi-waffles/work.png
+    alt: "The 'Aiwi Waffles logo on white, over pale yellow rounded diamonds"
 ---
 
 <Chapter title="Overview" asideLabel="Services" aside={frontmatter.services}>
 
-For 'Aiwi Waffles I was the lead UX/UI designer and developer, and the SEO/AEO expert. The engagement started with brand and identity and has grown into an ongoing partnership with the owner to scale the business through digital channels.
+For 'Aiwi Waffles I'm the lead UX/UI designer and developer, and the SEO/AEO expert. The engagement started with brand and identity and has grown into an ongoing partnership with the owner to scale the business through digital channels.
+
+The first phase gave the business its brand, a Shopify storefront and a local search presence. The second phase is in build now: a custom marketing site that replaces the Shopify storefront, and Home Base, a private dashboard where the owner runs the shop's sales, team and daily checklists from a phone.
 
 </Chapter>
 
@@ -25,17 +36,28 @@ For 'Aiwi Waffles I was the lead UX/UI designer and developer, and the SEO/AEO e
 
 <PullQuote text="One brand, cohesive from the storefront to the food truck to the merch line." />
 
+With the brand in place, the next problem was running the shop. Sales numbers sat inside Square, where they were hard to find and harder to read. Team information was spread across paper, texts and emails. The owner only knew the shop had closed properly by asking, or by checking the next morning, and new staff sent their questions to the owner's phone on days off.
+
 </Chapter>
 
 <Chapter title="The approach">
 
 I designed the full brand from the ground up and built the storefront on Shopify.
 
-{/* TODO: replace placeholder images with real storefront screenshots and brand/merch photos in src/assets/case-studies/aiwi-waffles/. */}
+{/* The storefront recording autoplays and loops while on screen. The brand and merch image is the owner's, converted from CMYK to sRGB. */}
 <Gallery
   images={[
-    { alt: "'Aiwi Waffles Shopify storefront", caption: "Shopify storefront" },
-    { alt: "'Aiwi Waffles brand and merch line", caption: "Brand identity and merch line" },
+    {
+      src: "aiwi-waffles/shopify-store.mp4",
+      poster: "aiwi-waffles/shopify-store-poster.jpg",
+      alt: "A scroll through the 'Aiwi Waffles Shopify storefront: the homepage, a merch product page and the shop's Google reviews",
+      caption: "Shopify storefront",
+    },
+    {
+      src: "aiwi-waffles/brand-merch.jpg",
+      alt: "The 'Aiwi Waffles logo in black on ivory and in ivory on black, above the merch line: T-shirts, a tote bag, mugs and caps",
+      caption: "Brand identity and merch line",
+    },
   ]}
 />
 
@@ -50,22 +72,51 @@ The work included:
 
 </Chapter>
 
+<Chapter title="Home Base: the shop in one place">
+
+Home Base is a private web app for 'Aiwi Waffles, and I'm building it now. The owner and each team member log in with their own email on a phone, tablet or computer, and see only what their role needs. The owner sees everything. Staff see the day's checklist, their training and the employee handbook. Sales and money figures are locked to the owner.
+
+{/* TODO: add real captures (src or video) for each step in src/assets/case-studies/aiwi-waffles/ once the build has screens to show. */}
+<Walkthrough
+  steps={[
+    { title: "Opening and closing checklists", body: "Staff check off each opening and closing step on their phone. The owner gets a report of who finished which checklist and when.", alt: "Home Base opening checklist on a phone" },
+    { title: "Square sales, made readable", body: "Home Base pulls sales from the shop's Square account and shows today, this week and this month, with the best sellers and the busiest hours. Only the owner can open this page.", alt: "Home Base sales dashboard" },
+    { title: "New hires and training", body: "The owner adds a name and an email. The new hire gets a welcome email with the employee handbook, fills in their own details and starts the training lessons the owner chose.", alt: "Home Base new hire setup" },
+    { title: "Ask 'Aiwi", body: "An AI helper answers staff questions from the employee handbook and the checklists. When the answer is not in the handbook it says so and points the person to the owner, and it never shares sales or private team information.", alt: "Ask 'Aiwi answering a staff question" },
+  ]}
+/>
+
+The build also covers:
+
+- **Team records.** Contact details, start dates, roles and training progress for every team member, visible only to the owner.
+- **Website messages.** A form on the marketing site sends an automatic reply and saves the message to one list in Home Base, whether it is a question, a job application or a catering request.
+- **Ownership.** Every account the app runs on is in the owner's name, and I keep access to maintain it.
+
+I'm building the marketing site on Astro with React and Tailwind CSS, and it replaces the Shopify storefront. Home Base connects to the Square account the shop already uses.
+
+</Chapter>
+
 <Chapter title="The outcome">
 
 'Aiwi Waffles has a unified brand that carries across its store, food truck, online shop, and merch line, and a digital foundation built to scale.
 
-The standout win came from local SEO. By optimizing the Google Business Profile, the storefront now ranks #1 on Google for multiple keywords, driving a steady stream of tourist foot traffic into the store.
+The standout win came from local SEO. I optimized the Google Business Profile, and the storefront now ranks #1 on Google for multiple local searches and ranks high for more than 20 high-intent keywords. The listing averages 13,000 views a month across Google Search and Google Maps, and 638 interactions a month. Google Search Console shows an average click-through rate of 4.1%.
+
+People act on those searches. The store gets 30 to 40 phone calls a week on average, and the in-person visits that come from search bring in more than $1,000 a day on average at the Waikiki location.
 
 <PullQuote text="Optimizing the Google Business Profile took the storefront to #1 for multiple local searches, turning online visibility into foot traffic through the door." />
 
-That scaling work is ongoing. We're currently planning to offer frozen waffles online, and I'm directly involved in the logistics for manufacturing and distribution, helping take the brand from a local presence into a retail product.
+Home Base is in build now. I'll add what it changes for the shop once the team is using it.
 
-{/* TODO: "#1" is real. Replace the "00" values with real numbers (how many keywords, foot-traffic figure) and adjust labels to match. */}
+The scaling work is ongoing too. We're currently planning to offer frozen waffles online, and I'm directly involved in the logistics for manufacturing and distribution, helping take the brand from a local presence into a retail product.
+
+{/* Every figure here is the owner's, given on 2026-10-13. Change one only when the owner gives a new one. */}
 <Outcome
   metrics={[
     { value: "#1", label: "Google local ranking" },
-    { value: "00", label: "Keywords ranked #1" },
-    { value: "00", label: "Storefront foot traffic" },
+    { value: "13K", label: "Views a month on Google Search and Maps" },
+    { value: "20+", label: "High-intent keywords ranking high" },
+    { value: "$1K+", label: "A day from search visits, Waikiki location" },
   ]}
 />
 

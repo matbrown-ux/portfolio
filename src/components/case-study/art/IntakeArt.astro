@@ -1,0 +1,88 @@
+---
+/**
+ * Step art: a creator fills in the application, sees the price up front and books a call.
+ * The markup is the finished drawing. Parts marked `data-art` are animated by src/lib/stepArt.ts
+ * (`data-art-at` is seconds into the loop). Colours come from the palette tokens only.
+ */
+interface Props {
+  label: string
+}
+
+const { label } = Astro.props
+---
+
+<svg viewBox="0 0 800 470" role="img" aria-label={label} class="block h-full w-full" preserveAspectRatio="xMidYMid slice" data-step-art>
+  <defs>
+    <pattern id="art-intake-dots" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(24)">
+      <circle cx="4" cy="4" r="2.6" fill="var(--color-vermilion)" />
+    </pattern>
+  </defs>
+  <rect width="800" height="470" fill="var(--color-ivory)" />
+  {/* Halftone field behind the booking */}
+  <circle cx="650" cy="250" r="230" fill="url(#art-intake-dots)" data-art="fade" data-art-at="0" />
+
+  {/* The application form, as a wireframe */}
+  <rect x="94" y="74" width="300" height="340" fill="var(--color-ink)" />
+  <rect x="80" y="60" width="300" height="340" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="4" />
+  <text x="104" y="106" class="font-display" font-size="30" fill="var(--color-ink)">APPLY</text>
+  <line x1="80" y1="124" x2="380" y2="124" stroke="var(--color-ink)" stroke-width="4" />
+  <g>
+    <line x1="104" y1="150" x2="174" y2="150" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" />
+    <rect x="104" y="162" width="252" height="30" fill="none" stroke="var(--color-ink)" stroke-width="3" />
+    <line x1="116" y1="177" x2="266" y2="177" stroke="var(--color-ink)" stroke-width="5" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="0.5" />
+    <line x1="104" y1="215" x2="174" y2="215" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" />
+    <rect x="104" y="227" width="252" height="30" fill="none" stroke="var(--color-ink)" stroke-width="3" />
+    <line x1="116" y1="242" x2="312" y2="242" stroke="var(--color-ink)" stroke-width="5" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.1" />
+    <line x1="104" y1="280" x2="174" y2="280" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" />
+    <rect x="104" y="292" width="252" height="30" fill="none" stroke="var(--color-ink)" stroke-width="3" />
+    <line x1="116" y1="307" x2="228" y2="307" stroke="var(--color-ink)" stroke-width="5" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.7" />
+  </g>
+  <rect x="104" y="342" width="24" height="24" fill="none" stroke="var(--color-ink)" stroke-width="3" />
+  <path d="M109 354 l6 8 l12 -17" fill="none" stroke="var(--color-vermilion)" stroke-width="6" stroke-linecap="square" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="2.3" />
+  <line x1="140" y1="354" x2="216" y2="354" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" />
+  <g data-art="pop" data-art-at="2.8">
+    <rect x="252" y="336" width="104" height="38" fill="var(--color-vermilion)" stroke="var(--color-ink)" stroke-width="3" />
+    <text x="304" y="363" text-anchor="middle" class="font-display" font-size="20" fill="var(--color-ink)">SEND</text>
+  </g>
+
+  {/* The price, shown before the creator goes any further */}
+  <g data-art="pop" data-art-at="1.4">
+    <polygon points="402.1,28.9 409.7,47.9 429.3,41.6 426.4,61.9 446.5,66.2 433.8,82.3 449.1,96.1 430.1,103.7 436.4,123.3 416.1,120.4 411.8,140.5 395.7,127.8 381.9,143.1 374.3,124.1 354.7,130.4 357.6,110.1 337.5,105.8 350.2,89.7 334.9,75.9 353.9,68.3 347.6,48.7 367.9,51.6 372.2,31.5 388.3,44.2" fill="var(--color-ink)" />
+    <text x="392" y="104" text-anchor="middle" class="font-display" font-size="50" fill="var(--color-ivory)">$</text>
+  </g>
+
+  {/* Speed lines from the form to the calendar */}
+  <g stroke="var(--color-ink)" stroke-width="5" stroke-linecap="square">
+    <line x1="412" y1="262" x2="506" y2="262" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="3.2" />
+    <line x1="428" y1="284" x2="506" y2="284" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="3.3" />
+    <line x1="412" y1="306" x2="506" y2="306" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="3.4" />
+  </g>
+  <polygon points="506,246 536,284 506,322" fill="var(--color-ink)" data-art="pop" data-art-at="3.5" />
+
+  {/* The consultation call, booked */}
+  <g data-art="slide" data-art-at="3.6">
+    <rect x="554" y="204" width="200" height="190" fill="var(--color-ink)" />
+    <rect x="540" y="190" width="200" height="190" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="4" />
+    <rect x="540" y="190" width="200" height="40" fill="var(--color-ink)" />
+    <rect x="574" y="178" width="10" height="26" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="3" />
+    <rect x="696" y="178" width="10" height="26" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="3" />
+    <g>
+      <rect x="556" y="246" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+      <rect x="600" y="246" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+      <rect x="644" y="246" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+      <rect x="688" y="246" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+      <rect x="556" y="286" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+      <rect x="600" y="286" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+      <rect x="644" y="286" width="34" height="30" fill="var(--color-vermilion)" stroke="var(--color-ink)" stroke-width="2.5" data-art="pop" data-art-at="4.1" />
+      <rect x="688" y="286" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+      <rect x="556" y="326" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+      <rect x="600" y="326" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+      <rect x="644" y="326" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+      <rect x="688" y="326" width="34" height="30" fill="none" stroke="var(--color-ink)" stroke-width="2.5" />
+    </g>
+  </g>
+  <g data-art="pop" data-art-at="4.5">
+    <polygon points="658.0,32.5 675.9,62.5 700.4,37.6 703.5,72.4 736.4,60.6 724.1,93.3 758.8,97.0 733.6,121.1 763.3,139.5 730.1,150.3 748.9,179.7 714.3,175.0 718.5,209.7 689.3,190.5 678.0,223.5 660.1,193.5 635.6,218.4 632.5,183.6 599.6,195.4 611.9,162.7 577.2,159.0 602.4,134.9 572.7,116.5 605.9,105.7 587.1,76.3 621.7,81.0 617.5,46.3 646.7,65.5" fill="var(--color-vermilion)" stroke="var(--color-ink)" stroke-width="4" stroke-linejoin="miter" />
+    <text x="668" y="141" text-anchor="middle" class="font-display" font-size="34" fill="var(--color-ink)" transform="rotate(-6 668 128)">BOOKED!</text>
+  </g>
+</svg>

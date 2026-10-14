@@ -43,6 +43,46 @@ describe('startTypewriter', () => {
     expect(el.textContent).toBe('u')
   })
 
+  it('marks the word as typing only once its first letter changes, so the caret waits for the typing', () => {
+    const el = element()
+    startTypewriter(el, ['ux', 'ai'], { timing, startDelay: 500 })
+    vi.advanceTimersByTime(599)
+    expect(el.hasAttribute('data-typewriter-typing')).toBe(false)
+    vi.advanceTimersByTime(1)
+    expect(el.textContent).toBe('u')
+    expect(el.hasAttribute('data-typewriter-typing')).toBe(true)
+  })
+
+  it('never marks the word as typing under reduced motion', () => {
+    installMatchMedia({ [REDUCED_QUERY]: true })
+    const el = element()
+    startTypewriter(el, ['ux', 'ai'], { timing })
+    vi.advanceTimersByTime(1000)
+    expect(el.hasAttribute('data-typewriter-typing')).toBe(false)
+    installMatchMedia({})
+  })
+
+  it('can shorten the first hold, so the first letter changes right after the start delay', () => {
+    const el = element()
+    startTypewriter(el, ['ux', 'ai'], { timing, startDelay: 500, firstHold: 0 })
+    vi.advanceTimersByTime(499)
+    expect(el.textContent).toBe('ux')
+    vi.advanceTimersByTime(1)
+    expect(el.textContent).toBe('u')
+  })
+
+  it('keeps the normal hold on every later word', () => {
+    const el = element()
+    startTypewriter(el, ['ux', 'ai'], { timing, firstHold: 0 })
+    // 'u' at 0, '' at 10, 'a' at 20, 'ai' at 30, then the full hold of 100 before deleting at 130.
+    vi.advanceTimersByTime(30)
+    expect(el.textContent).toBe('ai')
+    vi.advanceTimersByTime(99)
+    expect(el.textContent).toBe('ai')
+    vi.advanceTimersByTime(1)
+    expect(el.textContent).toBe('a')
+  })
+
   it('stops when asked', () => {
     const el = element()
     const handle = startTypewriter(el, ['ux', 'ai'], { timing })

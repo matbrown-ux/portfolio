@@ -1,4 +1,5 @@
 ---
+import { PAGE_ENTRANCE } from '../../lib/heroEntrance'
 import Confirmation from './Confirmation.astro'
 import { disciplines } from '../../content/disciplines'
 import { budgetRanges, MULTIPLE_SERVICES } from '../../content/contactOptions'
@@ -24,8 +25,10 @@ const required = 'text-vermilion'
 
 {/* From lg up the panel's colour runs on to the right edge of the screen, past the 1600px column.
     Once the script has swapped the form for the confirmation the whole panel turns vermilion. */}
+{/* An ink panel, so it fades in rather than moves. */}
 <div
   data-contact-panel
+  data-reveal="fade" data-reveal-on="load" data-reveal-delay={PAGE_ENTRANCE.panel}
   class:list={[
     'relative bg-ink text-ivory has-[form[hidden]]:bg-vermilion lg:after:absolute lg:after:inset-y-0 lg:after:left-full lg:after:w-[50vw] lg:after:bg-inherit',
     className,

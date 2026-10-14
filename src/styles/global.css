@@ -42,6 +42,23 @@
   }
 }
 
+/* The site loader (src/lib/siteLoader.ts) shows only while the head script's class is on <html>,
+   or while the loader is running after that class has gone. The page cannot scroll under it. */
+.site-loader {
+  display: none;
+}
+html.site-loading .site-loader,
+.site-loader[data-state='running'] {
+  display: block;
+}
+html.site-loading {
+  overflow: hidden;
+}
+/* The pane's start state, below the screen, so the first frame matches the script's. */
+.site-loader [data-loader-pane] {
+  clip-path: inset(100% 0% 0% 0%);
+}
+
 /* A reveal that has not fired yet still carries its start state inline. On paper or in a
    saved PDF nothing scrolls, so every reveal is shown at rest. */
 @media print {
@@ -124,7 +141,9 @@
   visibility: hidden;
 }
 
-html.js .caret {
+/* The caret shows once the typing starts (typewriterElement.ts marks the word), not while the
+   word is still resting before its first letter changes. */
+html.js [data-typewriter][data-typewriter-typing] + .caret {
   visibility: visible;
 }
 

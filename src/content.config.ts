@@ -19,6 +19,8 @@ const caseStudies = defineCollection({
     headline: z.string(),
     summary: z.string(),
     date: z.coerce.date(),
+    /** Position in the owner's order of case studies; ones without it follow, newest first. */
+    order: z.number().int().positive().optional(),
     year: z.string(),
     tags: z.array(z.string()).min(1),
     services: z.array(z.string()).default([]),
@@ -28,7 +30,8 @@ const caseStudies = defineCollection({
     liveUrl: z.url().optional(),
     result: z.string(),
     heroNote: z.string().optional(),
-    media: z.strictObject({ hero: mediaRef.optional(), tile: mediaRef.optional() }).optional(),
+    // hero: the case study's own hero; tile: a Home tile (none at present); work: the Work index row.
+    media: z.strictObject({ hero: mediaRef.optional(), tile: mediaRef.optional(), work: mediaRef.optional() }).optional(),
   }),
 })
 

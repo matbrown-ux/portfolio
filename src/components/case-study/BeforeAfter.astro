@@ -1,0 +1,148 @@
+---
+import { Image } from 'astro:assets'
+import { caseStudyMedia } from '../../lib/caseStudyMedia'
+import { hostLabel } from '../../lib/host'
+
+interface Person {
+  name: string
+  /** A short line under the name, for example "UGC creator". */
+  label?: string
+  /** Full-page screenshots, as paths inside src/assets/case-studies/. */
+  before: string
+  after: string
+  quote?: string
+  /** The live site. */
+  url?: string
+}
+
+interface Props {
+  people: Person[]
+}
+
+const { people } = Astro.props
+const slug = Astro.params.slug
+const key = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+
+const shot = (person: Person, state: 'before' | 'after') => {
+  const alt = `${person.name}'s portfolio ${state} the redesign`
+  const media = caseStudyMedia({ src: person[state], alt }, `${slug} before and after "${person.name}"`)
+  if (media.kind !== 'image') throw new Error(`${slug}: the ${state} shot for ${person.name} must be an image`)
+  return { image: media.image, alt }
+}
+
+const chip = 'type-label pointer-events-none absolute top-3 z-20 bg-ink px-2.5 py-1.5 text-ivory'
+---
+
+{/* Without JavaScript the tabs stay hidden, every person's panel shows, and each pair rests split down the middle. */}
+<div class="cs-block my-10 bg-ink px-6 py-12 text-ivory md:px-12 md:py-16 xl:my-12" data-before-after>
+  <p class="type-label mb-6 text-vermilion">// Drag the line to compare. Scroll inside the frame to see the full page.</p>
+  <div role="tablist" aria-label="Portfolios" class="mb-6 flex flex-wrap gap-2" hidden>
+    {
+      people.map((person) => (
+        <button
+          type="button"
+          role="tab"
+          id={`ba-tab-${key(person.name)}`}
+          aria-controls={`ba-panel-${key(person.name)}`}
+          class="type-label border-2 border-ivory px-4 py-3 text-ivory transition-colors duration-200 hover:bg-ivory hover:text-ink focus-visible:outline-ivory aria-selected:border-vermilion aria-selected:bg-vermilion aria-selected:text-ink"
+        >
+          {person.name}
+        </button>
+      ))
+    }
+  </div>
+  {
+    people.map((person) => {
+      const before = shot(person, 'before')
+      const after = shot(person, 'after')
+      return (
+        <div
+          role="tabpanel"
+          id={`ba-panel-${key(person.name)}`}
+          aria-labelledby={`ba-tab-${key(person.name)}`}
+          class="grid gap-8 py-4 lg:grid-cols-[1.7fr_1fr] lg:gap-12"
+        >
+          <div class="border-2 border-ivory bg-ivory text-ink">
+            {/* The same browser bar the hero and the other captures wear. */}
+            <div class="type-label flex items-center gap-1.5 border-b-2 border-ink px-3 py-2 font-medium normal-case tracking-normal" aria-hidden="true">
+              <span class="size-2 bg-ink" />
+              <span class="size-2 bg-ink" />
+              <span class="size-2 bg-ink" />
+              {person.url && <span class="ml-3">{hostLabel(person.url)}</span>}
+            </div>
+            <div class="relative" data-compare style="--split:50%">
+            <span class={`${chip} left-3`}>Before</span>
+            <span class={`${chip} right-3`}>After</span>
+            <div
+              class="grid h-[70vw] max-h-[42rem] min-h-[20rem] overflow-y-auto bg-ivory focus-visible:outline-vermilion lg:h-[38vw]"
+              data-compare-scroll
+              tabindex="0"
+              role="group"
+              aria-label={`${person.name}'s portfolio, before and after. Scroll to see the full page.`}
+            >
+              <Image src={after.image} alt={after.alt} widths={[720, 1080, 1440]} sizes="(min-width: 1024px) 60vw, 100vw" class="col-start-1 row-start-1 block h-auto w-full self-start" />
+              {/* The before layer runs the full height of the longer page on its own ivory, so below a
+                  shorter old page its side of the line is plain ivory, as the after side is below a
+                  shorter new page, and the after page never shows through on the before side. */}
+              <div class="col-start-1 row-start-1 self-stretch bg-ivory [clip-path:inset(0_calc(100%-var(--split))_0_0)]">
+                <Image
+                  src={before.image}
+                  alt={before.alt}
+                  widths={[720, 1080, 1440]}
+                  sizes="(min-width: 1024px) 60vw, 100vw"
+                  class="block h-auto w-full"
+                />
+              </div>
+            </div>
+            <div
+              class="group absolute inset-y-0 left-[var(--split)] z-10 -ml-5 flex w-10 cursor-ew-resize touch-none justify-center focus-visible:outline-hidden"
+              data-compare-handle
+              role="slider"
+              tabindex="0"
+              aria-orientation="horizontal"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="50"
+              aria-label={`How much of ${person.name}'s old portfolio shows`}
+            >
+              <span class="h-full w-0.5 bg-ink outline outline-1 outline-ivory" aria-hidden="true" />
+              <span
+                class="absolute top-1/2 -mt-5 grid size-10 place-items-center bg-vermilion text-lg leading-none text-ink outline-2 outline-ink group-focus-visible:outline-4 group-focus-visible:outline-ivory"
+                aria-hidden="true"
+              >
+                ↔
+              </span>
+            </div>
+            </div>
+          </div>
+          <figure class="self-center">
+            <p class="type-label mb-4">
+              {person.name}
+              {person.label && <span class="opacity-70"> / {person.label}</span>}
+            </p>
+            {
+              person.quote && (
+                <blockquote class="type-display text-[clamp(1.5rem,2.4vw,2.5rem)] leading-[1.06]">
+                  <p>{person.quote}</p>
+                </blockquote>
+              )
+            }
+            {
+              person.url && (
+                <a
+                  href={person.url}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={`Visit live site for ${person.name}, opens in a new tab`}
+                  class="type-label mt-8 inline-flex items-center gap-2 bg-vermilion px-5 py-3.5 text-ink transition-colors duration-200 hover:bg-ivory focus-visible:outline-ivory"
+                >
+                  Visit live site <span aria-hidden="true">↗</span>
+                </a>
+              )
+            }
+          </figure>
+        </div>
+      )
+    })
+  }
+</div>

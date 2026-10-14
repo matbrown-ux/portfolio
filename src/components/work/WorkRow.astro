@@ -2,17 +2,18 @@
 import type { CollectionEntry } from 'astro:content'
 import MediaSlot from '../media/MediaSlot.astro'
 import { caseStudyMedia } from '../../lib/caseStudyMedia'
-import { titleFit } from '../../lib/titleFit'
 import type { WorkRow as WorkRowData } from '../../lib/caseStudies'
 
 interface Props {
   row: WorkRowData<CollectionEntry<'caseStudies'>>
+  /** The em width every title on the page must fit, from sharedTitleEm. */
+  titleEm: number
 }
 
-const { row } = Astro.props
+const { row, titleEm } = Astro.props
 const { title, headline, result, role, year, media } = row.entry.data
-// The Work index uses the hero media; a row without it shows the labelled placeholder.
-const slot = caseStudyMedia(media?.hero ?? { alt: `${title} hero capture` }, `${row.entry.id} work row`)
+// The Work index uses the image made for it, else the hero media; a row with neither shows the labelled placeholder.
+const slot = caseStudyMedia(media?.work ?? media?.hero ?? { alt: `${title} hero capture` }, `${row.entry.id} work row`)
 
 // Small vermilion text is only allowed on ink, so only the ink row has a vermilion number.
 // The stone row's media is outlined: where it breaks out of the vermilion block it sits on stone.
@@ -28,24 +29,25 @@ const surface = {
 } as const
 const look = surface[row.surface]
 
-// A long client name is set smaller so its longest word stays inside the text column instead of
-// running under the media: about eleven characters fit a stacked row and eight a split one.
-const fit = `--fit:${titleFit(title, { charsPerLine: 11 })};--fit-lg:${titleFit(title, { charsPerLine: 8 })}`
+// Every row's title is the same size: the display size, or smaller when the longest word on the
+// page would not fit the text column. The column is a container, so 100cqi is its content width.
+const fit = `--title-em:${titleEm}`
+const titleId = `work-title-${row.entry.id}`
 
 // From lg up the media breaks out of its block toward the text. The colour runs edge to edge, while
 // --gutter keeps the text and the media's outer edge on the site's 1600px column on wide screens.
 const side = {
-  right: { grid: 'lg:grid-cols-[1fr_1.25fr]', text: 'lg:pl-(--gutter) lg:pr-[8vw]', block: 'lg:order-last', media: 'lg:-left-[5vw] lg:right-[max(4vw,var(--gutter))]' },
-  left: { grid: 'lg:grid-cols-[1.25fr_1fr]', text: 'lg:pl-[9vw] lg:pr-(--gutter)', block: '', media: 'lg:-right-[5vw] lg:left-[max(4vw,var(--gutter))]' },
+  right: { reveal: 'slide-right', grid: 'lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]', text: 'lg:pl-(--gutter) lg:pr-[8vw]', block: 'lg:order-last', media: 'lg:-left-[5vw] lg:right-[max(4vw,var(--gutter))]' },
+  left: { reveal: 'slide', grid: 'lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]', text: 'lg:pl-[8vw] lg:pr-(--gutter)', block: '', media: 'lg:-right-[5vw] lg:left-[max(4vw,var(--gutter))]' },
 } as const
 const place = side[row.mediaSide]
 ---
 
 <li>
-  <a href={row.href} class:list={['group relative grid [--gutter:max(3rem,calc((100vw-1600px)/2+3rem))] after:pointer-events-none after:absolute after:inset-2 after:z-10 focus-visible:outline-hidden focus-visible:after:border-4 lg:min-h-[30vw]', look.row, look.ring, place.grid]}>
-    <div class:list={['flex flex-col px-6 py-10 md:px-12 lg:py-14', place.text]}>
+  <a href={row.href} class:list={['group relative grid [--gutter:max(3rem,calc((100vw-1600px)/2+3rem))] after:pointer-events-none after:absolute after:inset-2 after:z-10 focus-visible:outline-hidden focus-visible:after:border-4 lg:min-h-[calc((100vw*5/9_+_5vw_-_max(4vw,var(--gutter)))*0.625_+_6vw)]', look.row, look.ring, place.grid]}>
+    <div class:list={['@container flex flex-col px-6 py-10 md:px-12 lg:py-14', place.text]}>
       <span class:list={['type-label text-sm', row.surface === 'ink' && 'text-vermilion']}>{row.number} /</span>
-      <h2 class="type-display mt-3 max-w-[9ch] text-[length:calc(clamp(3rem,7vw,7rem)*var(--fit))] lg:text-[length:calc(clamp(3rem,7vw,7rem)*var(--fit-lg))]" style={fit} data-reveal="rise">{title}</h2>
+      <h2 class="type-display mt-3 max-w-[9ch] text-[length:min(clamp(3rem,7vw,7rem),100cqi/var(--title-em))]" style={fit} id={titleId} data-reveal="rise">{title}</h2>
       <p class="type-label mt-5 max-w-md">{headline}</p>
       <p class="mt-5 max-w-md text-lg leading-snug">{result}</p>
       <p class="type-label mt-auto flex items-center gap-8 pt-10">
@@ -56,9 +58,20 @@ const place = side[row.mediaSide]
         </span>
       </p>
     </div>
-    {/* Stacked, the block is inset by the gutter so the row's own surface frames it and it reads as part of this row. */}
-    <div class:list={['relative order-first mx-6 mt-6 min-h-[60vw] md:mx-12 md:mt-12 lg:m-0 lg:min-h-0', look.block, place.block]}>
-      <MediaSlot media={slot} tone={look.tone} class={`absolute inset-6 lg:inset-y-[3vw] ${place.media} ${look.media}`} sizes="(min-width: 1024px) 55vw, 100vw" />
+    {/* Stacked, the block is inset by the gutter so the row's own surface frames it and it reads as part of this row.
+        The media is always 16:10, so every row's image is the same size whatever the length of its text: stacked it
+        fills the block's width, and from lg up it is centred down the block, which the row's minimum height keeps
+        at least 3vw taller than the media above and below. */}
+    <div class:list={['relative order-first mx-6 mt-6 p-6 md:mx-12 md:mt-12 lg:m-0 lg:p-0', look.block, place.block]}>
+      {/* Slides in from the side of the page it sits nearest, as the title rises: on the title's scroll trigger. */}
+      <MediaSlot
+        media={slot}
+        tone={look.tone}
+        class={`relative aspect-[16/10] lg:absolute lg:top-1/2 lg:-translate-y-1/2 ${place.media} ${look.media}`}
+        sizes="(min-width: 1024px) 55vw, 100vw"
+        data-reveal={place.reveal}
+        data-reveal-follow={titleId}
+      />
     </div>
   </a>
 </li>

@@ -1,4 +1,6 @@
 ---
+import { giantFit } from '../../lib/outcomeFit'
+
 interface Metric {
   value: string
   label: string
@@ -11,13 +13,16 @@ interface Props {
 
 const { metrics } = Astro.props
 const [headline] = metrics
+// From xl the giant figure straddles the panel's edge, so a figure longer than two characters is set smaller there.
+const fit = headline ? `--giant-fit:${giantFit(headline.value)}` : undefined
 ---
 
 <div class="cs-block cs-outcome relative mt-10 xl:mt-0">
   {
     headline && (
       <p
-        class="font-display pointer-events-none relative z-10 -mb-[0.22em] px-6 text-[clamp(7rem,19vw,19rem)] leading-[0.9] text-vermilion md:px-12 xl:absolute xl:bottom-10 xl:left-0 xl:mb-0 xl:-translate-x-[46%] xl:px-0"
+        class="font-display pointer-events-none relative z-10 -mb-[0.22em] px-6 text-[clamp(7rem,19vw,19rem)] leading-[0.9] text-vermilion md:px-12 xl:absolute xl:bottom-10 xl:left-0 xl:mb-0 xl:-translate-x-[46%] xl:px-0 xl:text-[length:calc(clamp(7rem,19vw,19rem)*var(--giant-fit))]"
+        style={fit}
         aria-hidden="true"
         data-reveal="rise"
       >
@@ -34,7 +39,7 @@ const [headline] = metrics
     <dl class="grid gap-6 px-6 pb-12 pt-[clamp(3rem,9vw,5rem)] md:px-12 xl:absolute xl:inset-x-0 xl:bottom-0 xl:pb-14 xl:pl-[28%] xl:pt-0">
       {
         metrics.map((metric) => (
-          <div class="grid grid-cols-[minmax(6rem,11rem)_1fr] items-baseline border-t border-line-dark pt-4">
+          <div class="grid grid-cols-[minmax(6rem,12.5rem)_1fr] items-baseline gap-x-5 border-t border-line-dark pt-4">
             <dt class="type-label order-2">{metric.label}</dt>
             <dd class="font-display order-1 text-[clamp(3.5rem,6.4vw,6.5rem)] leading-[0.9] text-vermilion">{metric.value}</dd>
           </div>

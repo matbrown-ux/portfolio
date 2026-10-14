@@ -1,6 +1,7 @@
 ---
 import VerticalLabel from '../ui/VerticalLabel.astro'
 import { disciplines } from '../../content/disciplines'
+import { HERO_ENTRANCE } from '../../lib/heroEntrance'
 ---
 
 <section id="what-i-do" class="bg-ink text-ivory" aria-labelledby="what-i-do-heading">
@@ -14,12 +15,15 @@ import { disciplines } from '../../content/disciplines'
     <ul role="list" class="grid flex-1 overflow-hidden sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
       {
         disciplines.map((d, i) => (
-          <li class="-mt-px border-t border-line-dark sm:border-l sm:max-lg:-ml-px">
+          <li class="-mt-px overflow-hidden border-t border-line-dark sm:border-l sm:max-lg:-ml-px">
             <a
               href={`/services#${d.slug}`}
               class="group flex h-full flex-col px-6 py-8 transition-colors duration-200 hover:bg-ivory hover:text-ink focus-visible:bg-ivory focus-visible:text-ink focus-visible:-outline-offset-4 lg:px-7 lg:py-10"
-              data-reveal="rise"
+              data-reveal="slide"
+              data-reveal-on="first-screen"
+              data-reveal-delay={HERO_ENTRANCE.strip}
               data-reveal-index={i}
+              data-reveal-step={HERO_ENTRANCE.stripStep}
             >
               <span class="type-label text-base text-vermilion transition-colors duration-200 group-hover:text-ink group-focus-visible:text-ink">
                 {d.number}

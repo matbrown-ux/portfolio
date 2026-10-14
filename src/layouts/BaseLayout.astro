@@ -4,6 +4,7 @@ import { Font } from 'astro:assets'
 import SiteHeader from '../components/nav/SiteHeader.astro'
 import SiteFooter from '../components/nav/SiteFooter.astro'
 import ShareMeta from '../components/seo/ShareMeta.astro'
+import SiteLoader from '../components/brand/SiteLoader.astro'
 import portrait from '../assets/portraits/about.png'
 import JsonLd from '../components/seo/JsonLd.astro'
 import { disciplines } from '../content/disciplines'
@@ -11,6 +12,7 @@ import { person } from '../content/person'
 import { analytics } from '../content/analytics'
 import { BLOG_FEED_TITLE } from '../lib/blog'
 import { beacon } from '../lib/analytics'
+import { LOADER_HEAD_SCRIPT } from '../lib/siteLoader'
 import { pageUrl, personNode, websiteNode, type Node } from '../lib/structuredData'
 
 interface Props {
@@ -40,6 +42,7 @@ const siteNodes = [personNode(person, disciplines.map((discipline) => discipline
       document.documentElement.classList.add('js')
       setTimeout(() => document.documentElement.classList.add('reveals-ready'), 3000)
     </script>
+    <script is:inline set:html={LOADER_HEAD_SCRIPT} />
     <Font cssVariable="--font-anton" preload />
     <Font cssVariable="--font-archivo" />
     <Font cssVariable="--font-jetbrains-mono" preload />
@@ -66,6 +69,7 @@ const siteNodes = [personNode(person, disciplines.map((discipline) => discipline
     <slot name="head" />
   </head>
   <body id="top" class="flex min-h-screen min-h-svh flex-col">
+    <SiteLoader />
     <a
       href="#main"
       class="type-label sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-ink focus:px-4 focus:py-3 focus:text-ivory"
@@ -77,14 +81,20 @@ const siteNodes = [personNode(person, disciplines.map((discipline) => discipline
     </main>
     <SiteFooter />
     <script>
+      import { initSiteLoader } from '../lib/siteLoader'
       import { initReveals } from '../lib/reveal'
       import { initVideosInView } from '../lib/videoInView'
       import { initHeaderScroll } from '../lib/headerScroll'
       import { initTocSpy } from '../lib/tocSpy'
+      import { initBeforeAfter } from '../lib/beforeAfter'
+      import { initStepArt } from '../lib/stepArt'
+      initSiteLoader()
       initReveals()
       initVideosInView()
       initHeaderScroll()
       initTocSpy()
+      initBeforeAfter()
+      initStepArt()
     </script>
     {cloudflare && <script is:inline defer src={cloudflare.src} data-cf-beacon={cloudflare['data-cf-beacon']} />}
   </body>

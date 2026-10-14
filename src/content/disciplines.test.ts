@@ -24,6 +24,16 @@ describe('disciplines', () => {
     for (const d of disciplines) expect(caseStudySlugs, d.slug).toContain(d.proofSlug)
   })
 
+  it('cites the case study that shows each discipline', () => {
+    expect(Object.fromEntries(disciplines.map((d) => [d.slug, d.proofSlug]))).toEqual({
+      'ux-ui-engineering': 'vamp-network',
+      'seo-aeo': 'aiwi-waffles',
+      'agentic-workflows': 'vamp-network',
+      'brand-development': 'aiwi-waffles',
+      'saas-development': 'aiwi-waffles',
+    })
+  })
+
   it('writes every blurb in the first person as a whole sentence', () => {
     for (const d of disciplines) {
       expect(d.blurb, d.slug).toMatch(/^I /)

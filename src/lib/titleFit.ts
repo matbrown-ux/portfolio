@@ -62,3 +62,26 @@ export function heroNameFit(title: string): HeroNameFit {
   if (titleFit(title, { charsPerLine: 8, maxLines: 3 }) === 1) return { fit, fitLg: 1, column: false }
   return { fit, fitLg: titleFit(title, { charsPerLine: 6, maxLines: 3 }), column: true }
 }
+
+/** Advance widths of Anton's capitals, figures and common marks, in em, measured in Chrome. */
+const ANTON_EM: Record<string, number> = {
+  A: 0.485, B: 0.479, C: 0.474, D: 0.493, E: 0.412, F: 0.399, G: 0.485, H: 0.499, I: 0.227, J: 0.466,
+  K: 0.472, L: 0.398, M: 0.746, N: 0.498, O: 0.486, P: 0.472, Q: 0.494, R: 0.477, S: 0.462, T: 0.396,
+  U: 0.474, V: 0.469, W: 0.712, X: 0.484, Y: 0.446, Z: 0.41, '0': 0.494, '1': 0.331, '2': 0.494,
+  '3': 0.494, '4': 0.494, '5': 0.494, '6': 0.494, '7': 0.494, '8': 0.494, '9': 0.494, "'": 0.214,
+  '&': 0.52, '.': 0.229, '-': 0.311, '/': 0.405, '!': 0.229, '?': 0.492, ',': 0.236, ':': 0.242, '#': 0.546,
+}
+
+/** The width of a word set in Anton capitals, in em. An unknown character counts as the widest letter. */
+export function wordEm(word: string): number {
+  return [...word.toUpperCase()].reduce((width, char) => width + (ANTON_EM[char] ?? ANTON_EM.M), 0)
+}
+
+/**
+ * The em width that one shared size for every title in a list has to fit: the longest word in any
+ * of them, plus 4% to spare. A column `room` wide sets them all at `room / sharedTitleEm(titles)`.
+ */
+export function sharedTitleEm(titles: string[]): number {
+  const words = titles.flatMap((title) => title.split(/\s+/).filter(Boolean))
+  return Math.max(0, ...words.map(wordEm)) * 1.04
+}
