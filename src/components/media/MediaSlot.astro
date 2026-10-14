@@ -13,10 +13,12 @@ interface Props {
   /** Load an image straight away (the case study hero). */
   eager?: boolean
   sizes?: string
+  /** Classes for the media area alone, under the browser bar: its shape, for example. */
+  areaClass?: string
   class?: string
 }
 
-const { media, tone = 'light', frame, url, eager = false, sizes = '(min-width: 1024px) 50vw, 100vw', class: className } = Astro.props
+const { media, tone = 'light', frame, url, eager = false, sizes = '(min-width: 1024px) 50vw, 100vw', areaClass, class: className } = Astro.props
 ---
 
 <div class:list={['flex flex-col', frame === 'browser' && 'border-2 border-ink bg-ivory', className]}>
@@ -30,7 +32,7 @@ const { media, tone = 'light', frame, url, eager = false, sizes = '(min-width: 1
       </div>
     )
   }
-  <div class="relative min-h-0 flex-1">
+  <div class:list={['relative min-h-0 flex-1', areaClass]}>
     {
       media.kind === 'placeholder' && (
         <div

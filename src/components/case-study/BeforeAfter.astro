@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets'
 import { caseStudyMedia } from '../../lib/caseStudyMedia'
+import { hostLabel } from '../../lib/host'
 
 interface Person {
   name: string
@@ -61,7 +62,15 @@ const chip = 'type-label pointer-events-none absolute top-3 z-20 bg-ink px-2.5 p
           aria-labelledby={`ba-tab-${key(person.name)}`}
           class="grid gap-8 py-4 lg:grid-cols-[1.7fr_1fr] lg:gap-12"
         >
-          <div class="relative border-2 border-ivory" data-compare style="--split:50%">
+          <div class="border-2 border-ivory bg-ivory text-ink">
+            {/* The same browser bar the hero and the other captures wear. */}
+            <div class="type-label flex items-center gap-1.5 border-b-2 border-ink px-3 py-2 font-medium normal-case tracking-normal" aria-hidden="true">
+              <span class="size-2 bg-ink" />
+              <span class="size-2 bg-ink" />
+              <span class="size-2 bg-ink" />
+              {person.url && <span class="ml-3">{hostLabel(person.url)}</span>}
+            </div>
+            <div class="relative" data-compare style="--split:50%">
             <span class={`${chip} left-3`}>Before</span>
             <span class={`${chip} right-3`}>After</span>
             <div
@@ -98,6 +107,7 @@ const chip = 'type-label pointer-events-none absolute top-3 z-20 bg-ink px-2.5 p
               >
                 ↔
               </span>
+            </div>
             </div>
           </div>
           <figure class="self-center">

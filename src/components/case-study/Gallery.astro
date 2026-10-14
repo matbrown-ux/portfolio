@@ -26,6 +26,7 @@ const layout = galleryLayout(images.length)
         <MediaSlot
           media={caseStudyMedia({ src: image.src, alt: image.alt, poster: image.poster }, `${slug} gallery image "${image.alt}"`)}
           tone={layout.items[i].tone}
+          frame="browser"
           class="h-full"
         />
         {image.caption && <p class="type-label absolute bottom-3 left-3 bg-ivory px-2.5 py-1.5 text-ink">{image.caption}</p>}

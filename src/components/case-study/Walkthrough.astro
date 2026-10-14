@@ -31,7 +31,8 @@ const slug = Astro.params.slug
           <div class:list={['relative', i % 2 === 1 && 'xl:order-2']} data-reveal="rise">
             <MediaSlot
               media={caseStudyMedia({ src: step.src, alt: step.alt, poster: step.poster }, `${slug} walkthrough step "${step.title}"`)}
-              class="aspect-[16/9.4] border-2 border-ink"
+              frame="browser"
+              areaClass="aspect-[16/9.4]"
               sizes="(min-width: 1280px) 58vw, 100vw"
             />
             <p
