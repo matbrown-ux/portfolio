@@ -24,6 +24,31 @@ export const MENU_MOTION = {
   fade: 0.2,
 } as const
 
+/**
+ * The site loader, about 3.5 seconds in all. The ink pane rises from the bottom on a long
+ * deceleration, the logo fades in as it settles, the ring fills around the logo on an even
+ * ease-in-out, and once it is full the logo and ring fade as the pane lifts off the top.
+ * Positions are seconds from the start.
+ */
+export const LOADER_MOTION = {
+  paneIn: 0.9,
+  paneInEase: 'power4.out',
+  logoAt: 0.45,
+  logoIn: 0.7,
+  logoEase: 'power2.out',
+  ringAt: 0.5,
+  ringFill: 2,
+  ringEase: 'power2.inOut',
+  /** A beat with the ring full before the exit. */
+  hold: 0.15,
+  fadeOut: 0.35,
+  fadeOutEase: 'power2.in',
+  paneOut: 0.9,
+  paneOutEase: 'power4.inOut',
+  /** Seconds after the loader starts that it stops waiting for the page to finish loading. */
+  maxWait: 5,
+} as const
+
 /** Seconds between items that reveal as a group. */
 export const STAGGER = 0.08
 

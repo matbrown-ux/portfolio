@@ -1,5 +1,6 @@
 import { gsap } from './gsap'
 import { DURATION, EASE, prefersReducedMotion, STAGGER } from './motionTokens'
+import { loaderActive, whenPageRevealed } from './siteLoader'
 
 export type RevealKind = 'rise' | 'wipe' | 'fade'
 
@@ -88,6 +89,9 @@ export function initReveals(root: ParentNode = document): () => void {
   // Tweens created inside the context are reverted together, so cleanup restores each
   // element's inline styles as well as stopping its tween and scroll trigger.
   const tweens = new Map<HTMLElement, gsap.core.Tween>()
+  // A load reveal behind the site loader would play unseen, so it waits at its start state
+  // until the loader starts to lift.
+  const holdForLoader = loaderActive()
   const ctx = gsap.context(() => {
     root.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
       const config = parseReveal(el)
@@ -103,7 +107,9 @@ export function initReveals(root: ParentNode = document): () => void {
         lazy: false,
         clearProps: revealClearProps(config.kind),
         scrollTrigger: config.onLoad ? undefined : { trigger: el, start: revealStart(config.kind), once: true },
+        paused: config.onLoad && holdForLoader,
       })
+      if (config.onLoad && holdForLoader) whenPageRevealed().then(() => tween.play())
       tweens.set(el, tween)
     })
   }, root)

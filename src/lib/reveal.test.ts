@@ -3,6 +3,7 @@ import { installMatchMedia, REDUCED_QUERY } from '../test/matchMedia'
 import { gsap, ScrollTrigger } from './gsap'
 import { STAGGER } from './motionTokens'
 import { initReveals, parseReveal, revealClearProps, revealStart, revealTween } from './reveal'
+import { LOADING_CLASS, REVEAL_EVENT } from './siteLoader'
 
 afterEach(() => {
   document.body.innerHTML = ''
@@ -138,6 +139,26 @@ describe('initReveals', () => {
     const node = el({ 'data-reveal': 'fade', 'data-reveal-on': 'load' })
     const cleanup = initReveals()
     expect(node.style.opacity).toBe('0')
+    cleanup()
+  })
+
+  it('holds a load reveal at its start state until the site loader lifts, then plays it', async () => {
+    document.documentElement.classList.add(LOADING_CLASS)
+    const node = el({ 'data-reveal': 'fade', 'data-reveal-on': 'load' })
+    const cleanup = initReveals()
+    const [tween] = gsap.getTweensOf(node)
+    expect(node.style.opacity).toBe('0')
+    expect(tween.paused()).toBe(true)
+    document.dispatchEvent(new Event(REVEAL_EVENT))
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(tween.paused()).toBe(false)
+    cleanup()
+  })
+
+  it('plays a load reveal straight away when there is no loader', () => {
+    const node = el({ 'data-reveal': 'fade', 'data-reveal-on': 'load' })
+    const cleanup = initReveals()
+    expect(gsap.getTweensOf(node)[0].paused()).toBe(false)
     cleanup()
   })
 

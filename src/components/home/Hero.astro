@@ -70,9 +70,12 @@ const words = ['ux', 'ui', 'seo', 'ai']
 <script>
   import { parseWords } from '../../lib/typewriter'
   import { startTypewriter } from '../../lib/typewriterElement'
+  import { whenPageRevealed } from '../../lib/siteLoader'
 
-  // Start after the block has wiped in and the portrait has risen.
-  document.querySelectorAll<HTMLElement>('[data-typewriter]').forEach((el) => {
-    startTypewriter(el, parseWords(el.dataset.words), { startDelay: 1400, cycles: 2 })
+  // Start after the block has wiped in and the portrait has risen, which waits for the loader.
+  whenPageRevealed().then(() => {
+    document.querySelectorAll<HTMLElement>('[data-typewriter]').forEach((el) => {
+      startTypewriter(el, parseWords(el.dataset.words), { startDelay: 1400, cycles: 2 })
+    })
   })
 </script>

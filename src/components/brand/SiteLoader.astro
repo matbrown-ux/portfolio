@@ -1,0 +1,29 @@
+---
+import Logo from './Logo.astro'
+---
+
+{/* The loader that covers the page on arrival and on reload. Hidden unless the head script in
+    BaseLayout asked for it; src/lib/siteLoader.ts plays it and removes it. Decorative throughout,
+    so it is hidden from assistive technology and the page beneath stays readable. */}
+<div data-loader class="site-loader fixed inset-0 z-[80] bg-ivory" aria-hidden="true">
+  <div data-loader-pane class="absolute inset-0 grid place-items-center bg-ink text-ivory">
+    <div class="relative grid w-[clamp(9.5rem,24vw,13rem)] place-items-center">
+      <svg class="block aspect-square w-full -rotate-90" viewBox="0 0 200 200" fill="none">
+        <circle cx="100" cy="100" r="96" stroke="var(--color-line-dark)" stroke-width="2"></circle>
+        <circle
+          data-loader-ring
+          cx="100"
+          cy="100"
+          r="96"
+          stroke="var(--color-vermilion)"
+          stroke-width="4"
+          pathLength="1"
+          stroke-dasharray="1"
+          stroke-dashoffset="1"></circle>
+      </svg>
+      <span data-loader-logo class="absolute w-[46%] opacity-0">
+        <Logo />
+      </span>
+    </div>
+  </div>
+</div>
