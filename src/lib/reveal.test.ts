@@ -59,6 +59,16 @@ describe('parseReveal', () => {
     }
   })
 
+  it('takes a step other than STAGGER between indexes from data-reveal-step', () => {
+    const node = el({ 'data-reveal': 'slide', 'data-reveal-delay': '1', 'data-reveal-index': '3', 'data-reveal-step': '0.12' })
+    expect(parseReveal(node)?.delay).toBeCloseTo(1 + 3 * 0.12)
+  })
+
+  it('reads a first-screen reveal as a load reveal that keeps only its stagger if it falls back to scroll', () => {
+    const node = el({ 'data-reveal': 'slide', 'data-reveal-on': 'first-screen', 'data-reveal-delay': '1.3', 'data-reveal-index': '2' })
+    expect(parseReveal(node)).toEqual({ kind: 'slide', delay: 1.3 + 2 * STAGGER, onLoad: true, scrollDelay: 2 * STAGGER })
+  })
+
   it('ignores unknown kinds and missing attributes', () => {
     expect(parseReveal(el({ 'data-reveal': 'spin' }))).toBeNull()
     expect(parseReveal(el({}))).toBeNull()
@@ -109,6 +119,14 @@ describe('revealTween', () => {
   })
 })
 
+describe('the slide', () => {
+  it('fades in from the left, moving only sideways, without 3D promotion', () => {
+    expect(revealTween('slide')).toEqual({ from: { opacity: 0, x: -48 }, to: { opacity: 1, x: 0, force3D: false } })
+    expect(revealClearProps('slide')).toBe('opacity,transform')
+    expect(revealStart('slide')).toBe('top 85%')
+  })
+})
+
 describe('revealClearProps', () => {
   it('clears exactly the properties each kind animates', () => {
     expect(revealClearProps('wipe')).toBe('clipPath')
@@ -152,6 +170,25 @@ describe('initReveals', () => {
     document.dispatchEvent(new Event(REVEAL_EVENT))
     await new Promise((resolve) => setTimeout(resolve, 0))
     expect(tween.paused()).toBe(false)
+    cleanup()
+  })
+
+  it('plays a first-screen reveal with the load sequence when it is on screen', () => {
+    const node = el({ 'data-reveal': 'slide', 'data-reveal-on': 'first-screen', 'data-reveal-delay': '1.3' })
+    const cleanup = initReveals()
+    const [tween] = gsap.getTweensOf(node)
+    expect(tween.scrollTrigger).toBeUndefined()
+    expect(tween.delay()).toBeCloseTo(1.3)
+    cleanup()
+  })
+
+  it('plays a first-screen reveal on scroll, with only its stagger, when it starts below the screen', () => {
+    const node = el({ 'data-reveal': 'slide', 'data-reveal-on': 'first-screen', 'data-reveal-delay': '1.3', 'data-reveal-index': '1' })
+    node.getBoundingClientRect = () => ({ top: window.innerHeight + 10 }) as DOMRect
+    const cleanup = initReveals()
+    const [tween] = gsap.getTweensOf(node)
+    expect(tween.scrollTrigger).toBeDefined()
+    expect(tween.delay()).toBeCloseTo(STAGGER)
     cleanup()
   })
 

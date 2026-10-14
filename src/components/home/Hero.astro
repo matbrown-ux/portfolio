@@ -3,6 +3,7 @@ import { Image } from 'astro:assets'
 import portrait from '../../assets/portraits/hero.png'
 import ArrowButton from '../ui/ArrowButton.astro'
 import VerticalLabel from '../ui/VerticalLabel.astro'
+import { HERO_ENTRANCE } from '../../lib/heroEntrance'
 
 const words = ['ux', 'ui', 'seo', 'ai']
 ---
@@ -12,6 +13,9 @@ const words = ['ux', 'ui', 'seo', 'ai']
   <p
     class="font-display px-6 pt-28 text-[clamp(6rem,14.5vw,15rem)] leading-[0.9] md:px-12 lg:absolute lg:left-0 lg:top-[29%] lg:pt-0 lg:text-[13vw] xl:text-[clamp(6rem,14.5vw,15rem)]"
     aria-hidden="true"
+    data-reveal="rise"
+    data-reveal-on="load"
+    data-reveal-delay={HERO_ENTRANCE.word}
   >
     <span data-typewriter data-words={words.join(',')}>{words[0]}</span>.<span class="caret"></span>
   </p>
@@ -19,22 +23,31 @@ const words = ['ux', 'ui', 'seo', 'ai']
   <div
     class="relative z-10 grid max-w-xl gap-5 px-6 pt-8 md:px-12 lg:absolute lg:left-[33%] lg:top-[21%] lg:w-[19%] lg:max-w-none lg:px-0 lg:pt-0 xl:top-[24%] xl:w-[27%] xl:grid-cols-2 xl:gap-8"
   >
-    <h1 class="type-label before:mb-3 before:block before:h-0.5 before:w-10 before:bg-ink">
+    <h1
+      data-reveal="rise"
+      data-reveal-on="load"
+      data-reveal-delay={HERO_ENTRANCE.title}
+      class="type-label before:mb-3 before:block before:h-0.5 before:w-10 before:bg-ink">
       UX/UI Engineer, SEO Specialist &amp; AI Workflow Developer
     </h1>
-    <p class="type-label font-medium">
+    <p class="type-label font-medium" data-reveal="rise" data-reveal-on="load" data-reveal-delay={HERO_ENTRANCE.intro}>
       I'm Mathew Brown. I design and build interfaces, get them found in search, and automate the busywork with AI
       agents.
     </p>
   </div>
 
-  <VerticalLabel class="absolute right-6 top-28 border-r-2 border-ink pr-2 md:right-12 lg:top-[14%] lg:text-sm">
-    Mathew Brown<br />Freelance<br />Available 2026
-  </VerticalLabel>
+  <div class="absolute right-6 top-28 md:right-12 lg:top-[14%]" data-reveal="rise" data-reveal-on="load" data-reveal-delay={HERO_ENTRANCE.label}>
+    <VerticalLabel class="border-r-2 border-ink pr-2 lg:text-sm">
+      Mathew Brown<br />Freelance<br />Available 2026
+    </VerticalLabel>
+  </div>
 
   <p
     class="font-display absolute bottom-[6%] left-12 hidden rotate-180 text-[clamp(3rem,6.6vw,6.5rem)] leading-none [writing-mode:vertical-rl] lg:block"
     aria-hidden="true"
+    data-reveal="rise"
+    data-reveal-on="load"
+    data-reveal-delay={HERO_ENTRANCE.number}
   >
     001
   </p>
@@ -46,6 +59,7 @@ const words = ['ux', 'ui', 'seo', 'ai']
       class="absolute inset-x-0 bottom-0 top-1/2 -z-10 bg-vermilion lg:left-[33%]"
       data-reveal="wipe"
       data-reveal-on="load"
+      data-reveal-delay={HERO_ENTRANCE.block}
     >
     </div>
     {/* The portrait multiplies onto whatever is behind it: black stays black, the greys take the
@@ -61,9 +75,12 @@ const words = ['ux', 'ui', 'seo', 'ai']
       class="absolute bottom-0 right-[10%] h-[96%] w-auto mix-blend-multiply lg:h-[min(93%,58vw)]"
       data-reveal="rise"
       data-reveal-on="load"
-      data-reveal-delay="0.25"
+      data-reveal-delay={HERO_ENTRANCE.portrait}
     />
-    <ArrowButton href="#what-i-do" label="Scroll to what I do" class="absolute bottom-[6%] left-6 focus-visible:outline-ink md:left-12 lg:left-[33%]" />
+    {/* An ink square, so it fades rather than moves. */}
+    <div class="absolute bottom-[6%] left-6 md:left-12 lg:left-[33%]" data-reveal="fade" data-reveal-on="load" data-reveal-delay={HERO_ENTRANCE.arrow}>
+      <ArrowButton href="#what-i-do" label="Scroll to what I do" class="focus-visible:outline-ink" />
+    </div>
   </div>
 </section>
 

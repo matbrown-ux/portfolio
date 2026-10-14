@@ -9,6 +9,7 @@ import {
   loaderActive,
   loaderDuration,
   REVEAL_EVENT,
+  revealAt,
   runSiteLoader,
   whenPageRevealed,
 } from './siteLoader'
@@ -171,6 +172,31 @@ describe('runSiteLoader', () => {
     finishLoading()
     await flush()
     expect(timeline.paused()).toBe(false)
+  })
+})
+
+describe('the hand-over to the page', () => {
+  it('comes when the pane is three quarters of the way off the top, not as it starts to lift', async () => {
+    const { root } = mount()
+    const revealed = vi.fn()
+    document.addEventListener(REVEAL_EVENT, revealed, { once: true })
+    const timeline = runSiteLoader(root, Promise.resolve())
+    await flush()
+    const lift = LOADER_MOTION.ringAt + LOADER_MOTION.ringFill + LOADER_MOTION.hold
+    timeline.seek(lift + 0.01, false)
+    expect(revealed).not.toHaveBeenCalled()
+    expect(loaderActive()).toBe(true)
+    timeline.seek(revealAt() - 0.01, false)
+    expect(revealed).not.toHaveBeenCalled()
+    timeline.seek(revealAt() + 0.01, false)
+    expect(revealed).toHaveBeenCalledTimes(1)
+    expect(loaderActive()).toBe(false)
+  })
+
+  it('is the moment power4.inOut has covered three quarters of the lift', () => {
+    const lift = LOADER_MOTION.ringAt + LOADER_MOTION.ringFill + LOADER_MOTION.hold
+    const t = (revealAt() - lift) / LOADER_MOTION.paneOut
+    expect(gsap.parseEase(LOADER_MOTION.paneOutEase)(t)).toBeCloseTo(0.75, 3)
   })
 })
 

@@ -45,8 +45,31 @@ export const LOADER_MOTION = {
   fadeOutEase: 'power2.in',
   paneOut: 0.9,
   paneOutEase: 'power4.inOut',
+  /** How far the pane has lifted when the page's own entrance starts. */
+  revealAtProgress: 0.75,
   /** Seconds after the loader starts that it stops waiting for the page to finish loading. */
   maxWait: 5,
+} as const
+
+/**
+ * The Home hero's entrance, as seconds after it starts (at once, or as the site loader lifts).
+ * The vermilion block wipes and the portrait rises, then 001 and the typed word, then the copy
+ * from left to right ending on the vertical label. With the copy nearly settled, the header fades
+ * in and the "What I do" boxes slide in one by one from the left.
+ */
+export const HERO_ENTRANCE = {
+  block: 0,
+  portrait: 0.25,
+  number: 0.45,
+  word: 0.55,
+  title: 0.7,
+  arrow: 0.75,
+  intro: 0.8,
+  label: 0.9,
+  header: 1.35,
+  strip: 1.35,
+  /** Seconds between one "What I do" box and the next. */
+  stripStep: 0.12,
 } as const
 
 /** Seconds between items that reveal as a group. */

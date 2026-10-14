@@ -6,7 +6,7 @@ export { LOADER_MOTION }
 /** Set on <html> by the head script while the loader covers the page. */
 export const LOADING_CLASS = 'site-loading'
 
-/** Fired on the document as the loader starts to lift, so the page's own entrance can play. */
+/** Fired on the document as the loader is three quarters lifted, so the page's own entrance can play. */
 export const REVEAL_EVENT = 'site-loader:reveal'
 
 /** Seconds the head script leaves the loader up if the page script never starts it. */
@@ -37,7 +37,7 @@ export function loaderActive(): boolean {
   return document.documentElement.classList.contains(LOADING_CLASS)
 }
 
-/** Settles once the page is uncovered: at once with no loader, else as the loader starts to lift. */
+/** Settles once the page's entrance may start: at once with no loader, else three quarters into its lift. */
 export function whenPageRevealed(): Promise<void> {
   if (!loaderActive()) return Promise.resolve()
   return new Promise((resolve) => document.addEventListener(REVEAL_EVENT, () => resolve(), { once: true }))
@@ -46,6 +46,17 @@ export function whenPageRevealed(): Promise<void> {
 /** When the ring is full and the exit begins, in seconds from the start. */
 function exitAt(): number {
   return LOADER_MOTION.ringAt + LOADER_MOTION.ringFill + LOADER_MOTION.hold
+}
+
+/**
+ * When the page's own entrance starts: the moment the pane has lifted `revealAtProgress` of the
+ * way. The lift eases with power4.inOut, whose second half is 1 - (2 - 2t)^5 / 2 (GSAP's power4
+ * is a fifth power), so for a progress p past one half that moment is 1 - (2(1 - p))^(1/5) / 2
+ * of its duration.
+ */
+export function revealAt(): number {
+  const t = 1 - (2 * (1 - LOADER_MOTION.revealAtProgress)) ** (1 / 5) / 2
+  return exitAt() + LOADER_MOTION.paneOut * t
 }
 
 /** Seconds from the first frame to the pane clearing the top, when the page loads in time. */
@@ -71,10 +82,12 @@ export function runSiteLoader(root: HTMLElement, ready: Promise<void>): gsap.cor
   ready.then(() => (isReady = true))
   root.dataset.state = 'running'
 
-  const reveal = () => {
-    // The pane covers the screen at this moment, so dropping the ivory backing behind it shows
-    // nothing yet; it lets the page show through as the pane lifts.
+  // The pane covers the screen as the lift starts, so dropping the ivory backing behind it shows
+  // nothing yet; it lets the page show through as the pane lifts.
+  const lift = () => {
     root.style.background = 'transparent'
+  }
+  const reveal = () => {
     document.documentElement.classList.remove(LOADING_CLASS)
     document.dispatchEvent(new Event(REVEAL_EVENT))
   }
@@ -116,7 +129,8 @@ export function runSiteLoader(root: HTMLElement, ready: Promise<void>): gsap.cor
     [],
     LOADER_MOTION.ringAt + LOADER_MOTION.ringFill,
   )
-  timeline.call(reveal, [], exitAt())
+  timeline.call(lift, [], exitAt())
+  timeline.call(reveal, [], revealAt())
   timeline.to([logo, ringArt], { opacity: 0, duration: LOADER_MOTION.fadeOut, ease: LOADER_MOTION.fadeOutEase }, exitAt())
   timeline.to(pane, { clipPath: ABOVE, duration: LOADER_MOTION.paneOut, ease: LOADER_MOTION.paneOutEase }, exitAt())
   return timeline
