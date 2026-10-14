@@ -2,15 +2,16 @@
   command = "npm run build"
   publish = "dist"
 
-# Until matbrown.io points here, keep search engines off the Netlify address: the canonical links
-# name matbrown.io, which is still a parking page. Remove this block on the day the domain moves.
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Robots-Tag = "noindex"
-
 # Netlify does not know the .webmanifest extension and would serve it as a download.
 [[headers]]
   for = "/site.webmanifest"
   [headers.values]
     Content-Type = "application/manifest+json"
+
+# The Netlify address answers with the same site; send it to the domain so there is one address
+# to index and share. Deploy previews have their own host names and are not affected.
+[[redirects]]
+  from = "https://mat-brown-ux-portfolio.netlify.app/*"
+  to = "https://matbrown.io/:splat"
+  status = 301
+  force = true
