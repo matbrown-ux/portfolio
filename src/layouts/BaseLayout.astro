@@ -82,11 +82,13 @@ const siteNodes = [personNode(person, disciplines.map((discipline) => discipline
       import { initHeaderScroll } from '../lib/headerScroll'
       import { initTocSpy } from '../lib/tocSpy'
       import { initBeforeAfter } from '../lib/beforeAfter'
+      import { initStepArt } from '../lib/stepArt'
       initReveals()
       initVideosInView()
       initHeaderScroll()
       initTocSpy()
       initBeforeAfter()
+      initStepArt()
     </script>
     {cloudflare && <script is:inline defer src={cloudflare.src} data-cf-beacon={cloudflare['data-cf-beacon']} />}
   </body>

@@ -1,6 +1,10 @@
 ---
 import MediaSlot from '../media/MediaSlot.astro'
 import { caseStudyMedia } from '../../lib/caseStudyMedia'
+import IntakeArt from './art/IntakeArt.astro'
+
+/** Animated illustrations a step can show in place of a capture, by name. */
+const ART = { intake: IntakeArt }
 
 interface Step {
   title: string
@@ -8,6 +12,8 @@ interface Step {
   alt: string
   src?: string
   poster?: string
+  /** The name of an animated illustration to show in place of a capture. */
+  art?: keyof typeof ART
 }
 
 interface Props {
@@ -29,12 +35,29 @@ const slug = Astro.params.slug
       steps.map((step, i) => (
         <li class="cs-step grid items-end gap-6 xl:grid-cols-[1.5fr_1fr] xl:gap-12 xl:even:grid-cols-[1fr_1.5fr]">
           <div class:list={['relative', i % 2 === 1 && 'xl:order-2']} data-reveal="rise">
-            <MediaSlot
-              media={caseStudyMedia({ src: step.src, alt: step.alt, poster: step.poster }, `${slug} walkthrough step "${step.title}"`)}
-              frame="browser"
-              areaClass="aspect-[16/9.4]"
-              sizes="(min-width: 1280px) 58vw, 100vw"
-            />
+            {(() => {
+              const Art = step.art && ART[step.art]
+              if (!Art) return (
+              <MediaSlot
+                media={caseStudyMedia({ src: step.src, alt: step.alt, poster: step.poster }, `${slug} walkthrough step "${step.title}"`)}
+                frame="browser"
+                areaClass="aspect-[16/9.4]"
+                sizes="(min-width: 1280px) 58vw, 100vw"
+              />
+              )
+              return (
+                <div class="border-2 border-ink bg-ivory">
+                  <div class="flex items-center gap-1.5 border-b-2 border-ink px-3 py-2" aria-hidden="true">
+                    <span class="size-2 bg-ink" />
+                    <span class="size-2 bg-ink" />
+                    <span class="size-2 bg-ink" />
+                  </div>
+                  <div class="aspect-[16/9.4] overflow-hidden">
+                    <Art label={step.alt} />
+                  </div>
+                </div>
+              )
+            })()}
             <p
               class:list={[
                 'cs-step-tag type-display absolute -bottom-4 flex items-center gap-3 border-2 border-ink bg-ivory px-4 py-2.5 text-[clamp(1rem,1.5vw,1.5rem)] md:bottom-6',
