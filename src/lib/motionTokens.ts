@@ -66,9 +66,32 @@ export const HERO_ENTRANCE = {
   arrow: 0.75,
   intro: 0.8,
   label: 0.9,
+  /** A case study's script art, which sits on the client name. */
+  art: 0.85,
   header: 1.35,
   strip: 1.35,
   /** Seconds between one "What I do" box and the next. */
+  stripStep: 0.12,
+} as const
+
+/**
+ * The entrance of every other page's header, on the hero's pattern. These pages open on type, not
+ * on a block and a portrait, so the sequence starts with the display word: breadcrumb and display
+ * word, the script art across it, then the copy from left to right ending on the vertical label.
+ * Then the site header fades in and any ink strip below slides in box by box from the left.
+ */
+export const PAGE_ENTRANCE = {
+  crumbs: 0,
+  display: 0,
+  title: 0.25,
+  art: 0.3,
+  /** A large panel beside the copy, such as the contact form. */
+  panel: 0.3,
+  intro: 0.35,
+  details: 0.45,
+  label: 0.55,
+  header: 0.9,
+  strip: 0.9,
   stripStep: 0.12,
 } as const
 

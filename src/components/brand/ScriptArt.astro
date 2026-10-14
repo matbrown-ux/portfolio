@@ -8,9 +8,11 @@ interface Props {
   reveal?: 'wipe' | 'fade'
   /** Seconds. */
   delay?: number
+  /** Play with the page's entrance instead of on scroll. */
+  on?: 'load'
 }
 
-const { name, class: className, reveal, delay } = Astro.props
+const { name, class: className, reveal, delay, on } = Astro.props
 const { src, width, height } = art[name]
 ---
 
@@ -25,4 +27,5 @@ const { src, width, height } = art[name]
   class:list={['pointer-events-none max-w-none select-none', className]}
   data-reveal={reveal}
   data-reveal-delay={delay}
+  data-reveal-on={on}
 />

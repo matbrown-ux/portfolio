@@ -1,4 +1,5 @@
 ---
+import { HERO_ENTRANCE, stripReveal } from '../../lib/heroEntrance'
 import type { CollectionEntry } from 'astro:content'
 import VerticalLabel from '../ui/VerticalLabel.astro'
 
@@ -16,21 +17,21 @@ const { title, client, role, year, stack, result } = Astro.props.entry.data
       <VerticalLabel>At a glance</VerticalLabel>
     </div>
     <dl class="grid flex-1 grid-cols-2 lg:grid-cols-[repeat(4,1fr)_1.6fr]">
-      <div class="border-b border-line-dark px-6 py-8 lg:border-b-0 lg:border-l lg:px-7">
-        <dt class="type-label text-vermilion">Client</dt>
-        <dd class="type-display mt-3 text-[clamp(1.25rem,1.5vw,1.6rem)]">{client ?? title}</dd>
+      <div class="overflow-hidden border-b border-line-dark px-6 py-8 lg:border-b-0 lg:border-l lg:px-7">
+        <dt class="type-label text-vermilion" {...stripReveal(0, HERO_ENTRANCE)}>Client</dt>
+        <dd {...stripReveal(0, HERO_ENTRANCE)} class="type-display mt-3 text-[clamp(1.25rem,1.5vw,1.6rem)]">{client ?? title}</dd>
       </div>
-      <div class="border-b border-line-dark px-6 py-8 lg:border-b-0 lg:border-l lg:px-7">
-        <dt class="type-label text-vermilion">Role</dt>
-        <dd class="type-display mt-3 text-[clamp(1.25rem,1.5vw,1.6rem)]">{role}</dd>
+      <div class="overflow-hidden border-b border-line-dark px-6 py-8 lg:border-b-0 lg:border-l lg:px-7">
+        <dt class="type-label text-vermilion" {...stripReveal(1, HERO_ENTRANCE)}>Role</dt>
+        <dd {...stripReveal(1, HERO_ENTRANCE)} class="type-display mt-3 text-[clamp(1.25rem,1.5vw,1.6rem)]">{role}</dd>
       </div>
-      <div class="border-b border-line-dark px-6 py-8 lg:border-b-0 lg:border-l lg:px-7">
-        <dt class="type-label text-vermilion">Year</dt>
-        <dd class="type-display mt-3 text-[clamp(1.25rem,1.5vw,1.6rem)]">{year}</dd>
+      <div class="overflow-hidden border-b border-line-dark px-6 py-8 lg:border-b-0 lg:border-l lg:px-7">
+        <dt class="type-label text-vermilion" {...stripReveal(2, HERO_ENTRANCE)}>Year</dt>
+        <dd {...stripReveal(2, HERO_ENTRANCE)} class="type-display mt-3 text-[clamp(1.25rem,1.5vw,1.6rem)]">{year}</dd>
       </div>
-      <div class="border-b border-line-dark px-6 py-8 lg:border-b-0 lg:border-l lg:px-7">
-        <dt class="type-label text-vermilion">Stack</dt>
-        <dd class="type-label mt-3 font-medium">
+      <div class="overflow-hidden border-b border-line-dark px-6 py-8 lg:border-b-0 lg:border-l lg:px-7">
+        <dt class="type-label text-vermilion" {...stripReveal(3, HERO_ENTRANCE)}>Stack</dt>
+        <dd {...stripReveal(3, HERO_ENTRANCE)} class="type-label mt-3 font-medium">
           <ul role="list">
             {stack.map((item) => (
               <li>{item}</li>
@@ -38,9 +39,9 @@ const { title, client, role, year, stack, result } = Astro.props.entry.data
           </ul>
         </dd>
       </div>
-      <div class="col-span-2 px-6 py-8 lg:col-span-1 lg:border-l lg:border-line-dark lg:px-7">
-        <dt class="type-label text-vermilion">Result</dt>
-        <dd class="mt-3 text-lg leading-snug">{result}</dd>
+      <div class="col-span-2 overflow-hidden px-6 py-8 lg:col-span-1 lg:border-l lg:border-line-dark lg:px-7">
+        <dt class="type-label text-vermilion" {...stripReveal(4, HERO_ENTRANCE)}>Result</dt>
+        <dd {...stripReveal(4, HERO_ENTRANCE)} class="mt-3 text-lg leading-snug">{result}</dd>
       </div>
     </dl>
   </div>

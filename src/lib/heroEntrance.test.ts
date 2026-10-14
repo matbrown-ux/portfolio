@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { HERO_ENTRANCE, headerReveal } from './heroEntrance'
+import { HERO_ENTRANCE, PAGE_ENTRANCE, headerReveal, stripReveal } from './heroEntrance'
 
 describe('HERO_ENTRANCE', () => {
   it('brings the hero in in order: block and portrait, then 001 and the word, then the copy left to right', () => {
@@ -26,13 +26,48 @@ describe('HERO_ENTRANCE', () => {
   })
 })
 
-describe('headerReveal', () => {
-  it('fades the header in on the home page, after the hero copy', () => {
-    expect(headerReveal('/')).toEqual({ 'data-reveal': 'fade', 'data-reveal-on': 'load', 'data-reveal-delay': HERO_ENTRANCE.header })
+describe('PAGE_ENTRANCE', () => {
+  it('follows the hero pattern for pages led by type: display word, then the copy left to right, then the vertical label', () => {
+    const order = [PAGE_ENTRANCE.display, PAGE_ENTRANCE.title, PAGE_ENTRANCE.intro, PAGE_ENTRANCE.details, PAGE_ENTRANCE.label]
+    for (let i = 1; i < order.length; i++) expect(order[i]).toBeGreaterThan(order[i - 1])
+    expect(PAGE_ENTRANCE.crumbs).toBe(PAGE_ENTRANCE.display)
   })
 
-  it('leaves the header alone on every other page', () => {
-    expect(headerReveal('/work')).toEqual({})
-    expect(headerReveal('/blog/seo')).toEqual({})
+  it('wipes the script art in once the display word it sits on has started', () => {
+    expect(PAGE_ENTRANCE.art).toBeGreaterThan(PAGE_ENTRANCE.display)
+    expect(HERO_ENTRANCE.art).toBeGreaterThan(HERO_ENTRANCE.word)
+  })
+
+  it('fades the header in and starts the ink strip together, after the copy, with the hero spacing', () => {
+    expect(PAGE_ENTRANCE.strip).toBe(PAGE_ENTRANCE.header)
+    expect(PAGE_ENTRANCE.header).toBeGreaterThan(PAGE_ENTRANCE.label)
+    expect(PAGE_ENTRANCE.stripStep).toBe(HERO_ENTRANCE.stripStep)
+  })
+})
+
+describe('headerReveal', () => {
+  it('fades the header in after the hero on the pages that open with a hero: Home, About and each case study', () => {
+    for (const path of ['/', '/about', '/work/vamp-network']) {
+      expect(headerReveal(path)).toEqual({ 'data-reveal': 'fade', 'data-reveal-on': 'load', 'data-reveal-delay': HERO_ENTRANCE.header })
+    }
+  })
+
+  it('fades the header in sooner on every other page, whose shorter sequence ends sooner', () => {
+    for (const path of ['/work', '/services', '/blog', '/blog/seo', '/blog/seo/an-article', '/contact', '/contact/thanks', '/404']) {
+      expect(headerReveal(path)).toEqual({ 'data-reveal': 'fade', 'data-reveal-on': 'load', 'data-reveal-delay': PAGE_ENTRANCE.header })
+    }
+  })
+})
+
+describe('stripReveal', () => {
+  it('slides a strip cell in from the left at its place in the line, with the given entrance', () => {
+    expect(stripReveal(2, HERO_ENTRANCE)).toEqual({
+      'data-reveal': 'slide',
+      'data-reveal-on': 'first-screen',
+      'data-reveal-delay': HERO_ENTRANCE.strip,
+      'data-reveal-index': 2,
+      'data-reveal-step': HERO_ENTRANCE.stripStep,
+    })
+    expect(stripReveal(0, PAGE_ENTRANCE)['data-reveal-delay']).toBe(PAGE_ENTRANCE.strip)
   })
 })

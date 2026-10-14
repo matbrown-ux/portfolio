@@ -1,4 +1,5 @@
 ---
+import { PAGE_ENTRANCE, stripReveal } from '../../lib/heroEntrance'
 import Breadcrumb from './Breadcrumb.astro'
 import type { ArticleCard, Crumb } from '../../lib/blog'
 import { titleFit } from '../../lib/titleFit'
@@ -16,34 +17,34 @@ const { crumbs, card, updated, topic, discipline } = Astro.props
 // About thirteen characters of the display size fit a line; a longer word is set smaller.
 // The line length is thirteen characters of the full size, so it is divided by the same scale.
 const fit = `--fit:${titleFit(card.title, { charsPerLine: 13 })}`
-const cell = 'border-b border-line-dark px-6 py-6 md:px-12 lg:border-b-0 lg:border-l lg:px-7 lg:first:border-l-0 lg:first:pl-12'
+const cell = 'overflow-hidden border-b border-line-dark px-6 py-6 md:px-12 lg:border-b-0 lg:border-l lg:px-7 lg:first:border-l-0 lg:first:pl-12'
 const link = 'underline-offset-[0.15em] decoration-vermilion decoration-2 hover:underline focus-visible:underline focus-visible:outline-ivory'
 ---
 
 <section class="bg-ivory pt-28 md:pt-32">
   <div class="mx-auto max-w-[1600px] px-6 pb-12 md:px-12 lg:pb-14">
-    <Breadcrumb crumbs={crumbs} />
-    <h1 class="type-display mt-8 max-w-[calc(13ch/var(--fit))] text-[length:calc(clamp(3.25rem,11vw,11.5rem)*var(--fit))] leading-[0.92]" style={fit} data-reveal="rise" data-reveal-on="load">{card.title}</h1>
-    <p class="mt-8 max-w-[26em] text-xl leading-snug lg:text-[clamp(1.25rem,1.7vw,1.75rem)]">{card.description}</p>
+    <div data-reveal="fade" data-reveal-on="load" data-reveal-delay={PAGE_ENTRANCE.crumbs}><Breadcrumb crumbs={crumbs} /></div>
+    <h1 class="type-display mt-8 max-w-[calc(13ch/var(--fit))] text-[length:calc(clamp(3.25rem,11vw,11.5rem)*var(--fit))] leading-[0.92]" style={fit} data-reveal="rise" data-reveal-on="load" data-reveal-delay={PAGE_ENTRANCE.display}>{card.title}</h1>
+    <p class="mt-8 max-w-[26em] text-xl leading-snug lg:text-[clamp(1.25rem,1.7vw,1.75rem)]" data-reveal="rise" data-reveal-on="load" data-reveal-delay={PAGE_ENTRANCE.intro}>{card.description}</p>
   </div>
   <div class="bg-ink text-ivory">
     <dl class="mx-auto grid max-w-[1600px] grid-cols-2 lg:grid-cols-4">
       <div class={cell}>
-        <dt class="type-label text-vermilion">Published</dt>
-        <dd class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><time datetime={card.dateIso}>{card.dateLabel}</time></dd>
-        {updated && <dd class="type-label mt-2 font-medium">Updated <time datetime={updated.iso}>{updated.label}</time></dd>}
+        <dt {...stripReveal(0, PAGE_ENTRANCE)} class="type-label text-vermilion">Published</dt>
+        <dd {...stripReveal(0, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><time datetime={card.dateIso}>{card.dateLabel}</time></dd>
+        {updated && <dd {...stripReveal(0, PAGE_ENTRANCE)} class="type-label mt-2 font-medium">Updated <time datetime={updated.iso}>{updated.label}</time></dd>}
       </div>
       <div class={cell}>
-        <dt class="type-label text-vermilion">Reading time</dt>
-        <dd class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]">{card.readLabel}</dd>
+        <dt {...stripReveal(1, PAGE_ENTRANCE)} class="type-label text-vermilion">Reading time</dt>
+        <dd {...stripReveal(1, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]">{card.readLabel}</dd>
       </div>
       <div class={cell}>
-        <dt class="type-label text-vermilion">Topic</dt>
-        <dd class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={topic.href} class={link}>{topic.title} <span aria-hidden="true">↗</span></a></dd>
+        <dt {...stripReveal(2, PAGE_ENTRANCE)} class="type-label text-vermilion">Topic</dt>
+        <dd {...stripReveal(2, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={topic.href} class={link}>{topic.title} <span aria-hidden="true">↗</span></a></dd>
       </div>
       <div class={cell}>
-        <dt class="type-label text-vermilion">Discipline</dt>
-        <dd class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={`/services#${discipline.slug}`} class={link}>{discipline.title} <span aria-hidden="true">↗</span></a></dd>
+        <dt {...stripReveal(3, PAGE_ENTRANCE)} class="type-label text-vermilion">Discipline</dt>
+        <dd {...stripReveal(3, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={`/services#${discipline.slug}`} class={link}>{discipline.title} <span aria-hidden="true">↗</span></a></dd>
       </div>
     </dl>
   </div>

@@ -1,4 +1,5 @@
 ---
+import { PAGE_ENTRANCE } from '../../lib/heroEntrance'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import Confirmation from '../../components/contact/Confirmation.astro'
 ---
@@ -7,9 +8,9 @@ import Confirmation from '../../components/contact/Confirmation.astro'
   {/* The block starts under the site header, as the form panel does on the contact page, so the
       header stays on ivory and its vermilion hover underlines stay visible. */}
   <div class="flex flex-1 flex-col bg-ivory pt-[5.5rem] md:pt-[5.875rem]">
-    <div class="flex-1 bg-vermilion">
+    <div class="flex-1 bg-vermilion" data-reveal="wipe" data-reveal-on="load" data-reveal-delay={PAGE_ENTRANCE.display}>
       <div class="mx-auto max-w-[1600px]">
-        <Confirmation as="h1" />
+        <div data-reveal="rise" data-reveal-on="load" data-reveal-delay={PAGE_ENTRANCE.title}><Confirmation as="h1" /></div>
       </div>
     </div>
   </div>

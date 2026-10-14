@@ -1,4 +1,5 @@
 ---
+import { HERO_ENTRANCE } from '../../lib/heroEntrance'
 import { Image } from 'astro:assets'
 import portrait from '../../assets/portraits/about.png'
 import VerticalLabel from '../ui/VerticalLabel.astro'
@@ -11,12 +12,18 @@ import VerticalLabel from '../ui/VerticalLabel.astro'
   <p
     class="type-display relative z-10 px-6 pt-32 text-[clamp(4.5rem,15vw,15rem)] leading-[0.86] md:px-12 lg:absolute lg:left-(--gutter) lg:top-[21%] lg:pt-0"
     aria-hidden="true"
+    data-reveal="rise"
+    data-reveal-on="load"
+    data-reveal-delay={HERO_ENTRANCE.number}
   >
     Mathew<br />Brown
   </p>
 
   <h1
     class="type-label relative z-10 mt-6 max-w-sm px-6 before:mb-3 before:block before:h-0.5 before:w-10 before:bg-ink md:px-12 lg:absolute lg:bottom-[8%] lg:left-(--gutter) lg:mt-0 lg:max-w-[min(30%,30rem)]"
+    data-reveal="rise"
+    data-reveal-on="load"
+    data-reveal-delay={HERO_ENTRANCE.title}
   >
     About Mathew Brown: UX/UI Engineer &amp; SEO Specialist
   </h1>
@@ -29,7 +36,7 @@ import VerticalLabel from '../ui/VerticalLabel.astro'
   <div
     class="relative mt-10 h-[110vw] max-h-[640px] [--portrait-h:92%] [--shoulders:0.435] lg:absolute lg:inset-y-0 lg:left-[calc(var(--gutter)+min(52%,832px))] lg:right-0 lg:mt-0 lg:h-auto lg:max-h-none lg:[--portrait-h:89.5%]"
   >
-    <div class="absolute inset-x-0 bottom-0 top-[calc(100%-var(--portrait-h)*(1-var(--shoulders)))] bg-vermilion" data-reveal="wipe" data-reveal-on="load"></div>
+    <div class="absolute inset-x-0 bottom-0 top-[calc(100%-var(--portrait-h)*(1-var(--shoulders)))] bg-vermilion" data-reveal="wipe" data-reveal-on="load" data-reveal-delay={HERO_ENTRANCE.block}></div>
     {/* The portrait multiplies onto whatever is behind it, so the one block stays exact brand
         vermilion: black stays black, the greys take the vermilion where they overlap the block, and
         above the block they sit on ivory as a plain black-and-white cut-out. The section's isolate
@@ -42,11 +49,14 @@ import VerticalLabel from '../ui/VerticalLabel.astro'
       loading="eager"
       fetchpriority="high"
       class="absolute bottom-0 left-[12%] h-(--portrait-h) w-auto max-w-none mix-blend-multiply lg:left-[min(5.3vw,5.3rem)]"
+      data-reveal="rise"
+      data-reveal-on="load"
+      data-reveal-delay={HERO_ENTRANCE.portrait}
     />
   </div>
 
   {/* On ivory at every width: from lg up it sits above the block, at the right edge of the hero. */}
-  <VerticalLabel class="absolute right-6 top-28 z-10 border-r-2 border-ink pr-2 text-ink md:right-12 lg:right-[calc(var(--gutter)+3rem)] lg:top-[17%] lg:text-sm">
+  <VerticalLabel class="absolute right-6 top-28 z-10 border-r-2 border-ink pr-2 text-ink md:right-12 lg:right-[calc(var(--gutter)+3rem)] lg:top-[17%] lg:text-sm" data-reveal="rise" data-reveal-on="load" data-reveal-delay={HERO_ENTRANCE.label}>
     O'ahu, Hawai'i<br />Working remotely
   </VerticalLabel>
 </section>

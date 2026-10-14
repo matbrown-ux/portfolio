@@ -1,9 +1,9 @@
 ---
-interface Props {
-  class?: string
-}
+import type { HTMLAttributes } from 'astro/types'
 
-const { class: className } = Astro.props
+type Props = HTMLAttributes<'span'>
+
+const { class: className, ...rest } = Astro.props
 ---
 
-<span class:list={['type-label inline-block rotate-180 [writing-mode:vertical-rl]', className]}><slot /></span>
+<span class:list={['type-label inline-block rotate-180 [writing-mode:vertical-rl]', className]} {...rest}><slot /></span>
