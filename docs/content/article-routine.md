@@ -1,6 +1,6 @@
 # Scheduled article routine
 
-A cloud routine runs this file on Monday, Wednesday and Friday. Each run writes ONE blog article from the topical map, with a brief for two or three supporting images, and opens a pull request for the owner to review. It never merges, and it never pushes to `main`: an article reaches matbrown.io only when the owner merges its pull request.
+A scheduled job on the owner's Mac (`scripts/article-run.sh`, started by launchd) runs this file on Monday, Wednesday and Friday, in a fresh worktree of `origin/main`. Each run writes ONE blog article from the topical map, generates two or three supporting images with Codex, and opens a pull request for the owner to review. It never merges, and it never pushes to `main`: an article reaches matbrown.io only when the owner merges its pull request.
 
 Read `CLAUDE.md` sections 2, 3 and 5 before you write. Every rule there applies. The rules below repeat the ones that matter most, and add the ones specific to this job.
 
@@ -47,7 +47,7 @@ Read `CLAUDE.md` sections 2, 3 and 5 before you write. Every rule there applies.
 
 ## 4. Plan the images
 
-The owner generates the images himself in Codex, so this run writes a brief, not image files.
+This run generates the images itself with the Codex CLI, which is signed in to the owner's ChatGPT account on this Mac. It also keeps a brief, so an image can be redone by hand.
 
 1. Choose two or three places where a picture helps the reader understand something: a process, a comparison, a structure, a before and after of a pattern. Skip decoration. Never put an image directly under the opening answer paragraph.
 2. At each place, put an MDX comment on its own line: `{/* IMAGE <n>: <one line saying what it shows> */}`. Comments do not render, so the article builds and reads fine before the images exist.
@@ -57,7 +57,12 @@ The owner generates the images himself in Codex, so this run writes a brief, not
    - `Alt text`: one plain sentence saying what the image shows, no dashes
    - `Prompt`: a self-contained prompt for GPT Image, written to the style below
    - `Size`: 1536 x 1024 (landscape) unless a tall diagram needs 1024 x 1536
-4. End the brief with the steps for whoever adds the images (the owner in Codex, or Claude in a local session): save each image to its `File` path, replace each marker with `![<alt text>](./images/<slug>-<n>.png)`, run `npm run build`, and commit to this pull request's branch. Astro converts the PNG files to WebP at build time.
+4. Generate the images: `mkdir -p src/content/blog/<topic>/images`, then run
+   `codex exec -C "$PWD" -s workspace-write --skip-git-repo-check "Read docs/content/image-briefs/<slug>.md. Generate each image it describes with your image generation tool, using each entry's Prompt exactly at its Size, and save each as a PNG at its File path. Do not edit any other file. Print the saved paths and their pixel sizes."`
+   It takes a few minutes. Use the plain `codex` binary, with no profile flag.
+5. Look at each image (Read the PNG). Regenerate (at most twice) an image with lettering, a person, a logo, a colour outside the palette, or a drawing that does not match its place in the article. Then rewrite its alt text to say what the image actually shows.
+6. Replace each marker with `![<alt text>](./images/<slug>-<n>.png)`. Astro converts the PNG files to WebP at build time.
+7. If Codex fails or is not signed in, keep the markers, say so in the pull request, and ship the article without images; the owner can generate them from the brief.
 
 **Image style (put it in every prompt):** flat editorial illustration in a brutalist style on a warm ivory ground (#F4F0E6), with near-black ink (#0C0C0C) linework and solid shapes and a single vermilion accent (#F86343); no other colours, no gradients, square corners, thick outlines. It may mix wireframe (outlined boxes, placeholder lines) with comic book touches (offset ink shadows, halftone dots, speed lines). Diagrams, abstract interface wireframes, objects and metaphors only.
 
@@ -73,17 +78,18 @@ The owner generates the images himself in Codex, so this run writes a brief, not
 
 1. Branch `article/<slug>` from `origin/main`.
 2. In `docs/content/topical-map.json`, set this article's `status` to `in-review` and `branch` to the branch name.
-3. Make ONE commit with the article, the image brief and the map change. Its message is the pull request, because GitHub fills a new pull request's title and description from a branch's only commit:
+3. Make ONE commit with the article, its images, the image brief and the map change. Its message is the pull request, because GitHub fills a new pull request's title and description from a branch's only commit:
    - Subject line: `Article: <title>`
-   - Body: the topic, primary keyword, relevancy and difficulty scores, word count, the questions answered, every external source you read (one per line, with its address), and anything the owner should check (an opinion stated in his voice, a claim about his own work). End the body with this checklist:
-     - `- [ ] Images generated and added (brief: docs/content/image-briefs/<slug>.md)`
+   - Body: the topic, primary keyword, relevancy and difficulty scores, word count, the questions answered, every external source you read (one per line, with its address), whether the images were generated, and anything the owner should check (an opinion stated in his voice, a claim about his own work). End the body with this checklist:
+     - `- [ ] Images look right (brief: docs/content/image-briefs/<slug>.md)`
      - `- [ ] Read on the deploy preview`
      - `- [ ] Facts and first-hand claims checked`
    - Last line: `Co-Authored-By: Claude <noreply@anthropic.com>`
 
    Never use `--no-verify` or bypass hooks.
-4. Push the branch: `git push -u origin article/<slug>`. The routine cannot open pull requests itself (`gh` has no valid login in the cloud), so do not try `gh pr create`. End the run with the link the owner clicks to open it: `https://github.com/matbrown-ux/portfolio/compare/main...article/<slug>?expand=1`. Netlify posts a deploy preview once the pull request exists.
-5. Do not merge. The owner opens the pull request, reviews the deploy preview, asks for changes if he wants them, adds the images, and merges it himself, which publishes the article.
+4. Push the branch: `git push -u origin article/<slug>`.
+5. Open the pull request: `gh pr create --base main --head article/<slug> --fill` (`--fill` takes the title and body from the one commit). Netlify posts a deploy preview on it. If `gh` fails, end the run with the link that opens it instead: `https://github.com/matbrown-ux/portfolio/compare/main...article/<slug>?expand=1`.
+6. Do not merge. The owner reviews the deploy preview, asks for changes if he wants them, and merges it himself, which publishes the article.
 
 ## 7. After the owner merges
 
