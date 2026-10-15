@@ -1,4 +1,5 @@
 ---
+import Arrow from '../ui/Arrow.astro'
 import { PAGE_ENTRANCE } from '../../lib/heroEntrance'
 import Confirmation from './Confirmation.astro'
 import { disciplines } from '../../content/disciplines'
@@ -114,7 +115,7 @@ const required = 'text-vermilion'
           <span
             aria-hidden="true"
             class="type-label pointer-events-none absolute inset-y-0 right-8 flex items-center text-[0.8125rem] text-ink transition-transform duration-200 group-has-[[aria-disabled=true]]:opacity-60 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5 group-has-[[aria-disabled=true]]:translate-x-0! group-has-[[aria-disabled=true]]:translate-y-0! motion-reduce:transition-none"
-            >↗</span
+            ><Arrow /></span
           >
         </span>
         <span class="type-label font-medium opacity-75"><span aria-hidden="true">* </span>Required</span>

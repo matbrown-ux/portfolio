@@ -1,4 +1,5 @@
 ---
+import Arrow from '../ui/Arrow.astro'
 import { PAGE_ENTRANCE, stripReveal } from '../../lib/heroEntrance'
 import Breadcrumb from './Breadcrumb.astro'
 import type { ArticleCard, Crumb } from '../../lib/blog'
@@ -40,11 +41,11 @@ const link = 'underline-offset-[0.15em] decoration-vermilion decoration-2 hover:
       </div>
       <div class={cell}>
         <dt {...stripReveal(2, PAGE_ENTRANCE)} class="type-label text-vermilion">Topic</dt>
-        <dd {...stripReveal(2, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={topic.href} class={link}>{topic.title} <span aria-hidden="true">↗</span></a></dd>
+        <dd {...stripReveal(2, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={topic.href} class={link}>{topic.title} <span aria-hidden="true"><Arrow /></span></a></dd>
       </div>
       <div class={cell}>
         <dt {...stripReveal(3, PAGE_ENTRANCE)} class="type-label text-vermilion">Discipline</dt>
-        <dd {...stripReveal(3, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={`/services#${discipline.slug}`} class={link}>{discipline.title} <span aria-hidden="true">↗</span></a></dd>
+        <dd {...stripReveal(3, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={`/services#${discipline.slug}`} class={link}>{discipline.title} <span aria-hidden="true"><Arrow /></span></a></dd>
       </div>
     </dl>
   </div>

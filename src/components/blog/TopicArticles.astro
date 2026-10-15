@@ -1,4 +1,5 @@
 ---
+import Arrow from '../ui/Arrow.astro'
 import ArticleRow from './ArticleRow.astro'
 import type { ArticleCard } from '../../lib/blog'
 
@@ -46,7 +47,7 @@ const { title, count, cards, disciplineTitle, siblings, allLabel } = Astro.props
       <div class:list={['p-6 lg:p-8', siblings.length > 0 && 'border-t border-ink/15 lg:border-l lg:border-t-0']}>
         <p class="type-label">Everything else</p>
         <a href="/blog" class="group mt-3 block focus-visible:outline-ink">
-          <span class="type-display block text-[clamp(1.5rem,2.3vw,2.25rem)] underline-offset-[0.12em] decoration-vermilion decoration-4 group-hover:underline group-focus-visible:underline">{allLabel} <span aria-hidden="true">↗</span></span>
+          <span class="type-display block text-[clamp(1.5rem,2.3vw,2.25rem)] underline-offset-[0.12em] decoration-vermilion decoration-4 group-hover:underline group-focus-visible:underline">{allLabel} <span aria-hidden="true"><Arrow /></span></span>
           <span class="mt-2 block leading-snug">Back to the blog index.</span>
         </a>
       </div>

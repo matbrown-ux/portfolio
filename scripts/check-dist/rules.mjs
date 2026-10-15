@@ -3,6 +3,9 @@ const SITE = 'https://matbrown.io'
 const REQUIRED = ['/robots.txt', '/llms.txt', '/rss.xml', '/favicon.svg', '/favicon.ico', '/site.webmanifest', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png']
 // An em or en dash, as the character or as an HTML entity (Astro leaves entities in markup as written).
 const DASH = /[\u2013\u2014]|&(?:mdash|ndash);|&#(?:8211|8212);|&#x201[34];/i
+// An emoji, an arrow or another symbol glyph. The site's fonts carry Latin letters only, so a phone draws
+// these from its emoji font. Arrows are drawn with Arrow.astro instead. The copyright and registered signs are typography.
+const SYMBOL = /(?![\u00A9\u00AE])[\p{Extended_Pictographic}\u2190-\u21FF\u2600-\u27BF\u2B00-\u2BFF\uFE0F]/u
 const SITE_WIDE = ['Person', 'WebSite']
 
 const attr = (html, pattern) => pattern.exec(html)?.[1] ?? ''
@@ -65,6 +68,7 @@ export function pageProblems(facts, site) {
   if (data) say(data)
 
   if (DASH.test(facts.text)) say('has an em or en dash in its text')
+  if (SYMBOL.test(facts.text)) say('has an emoji or symbol character in its text (draw it with Arrow.astro or an SVG)')
   return problems
 }
 
