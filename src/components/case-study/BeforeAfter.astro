@@ -1,4 +1,5 @@
 ---
+import Arrow from '../ui/Arrow.astro'
 import { Image } from 'astro:assets'
 import { caseStudyMedia } from '../../lib/caseStudyMedia'
 import { hostLabel } from '../../lib/host'
@@ -110,7 +111,7 @@ const chip = 'type-label pointer-events-none absolute top-3 z-20 bg-ink px-2.5 p
                 class="absolute top-1/2 -mt-5 grid size-10 place-items-center bg-vermilion text-lg leading-none text-ink outline-2 outline-ink group-focus-visible:outline-4 group-focus-visible:outline-ivory"
                 aria-hidden="true"
               >
-                ↔
+                <Arrow direction="left-right" />
               </span>
             </div>
             </div>
@@ -136,7 +137,7 @@ const chip = 'type-label pointer-events-none absolute top-3 z-20 bg-ink px-2.5 p
                   aria-label={`Visit live site for ${person.name}, opens in a new tab`}
                   class="type-label mt-8 inline-flex items-center gap-2 bg-vermilion px-5 py-3.5 text-ink transition-colors duration-200 hover:bg-ivory focus-visible:outline-ivory"
                 >
-                  Visit live site <span aria-hidden="true">↗</span>
+                  Visit live site <span aria-hidden="true"><Arrow /></span>
                 </a>
               )
             }

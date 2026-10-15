@@ -1,4 +1,5 @@
 ---
+import Arrow from '../ui/Arrow.astro'
 import { PAGE_ENTRANCE } from '../../lib/heroEntrance'
 import Breadcrumb from './Breadcrumb.astro'
 import type { Crumb } from '../../lib/blog'
@@ -33,7 +34,7 @@ const fit = `--fit:${titleFit(title, { charsPerLine: 9 })}`
       <p class="type-label text-vermilion">// Part of</p>
       <p class="type-display mt-2 text-[clamp(1.75rem,2.5vw,2.5rem)]">{discipline.title}</p>
       <a href={`/services#${discipline.slug}`} class="type-label mt-6 flex justify-between border-t border-line-dark pt-4 underline-offset-8 decoration-vermilion decoration-2 hover:underline focus-visible:underline focus-visible:outline-ivory">
-        <span>See the service</span><span aria-hidden="true">↗</span>
+        <span>See the service</span><span aria-hidden="true"><Arrow /></span>
       </a>
     </aside>
   </div>
