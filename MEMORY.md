@@ -166,7 +166,7 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - **`robots.txt`, `llms.txt`, RSS:** `src/pages/robots.txt.ts`, `llms.txt.ts` and `rss.xml.ts`, built from the same content as the pages. `articleUrl` in `src/lib/llmsTxt.ts` makes an article's absolute address (RSS uses it too; it sits there because `structuredData.ts` imports `shareCards.ts`, which imports `blog.ts`, so `blog.ts` cannot import it). `BLOG_DESCRIPTION` in `src/lib/blog.ts` is the single source for the blog index description, used by the page, structured data and RSS.
 - **Analytics:** `src/content/analytics.ts` holds `cloudflareToken`, set on 2026-10-13 to the owner's token for the site registered in Cloudflare as `matbrown.io`. The beacon loads only on a production build (`CONTEXT=production`); with an empty token nothing loads and nothing is sent. Not yet confirmed: that Cloudflare records visits (it may drop views on the `netlify.app` address because the hostname does not match; check the dashboard after the domain moves). After an in-place contact send the address becomes `/contact/thanks` (history `pushState`), so the enquiry counts as a page view; Back reloads the page to a fresh form and Forward shows the real thanks page; the thanks page also reloads on an address mismatch (`reloadOnAddressMismatch`, shared with the form). Cloudflare's docs say the beacon counts `pushState` route changes by default; confirm on the first production deploy.
 - **Build check:** `npm run build` is `astro build && node scripts/check-dist/run.mjs` (rules in `scripts/check-dist/rules.mjs`, tested). It fails the build, naming the page and the rule, when: a page is `noindex` and in the sitemap, or indexable and missing from it; an indexable page lacks exactly one `h1`, a title, a description or a canonical that equals its own address; any page lacks a share image whose file was built, or has JSON-LD that does not parse or lacks Person or WebSite; a sitemap address was not built; text, `alt`, `title`, `content` or `aria-label` carries an em or en dash, as the character or as an HTML entity (`&mdash;`, `&#8212;` and the like); a required file (`robots.txt`, `llms.txt`, `rss.xml`, the favicons, the three touch icons, the manifest) is missing; a share image address is not absolute; or `llms.txt` or `rss.xml` links to a page that was not built. JSON-LD and `rss.xml` are not scanned for dashes.
-- **Indexing hold:** `netlify.toml` sends `X-Robots-Tag: noindex` on every path, because the canonical links name `matbrown.io`, which is still a parking page. It is not served by a local file server. Delete the block on domain day.
+- **Indexing:** the site went live on `matbrown.io` on 2026-10-14. The `X-Robots-Tag: noindex` hold was removed from `netlify.toml` that day (PR #9), and the same file now 301s `mat-brown-ux-portfolio.netlify.app/*` to the domain. Deploy previews still get Netlify's own noindex.
 - **Dependencies:** `fontkit` (stub types in `src/types/fontkit.d.ts`), `sharp` and the two `@fontsource` packages (Anton and JetBrains Mono, for the card renderer) are normal dependencies, so a production-only install still builds.
 - **Dashes:** the build check's dash rule reads attribute copy as well as visible text because the copy rules cover alt text and meta descriptions.
 
@@ -198,14 +198,7 @@ Decisions the final review left for the owner, answered 2026-10-12:
 - (Decided 2026-10-13: the three contrast findings and the article link underline stay as designed.)
 - Case study hero captures, whenever they exist; the cards pick them up.
 
-**Domain day checklist** (the site is built on `feat/astro-rebuild` and is not live):
-
-1. Point the domain at Netlify.
-2. Delete the `X-Robots-Tag` block from `netlify.toml`.
-3. Confirm the Netlify address redirects to the domain.
-4. Set up Google Search Console and Bing Webmaster Tools and submit `https://matbrown.io/sitemap-index.xml`.
-5. Paste the Cloudflare token into `src/content/analytics.ts`.
-6. Re-run LinkedIn's Post Inspector on the home page. Share image addresses (`og:image`) are built on `https://matbrown.io`, which is still a parking page, so a link-preview tool pointed at the Netlify address shows no image until the domain moves. Until then, check a card by opening `/og/<path>.png` on the Netlify address directly.
+**Domain day (done 2026-10-14):** the domain points at Netlify, the noindex hold is gone, the Netlify address redirects, the analytics token is in, and LinkedIn's Post Inspector shows the card. Still owed by the owner: Google Search Console and Bing Webmaster Tools, submitting `https://matbrown.io/sitemap-index.xml`.
 
 ## Redesign roadmap and where we are (old Vite app, historical)
 
