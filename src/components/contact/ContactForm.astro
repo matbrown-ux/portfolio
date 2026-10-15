@@ -14,7 +14,7 @@ const { class: className } = Astro.props
 
 const label = 'type-label mb-2 block'
 // scheme-dark keeps the browser's own parts (the select menu, the textarea scrollbar) dark. The
-// autofill rules stop the browser repainting a filled field in its own pale colour.
+// autofill rules stop the browser repainting a filled field in its own pale color.
 const control =
   'block w-full scheme-dark rounded-none border-2 border-ivory bg-ink px-4 py-3 text-base text-ivory placeholder:text-ivory/55 focus-visible:outline-ivory aria-[invalid=true]:border-vermilion autofill:shadow-[inset_0_0_0_100px_var(--color-ink)] autofill:[-webkit-text-fill-color:var(--color-ivory)]'
 // A select still on its empty option reads like a placeholder; the menu's options stay full ivory.
@@ -24,7 +24,7 @@ const error = 'type-label mt-2 font-medium normal-case tracking-normal text-verm
 const required = 'text-vermilion'
 ---
 
-{/* From lg up the panel's colour runs on to the right edge of the screen, past the 1600px column.
+{/* From lg up the panel's color runs on to the right edge of the screen, past the 1600px column.
     Once the script has swapped the form for the confirmation the whole panel turns vermilion. */}
 {/* An ink panel, so it fades in rather than moves. */}
 <div

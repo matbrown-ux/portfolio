@@ -112,7 +112,7 @@
         "Small-business-scale builds",
         "Real guardrail and eval setups",
         "Cost caps with real config",
-        "Sceptical view of multi-agent hype"
+        "Skeptical view of multi-agent hype"
       ]
     },
     "ai-automation": {
@@ -274,7 +274,7 @@
         "What goes into a first version of a design system?",
         "How do I document a design system?"
       ],
-      "angle": "Every top page agrees on 'tokens first, components later' in the abstract. I show the actual small system behind this site (five colour tokens, two type utilities, motion tokens, a component folder, a DESIGN.md, build checks), read from this repo, so a reader sees the size of 'enough'.",
+      "angle": "Every top page agrees on 'tokens first, components later' in the abstract. I show the actual small system behind this site (five color tokens, two type utilities, motion tokens, a component folder, a DESIGN.md, build checks), read from this repo, so a reader sees the size of 'enough'.",
       "proof_link": "/work/portfolio-optimization",
       "internal_links": [
         "design-tokens-explained",
@@ -912,11 +912,11 @@
       "aeo_opportunity": 4,
       "questions_to_answer": [
         "Do UGC creators need a logo?",
-        "What colours and fonts should a creator use?",
+        "What colors and fonts should a creator use?",
         "Should I have my own domain for my portfolio?",
         "How many videos belong in a UGC portfolio?"
       ],
-      "angle": "From ten creator sites I shipped: the minimal identity that gets a creator treated as a professional (monogram or name mark, 3 colours, 2 fonts, own domain). Competing pages are Canva templates and joinbrands.com advice.",
+      "angle": "From ten creator sites I shipped: the minimal identity that gets a creator treated as a professional (monogram or name mark, 3 colors, 2 fonts, own domain). Competing pages are Canva templates and joinbrands.com advice.",
       "proof_link": "/work/portfolio-optimization",
       "internal_links": [
         "ugc-creator-portfolio-own-domain",
@@ -1613,7 +1613,7 @@
         "Why do AI tools generate generic-looking UI?",
         "DESIGN.md or CLAUDE.md: where do design rules go?"
       ],
-      "angle": "Coverage is aggregators and template repos. I have a DESIGN.md and CLAUDE.md that ran a full site build, so I can show what the agent followed, what it still got wrong (off-palette colours, transforms on ink surfaces, em dashes in copy) and which rules had to move into tests.",
+      "angle": "Coverage is aggregators and template repos. I have a DESIGN.md and CLAUDE.md that ran a full site build, so I can show what the agent followed, what it still got wrong (off-palette colors, transforms on ink surfaces, em dashes in copy) and which rules had to move into tests.",
       "proof_link": "/services",
       "internal_links": [
         "claude-code-design-system-rules",
@@ -2704,7 +2704,7 @@
       "questions_to_answer": [
         "How do I build a React component library?",
         "When is a component library overkill?",
-        "How do I organise one?"
+        "How do I organize one?"
       ],
       "angle": "Astro plus React islands: which pieces earned a shared component and which stayed plain markup, drawn from this site.",
       "proof_link": "/services",
@@ -3239,11 +3239,11 @@
       "questions_to_answer": [
         "How do design tokens work in Tailwind v4?",
         "Where did tailwind.config.js go in v4?",
-        "How do I add brand colours and fonts with @theme?",
+        "How do I add brand colors and fonts with @theme?",
         "Can Figma variables sync with a Tailwind @theme block?",
-        "How do I stop off-palette colours creeping in?"
+        "How do I stop off-palette colors creeping in?"
       ],
-      "angle": "The softest corner of the topic: results are small blogs and plugin pages. I show the real @theme block from this site (src/styles/global.css), how the type utilities sit on it, and the rule and check that keep off-palette colours out.",
+      "angle": "The softest corner of the topic: results are small blogs and plugin pages. I show the real @theme block from this site (src/styles/global.css), how the type utilities sit on it, and the rule and check that keep off-palette colors out.",
       "proof_link": "/work/portfolio-optimization",
       "internal_links": [
         "design-tokens-explained",
@@ -3780,9 +3780,9 @@
         "How do you build dark mode with design tokens?",
         "Should I use prefers-color-scheme or a toggle?",
         "What does the CSS light-dark() function do?",
-        "How do you keep brand colours readable in dark mode?"
+        "How do you keep brand colors readable in dark mode?"
       ],
-      "angle": "A short, correct pattern (semantic names, prefers-color-scheme plus a data-theme override, light-dark()) with contrast checks against a real strong accent colour. One cited guide has a broken CSS example, so a tested snippet is citable.",
+      "angle": "A short, correct pattern (semantic names, prefers-color-scheme plus a data-theme override, light-dark()) with contrast checks against a real strong accent color. One cited guide has a broken CSS example, so a tested snippet is citable.",
       "proof_link": null,
       "internal_links": [
         "design-tokens-explained",
@@ -4425,7 +4425,7 @@
         "Does a brand guide need to be a PDF?",
         "Who needs brand guidelines?"
       ],
-      "angle": "A one-page guide: colours with roles, two fonts, logo rules, three voice lines, with the actual contents I hand over. Contrast with 40 to 80 page enterprise PDFs.",
+      "angle": "A one-page guide: colors with roles, two fonts, logo rules, three voice lines, with the actual contents I hand over. Contrast with 40 to 80 page enterprise PDFs.",
       "proof_link": "/work/portfolio-optimization",
       "internal_links": [
         "small-business-branding-guide",
@@ -4881,7 +4881,7 @@
         "What logo files should a designer deliver?",
         "SVG or PNG for a website logo?",
         "Why does my logo look blurry on print?",
-        "Do I need a reversed or one-colour logo?"
+        "Do I need a reversed or one-color logo?"
       ],
       "angle": "Practical file list from someone who ships logos into a website, signage vendors, Shopify and Google Business Profile. Cites 18F guidance on SVG and black-on-white default. Covers the sizes each surface asks for.",
       "proof_link": "/work/aiwi-waffles",
@@ -5166,7 +5166,7 @@
       ],
       "format": "guide",
       "word_count": 2000,
-      "evidence": "WebSearch MCP security: workos.com/blog/mcp-security-risks-best-practices says tool descriptions steer model behaviour; n8n tip that 'specific descriptions beat vague ones'.",
+      "evidence": "WebSearch MCP security: workos.com/blog/mcp-security-risks-best-practices says tool descriptions steer model behavior; n8n tip that 'specific descriptions beat vague ones'.",
       "discipline": "Agentic Workflows",
       "priority": 71.0,
       "owner_input": null,
@@ -5249,7 +5249,7 @@
         "What goes wrong with parallel agents?",
         "How do agents hand off context?"
       ],
-      "angle": "Hype-heavy SERP (Dynamic Workflows launch). Mat gives a sceptical, small-scope view: file conflicts, observability, and why one agent plus good tools usually wins.",
+      "angle": "Hype-heavy SERP (Dynamic Workflows launch). Mat gives a skeptical, small-scope view: file conflicts, observability, and why one agent plus good tools usually wins.",
       "proof_link": null,
       "internal_links": [
         "agentic-design-patterns",

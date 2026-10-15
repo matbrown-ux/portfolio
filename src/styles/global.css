@@ -74,7 +74,7 @@ html.site-loading {
    With no state (no JavaScript) and in the `top` state the header is as SiteHeader.astro writes
    it: absolute over the hero, no background. Once the page has scrolled past it, it is fixed:
    `hidden` parks it just above the viewport and `shown` sets it at the top edge on an ivory bar
-   with an ink rule, so it reads on every section colour. It is out of the flow in every state. */
+   with an ink rule, so it reads on every section color. It is out of the flow in every state. */
 [data-site-header]:is([data-header-state="hidden"], [data-header-state="shown"]) {
   position: fixed;
   background: var(--color-ivory);
@@ -511,7 +511,7 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   height: auto;
 }
 
-/* Inline code sits on stone; code inside a block keeps the block's colours. */
+/* Inline code sits on stone; code inside a block keeps the block's colors. */
 .article-prose :not(pre) > code {
   font-family: var(--font-mono);
   font-size: 0.875em;
@@ -520,7 +520,7 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   padding: 0.1em 0.35em;
 }
 
-/* A code block: ink ground, ivory text, colours only from the palette. The theme in
+/* A code block: ink ground, ivory text, colors only from the palette. The theme in
    astro.config.mjs uses these variables: tags and keywords, then the muted group (attributes,
    operators, punctuation, comments). The bar shows the language. */
 .article-prose .astro-code {
@@ -566,7 +566,7 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
 }
 
 /* On paper backgrounds are off by default, so the block is ink on the sheet inside an ink
-   border. The tokens take their colour from the variables inline, so the variables turn ink.
+   border. The tokens take their color from the variables inline, so the variables turn ink.
    Nothing scrolls on paper, so a long line wraps. */
 @media print {
   .article-prose .astro-code {
