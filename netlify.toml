@@ -15,3 +15,9 @@
   to = "https://matbrown.io/:splat"
   status = 301
   force = true
+
+# Astro names the sitemap sitemap-index.xml; forward the address people and SEO tools try first.
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
