@@ -1,4 +1,5 @@
 ---
+import Arrow from '../ui/Arrow.astro'
 import { HERO_ENTRANCE } from '../../lib/heroEntrance'
 import type { CollectionEntry } from 'astro:content'
 import ScriptArt from '../brand/ScriptArt.astro'
@@ -58,7 +59,7 @@ const name = heroNameFit(title)
             class="group inline-flex items-center gap-3 self-start text-ink focus-visible:outline-ink"
           >
             <span class="grid size-14 place-items-center bg-ink text-xl text-ivory transition-colors duration-200 group-hover:bg-ivory group-hover:text-ink lg:size-[4.5rem]" aria-hidden="true">
-              ↗
+              <Arrow />
             </span>
             <span class="type-label">
               Visit live site<br />

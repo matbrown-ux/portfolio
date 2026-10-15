@@ -120,6 +120,25 @@ describe('pageProblems', () => {
   })
 })
 
+describe('emoji and symbol characters', () => {
+  const symbol = `${url}: has an emoji or symbol character in its text (draw it with Arrow.astro or an SVG)`
+
+  it('catches an emoji or an arrow character in the text and in attributes', () => {
+    for (const char of ['↗', '→', '↓', '⬆', '✅', '😀', '🚀', '★', '✓']) {
+      expect(problems({ body: `Next ${char}` })).toEqual([symbol])
+      expect(problems({ body: `<img alt="a ${char}" src="/a.png">` })).toEqual([symbol])
+    }
+  })
+
+  it('catches the emoji variation selector', () => {
+    expect(problems({ body: 'a \uFE0F b' })).toEqual([symbol])
+  })
+
+  it('allows plain typography', () => {
+    expect(problems({ body: '© 2026 Mathew Brown. Prices from $500, 50+ creators, A & B, "quotes" and 1/2.' })).toEqual([])
+  })
+})
+
 describe('linksIn', () => {
   it('finds the site links in a text or XML file', () => {
     expect(linksIn('- [A](https://matbrown.io/a): x\n<link>https://matbrown.io/b</link> mailto:mat@matbrown.io https://example.com/c')).toEqual([

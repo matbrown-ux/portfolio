@@ -41,7 +41,7 @@ Read `CLAUDE.md` sections 2, 3 and 5 before you write. Every rule there applies.
   - **No em dashes or en dashes anywhere** (the build fails on them). Use colons, commas or full stops.
   - No "X, not Y" endings, no "it's not just X, it's Y", no forced groups of three.
   - None of these words: stunning, seamless, cutting-edge, world-class, elevate, unlock, crafted, passionate, robust, leverage, delve, showcase, landscape, journey, game-changer, supercharge, harness, navigate (figuratively), realm, tapestry, testament, pivotal, crucial, vital, in today's.
-  - Straight quotes, no emojis, sentence case.
+  - Straight quotes and sentence case. **No emojis and no symbol characters** (arrows such as → or ↗, checkmarks, stars), in the article, its frontmatter, tables or the image brief. Write "to" or use a list instead of an arrow. The build fails on them.
   - Be specific: name the tool, the property, the number and its source.
 - MDX: comments are `{/* ... */}`, never `<!-- -->`.
 

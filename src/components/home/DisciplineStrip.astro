@@ -1,4 +1,5 @@
 ---
+import Arrow from '../ui/Arrow.astro'
 import VerticalLabel from '../ui/VerticalLabel.astro'
 import { disciplines } from '../../content/disciplines'
 import { HERO_ENTRANCE } from '../../lib/heroEntrance'
@@ -31,7 +32,7 @@ import { HERO_ENTRANCE } from '../../lib/heroEntrance'
               <h3 class="type-display mt-3 text-[clamp(1.5rem,1.9vw,2rem)] xl:min-h-[1.96em] xl:max-w-[6.5em]">{d.title}</h3>
               <p class="type-label mt-4 font-medium opacity-80">{d.blurb}</p>
               <span class="mt-auto pt-6 text-xl" aria-hidden="true">
-                ↗
+                <Arrow />
               </span>
             </a>
           </li>

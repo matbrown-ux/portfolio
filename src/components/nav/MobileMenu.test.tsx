@@ -32,6 +32,14 @@ describe('MobileMenu', () => {
     expect(screen.getAllByRole('link').map((a) => a.getAttribute('href'))).toEqual(['/work', '/about', '/contact'])
   })
 
+  it('draws the call to action arrow instead of typing a character the emoji font would render', async () => {
+    const { user, toggle } = setup()
+    await user.click(toggle)
+    const cta = screen.getByRole('link', { name: 'Start a project' })
+    expect(cta.textContent).toBe('Start a project')
+    expect(cta.querySelector('svg path')).toHaveAttribute('d', 'M3 13 13 3M5 3h8v8')
+  })
+
   it('shows the profile icons after the call to action, each named for a screen reader', async () => {
     const user = userEvent.setup()
     const profiles = [

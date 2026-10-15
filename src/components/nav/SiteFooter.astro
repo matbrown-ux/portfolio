@@ -1,4 +1,5 @@
 ---
+import Arrow from '../ui/Arrow.astro'
 import Logo from '../brand/Logo.astro'
 import { footerNav } from '../../content/navigation'
 import { profileLinks } from './profileIcons'
@@ -20,7 +21,7 @@ const profiles = profileLinks()
                 class="group flex items-center justify-between py-3 text-[clamp(2.25rem,11vw,3rem)] max-md:type-display md:type-label md:py-0 md:underline-offset-8 md:decoration-vermilion md:decoration-2 md:hover:underline max-md:focus-visible:outline-ivory"
               >
                 {label}
-                <span aria-hidden="true" class="font-sans text-[0.5em] text-vermilion transition-colors duration-200 group-hover:text-ivory md:hidden">→</span>
+                <span aria-hidden="true" class="font-sans text-[0.5em] text-vermilion transition-colors duration-200 group-hover:text-ivory md:hidden"><Arrow direction="right" /></span>
               </a>
             </li>
           ))
@@ -45,7 +46,7 @@ const profiles = profileLinks()
           ))
         }
       </ul>
-      <a href="#top" class="type-label whitespace-nowrap opacity-70 hover:opacity-100 focus-visible:opacity-100">Back to top <span aria-hidden="true">↑</span></a>
+      <a href="#top" class="type-label whitespace-nowrap opacity-70 hover:opacity-100 focus-visible:opacity-100">Back to top <Arrow direction="up" /></a>
     </div>
   </div>
 </footer>
