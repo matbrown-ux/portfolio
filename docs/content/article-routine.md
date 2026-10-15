@@ -13,8 +13,10 @@ Read `CLAUDE.md` sections 2, 3 and 5 before you write. Every rule there applies.
 
 ## 2. Research before writing
 
-- Search the live web for the primary keyword and two or three of the `questions_to_answer`. Read what ranks and what AI answers say. Your article must add something the top results do not: the `angle` in the map row is the starting point.
+- Search the live web for the primary keyword and two or three of the `questions_to_answer`. Then open and read (with WebFetch) at least three of the pages that rank, so you know what the article has to beat. Your article must add something the top results do not: the `angle` in the map row is the starting point.
 - Check every technical claim against a primary source (MDN, W3C/WCAG, Google Search Central, web.dev, schema.org, Anthropic docs, the tool's own docs). Link to the source.
+- **Only cite a page you opened and read in this run.** A search result snippet is not a source. Every external link in the article must be a page you fetched, and the claim it supports must be on that page. Keep a list of the pages you read; it goes in the pull request.
+- **If you cannot read your sources, stop.** If WebFetch fails for most pages (network errors, blocked hosts), do not write the article from snippets or memory. Push nothing, and end the run with a message saying which fetches failed and with what error.
 - Never state a number you cannot source. Never invent a client result. The only client facts you may use are in `src/content/case-studies/*.mdx` and `src/content/about.ts`; quote them as they are written there.
 - The map's `angle` is a plan written before research, not a source of facts. Any first-hand claim ("I built", "I use", "on this site") must be checkable in this repo: the case studies, `src/content/disciplines.ts`, or the site's own code and config. If it is not, write the point as general advice instead, or leave it out. Known limits: Home Base for 'Aiwi Waffles is in build and runs on Astro, React and the Square API, not Supabase; Vamp Network's dashboard runs on React, Vite and Supabase; Vamp Network has no campaign analytics.
 - Rows with `status: "needs-input"` wait on something only the owner can supply (`owner_input`). Skip them. The owner changes the status to `planned` when he has supplied it.
@@ -23,7 +25,7 @@ Read `CLAUDE.md` sections 2, 3 and 5 before you write. Every rule there applies.
 
 - File: `src/content/blog/<topic>/<slug>.mdx`, using the map's `topic` and `slug`.
 - Frontmatter, exactly these keys: `title` (sentence case), `description` (one sentence, 140 to 160 characters, first person or plain statement, includes the primary keyword), `date` (today, `"YYYY-MM-DD"`), `keywords` (the primary keyword, then the secondary ones). The schema is strict: any other key breaks the build.
-- Length: the map's `word_count`, plus or minus 15%.
+- Length: the map's `word_count`, plus or minus 15%, counted on the body without frontmatter, comments or code blocks. This is a floor as much as a ceiling: if the draft is short, add substance (a worked example, a table, a step the top results skip, a sourced detail), never filler or repetition.
 - Structure for search and answer engines:
   - Open with a 40 to 60 word paragraph that answers the primary question directly.
   - `h2` sections, one per question in `questions_to_answer` where it fits, phrased the way a person would ask it. Put a direct 40 to 60 word answer straight under each `h2`, then the detail.
@@ -64,18 +66,24 @@ The owner generates the images himself in Codex, so this run writes a brief, not
 ## 5. Check it
 
 1. `npm ci` (only on the first command of the run), then `npm run build`. The build runs `scripts/check-dist`, which fails on dashes, a missing title or description, and broken pages. Fix the article until the build passes.
-2. Read the article once more as an editor: cut filler, check that each `h2` answer stands on its own, and confirm that every claim has a source or comes from the owner's case studies.
+2. Count the words: `awk '/^---$/ && fm<2 {fm++; next} fm<2 {next} /^```/ {code=!code; next} code {next} /^\{\/\*/ {next} {print}' <file> | wc -w` (body only, no frontmatter, code or comments). If the count is outside the range in section 3, fix the article and count again.
+3. Read the article once more as an editor: cut filler, check that each `h2` answer stands on its own, and confirm that every claim has a source you read or comes from the owner's case studies.
 
 ## 6. Ship it as a pull request
 
 1. Branch `article/<slug>` from `origin/main`.
 2. In `docs/content/topical-map.json`, set this article's `status` to `in-review` and `branch` to the branch name.
-3. Commit the article, the image brief and the map change together with the message `content: article "<title>"`, ending with the line `Co-Authored-By: Claude <noreply@anthropic.com>`. Never use `--no-verify` or bypass hooks.
-4. Push the branch and open a pull request against `main`, titled `Article: <title>`. The body lists: the topic, primary keyword, relevancy and difficulty scores, the questions answered, every external source used, and anything the owner should check (an opinion stated in his voice, a claim about his own work). Netlify posts a deploy preview link on the pull request. Add a checklist at the end of the body:
-   - `[ ] Images generated and added (brief: docs/content/image-briefs/<slug>.md)`
-   - `[ ] Read on the deploy preview`
-   - `[ ] Facts and first-hand claims checked`
-5. Do not merge. The owner reviews the deploy preview, asks for changes if he wants them, adds the images, and merges it himself, which publishes the article.
+3. Make ONE commit with the article, the image brief and the map change. Its message is the pull request, because GitHub fills a new pull request's title and description from a branch's only commit:
+   - Subject line: `Article: <title>`
+   - Body: the topic, primary keyword, relevancy and difficulty scores, word count, the questions answered, every external source you read (one per line, with its address), and anything the owner should check (an opinion stated in his voice, a claim about his own work). End the body with this checklist:
+     - `- [ ] Images generated and added (brief: docs/content/image-briefs/<slug>.md)`
+     - `- [ ] Read on the deploy preview`
+     - `- [ ] Facts and first-hand claims checked`
+   - Last line: `Co-Authored-By: Claude <noreply@anthropic.com>`
+
+   Never use `--no-verify` or bypass hooks.
+4. Push the branch: `git push -u origin article/<slug>`. The routine cannot open pull requests itself (`gh` has no valid login in the cloud), so do not try `gh pr create`. End the run with the link the owner clicks to open it: `https://github.com/matbrown-ux/portfolio/compare/main...article/<slug>?expand=1`. Netlify posts a deploy preview once the pull request exists.
+5. Do not merge. The owner opens the pull request, reviews the deploy preview, asks for changes if he wants them, adds the images, and merges it himself, which publishes the article.
 
 ## 7. After the owner merges
 
