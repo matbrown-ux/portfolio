@@ -54,6 +54,9 @@ claude -p "$PROMPT" \
   --model claude-sonnet-5-5 \
   --permission-mode dontAsk \
   --allowedTools Bash Read Write Edit Glob Grep WebSearch WebFetch \
+  --disallowedTools 'Bash(gh pr merge:*)' 'Bash(gh api:*)' 'Bash(gh repo:*)' 'Bash(gh auth:*)' 'Bash(gh secret:*)' \
+    'Bash(git push origin main:*)' 'Bash(git push origin HEAD\:main:*)' 'Bash(git push -f:*)' 'Bash(git push --force:*)' \
+    'Bash(rm -rf /:*)' 'Bash(rm -rf ~:*)' \
   > "$LOG_DIR/$STAMP.out"
 STATUS=$?
 cat "$LOG_DIR/$STAMP.out"
