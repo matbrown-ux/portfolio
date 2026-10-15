@@ -11,7 +11,7 @@ const { discipline: d, surface, titleSide, button, contactHref, proof } = Astro.
 
 // Small vermilion text is only allowed on ink, so only the ink section has vermilion labels.
 // The proof card inverts on hover and focus, so its ring is named per surface: a currentColor
-// ring would take the inverted text colour and vanish against the section.
+// ring would take the inverted text color and vanish against the section.
 const lightProof = 'hover:bg-ink hover:text-ivory focus-visible:bg-ink focus-visible:text-ivory focus-visible:outline-ink'
 const looks = {
   ivory: { section: 'bg-ivory text-ink', number: 'text-stone', label: '', rule: 'border-ink/15', proof: lightProof },

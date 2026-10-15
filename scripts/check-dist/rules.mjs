@@ -6,6 +6,24 @@ const DASH = /[\u2013\u2014]|&(?:mdash|ndash);|&#(?:8211|8212);|&#x201[34];/i
 // An emoji, an arrow or another symbol glyph. The site's fonts carry Latin letters only, so a phone draws
 // these from its emoji font. Arrows are drawn with Arrow.astro instead. The copyright and registered signs are typography.
 const SYMBOL = /(?![\u00A9\u00AE])[\p{Extended_Pictographic}\u2190-\u21FF\u2600-\u27BF\u2B00-\u2BFF\uFE0F]/u
+// British spellings. The owner is an American designer, so the copy is American English.
+const BRITISH = new RegExp(
+  [
+    '\\b(?:colour|behaviour|favourit|honour|labour|neighbour|flavour|humour|rumour)\\w*',
+    '\\b(?:centre|metre|theatre|fibre|calibre)s?\\b',
+    '\\bcentred\\b',
+    '\\b(?:organ|optim|real|recogn|custom|priorit|personal|visual|standard|summar|minim|maxim|util|author|categor|apolog|special|monet|capital|normal|initial|digit|modern|emphas|critic|memor)is(?:e|ed|es|ing|ation|ations|er|ers)\\b',
+    '\\banalys(?:e|ed|ing)\\b',
+    '\\bgrey(?:s|ed|ish|er)?\\b',
+    '\\blicences?\\b',
+    '\\bcatalogue[sd]?\\b',
+    '\\b(?:travell|cancell|labell|modell|fuell|signall)(?:ed|ing|er|ers)\\b',
+    '\\bjudgements?\\b',
+    '\\b(?:whilst|amongst|learnt|spelt|ageing|defence|offence|jewellery|aluminium|plough|tyres?|programmes?|artefacts?)\\b',
+    '\\bsceptic\\w*',
+  ].join('|'),
+  'gi',
+)
 const SITE_WIDE = ['Person', 'WebSite']
 
 const attr = (html, pattern) => pattern.exec(html)?.[1] ?? ''
@@ -68,6 +86,7 @@ export function pageProblems(facts, site) {
   if (data) say(data)
 
   if (DASH.test(facts.text)) say('has an em or en dash in its text')
+  for (const word of new Set(facts.text.match(BRITISH) ?? [])) say(`uses the British spelling "${word}" (write American English)`)
   if (SYMBOL.test(facts.text)) say('has an emoji or symbol character in its text (draw it with Arrow.astro or an SVG)')
   return problems
 }
