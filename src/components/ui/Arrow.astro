@@ -1,0 +1,23 @@
+---
+import { ARROW_VIEWBOX, arrowPath, type ArrowDirection } from '../../lib/arrowIcon'
+
+interface Props {
+  direction?: ArrowDirection
+  class?: string
+}
+
+const { direction, class: className } = Astro.props
+---
+
+{/* Drawn, never typed: a typed arrow falls back to the emoji font on phones. Sized by the text around it, coloured by currentColor. */}
+<svg
+  viewBox={ARROW_VIEWBOX}
+  aria-hidden="true"
+  focusable="false"
+  class:list={['inline-block size-[0.8em] shrink-0 align-[-0.05em]', className]}
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="square"
+  stroke-linejoin="miter"
+><path d={arrowPath(direction)} /></svg>

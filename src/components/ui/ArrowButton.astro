@@ -1,4 +1,5 @@
 ---
+import Arrow from './Arrow.astro'
 interface Props {
   href: string
   /** Accessible name, since the button shows only an arrow. */
@@ -18,5 +19,5 @@ const { href, label, direction = 'down', class: className } = Astro.props
     className,
   ]}
 >
-  <span aria-hidden="true">{direction === 'down' ? '↓' : '↗'}</span>
+  <Arrow direction={direction} />
 </a>

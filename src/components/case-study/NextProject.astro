@@ -1,4 +1,5 @@
 ---
+import Arrow from '../ui/Arrow.astro'
 import type { CollectionEntry } from 'astro:content'
 
 interface Props {
@@ -20,6 +21,6 @@ const { entry } = Astro.props
     class="grid size-20 place-items-center bg-vermilion text-3xl text-ink transition-colors duration-200 group-hover:bg-ivory group-focus-visible:bg-ivory lg:size-28"
     aria-hidden="true"
   >
-    ↗
+    <Arrow />
   </span>
 </a>

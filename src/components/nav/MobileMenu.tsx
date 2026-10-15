@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { isCurrent, type NavLink } from '../../content/navigation'
+import { ARROW_VIEWBOX, arrowPath } from '../../lib/arrowIcon'
 import { closeMenu, openMenu } from '../../lib/menuMotion'
 import { nextFocusIndex } from './focusTrap'
 
@@ -165,7 +166,9 @@ export function MobileMenu({ links, contact, pathname, profiles = [] }: Props) {
               className={`type-label inline-flex items-center gap-2 px-5 py-3.5 text-ink focus-visible:outline-ivory ${contactCurrent ? 'bg-ivory' : 'bg-vermilion'}`}
             >
               {contact.label}
-              <span aria-hidden="true">↗</span>
+              <svg viewBox={ARROW_VIEWBOX} aria-hidden="true" focusable="false" className="size-[0.8em] shrink-0" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="square">
+                <path d={arrowPath()} />
+              </svg>
             </a>
             {profiles.length > 0 && (
               <ul role="list" aria-label="Profiles" className="flex" data-menu-item>
