@@ -43,7 +43,7 @@ You are the scheduled blog writer for matbrown.io, running on the owner's Mac in
 1. Read CLAUDE.md (sections 2, 3 and 5) and docs/content/article-routine.md, then follow article-routine.md step by step. This run is local, so: generate the images with Codex as section 4 describes, and open the pull request with gh as section 6 describes.
 2. Write exactly ONE article on a new branch article/<slug> from origin/main.
 
-Hard rules: never merge, never push to main, never use git's skip-hooks flag. Never invent facts, client results or first-hand experience. Cite only pages you opened and read in this run; if you cannot fetch your sources, stop and push nothing. No em dashes, en dashes, emojis or symbol characters. Skip rows whose status is needs-input.
+Hard rules: never merge, never push to main, never use git's skip-hooks flag. Never invent facts, client results or first-hand experience. Cite only pages you opened and read in this run; if you cannot fetch your sources, stop and push nothing. No em dashes, en dashes, emojis or symbol characters. Skip rows whose status is needs-input. Write American English, and run the copywriting and humanizer skills on the article as article-routine.md section 5 says.
 
 End with one line in this exact form, and nothing after it:
 RESULT: <pull request URL, or "none: <reason>">
@@ -53,7 +53,7 @@ EOF
 claude -p "$PROMPT" \
   --model claude-sonnet-5-5 \
   --permission-mode dontAsk \
-  --allowedTools Bash Read Write Edit Glob Grep WebSearch WebFetch \
+  --allowedTools Bash Read Write Edit Glob Grep WebSearch WebFetch Skill \
   --disallowedTools 'Bash(gh pr merge:*)' 'Bash(gh api:*)' 'Bash(gh repo:*)' 'Bash(gh auth:*)' 'Bash(gh secret:*)' \
     'Bash(git push origin main:*)' 'Bash(git push origin HEAD\:main:*)' 'Bash(git push -f:*)' 'Bash(git push --force:*)' \
     'Bash(rm -rf /:*)' 'Bash(rm -rf ~:*)' \
