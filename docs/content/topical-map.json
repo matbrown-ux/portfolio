@@ -196,8 +196,8 @@
     {
       "order": 1,
       "planned_run": "2026-10-16",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/what-is-a-design-engineer",
       "topic": "ux-ui-design",
       "cluster": "Design engineering",
       "role": "pillar",
@@ -1659,7 +1659,7 @@
         "Why is google.com one of AI Mode's most cited domains?",
         "What happens if my hours or phone number are out of date?"
       ],
-      "angle": "Ties Profound's finding (google.com now AI Mode's No. 2 cited domain, mostly Business Profile cards, restaurants among the biggest shifts) to a real caf\u00e9 profile and the upkeep routine behind it.",
+      "angle": "Ties Profound's finding (google.com now AI Mode's No. 2 cited domain, mostly Business Profile cards, restaurants among the biggest shifts) to a real café profile and the upkeep routine behind it.",
       "proof_link": "/work/aiwi-waffles",
       "internal_links": [
         "how-to-rank-in-chatgpt-local-business",
@@ -3195,7 +3195,7 @@
         "Should a small shop's Shopify store have a blog?",
         "How do I connect a Shopify store to local SEO and Google Business Profile?"
       ],
-      "angle": "Written from building the 'Aiwi Waffles Shopify storefront: the theme fixes worth making on a small store, and how a merch store supports a caf\u00e9's local presence instead of competing with it.",
+      "angle": "Written from building the 'Aiwi Waffles Shopify storefront: the theme fixes worth making on a small store, and how a merch store supports a café's local presence instead of competing with it.",
       "proof_link": "/work/aiwi-waffles",
       "internal_links": [
         "local-seo-case-study-aiwi-waffles",
