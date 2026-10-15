@@ -7,7 +7,7 @@ import { featuredWork } from '../../lib/featuredWork'
 
 const entries = await getCollection('caseStudies')
 const tiles = featuredWork(entries)
-// Media per tile id; null leaves the tile a plain colour block.
+// Media per tile id; null leaves the tile a plain color block.
 const media = Object.fromEntries(entries.map((entry) => [entry.id, tileMedia(entry.data.media?.tile, `${entry.id} tile`)]))
 
 // Each tile swaps fill on hover and focus. Small vermilion text is only allowed on ink, so only the

@@ -35,7 +35,7 @@ const look = surface[row.surface]
 const fit = `--title-em:${titleEm}`
 const titleId = `work-title-${row.entry.id}`
 
-// From lg up the media breaks out of its block toward the text. The colour runs edge to edge, while
+// From lg up the media breaks out of its block toward the text. The color runs edge to edge, while
 // --gutter keeps the text and the media's outer edge on the site's 1600px column on wide screens.
 const side = {
   right: { reveal: 'slide-right', grid: 'lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]', text: 'lg:pl-(--gutter) lg:pr-[8vw]', block: 'lg:order-last', media: 'lg:-left-[5vw] lg:right-[max(4vw,var(--gutter))]' },
@@ -61,7 +61,7 @@ const place = side[row.mediaSide]
     </div>
     {/* Stacked, the block is inset by the gutter so the row's own surface frames it and it reads as part of this row.
         The media is always 16:10, so every row's image is the same size whatever the length of its text: stacked it
-        fills the block's width, and from lg up it is centred down the block, which the row's minimum height keeps
+        fills the block's width, and from lg up it is centered down the block, which the row's minimum height keeps
         at least 3vw taller than the media above and below. */}
     <div class:list={['relative order-first mx-6 mt-6 p-6 md:mx-12 md:mt-12 lg:m-0 lg:p-0', look.block, place.block]}>
       {/* Slides in from the side of the page it sits nearest, as the title rises: on the title's scroll trigger. */}

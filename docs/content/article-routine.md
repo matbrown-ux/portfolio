@@ -41,6 +41,7 @@ Read `CLAUDE.md` sections 2, 3 and 5 before you write. Every rule there applies.
   - **No em dashes or en dashes anywhere** (the build fails on them). Use colons, commas or full stops.
   - No "X, not Y" endings, no "it's not just X, it's Y", no forced groups of three.
   - None of these words: stunning, seamless, cutting-edge, world-class, elevate, unlock, crafted, passionate, robust, leverage, delve, showcase, landscape, journey, game-changer, supercharge, harness, navigate (figuratively), realm, tapestry, testament, pivotal, crucial, vital, in today's.
+  - **American English spelling.** The owner is an American designer: color, behavior, favorite, center, gray, organize, optimize, realize, analyze, license, catalog, canceled, labeled, judgment. The build fails on common British spellings.
   - Straight quotes and sentence case. **No emojis and no symbol characters** (arrows such as → or ↗, checkmarks, stars), in the article, its frontmatter, tables or the image brief. Write "to" or use a list instead of an arrow. The build fails on them.
   - Be specific: name the tool, the property, the number and its source.
 - MDX: comments are `{/* ... */}`, never `<!-- -->`.
@@ -59,15 +60,19 @@ The owner generates the images himself in Codex, so this run writes a brief, not
    - `Size`: 1536 x 1024 (landscape) unless a tall diagram needs 1024 x 1536
 4. End the brief with the steps for whoever adds the images (the owner in Codex, or Claude in a local session): save each image to its `File` path, replace each marker with `![<alt text>](./images/<slug>-<n>.png)`, run `npm run build`, and commit to this pull request's branch. Astro converts the PNG files to WebP at build time.
 
-**Image style (put it in every prompt):** flat editorial illustration in a brutalist style on a warm ivory ground (#F4F0E6), with near-black ink (#0C0C0C) linework and solid shapes and a single vermilion accent (#F86343); no other colours, no gradients, square corners, thick outlines. It may mix wireframe (outlined boxes, placeholder lines) with comic book touches (offset ink shadows, halftone dots, speed lines). Diagrams, abstract interface wireframes, objects and metaphors only.
+**Image style (put it in every prompt):** flat editorial illustration in a brutalist style on a warm ivory ground (#F4F0E6), with near-black ink (#0C0C0C) linework and solid shapes and a single vermilion accent (#F86343); no other colors, no gradients, square corners, thick outlines. It may mix wireframe (outlined boxes, placeholder lines) with comic book touches (offset ink shadows, halftone dots, speed lines). Diagrams, abstract interface wireframes, objects and metaphors only.
 
 **Never ask for:** text, labels or numbers inside the image (generated lettering is unreliable; put words in the article instead); real people or anyone's likeness; real logos or brand marks; screenshots, dashboards or charts that look like real data; any client's product, site or interface, which would read as a fabricated capture of real work.
 
 ## 5. Check it
 
-1. `npm ci` (only on the first command of the run), then `npm run build`. The build runs `scripts/check-dist`, which fails on dashes, a missing title or description, and broken pages. Fix the article until the build passes.
+1. `npm ci` (only on the first command of the run), then `npm run build`. The build runs `scripts/check-dist`, which fails on dashes, emojis and symbol characters, British spellings, a missing title or description, and broken pages. Fix the article until the build passes.
 2. Count the words: `awk '/^---$/ && fm<2 {fm++; next} fm<2 {next} /^```/ {code=!code; next} code {next} /^\{\/\*/ {next} {print}' <file> | wc -w` (body only, no frontmatter, code or comments). If the count is outside the range in section 3, fix the article and count again.
 3. Read the article once more as an editor: cut filler, check that each `h2` answer stands on its own, and confirm that every claim has a source you read or comes from the owner's case studies.
+4. **Run the two copy skills, in this order, every time.** Load each with the Skill tool and follow it.
+   - `copywriting`: apply it to the title, the description, the opening answer and the closing section about the owner's work, so they are clear and specific and lead to the next step. It must not add claims, numbers or sales adjectives, and the rules in section 3 still win.
+   - `humanizer`: run it on the whole article body (file mode), and on the image alt text. Keep every fact, quote, link and code block as it is.
+   Then build and count the words again.
 
 ## 6. Ship it as a pull request
 

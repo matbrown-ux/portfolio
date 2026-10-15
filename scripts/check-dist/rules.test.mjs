@@ -139,6 +139,25 @@ describe('emoji and symbol characters', () => {
   })
 })
 
+describe('British spellings', () => {
+  const british = (word) => `${url}: uses the British spelling "${word}" (write American English)`
+
+  it('catches British spellings in the text and in attributes', () => {
+    for (const word of ['colour', 'Colours', 'behaviour', 'favourite', 'centre', 'organise', 'optimisation', 'realised', 'analyse', 'grey', 'licence', 'catalogue', 'travelled', 'labelled', 'modelling', 'judgement', 'whilst', 'amongst', 'learnt', 'sceptical']) {
+      expect(problems({ body: `A ${word} here.` })).toEqual([british(word)])
+      expect(problems({ body: `<img alt="a ${word}" src="/a.png">` })).toEqual([british(word)])
+    }
+  })
+
+  it('allows the American spellings and words that only look British', () => {
+    expect(problems({ body: 'Color, behavior, favorite, center, organize, optimization, realized, analyze, gray, license, catalog, traveled, labeled, modeling, judgment. Promise, expertise, exercise, advertise, surprise, enterprise, revise, wise, raise, noise, premise, Greyhound aside, a center line.' })).toEqual([])
+  })
+
+  it('names each British word once, in the order it appears', () => {
+    expect(problems({ body: 'A colour, a behaviour and another colour.' })).toEqual([british('colour'), british('behaviour')])
+  })
+})
+
 describe('linksIn', () => {
   it('finds the site links in a text or XML file', () => {
     expect(linksIn('- [A](https://matbrown.io/a): x\n<link>https://matbrown.io/b</link> mailto:mat@matbrown.io https://example.com/c')).toEqual([

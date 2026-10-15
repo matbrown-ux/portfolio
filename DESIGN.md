@@ -29,7 +29,7 @@ typography:
 
 Source of truth: `docs/superpowers/specs/2026-10-12-design-foundation-home-design.md` and its reference image in `docs/superpowers/specs/assets/`.
 
-## Colour
+## Color
 
 - Ivory is the page. Ink is text on ivory and the background of dark sections. Vermilion is the only accent. Stone is a neutral fill.
 - There is no dark theme. Dark is a section style.
@@ -38,7 +38,7 @@ Source of truth: `docs/superpowers/specs/2026-10-12-design-foundation-home-desig
 
 ## Type
 
-- Anton for display, always uppercase except the lowercase hero word. One weight: hierarchy comes from size and colour.
+- Anton for display, always uppercase except the lowercase hero word. One weight: hierarchy comes from size and color.
 - Archivo for body text. JetBrains Mono for small uppercase labels.
 - Gloss And Bloom is decoration only and ships as generated SVG (`npm run script-art`). At most two script moments per page, never in adjacent sections, never competing with a portrait.
 
@@ -66,10 +66,10 @@ Source of truth: `docs/superpowers/specs/2026-10-12-blog-design.md` and its appr
 - **Index (`/blog`).** The header follows the Work and Services pattern: the display word "Blog" with a vermilion full stop, the `notes` script artwork over it (the blog's one script moment besides the contact band), a mono `h1` and a rotated label with the topic and article counts. The latest article is one link made of a vermilion panel (topic name and title in display type) and an ink panel (what it covers, date, reading time, a vermilion button); further new articles follow as article rows. Below it, the topics are a ruled index grouped by discipline in `disciplines.ts` order. A topic with articles shows a solid ink status, an empty topic an outlined "Nothing yet" with quieter text that still passes AA on ivory.
 - **Topic page.** A breadcrumb above the topic title in display type (scaled by `titleFit`, `leading-[0.92]`), the mono `h1`, the introduction, and an ink "Part of" card that links to the service. Articles are ruled rows: date and reading time, title in display type, description and an arrow. Under the rows a two-cell stone strip lists sibling topics in the discipline and links to all topics; with one cell it takes the full width. A topic with no article shows an ink panel instead of the rows, with a "0 articles" label, a heading, one sentence and two buttons, one vermilion and one outlined.
 - **Article page.** The title is the `h1` in display type, followed by the description and an ink strip of four cells (Published, Reading time, Topic, Discipline) in the manner of the case study "at a glance". From `xl` the body has a sticky contents list on the left and one reading column of `64ch` on the right; below `xl` the list sits above the article. The list marks the section being read with an ink bar and `aria-current="location"`. The prose scale sets `h2` and `h3` in display type, with links, lists, block quotes, rules, images and inline code on stone, scoped so it does not reach into block components. A nested list keeps the marker and indent of the list around it, an `h4` is a mono label, and a table has mono label head cells over a 2px ink rule, 1px rules between rows, and scrolls sideways inside itself when it is wider than the column. A long path or URL breaks inside the column.
-- **Code block.** Ink ground, ivory text, a top bar that shows the language only. Colours come from the palette alone: vermilion for tags and keywords, ivory for strings and text, a muted ivory for attributes and comments. Long lines scroll inside the block, which takes keyboard focus. In print the block is ink text inside a 1px ink border with no fill, and long lines wrap.
+- **Code block.** Ink ground, ivory text, a top bar that shows the language only. Colors come from the palette alone: vermilion for tags and keywords, ivory for strings and text, a muted ivory for attributes and comments. Long lines scroll inside the block, which takes keyboard focus. In print the block is ink text inside a 1px ink border with no fill, and long lines wrap.
 - **`<Terms>`.** A ruled list of named items, the name in display type and the text beside it.
 - **Where next.** Three tiles on stone after the article: "More on this topic", "The service behind it" (the middle tile, solid vermilion with ink text) and "Keep reading". Focus rings sit inside each tile.
-- **Rules that held.** Small vermilion text appears only on ink, the breadcrumb sits on `relative z-10` so a display title's glyph box cannot cover it, and hover changes colour only, never an ink surface's position.
+- **Rules that held.** Small vermilion text appears only on ink, the breadcrumb sits on `relative z-10` so a display title's glyph box cannot cover it, and hover changes color only, never an ink surface's position.
 
 ## Share card and favicon
 
