@@ -1,11 +1,13 @@
 ---
 import { getCollection } from 'astro:content'
+import { extraBlogSections } from '../../content/blogSections'
 import { disciplines } from '../../content/disciplines'
+import { blogSections } from '../../lib/blogSections'
 import { cardFor, ogImagePath, shareCards } from '../../lib/shareCards'
 
 // A page with no card of its own (the 404, the thanks page) shares the Home card.
 const cards = shareCards({
-  disciplines,
+  sections: blogSections(disciplines, extraBlogSections),
   caseStudies: await getCollection('caseStudies'),
   topics: await getCollection('blogTopics'),
   articles: await getCollection('blogArticles'),

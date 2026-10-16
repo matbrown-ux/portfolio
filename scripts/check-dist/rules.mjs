@@ -26,6 +26,37 @@ const BRITISH = new RegExp(
 )
 const SITE_WIDE = ['Person', 'WebSite']
 
+const ENTITIES = { '&amp;': '&', '&quot;': '"', '&#39;': "'", '&#x27;': "'", '&apos;': "'", '&lt;': '<', '&gt;': '>', '&nbsp;': ' ' }
+const decode = (text) => text.replace(/&(?:amp|quot|apos|lt|gt|nbsp|#39|#x27);/g, (entity) => ENTITIES[entity])
+const squash = (text) => decode(text.replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim()
+
+/** The prose of the page's p and li elements, one string per element. Code, pre, nav and headings are left out. */
+function proseBlocks(body) {
+  const prose = body.replace(/<(pre|code|nav|table|h[1-6])[\s>][\s\S]*?<\/\1>/gi, ' ')
+  // A block tag inside an element (a nested list) ends a sentence; an inline tag does not.
+  const blocks = [...prose.matchAll(/<(p|li)(?:\s(?:"[^"]*"|'[^']*'|[^>"'])*)?>([\s\S]*?)<\/\1>/gi)].map((match) => match[2].replace(/<\/?(?:p|ul|ol|li|br)[\s>/][^>]*>|<\/?(?:p|ul|ol|li|br)>/gi, '. '))
+  return blocks.map(squash).filter(Boolean)
+}
+
+/** Each run of 4 or more words that occurs twice in one sentence, longest first at its start. */
+export function repeatedPhrases(blocks) {
+  const found = new Set()
+  for (const block of blocks) {
+    for (const sentence of block.split(/[.!?]+/)) {
+      const words = sentence.toLowerCase().match(/[\p{L}\p{N}']+/gu) ?? []
+      for (let i = 0; i < words.length; i++) {
+        for (let j = i + 1; j < words.length; j++) {
+          if (words[i] !== words[j] || (i > 0 && words[i - 1] === words[j - 1])) continue
+          let run = 0
+          while (j + run < words.length && words[i + run] === words[j + run]) run++
+          if (run >= 4) found.add(words.slice(i, i + run).join(' '))
+        }
+      }
+    }
+  }
+  return [...found]
+}
+
 const attr = (html, pattern) => pattern.exec(html)?.[1] ?? ''
 
 /** What the rules need to know about one built page. */
@@ -40,10 +71,12 @@ export function pageFacts(html, url) {
     h1: (html.match(/<h1[\s>]/g) ?? []).length,
     title: attr(html, /<title>([^<]*)<\/title>/).trim(),
     description: attr(html, /<meta name="description" content="([^"]*)"/).trim(),
+    h1Text: squash(attr(html, /<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/)),
     canonical: attr(html, /<link rel="canonical" href="([^"]*)"/),
     image: attr(html, /<meta property="og:image" content="([^"]*)"/),
     jsonLd: [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => match[1]),
     text,
+    prose: proseBlocks(body),
   }
 }
 
@@ -76,6 +109,8 @@ export function pageProblems(facts, site) {
     if (facts.title === '') say('has no title')
     if (facts.description === '') say('has no description')
     if (facts.canonical !== facts.url) say(`canonical is ${facts.canonical}`)
+    const lead = facts.h1Text.replace(/[\s.,;:!?]+$/, '').toLowerCase()
+    if (lead !== '' && decode(facts.description).replace(/\s+/g, ' ').toLowerCase().startsWith(lead)) say('description repeats the h1 (say what the headline does not)')
   }
 
   if (facts.image === '') say('has no share image')
@@ -88,6 +123,7 @@ export function pageProblems(facts, site) {
   if (DASH.test(facts.text)) say('has an em or en dash in its text')
   for (const word of new Set(facts.text.match(BRITISH) ?? [])) say(`uses the British spelling "${word}" (write American English)`)
   if (SYMBOL.test(facts.text)) say('has an emoji or symbol character in its text (draw it with Arrow.astro or an SVG)')
+  for (const phrase of repeatedPhrases(facts.prose ?? [])) say(`repeats "${phrase}" in one sentence`)
   return problems
 }
 
