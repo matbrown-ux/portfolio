@@ -9,10 +9,10 @@ interface Props {
   crumbs: Crumb[]
   title: string
   headline: string
-  discipline: { title: string; slug: string }
+  section: { title: string; href: string; linkLabel: string }
 }
 
-const { crumbs, title, headline, discipline } = Astro.props
+const { crumbs, title, headline, section } = Astro.props
 // Nine characters of the display size fit a line, beside the card from lg up and across the page
 // below it; a longer word is set smaller. The size follows the column's width (the page less its
 // gutters and, from lg up, the card and the gap) divided by 4.7em, which is what the widest
@@ -32,9 +32,9 @@ const fit = `--fit:${titleFit(title, { charsPerLine: 9 })}`
     {/* An ink box, so it fades rather than moves. */}
     <aside class="bg-ink p-6 text-ivory lg:p-8" data-reveal="fade" data-reveal-on="load" data-reveal-delay={PAGE_ENTRANCE.details}>
       <p class="type-label text-vermilion">// Part of</p>
-      <p class="type-display mt-2 text-[clamp(1.75rem,2.5vw,2.5rem)]">{discipline.title}</p>
-      <a href={`/services#${discipline.slug}`} class="type-label mt-6 flex justify-between border-t border-line-dark pt-4 underline-offset-8 decoration-vermilion decoration-2 hover:underline focus-visible:underline focus-visible:outline-ivory">
-        <span>See the service</span><span aria-hidden="true"><Arrow /></span>
+      <p class="type-display mt-2 text-[clamp(1.75rem,2.5vw,2.5rem)]">{section.title}</p>
+      <a href={section.href} class="type-label mt-6 flex justify-between border-t border-line-dark pt-4 underline-offset-8 decoration-vermilion decoration-2 hover:underline focus-visible:underline focus-visible:outline-ivory">
+        <span>{section.linkLabel}</span><span aria-hidden="true"><Arrow /></span>
       </a>
     </aside>
   </div>

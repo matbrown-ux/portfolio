@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { Discipline } from '../content/disciplines'
+import { extraBlogSections } from '../content/blogSections'
+import { blogSections } from './blogSections'
 import { cardFor, cardParam, heroCapture, ogImagePath, pagePath, shareCards } from './shareCards'
 
 const disciplines: Discipline[] = [
@@ -13,11 +15,12 @@ const caseStudies = [
 const topics = [
   { id: 'ux-ui-design', data: { title: 'UX/UI Design', description: '', discipline: 'ux-ui-engineering', order: 1 } },
   { id: 'technical-seo', data: { title: 'Technical SEO', description: '', discipline: 'seo-aeo', order: 1 } },
+  { id: 'working-for-yourself', data: { title: 'Working for yourself', description: '', discipline: 'my-story', order: 1 } },
 ]
 const articles = [
   { id: 'ux-ui-design/button-states-that-convert', data: { title: 'Button states that convert', description: '', date: new Date('2026-05-31') } },
 ]
-const cards = shareCards({ disciplines, caseStudies, topics, articles })
+const cards = shareCards({ sections: blogSections(disciplines, extraBlogSections), caseStudies, topics, articles })
 const card = (path: string) => cards.find((c) => c.path === path)
 
 describe('paths', () => {
@@ -80,6 +83,7 @@ describe('shareCards', () => {
 
   it('has a card for each topic, labelled with its discipline', () => {
     expect(card('/blog/technical-seo')).toEqual({ path: '/blog/technical-seo', label: 'Blog topic / SEO/AEO', title: 'Technical SEO', address: 'matbrown.io / blog' })
+    expect(card('/blog/working-for-yourself')?.label).toBe('Blog topic / My story')
   })
 
   it('has a card for each article, labelled with its topic', () => {

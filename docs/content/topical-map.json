@@ -247,7 +247,7 @@
     },
     {
       "order": 2,
-      "planned_run": "2026-10-19",
+      "planned_run": "2026-10-16",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -297,7 +297,7 @@
     },
     {
       "order": 3,
-      "planned_run": "2026-10-21",
+      "planned_run": "2026-10-19",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -348,7 +348,7 @@
     },
     {
       "order": 4,
-      "planned_run": "2026-10-23",
+      "planned_run": "2026-10-21",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -400,7 +400,7 @@
     },
     {
       "order": 5,
-      "planned_run": "2026-10-26",
+      "planned_run": "2026-10-23",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -451,7 +451,7 @@
     },
     {
       "order": 6,
-      "planned_run": "2026-10-28",
+      "planned_run": "2026-10-26",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -502,7 +502,7 @@
     },
     {
       "order": 7,
-      "planned_run": "2026-10-30",
+      "planned_run": "2026-10-28",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -550,7 +550,7 @@
     },
     {
       "order": 8,
-      "planned_run": "2026-11-02",
+      "planned_run": "2026-10-30",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -597,7 +597,7 @@
     },
     {
       "order": 9,
-      "planned_run": "2026-11-04",
+      "planned_run": "2026-11-02",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -647,7 +647,7 @@
     },
     {
       "order": 10,
-      "planned_run": "2026-11-06",
+      "planned_run": "2026-11-04",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -697,7 +697,7 @@
     },
     {
       "order": 11,
-      "planned_run": "2026-11-09",
+      "planned_run": "2026-11-06",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -748,7 +748,7 @@
     },
     {
       "order": 12,
-      "planned_run": "2026-11-11",
+      "planned_run": "2026-11-09",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -799,7 +799,7 @@
     },
     {
       "order": 13,
-      "planned_run": "2026-11-13",
+      "planned_run": "2026-11-11",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -846,7 +846,100 @@
     },
     {
       "order": 14,
+      "planned_run": "2026-11-13",
+      "status": "planned",
+      "branch": null,
+      "topic": "ai-automation",
+      "cluster": "MCP and connected tools",
+      "role": "spoke",
+      "title": "Connect n8n workflows to Claude with MCP",
+      "slug": "connect-n8n-workflows-to-claude-with-mcp",
+      "primary_keyword": "n8n mcp server",
+      "secondary_keywords": [
+        "n8n mcp trigger",
+        "claude desktop n8n",
+        "n8n mcp client node"
+      ],
+      "intent": "informational",
+      "volume_tier": "medium",
+      "difficulty": 42,
+      "relevancy": 10,
+      "aeo_opportunity": 5,
+      "questions_to_answer": [
+        "How do I connect n8n to Claude?",
+        "What triggers work with MCP in n8n?",
+        "What is the MCP Server Trigger node?",
+        "How do I secure it?"
+      ],
+      "angle": "Most results are Substack posts and small blogs. I show the build side: connecting Claude to n8n through the n8n MCP server and having Claude build a real workflow (form submission, automated email, follow-up email), checked against n8n's and Anthropic's MCP docs. Mat connected Claude to n8n through the n8n MCP server and had Claude build the workflow for a booking flow he built: n8n catches the form submission data, sends an automated email, then a follow-up email. At runtime the workflow runs on its own; Claude does not run inside it. Describe it as 'a booking flow I built' with no project name and no link (it has no case study). Anything beyond these facts (other workflows, volumes, results) is general, sourced advice, not first-hand.",
+      "proof_link": "/services",
+      "internal_links": [
+        "build-an-mcp-server",
+        "mcp-security-checklist",
+        "n8n-vs-claude"
+      ],
+      "format": "how-to",
+      "word_count": 2000,
+      "evidence": "WebSearch 'n8n Claude MCP': genaiunplugged.substack.com, uibakery.io/blog/n8n-mcp-guide, agence-scroll.com; only webhook, schedule and form triggers work.",
+      "discipline": "Agentic Workflows",
+      "priority": 85.1,
+      "owner_input": null,
+      "difficulty_est": 32,
+      "semrush_volume": 1300,
+      "semrush_kd": 42,
+      "semrush_intent": "informational",
+      "semrush_action": "keep",
+      "semrush_note": "1300/KD42 passes."
+    },
+    {
+      "order": 15,
       "planned_run": "2026-11-16",
+      "status": "planned",
+      "branch": null,
+      "topic": "ai-automation",
+      "cluster": "Tools and platforms",
+      "role": "spoke",
+      "title": "n8n vs Claude: which one to use for business automation",
+      "slug": "n8n-vs-claude",
+      "primary_keyword": "n8n claude",
+      "secondary_keywords": [
+        "n8n vs claude code",
+        "n8n vs claude",
+        "n8n ai agent"
+      ],
+      "intent": "commercial",
+      "volume_tier": "low",
+      "difficulty": 37,
+      "relevancy": 10,
+      "aeo_opportunity": 5,
+      "questions_to_answer": [
+        "Can Claude Code replace n8n?",
+        "Can Claude build n8n workflows?",
+        "Which is easier for a client to maintain?",
+        "Is Claude Code safe for automations?"
+      ],
+      "angle": "Very live topic with promo-heavy results (growwstacks, mindstudio). The worked example: n8n runs a fixed form-to-email workflow on its own, while Claude was the tool that built it through MCP, which shows where each fits. Mat connected Claude to n8n through the n8n MCP server and had Claude build the workflow for a booking flow he built: n8n catches the form submission data, sends an automated email, then a follow-up email. At runtime the workflow runs on its own; Claude does not run inside it. Describe it as 'a booking flow I built' with no project name and no link (it has no case study). Anything beyond these facts (other workflows, volumes, results) is general, sourced advice, not first-hand.",
+      "proof_link": "/services",
+      "internal_links": [
+        "n8n-vs-zapier",
+        "ai-agents-vs-agentic-ai"
+      ],
+      "format": "opinion",
+      "word_count": 1800,
+      "evidence": "WebSearch 'n8n claude code': growwstacks.com 'stop replacing n8n with Claude Code', mindstudio.ai comparison; one test said Claude replicated about 90% on first try.",
+      "discipline": "Agentic Workflows",
+      "priority": 82.4,
+      "owner_input": null,
+      "difficulty_est": 26,
+      "semrush_volume": 210,
+      "semrush_kd": 37,
+      "semrush_intent": "informational",
+      "semrush_action": "retarget",
+      "semrush_note": "Original 90/KD25; 'n8n claude' 210/KD37 (intent mixed)."
+    },
+    {
+      "order": 16,
+      "planned_run": "2026-11-18",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -892,8 +985,8 @@
       "semrush_note": "Original 40/KD31; 'claude agent sdk' 9900/KD20 is the same reader and tool-use angle."
     },
     {
-      "order": 15,
-      "planned_run": "2026-11-18",
+      "order": 17,
+      "planned_run": "2026-11-20",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -936,8 +1029,8 @@
       "semrush_note": "'UGC portfolio' 880 at KD 17 beats 'UGC creator branding'."
     },
     {
-      "order": 16,
-      "planned_run": "2026-11-20",
+      "order": 18,
+      "planned_run": "2026-11-23",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -984,8 +1077,8 @@
       "semrush_note": "Original 20/KD0. \"ux developer\" 390/KD18 and \"ui ux developer\" 320/KD14 fit the same role-comparison article."
     },
     {
-      "order": 17,
-      "planned_run": "2026-11-23",
+      "order": 19,
+      "planned_run": "2026-11-25",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -1028,8 +1121,8 @@
       "priority": 85.3
     },
     {
-      "order": 18,
-      "planned_run": "2026-11-25",
+      "order": 20,
+      "planned_run": "2026-11-27",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -1070,8 +1163,8 @@
       "priority": 79.5
     },
     {
-      "order": 19,
-      "planned_run": "2026-11-27",
+      "order": 21,
+      "planned_run": "2026-11-30",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -1116,8 +1209,8 @@
       "semrush_note": "Low KD. Absorbs the Search Console and GA4 AI-traffic articles as sections."
     },
     {
-      "order": 20,
-      "planned_run": "2026-11-30",
+      "order": 22,
+      "planned_run": "2026-12-02",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -1165,8 +1258,8 @@
       "semrush_note": "supabase rls 210/KD40 beats 90/27 for supabase row level security; pillar so KD ok; keep the long form as secondary."
     },
     {
-      "order": 21,
-      "planned_run": "2026-12-02",
+      "order": 23,
+      "planned_run": "2026-12-04",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -1210,8 +1303,8 @@
       "priority": 81.8
     },
     {
-      "order": 22,
-      "planned_run": "2026-12-04",
+      "order": 24,
+      "planned_run": "2026-12-07",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -1254,8 +1347,8 @@
       "priority": 81.3
     },
     {
-      "order": 23,
-      "planned_run": "2026-12-07",
+      "order": 25,
+      "planned_run": "2026-12-09",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -1301,8 +1394,8 @@
       "semrush_note": "Original had no data; this question variant 170/31 (do i need a website 140/12)."
     },
     {
-      "order": 24,
-      "planned_run": "2026-12-09",
+      "order": 26,
+      "planned_run": "2026-12-11",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -1348,8 +1441,8 @@
       "semrush_note": "Low volume (30 original; \"claude code frontend\" 90/KD30) but relevancy 9 and aeo 5; first-hand site rules are the edge. Related \"claude.md best practices\" 1300/KD42 as a secondary."
     },
     {
-      "order": 25,
-      "planned_run": "2026-12-11",
+      "order": 27,
+      "planned_run": "2026-12-14",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -1396,8 +1489,8 @@
       "semrush_note": "Good volume and KD; aeo services is 1300/21 as secondary."
     },
     {
-      "order": 26,
-      "planned_run": "2026-12-14",
+      "order": 28,
+      "planned_run": "2026-12-16",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -1441,8 +1534,8 @@
       "semrush_note": "Examples variant has 720 at KD 27 vs 110 at KD 40; guide stays as the format."
     },
     {
-      "order": 27,
-      "planned_run": "2026-12-16",
+      "order": 29,
+      "planned_run": "2026-12-18",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -1488,8 +1581,8 @@
       "semrush_note": "Original 'claude code subagents' 2400/KD50; 'claude code skills' 9900/KD25. Subagents and hooks split into a new spoke."
     },
     {
-      "order": 28,
-      "planned_run": "2026-12-18",
+      "order": 30,
+      "planned_run": "2026-12-21",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -1538,8 +1631,8 @@
       "semrush_note": "Primary moved from the long phrase to \"website accessibility checklist\" 260/KD35. ada compliance checklist 480/KD17, wcag checklist 170/KD22 as secondaries."
     },
     {
-      "order": 29,
-      "planned_run": "2026-12-21",
+      "order": 31,
+      "planned_run": "2026-12-23",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -1585,8 +1678,8 @@
       "semrush_note": "Strong. Split off a separate AI-crawler JS article (new)."
     },
     {
-      "order": 30,
-      "planned_run": "2026-12-23",
+      "order": 32,
+      "planned_run": "2026-12-25",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -1635,8 +1728,8 @@
       "semrush_note": "\"design.md\" 590/KD61 and \"design md\" 880/KD57 are too hard for now; \"design md file\" 110/KD36 is winnable and fits."
     },
     {
-      "order": 31,
-      "planned_run": "2026-12-25",
+      "order": 33,
+      "planned_run": "2026-12-28",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -1680,8 +1773,8 @@
       "semrush_note": "google ai mode is 135000/77 but unwinnable; ai mode seo 260/37 fits the same angle."
     },
     {
-      "order": 32,
-      "planned_run": "2026-12-28",
+      "order": 34,
+      "planned_run": "2026-12-30",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -1724,8 +1817,8 @@
       "semrush_note": "Low volume but KD 5, relevancy 10, aeo 5; 'brand consistency' (1300) is KD 57, kept as secondary."
     },
     {
-      "order": 33,
-      "planned_run": "2026-12-30",
+      "order": 35,
+      "planned_run": "2027-01-01",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -1769,8 +1862,8 @@
       "priority": 77.7
     },
     {
-      "order": 34,
-      "planned_run": "2027-01-01",
+      "order": 36,
+      "planned_run": "2027-01-04",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -1812,8 +1905,8 @@
       "priority": 79.8
     },
     {
-      "order": 35,
-      "planned_run": "2027-01-04",
+      "order": 37,
+      "planned_run": "2027-01-06",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -1861,8 +1954,8 @@
       "semrush_note": "json-ld 2900/23 is far larger than person schema 210/4 at low KD."
     },
     {
-      "order": 36,
-      "planned_run": "2027-01-06",
+      "order": 38,
+      "planned_run": "2027-01-08",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -1903,8 +1996,8 @@
       "priority": 76.2
     },
     {
-      "order": 37,
-      "planned_run": "2027-01-08",
+      "order": 39,
+      "planned_run": "2027-01-11",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -1946,8 +2039,8 @@
       "priority": 78.7
     },
     {
-      "order": 38,
-      "planned_run": "2027-01-11",
+      "order": 40,
+      "planned_run": "2027-01-13",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -1990,8 +2083,8 @@
       "semrush_note": "Original had no data; 'form automation' 210/KD24; 'client intake automation' 50 kept as secondary."
     },
     {
-      "order": 39,
-      "planned_run": "2027-01-13",
+      "order": 41,
+      "planned_run": "2027-01-15",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -2031,8 +2124,8 @@
       "priority": 81.7
     },
     {
-      "order": 40,
-      "planned_run": "2027-01-15",
+      "order": 42,
+      "planned_run": "2027-01-18",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -2080,8 +2173,8 @@
       "semrush_note": "Original had no data. \"freelance ux designer\" 390/KD30 (hire ux designer 390/KD24, freelance ui ux designer 90/KD19) matches the buyer."
     },
     {
-      "order": 41,
-      "planned_run": "2027-01-18",
+      "order": 43,
+      "planned_run": "2027-01-20",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -2126,8 +2219,8 @@
       "semrush_note": "Original 0 volume. metrics 90/22 is the best of the family (insights 210/55 too hard); kept for relevancy 9 and 'Aiwi proof."
     },
     {
-      "order": 42,
-      "planned_run": "2027-01-20",
+      "order": 44,
+      "planned_run": "2027-01-22",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -2168,8 +2261,8 @@
       "priority": 75.4
     },
     {
-      "order": 43,
-      "planned_run": "2027-01-22",
+      "order": 45,
+      "planned_run": "2027-01-25",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -2212,8 +2305,8 @@
       "semrush_note": "No demand, but aeo 5 and relevancy 8; a how-to proof piece."
     },
     {
-      "order": 44,
-      "planned_run": "2027-01-25",
+      "order": 46,
+      "planned_run": "2027-01-27",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -2259,8 +2352,8 @@
       "semrush_note": "Original 20/KD0; 'ai agents vs agentic ai' 1300/KD24 is the same comparison reader."
     },
     {
-      "order": 45,
-      "planned_run": "2027-01-27",
+      "order": 47,
+      "planned_run": "2027-01-29",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -2304,8 +2397,8 @@
       "semrush_note": "880 at KD 20 and the Aiwi proof fits; absorbs the signage article."
     },
     {
-      "order": 46,
-      "planned_run": "2027-01-29",
+      "order": 48,
+      "planned_run": "2027-02-01",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -2352,8 +2445,8 @@
       "semrush_note": "Original 0. \"multi step form\" 140/KD33 keeps the Vamp intake-flow angle."
     },
     {
-      "order": 47,
-      "planned_run": "2027-02-01",
+      "order": 49,
+      "planned_run": "2027-02-03",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -2395,8 +2488,8 @@
       "priority": 76.4
     },
     {
-      "order": 48,
-      "planned_run": "2027-02-03",
+      "order": 50,
+      "planned_run": "2027-02-05",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -2443,8 +2536,8 @@
       "semrush_note": "Original no data. \"shadcn vs radix\" 110/KD17; \"shadcn ui\" 12100/KD28 is the head term for the intro."
     },
     {
-      "order": 49,
-      "planned_run": "2027-02-05",
+      "order": 51,
+      "planned_run": "2027-02-08",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -2490,8 +2583,8 @@
       "semrush_note": "Original no data. entity seo 1300/51 is above the KD 45 target; accepted at relevancy 9 and as a peer-link piece. personal brand seo is only 90/20."
     },
     {
-      "order": 50,
-      "planned_run": "2027-02-08",
+      "order": 52,
+      "planned_run": "2027-02-10",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -2538,8 +2631,8 @@
       "semrush_note": "build vs buy software 210/KD31 (internal tools 590/30 is too broad and tool-listicle intent)."
     },
     {
-      "order": 51,
-      "planned_run": "2027-02-10",
+      "order": 53,
+      "planned_run": "2027-02-12",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -2584,8 +2677,8 @@
       "semrush_note": "Original had no data; 'automate google reviews' 210/KD20; 'ai review response generator' 210/KD24 as secondary."
     },
     {
-      "order": 52,
-      "planned_run": "2027-02-12",
+      "order": 54,
+      "planned_run": "2027-02-15",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -2633,8 +2726,8 @@
       "semrush_note": "\"dashboard design\" 2900/KD39; dashboard ui design 390/KD35, dashboard ui examples 210/KD25."
     },
     {
-      "order": 53,
-      "planned_run": "2027-02-15",
+      "order": 55,
+      "planned_run": "2027-02-17",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -2682,8 +2775,8 @@
       "semrush_note": "Only 90/mo but first-hand proof from this site (Astro, Lighthouse 97 to 100), relevancy 9, aeo 4."
     },
     {
-      "order": 54,
-      "planned_run": "2027-02-17",
+      "order": 56,
+      "planned_run": "2027-02-19",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -2724,8 +2817,8 @@
       "priority": 72.0
     },
     {
-      "order": 55,
-      "planned_run": "2027-02-19",
+      "order": 57,
+      "planned_run": "2027-02-22",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -2770,8 +2863,8 @@
       "semrush_note": "Original 20/0; 170/30 variant keeps the same idea."
     },
     {
-      "order": 56,
-      "planned_run": "2027-02-22",
+      "order": 58,
+      "planned_run": "2027-02-24",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -2814,8 +2907,8 @@
       "semrush_note": "Meets thresholds; 'message hierarchy' 110/11 as secondary."
     },
     {
-      "order": 57,
-      "planned_run": "2027-02-24",
+      "order": 59,
+      "planned_run": "2027-02-26",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -2860,8 +2953,8 @@
       "semrush_note": "No keyword reaches 30 searches; aeo 5, relevancy 8, strong answer-engine question piece."
     },
     {
-      "order": 58,
-      "planned_run": "2027-02-26",
+      "order": 60,
+      "planned_run": "2027-03-01",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -2902,8 +2995,8 @@
       "priority": 75.6
     },
     {
-      "order": 59,
-      "planned_run": "2027-03-01",
+      "order": 61,
+      "planned_run": "2027-03-03",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -2945,8 +3038,8 @@
       "priority": 73.0
     },
     {
-      "order": 60,
-      "planned_run": "2027-03-03",
+      "order": 62,
+      "planned_run": "2027-03-05",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -2993,8 +3086,8 @@
       "semrush_note": "Original 20/KD0. \"design tokens figma\" 170/KD42; tokens studio 320/KD17, style dictionary 480/KD31 as secondaries. Absorbs code-as-source-of-truth."
     },
     {
-      "order": 61,
-      "planned_run": "2027-03-05",
+      "order": 63,
+      "planned_run": "2027-03-08",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -3036,8 +3129,8 @@
       "priority": 73.9
     },
     {
-      "order": 62,
-      "planned_run": "2027-03-08",
+      "order": 64,
+      "planned_run": "2027-03-10",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -3081,8 +3174,8 @@
       "semrush_note": "'UGC creator portfolio' has 480 at KD 15; keeps the own-domain angle."
     },
     {
-      "order": 63,
-      "planned_run": "2027-03-10",
+      "order": 65,
+      "planned_run": "2027-03-12",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -3128,8 +3221,8 @@
       "priority": 75.7
     },
     {
-      "order": 64,
-      "planned_run": "2027-03-12",
+      "order": 66,
+      "planned_run": "2027-03-15",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -3170,8 +3263,8 @@
       "priority": 73.7
     },
     {
-      "order": 65,
-      "planned_run": "2027-03-15",
+      "order": 67,
+      "planned_run": "2027-03-17",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -3215,8 +3308,8 @@
       "semrush_note": "Original 0/0; shopify seo tips 880/33."
     },
     {
-      "order": 66,
-      "planned_run": "2027-03-17",
+      "order": 68,
+      "planned_run": "2027-03-19",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -3265,8 +3358,8 @@
       "semrush_note": "Controller: \"css variables\" (2,400) is a generic MDN-style query this article cannot win; kept as a long-tail and answer-engine piece."
     },
     {
-      "order": 67,
-      "planned_run": "2027-03-19",
+      "order": 69,
+      "planned_run": "2027-03-22",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -3308,8 +3401,8 @@
       "priority": 73.8
     },
     {
-      "order": 68,
-      "planned_run": "2027-03-22",
+      "order": 70,
+      "planned_run": "2027-03-24",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -3334,7 +3427,7 @@
         "Can n8n call Claude?",
         "Is n8n self-hosted hard to run?"
       ],
-      "angle": "Real workflows with node-level detail from Mat's own automation work; avoid claims of client results beyond the proof list.",
+      "angle": "Example workflows with node-level detail, each checked against n8n's docs. The one first-hand example is the booking flow: form submission caught by n8n, an automated email, then a follow-up email, with the workflow built by Claude through the n8n MCP server; describe it as 'a booking flow I built' with no name or link. Every other example is general and sourced; no client results.",
       "proof_link": "/services",
       "internal_links": [
         "n8n-vs-zapier",
@@ -3353,8 +3446,8 @@
       "priority": 78.7
     },
     {
-      "order": 69,
-      "planned_run": "2027-03-24",
+      "order": 71,
+      "planned_run": "2027-03-26",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -3395,8 +3488,8 @@
       "priority": 76.7
     },
     {
-      "order": 70,
-      "planned_run": "2027-03-26",
+      "order": 72,
+      "planned_run": "2027-03-29",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -3441,8 +3534,8 @@
       "semrush_note": "\"accessibility overlay\" 140/KD25 beats the question phrase."
     },
     {
-      "order": 71,
-      "planned_run": "2027-03-29",
+      "order": 73,
+      "planned_run": "2027-03-31",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -3486,8 +3579,8 @@
       "semrush_note": "Slug unchanged; head variant has 3x volume at lower KD than trailing slash seo (320/44). Uses this site's trailingSlash never setup."
     },
     {
-      "order": 72,
-      "planned_run": "2027-03-31",
+      "order": 74,
+      "planned_run": "2027-04-02",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -3533,8 +3626,8 @@
       "semrush_note": "\"dtcg\" 170/KD34; relevancy only 6, consider deprioritising."
     },
     {
-      "order": 73,
-      "planned_run": "2027-04-02",
+      "order": 75,
+      "planned_run": "2027-04-05",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -3578,8 +3671,8 @@
       "semrush_note": "Low volume; aeo 5, rel 8. Link to the JSON-LD article."
     },
     {
-      "order": 74,
-      "planned_run": "2027-04-05",
+      "order": 76,
+      "planned_run": "2027-04-07",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -3624,8 +3717,8 @@
       "priority": 78.1
     },
     {
-      "order": 75,
-      "planned_run": "2027-04-07",
+      "order": 77,
+      "planned_run": "2027-04-09",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -3665,8 +3758,8 @@
       "priority": 79.6
     },
     {
-      "order": 76,
-      "planned_run": "2027-04-09",
+      "order": 78,
+      "planned_run": "2027-04-12",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -3711,8 +3804,8 @@
       "semrush_note": "Original 0. \"prefers-reduced-motion\" 110/KD38 with the GSAP angle intact."
     },
     {
-      "order": 77,
-      "planned_run": "2027-04-12",
+      "order": 79,
+      "planned_run": "2027-04-14",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -3756,8 +3849,8 @@
       "semrush_note": "Original no data; restaurant variant 110/29 (categories alone 140/31)."
     },
     {
-      "order": 78,
-      "planned_run": "2027-04-14",
+      "order": 80,
+      "planned_run": "2027-04-16",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -3803,8 +3896,8 @@
       "semrush_note": "Original no data. \"css light-dark\" 90/KD39 and \"dark mode css\" 70/KD48; low volume, borderline."
     },
     {
-      "order": 79,
-      "planned_run": "2027-04-16",
+      "order": 81,
+      "planned_run": "2027-04-19",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -3850,8 +3943,8 @@
       "semrush_note": "Good for AEO peers."
     },
     {
-      "order": 80,
-      "planned_run": "2027-04-19",
+      "order": 82,
+      "planned_run": "2027-04-21",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -3897,8 +3990,8 @@
       "semrush_note": "supabase security 110/KD38 plus vibe coding security 210/34 as secondary; same checklist article."
     },
     {
-      "order": 81,
-      "planned_run": "2027-04-21",
+      "order": 83,
+      "planned_run": "2027-04-23",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -3942,8 +4035,8 @@
       "semrush_note": "880/KD41 passes; 'mcp server security' 210/KD46 as secondary."
     },
     {
-      "order": 82,
-      "planned_run": "2027-04-23",
+      "order": 84,
+      "planned_run": "2027-04-26",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -3989,8 +4082,8 @@
       "semrush_note": "Original 30/KD0. \"wcag 2.2 checklist\" 90/KD39 and \"wcag 2.2 aa checklist\" 110/KD41 are better."
     },
     {
-      "order": 83,
-      "planned_run": "2027-04-26",
+      "order": 85,
+      "planned_run": "2027-04-28",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -4032,8 +4125,8 @@
       "priority": 70.4
     },
     {
-      "order": 84,
-      "planned_run": "2027-04-28",
+      "order": 86,
+      "planned_run": "2027-04-30",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -4079,8 +4172,8 @@
       "semrush_note": "Meets threshold (320/KD23). \"astro islands\" 110/KD29."
     },
     {
-      "order": 85,
-      "planned_run": "2027-04-30",
+      "order": 87,
+      "planned_run": "2027-05-03",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -4123,8 +4216,8 @@
       "priority": 70.0
     },
     {
-      "order": 86,
-      "planned_run": "2027-05-03",
+      "order": 88,
+      "planned_run": "2027-05-05",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -4169,8 +4262,8 @@
       "semrush_note": "Original keyword had no data; 'brand voice ai' 110 at KD 25."
     },
     {
-      "order": 87,
-      "planned_run": "2027-05-05",
+      "order": 89,
+      "planned_run": "2027-05-07",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -4215,8 +4308,8 @@
       "priority": 76.4
     },
     {
-      "order": 88,
-      "planned_run": "2027-05-07",
+      "order": 90,
+      "planned_run": "2027-05-10",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -4262,8 +4355,8 @@
       "semrush_note": "\"figma dev mode\" 1300/KD37 versus 20 for the question."
     },
     {
-      "order": 89,
-      "planned_run": "2027-05-10",
+      "order": 91,
+      "planned_run": "2027-05-12",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -4307,8 +4400,8 @@
       "semrush_note": "Original no data; 260/45 at the edge of target. Core web vitals itself is 6600/82."
     },
     {
-      "order": 90,
-      "planned_run": "2027-05-12",
+      "order": 92,
+      "planned_run": "2027-05-14",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -4355,8 +4448,8 @@
       "semrush_note": "No searches (\"cumulative layout shift\" 1600/KD61 too hard). Kept as proof piece for the site 97 to 100 Lighthouse; aeo 4, relevancy 8."
     },
     {
-      "order": 91,
-      "planned_run": "2027-05-14",
+      "order": 93,
+      "planned_run": "2027-05-17",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -4401,8 +4494,8 @@
       "semrush_note": "Proof piece for this site's check-dist script; low volume, relevancy 8, aeo 4."
     },
     {
-      "order": 92,
-      "planned_run": "2027-05-17",
+      "order": 94,
+      "planned_run": "2027-05-19",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -4446,8 +4539,8 @@
       "semrush_note": "Strong volume at KD 40."
     },
     {
-      "order": 93,
-      "planned_run": "2027-05-19",
+      "order": 95,
+      "planned_run": "2027-05-21",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -4493,8 +4586,8 @@
       "semrush_note": "supabase auth 1900/KD41 vs 20 for the vs-Clerk phrase; reframe as Supabase Auth for small apps with the Clerk comparison as a section."
     },
     {
-      "order": 94,
-      "planned_run": "2027-05-21",
+      "order": 96,
+      "planned_run": "2027-05-24",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -4539,8 +4632,8 @@
       "semrush_note": "Original no data ('ai employee handbook' 20); 'internal knowledge base chatbot' 70/KD23, 'ai knowledge base chatbot' 140/KD46 as secondary. Low volume; relevancy 9 and 'Aiwi proof."
     },
     {
-      "order": 95,
-      "planned_run": "2027-05-24",
+      "order": 97,
+      "planned_run": "2027-05-26",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -4584,8 +4677,8 @@
       "semrush_note": "Meets thresholds; absorbs customer interviews. 'positioning statement examples' 480/29 secondary."
     },
     {
-      "order": 96,
-      "planned_run": "2027-05-26",
+      "order": 98,
+      "planned_run": "2027-05-28",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -4631,8 +4724,8 @@
       "semrush_note": "Original 10/KD0; 'human in the loop automation' has 140 at KD31 and fits the same angle."
     },
     {
-      "order": 97,
-      "planned_run": "2027-05-28",
+      "order": 99,
+      "planned_run": "2027-05-31",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -4672,8 +4765,8 @@
       "priority": 79.3
     },
     {
-      "order": 98,
-      "planned_run": "2027-05-31",
+      "order": 100,
+      "planned_run": "2027-06-02",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -4719,8 +4812,8 @@
       "priority": 71.3
     },
     {
-      "order": 99,
-      "planned_run": "2027-06-02",
+      "order": 101,
+      "planned_run": "2027-06-04",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -4766,8 +4859,8 @@
       "semrush_note": "Original 30/KD0; 'build mcp server' 1600/KD43, 'how to build an mcp server' 590/KD34."
     },
     {
-      "order": 100,
-      "planned_run": "2027-06-04",
+      "order": 102,
+      "planned_run": "2027-06-07",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -4812,8 +4905,8 @@
       "semrush_note": "Meets thresholds (KD 49 borderline); keep."
     },
     {
-      "order": 101,
-      "planned_run": "2027-06-07",
+      "order": 103,
+      "planned_run": "2027-06-09",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -4859,8 +4952,8 @@
       "semrush_note": "Original 20/KD0; 'agentic design patterns' 1900/KD39; 'prompt chaining' 880/KD38 as secondary."
     },
     {
-      "order": 102,
-      "planned_run": "2027-06-09",
+      "order": 104,
+      "planned_run": "2027-06-11",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -4902,8 +4995,8 @@
       "semrush_note": "260 at KD 13 beats 90 at KD 8."
     },
     {
-      "order": 103,
-      "planned_run": "2027-06-11",
+      "order": 105,
+      "planned_run": "2027-06-14",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -4949,8 +5042,8 @@
       "semrush_note": "supabase edge functions 720/KD37; keep API-keys angle as the hook. Service role key searches go to the new api-keys article."
     },
     {
-      "order": 104,
-      "planned_run": "2027-06-14",
+      "order": 106,
+      "planned_run": "2027-06-16",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -4995,8 +5088,8 @@
       "semrush_note": "No Semrush data; relevancy 9 and aeo 4, Aiwi proof piece."
     },
     {
-      "order": 105,
-      "planned_run": "2027-06-16",
+      "order": 107,
+      "planned_run": "2027-06-18",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -5042,8 +5135,8 @@
       "semrush_note": "Original 170/KD54 too hard; 'llm evals' 590/KD38."
     },
     {
-      "order": 106,
-      "planned_run": "2027-06-18",
+      "order": 108,
+      "planned_run": "2027-06-21",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -5086,8 +5179,8 @@
       "semrush_note": "1300 at KD 45 vs 210 at KD 39; same article."
     },
     {
-      "order": 107,
-      "planned_run": "2027-06-21",
+      "order": 109,
+      "planned_run": "2027-06-23",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -5133,8 +5226,8 @@
       "semrush_note": "590/KD33 vs no data; checklist template plus the tracking-screen build keeps the angle."
     },
     {
-      "order": 108,
-      "planned_run": "2027-06-23",
+      "order": 110,
+      "planned_run": "2027-06-25",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -5178,8 +5271,8 @@
       "semrush_note": "Original 110/KD56 too hard; 'claude function calling' 50/KD26 is low but easy, and the section also lives in the Agent SDK guide."
     },
     {
-      "order": 109,
-      "planned_run": "2027-06-25",
+      "order": 111,
+      "planned_run": "2027-06-28",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -5224,8 +5317,8 @@
       "semrush_note": "1600/KD29 passes; firebase vs supabase 720/25 as secondary."
     },
     {
-      "order": 110,
-      "planned_run": "2027-06-28",
+      "order": 112,
+      "planned_run": "2027-06-30",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -5269,8 +5362,8 @@
       "semrush_note": "720/KD50 passes the filter (borderline); 'multi agent systems' 1600/KD56 is harder."
     },
     {
-      "order": 111,
-      "planned_run": "2027-06-30",
+      "order": 113,
+      "planned_run": "2027-07-02",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -5316,8 +5409,8 @@
       "semrush_note": "No Semrush data; proof piece for the Vamp Network intake flow case study."
     },
     {
-      "order": 112,
-      "planned_run": "2027-07-02",
+      "order": 114,
+      "planned_run": "2027-07-05",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -5365,54 +5458,7 @@
       "semrush_note": "No data (ai employee handbook 20); rel 8, aeo 4 and proof for Ask 'Aiwi."
     },
     {
-      "order": 113,
-      "planned_run": null,
-      "status": "needs-input",
-      "branch": null,
-      "topic": "ai-automation",
-      "cluster": "MCP and connected tools",
-      "role": "spoke",
-      "title": "Connect n8n workflows to Claude with MCP",
-      "slug": "connect-n8n-workflows-to-claude-with-mcp",
-      "primary_keyword": "n8n mcp server",
-      "secondary_keywords": [
-        "n8n mcp trigger",
-        "claude desktop n8n",
-        "n8n mcp client node"
-      ],
-      "intent": "informational",
-      "volume_tier": "medium",
-      "difficulty": 42,
-      "relevancy": 10,
-      "aeo_opportunity": 5,
-      "questions_to_answer": [
-        "How do I connect n8n to Claude?",
-        "What triggers work with MCP in n8n?",
-        "What is the MCP Server Trigger node?",
-        "How do I secure it?"
-      ],
-      "angle": "Mostly Substack and small blogs. Mat has used n8n and MCP and can give an end-to-end working example with descriptions that make Claude pick the right workflow.",
-      "proof_link": null,
-      "internal_links": [
-        "build-an-mcp-server",
-        "mcp-security-checklist",
-        "n8n-vs-claude"
-      ],
-      "format": "how-to",
-      "word_count": 2000,
-      "evidence": "WebSearch 'n8n Claude MCP': genaiunplugged.substack.com, uibakery.io/blog/n8n-mcp-guide, agence-scroll.com; only webhook, schedule and form triggers work.",
-      "discipline": "Agentic Workflows",
-      "priority": 85.1,
-      "owner_input": "Confirm you have connected n8n to Claude through MCP, and for what.",
-      "difficulty_est": 32,
-      "semrush_volume": 1300,
-      "semrush_kd": 42,
-      "semrush_intent": "informational",
-      "semrush_action": "keep",
-      "semrush_note": "1300/KD42 passes."
-    },
-    {
-      "order": 114,
+      "order": 115,
       "planned_run": null,
       "status": "needs-input",
       "branch": null,
@@ -5462,7 +5508,7 @@
       "semrush_note": "Original 20/0; 590/36 and 'how to get cited by chatgpt' 320/29. Pillar keeps relevancy 10."
     },
     {
-      "order": 115,
+      "order": 116,
       "planned_run": null,
       "status": "needs-input",
       "branch": null,
@@ -5508,52 +5554,6 @@
       "semrush_intent": null,
       "semrush_action": "keep-aeo",
       "semrush_note": "20 searches but relevancy 10 and aeo 4; proof piece for Portfolio Optimization (ten sites)."
-    },
-    {
-      "order": 116,
-      "planned_run": null,
-      "status": "needs-input",
-      "branch": null,
-      "topic": "ai-automation",
-      "cluster": "Tools and platforms",
-      "role": "spoke",
-      "title": "n8n vs Claude: which one to use for business automation",
-      "slug": "n8n-vs-claude",
-      "primary_keyword": "n8n claude",
-      "secondary_keywords": [
-        "n8n vs claude code",
-        "n8n vs claude",
-        "n8n ai agent"
-      ],
-      "intent": "commercial",
-      "volume_tier": "low",
-      "difficulty": 37,
-      "relevancy": 10,
-      "aeo_opportunity": 5,
-      "questions_to_answer": [
-        "Can Claude Code replace n8n?",
-        "Can Claude build n8n workflows?",
-        "Which is easier for a client to maintain?",
-        "Is Claude Code safe for automations?"
-      ],
-      "angle": "Very live topic with promo-heavy results (growwstacks, mindstudio). Mat uses both and can say where each is easier to hand over.",
-      "proof_link": "/services",
-      "internal_links": [
-        "n8n-vs-zapier",
-        "ai-agents-vs-agentic-ai"
-      ],
-      "format": "opinion",
-      "word_count": 1800,
-      "evidence": "WebSearch 'n8n claude code': growwstacks.com 'stop replacing n8n with Claude Code', mindstudio.ai comparison; one test said Claude replicated about 90% on first try.",
-      "discipline": "Agentic Workflows",
-      "priority": 82.4,
-      "owner_input": "Confirm you use n8n, and for what kind of jobs.",
-      "difficulty_est": 26,
-      "semrush_volume": 210,
-      "semrush_kd": 37,
-      "semrush_intent": "informational",
-      "semrush_action": "retarget",
-      "semrush_note": "Original 90/KD25; 'n8n claude' 210/KD37 (intent mixed)."
     },
     {
       "order": 117,
@@ -6015,6 +6015,96 @@
       "semrush_intent": "informational",
       "semrush_action": "keep",
       "semrush_note": "Kept; head variant 880/54 too hard. Relevancy 7."
+    },
+    {
+      "order": 127,
+      "planned_run": null,
+      "status": "needs-input",
+      "branch": null,
+      "topic": "working-for-yourself",
+      "cluster": "Working for yourself",
+      "role": "spoke",
+      "title": "Switching careers in your 30s: what I gave up and what I got back",
+      "slug": "switching-careers-in-your-30s",
+      "primary_keyword": "switching careers in your 30s",
+      "secondary_keywords": [
+        "career change at 30",
+        "how to change careers in your 30s",
+        "career change to web design"
+      ],
+      "intent": "informational",
+      "volume_tier": "unknown (not yet checked in Semrush)",
+      "difficulty": null,
+      "relevancy": null,
+      "aeo_opportunity": null,
+      "questions_to_answer": [
+        "Is it too late to switch careers in your 30s?",
+        "How do you know it's time to leave a career that's working?",
+        "How do you learn a new skill while still paying the bills?",
+        "Can you teach yourself to code in your 30s?"
+      ],
+      "angle": "My own switch: a career I was doing well in went stale, I went back to design, taught myself to code around 2016, and freelanced while raising my son. Honest about failing out of college and the sacrifice, hopeful about what is possible now with AI as a partner.",
+      "proof_link": "/about",
+      "internal_links": [
+        "what-is-a-design-engineer"
+      ],
+      "format": "personal essay with steps",
+      "word_count": 1800,
+      "evidence": "Owner's idea from his voice interview on 2026-10-16.",
+      "discipline": "My story",
+      "priority": null,
+      "owner_input": "The shape of the switch: roughly when it happened, how long you overlapped the old career with freelancing, the hardest month, what you would tell someone at the start. Keep the old career unnamed.",
+      "difficulty_est": null,
+      "semrush_volume": null,
+      "semrush_kd": null,
+      "semrush_intent": null,
+      "semrush_action": null,
+      "semrush_note": "Not checked yet."
+    },
+    {
+      "order": 128,
+      "planned_run": null,
+      "status": "needs-input",
+      "branch": null,
+      "topic": "working-for-yourself",
+      "cluster": "Working for yourself",
+      "role": "spoke",
+      "title": "Living in Hawaii and working remotely: what nobody tells you",
+      "slug": "living-in-hawaii-working-remotely",
+      "primary_keyword": "living in hawaii working remotely",
+      "secondary_keywords": [
+        "working remotely from hawaii",
+        "moving to hawaii for remote work",
+        "hawaii time zone remote work"
+      ],
+      "intent": "informational",
+      "volume_tier": "unknown (not yet checked in Semrush)",
+      "difficulty": null,
+      "relevancy": null,
+      "aeo_opportunity": null,
+      "questions_to_answer": [
+        "What is it like to live in Hawaii and work remotely?",
+        "How is visiting Hawaii different from living there?",
+        "How do you handle the time zone with mainland clients?",
+        "What does a workday look like?"
+      ],
+      "angle": "Clients always ask about Hawaii when they find out I live here, and I tell them how different living here is from visiting. A real workday: client calls, building, then bouldering, hikes or bodysurfing the onshore break.",
+      "proof_link": "/about",
+      "internal_links": [
+        "switching-careers-in-your-30s"
+      ],
+      "format": "personal guide",
+      "word_count": 1500,
+      "evidence": "Owner's idea from his voice interview on 2026-10-16.",
+      "discipline": "My story",
+      "priority": null,
+      "owner_input": "What is actually different about living there versus visiting, how you schedule around the time zone with clients, and a typical workday. Only what you are happy to say publicly.",
+      "difficulty_est": null,
+      "semrush_volume": null,
+      "semrush_kd": null,
+      "semrush_intent": null,
+      "semrush_action": null,
+      "semrush_note": "Not checked yet."
     }
   ]
 }
