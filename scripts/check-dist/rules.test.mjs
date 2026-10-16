@@ -14,12 +14,12 @@ import {
 
 const ld = (types) => `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': types.map((t) => ({ '@type': t })) })}</script>`
 
-function page({ noindex = false, h1 = 1, canonical = 'https://matbrown.io/work', image = 'https://matbrown.io/og/work.png', jsonLd = ld(['Person', 'WebSite']), body = 'Hello', title = 'Work', description = 'About work.' } = {}) {
+function page({ noindex = false, h1 = 1, canonical = 'https://matbrown.io/work', image = 'https://matbrown.io/og/work.png', jsonLd = ld(['Person', 'WebSite']), heading = 'T', body = 'Hello', title = 'Work', description = 'About work.' } = {}) {
   return (
     `<html><head><title>${title}</title><meta name="description" content="${description}">` +
     `<link rel="canonical" href="${canonical}">${noindex ? '<meta name="robots" content="noindex">' : ''}` +
     `<meta property="og:image" content="${image}">${jsonLd}<style>.a{content:"—"}</style></head>` +
-    `<body>${'<h1>T</h1>'.repeat(h1)}<p>${body}</p><script>var dash="—"</script></body></html>`
+    `<body>${`<h1>${heading}</h1>`.repeat(h1)}<p>${body}</p><script>var dash="—"</script></body></html>`
   )
 }
 
@@ -155,6 +155,61 @@ describe('British spellings', () => {
 
   it('names each British word once, in the order it appears', () => {
     expect(problems({ body: 'A colour, a behaviour and another colour.' })).toEqual([british('colour'), british('behaviour')])
+  })
+})
+
+describe('description that repeats the h1', () => {
+  const echo = `${url}: description repeats the h1 (say what the headline does not)`
+
+  it('fails a description that opens with the whole h1', () => {
+    expect(problems({ heading: 'How to create a design system for a small team', description: 'How to create a design system for a small team, from a UI audit to five tokens.' })).toEqual([echo])
+  })
+
+  it('ignores case, spacing and trailing punctuation on the h1', () => {
+    expect(problems({ heading: 'Design  systems!', description: 'design systems for small teams.' })).toEqual([echo])
+  })
+
+  it('allows a description that only shares a keyword or opens differently', () => {
+    expect(problems({ heading: 'Design systems', description: 'A guide to design systems.' })).toEqual([])
+    expect(problems({ heading: 'Design systems for teams', description: 'Design systems, explained.' })).toEqual([])
+  })
+
+  it('skips noindex pages', () => {
+    const noindex = new Set()
+    expect(problems({ noindex: true, heading: 'Thanks', description: 'Thanks for writing.' }, { sitemap: noindex, files: site.files })).toEqual([])
+  })
+})
+
+describe('a phrase repeated inside one sentence', () => {
+  const repeat = (phrase) => `${url}: repeats "${phrase}" in one sentence`
+
+  it('names the longest repeat once', () => {
+    expect(problems({ body: 'For each UGC creator I design a logo and a color palette for each UGC creator.' })).toEqual([repeat('for each ugc creator')])
+  })
+
+  it('checks list items and keeps the text of inner tags', () => {
+    const html = page({ body: '</p><ul><li>I fix the <a href="/x">broken checkout flow</a> and the broken <strong>checkout</strong> flow.</li></ul><p>' })
+    expect(pageProblems(pageFacts(html, url), site)).toEqual([repeat('the broken checkout flow')])
+  })
+
+  it('allows a repeat of three words, or across sentences', () => {
+    expect(problems({ body: 'I build the new site and the new site ships fast.' })).toEqual([])
+    expect(problems({ body: 'I fix the broken checkout flow. Then I test the broken checkout flow.' })).toEqual([])
+  })
+
+  it('ignores headings, code blocks and nav', () => {
+    const html = page({ body: '</p><h2>one two three four and one two three four</h2><pre><code>a b c d a b c d</code></pre><nav>a b c d a b c d</nav><p>' })
+    expect(pageProblems(pageFacts(html, url), site)).toEqual([])
+  })
+
+  it('does not read class names or other attributes as words', () => {
+    const html = page({ body: '</p><ul><li class="border-t min-[400px]:max-lg:odd:pr-4 min-[400px]:max-lg:odd:pl-4 x>y">Fix it.</li></ul><p>' })
+    expect(pageProblems(pageFacts(html, url), site)).toEqual([])
+  })
+
+  it('does not join separate list items into one sentence', () => {
+    const html = page({ body: '</p><ul><li>Fix the broken checkout flow</li><li>Test the broken checkout flow</li></ul><p>' })
+    expect(pageProblems(pageFacts(html, url), site)).toEqual([])
   })
 })
 
