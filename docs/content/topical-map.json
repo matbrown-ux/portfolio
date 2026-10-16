@@ -196,7 +196,7 @@
     {
       "order": 1,
       "planned_run": "2026-10-16",
-      "status": "in-review",
+      "status": "published",
       "branch": "article/what-is-a-design-engineer",
       "topic": "ux-ui-design",
       "cluster": "Design engineering",
@@ -248,8 +248,8 @@
     {
       "order": 2,
       "planned_run": "2026-10-19",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/how-to-create-a-design-system",
       "topic": "design-systems",
       "cluster": "Design systems for small teams",
       "role": "pillar",
