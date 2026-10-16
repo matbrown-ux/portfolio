@@ -1,4 +1,4 @@
-import type { Discipline } from '../content/disciplines'
+import type { BlogSection } from './blogSections'
 import { readingLabel } from './readingTime'
 
 /** The part of a blog topic entry these helpers need. The id is the topic's folder name. */
@@ -60,12 +60,6 @@ export function requireTopic<T extends TopicEntry>(topics: T[], id: string): T {
   return topic
 }
 
-export function requireDiscipline(disciplines: Discipline[], slug: string): Discipline {
-  const discipline = disciplines.find((entry) => entry.slug === slug)
-  if (!discipline) throw new Error(`Unknown discipline "${slug}"`)
-  return discipline
-}
-
 const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve']
 
 /** A count as a word up to twelve and as digits above, for use inside a sentence. */
@@ -81,10 +75,20 @@ export function countLabel(n: number, singular: string, plural: string, options:
 }
 
 /** The sentence beside the blog index's topic heading. */
-export function indexIntro(topicCount: number, disciplineCount: number): string {
+export function indexIntro(topicCount: number, disciplineCount: number, outsideCount = 0): string {
   const topics = countLabel(topicCount, 'topic', 'topics', { words: true, capital: true })
   const disciplines = countLabel(disciplineCount, 'discipline', 'disciplines', { words: true })
+  if (outsideCount > 0) {
+    const inside = numberWord(topicCount - outsideCount)
+    return `${topics}: ${inside} across the ${disciplines} I work in, and ${numberWord(outsideCount)} about my own story. I add to them as I write.`
+  }
   return `${topics} across the ${disciplines} I work in. I add to them as I write.`
+}
+
+/** How many topics sit in a section that is not a service, such as My story. */
+export function countOutsideServices(sections: BlogSection[], topics: TopicEntry[]): number {
+  const outside = new Set(sections.filter((section) => !section.isService).map((section) => section.slug))
+  return topics.filter((topic) => outside.has(topic.data.discipline)).length
 }
 
 export interface TopicRow<T> {
@@ -96,17 +100,17 @@ export interface TopicRow<T> {
 }
 
 export interface TopicGroup<T> {
-  discipline: Discipline
+  section: BlogSection
   topics: TopicRow<T>[]
 }
 
-/** One group per discipline that has topics, in discipline order, each topic with its article count. */
-export function topicGroups<T extends TopicEntry>(disciplines: Discipline[], topics: T[], articles: ArticleEntry[]): TopicGroup<T>[] {
-  return disciplines
-    .map((discipline) => ({
-      discipline,
+/** One group per section that has topics, in section order, each topic with its article count. */
+export function topicGroups<T extends TopicEntry>(sections: BlogSection[], topics: T[], articles: ArticleEntry[]): TopicGroup<T>[] {
+  return sections
+    .map((section) => ({
+      section,
       topics: topics
-        .filter((topic) => topic.data.discipline === discipline.slug)
+        .filter((topic) => topic.data.discipline === section.slug)
         .sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id))
         .map((topic) => {
           const count = articlesInTopic(articles, topic.id).length
@@ -116,7 +120,7 @@ export function topicGroups<T extends TopicEntry>(disciplines: Discipline[], top
     .filter((group) => group.topics.length > 0)
 }
 
-/** The other topics in the same discipline, by their order. */
+/** The other topics in the same section, by their order. */
 export function siblingTopics<T extends TopicEntry>(topics: T[], topic: TopicEntry): T[] {
   return topics
     .filter((entry) => entry.data.discipline === topic.data.discipline && entry.id !== topic.id)
@@ -130,10 +134,10 @@ export interface Crumb {
 }
 
 /** The trail above a topic or an article. On an article page the topic is a link and the article is not listed. */
-export function breadcrumb(discipline: Discipline, topic: TopicEntry, page: 'topic' | 'article'): Crumb[] {
+export function breadcrumb(section: BlogSection, topic: TopicEntry, page: 'topic' | 'article'): Crumb[] {
   return [
     { label: 'Blog', href: '/blog' },
-    { label: discipline.title, href: `/blog#${discipline.slug}` },
+    { label: section.title, href: `/blog#${section.slug}` },
     page === 'article' ? { label: topic.data.title, href: topicHref(topic.id) } : { label: topic.data.title },
   ]
 }
@@ -166,8 +170,9 @@ export function contentsHeadings(headings: Heading[]): Heading[] {
  * What an empty topic page says. The case study clause is dropped when the discipline has no
  * proof. The title follows "the case study on", so one that starts with "The" still reads well.
  */
-export function emptyTopicText(disciplineTitle: string, proofTitle: string | null): string {
-  const service = `The ${disciplineTitle} service page explains how I work on it`
+export function emptyTopicText(section: BlogSection, proofTitle: string | null): string {
+  if (!section.isService) return "I haven't written anything on this topic yet. My About page tells you more about me and how I work."
+  const service = `The ${section.title} service page explains how I work on it`
   const proof = proofTitle ? `, and the case study on ${proofTitle} shows it on a real business.` : '.'
   return `I haven't written anything on this topic yet. ${service}${proof}`
 }
@@ -211,11 +216,13 @@ export function nextTiles(input: {
   article: ArticleEntry
   articles: ArticleEntry[]
   topic: TopicEntry
-  discipline: Discipline
+  section: BlogSection
   topicCount: number
   disciplineCount: number
+  /** Topics outside the service disciplines, such as My story. */
+  outsideCount?: number
 }): [Tile, Tile, Tile] {
-  const { article, articles, topic, discipline, topicCount, disciplineCount } = input
+  const { article, articles, topic, section, topicCount, disciplineCount, outsideCount = 0 } = input
   const other = articlesInTopic(articles, topic.id).find((entry) => entry.id !== article.id)
   const more: Tile = other
     ? { label: 'More on this topic', title: other.data.title, text: other.data.description, cta: 'Read the article', href: articleHref(other.id) }
@@ -228,11 +235,11 @@ export function nextTiles(input: {
       }
   return [
     more,
-    { label: 'The service behind it', title: discipline.title, text: discipline.blurb, cta: 'See the service', href: `/services#${discipline.slug}` },
+    { label: section.nextLabel, title: section.title, text: section.blurb, cta: section.linkLabel, href: section.href },
     {
       label: 'Keep reading',
       title: 'All articles',
-      text: `${countLabel(topicCount, 'topic', 'topics', { words: true, capital: true })} across ${countLabel(disciplineCount, 'discipline', 'disciplines', { words: true })}.`,
+      text: `${countLabel(topicCount, 'topic', 'topics', { words: true, capital: true })} across ${countLabel(disciplineCount, 'discipline', 'disciplines', { words: true })}${outsideCount > 0 ? ' and my own story' : ''}.`,
       cta: 'Back to the blog',
       href: '/blog',
     },

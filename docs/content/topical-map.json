@@ -6015,6 +6015,96 @@
       "semrush_intent": "informational",
       "semrush_action": "keep",
       "semrush_note": "Kept; head variant 880/54 too hard. Relevancy 7."
+    },
+    {
+      "order": 127,
+      "planned_run": null,
+      "status": "needs-input",
+      "branch": null,
+      "topic": "working-for-yourself",
+      "cluster": "Working for yourself",
+      "role": "spoke",
+      "title": "Switching careers in your 30s: what I gave up and what I got back",
+      "slug": "switching-careers-in-your-30s",
+      "primary_keyword": "switching careers in your 30s",
+      "secondary_keywords": [
+        "career change at 30",
+        "how to change careers in your 30s",
+        "career change to web design"
+      ],
+      "intent": "informational",
+      "volume_tier": "unknown (not yet checked in Semrush)",
+      "difficulty": null,
+      "relevancy": null,
+      "aeo_opportunity": null,
+      "questions_to_answer": [
+        "Is it too late to switch careers in your 30s?",
+        "How do you know it's time to leave a career that's working?",
+        "How do you learn a new skill while still paying the bills?",
+        "Can you teach yourself to code in your 30s?"
+      ],
+      "angle": "My own switch: a career I was doing well in went stale, I went back to design, taught myself to code around 2016, and freelanced while raising my son. Honest about failing out of college and the sacrifice, hopeful about what is possible now with AI as a partner.",
+      "proof_link": "/about",
+      "internal_links": [
+        "what-is-a-design-engineer"
+      ],
+      "format": "personal essay with steps",
+      "word_count": 1800,
+      "evidence": "Owner's idea from his voice interview on 2026-10-16.",
+      "discipline": "My story",
+      "priority": null,
+      "owner_input": "The shape of the switch: roughly when it happened, how long you overlapped the old career with freelancing, the hardest month, what you would tell someone at the start. Keep the old career unnamed.",
+      "difficulty_est": null,
+      "semrush_volume": null,
+      "semrush_kd": null,
+      "semrush_intent": null,
+      "semrush_action": null,
+      "semrush_note": "Not checked yet."
+    },
+    {
+      "order": 128,
+      "planned_run": null,
+      "status": "needs-input",
+      "branch": null,
+      "topic": "working-for-yourself",
+      "cluster": "Working for yourself",
+      "role": "spoke",
+      "title": "Living in Hawaii and working remotely: what nobody tells you",
+      "slug": "living-in-hawaii-working-remotely",
+      "primary_keyword": "living in hawaii working remotely",
+      "secondary_keywords": [
+        "working remotely from hawaii",
+        "moving to hawaii for remote work",
+        "hawaii time zone remote work"
+      ],
+      "intent": "informational",
+      "volume_tier": "unknown (not yet checked in Semrush)",
+      "difficulty": null,
+      "relevancy": null,
+      "aeo_opportunity": null,
+      "questions_to_answer": [
+        "What is it like to live in Hawaii and work remotely?",
+        "How is visiting Hawaii different from living there?",
+        "How do you handle the time zone with mainland clients?",
+        "What does a workday look like?"
+      ],
+      "angle": "Clients always ask about Hawaii when they find out I live here, and I tell them how different living here is from visiting. A real workday: client calls, building, then bouldering, hikes or bodysurfing the onshore break.",
+      "proof_link": "/about",
+      "internal_links": [
+        "switching-careers-in-your-30s"
+      ],
+      "format": "personal guide",
+      "word_count": 1500,
+      "evidence": "Owner's idea from his voice interview on 2026-10-16.",
+      "discipline": "My story",
+      "priority": null,
+      "owner_input": "What is actually different about living there versus visiting, how you schedule around the time zone with clients, and a typical workday. Only what you are happy to say publicly.",
+      "difficulty_est": null,
+      "semrush_volume": null,
+      "semrush_kd": null,
+      "semrush_intent": null,
+      "semrush_action": null,
+      "semrush_note": "Not checked yet."
     }
   ]
 }

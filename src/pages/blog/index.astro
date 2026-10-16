@@ -6,14 +6,17 @@ import LatestArticle from '../../components/blog/LatestArticle.astro'
 import ArticleRow from '../../components/blog/ArticleRow.astro'
 import TopicIndex from '../../components/blog/TopicIndex.astro'
 import ContactBand from '../../components/sections/ContactBand.astro'
+import { extraBlogSections } from '../../content/blogSections'
 import { disciplines } from '../../content/disciplines'
+import { blogSections } from '../../lib/blogSections'
 import { blogNode } from '../../lib/structuredData'
-import { BLOG_DESCRIPTION, articleCard, countLabel, indexIntro, latestArticles, requireTopic, topicGroups, topicSlug } from '../../lib/blog'
+import { BLOG_DESCRIPTION, articleCard, countLabel, countOutsideServices, indexIntro, latestArticles, requireTopic, topicGroups, topicSlug } from '../../lib/blog'
 
 const topics = await getCollection('blogTopics')
 const articles = await getCollection('blogArticles')
 const [latest, ...more] = latestArticles(articles, 3).map((article) => articleCard(article, requireTopic(topics, topicSlug(article.id)).data.title))
-const intro = indexIntro(topics.length, disciplines.length)
+const sections = blogSections(disciplines, extraBlogSections)
+const intro = indexIntro(topics.length, disciplines.length, countOutsideServices(sections, topics))
 ---
 
 <BaseLayout title="Blog" description={BLOG_DESCRIPTION} schema={[blogNode(BLOG_DESCRIPTION)]}>
@@ -30,6 +33,6 @@ const intro = indexIntro(topics.length, disciplines.length)
       </div>
     )
   }
-  <TopicIndex groups={topicGroups(disciplines, topics, articles)} intro={intro} />
+  <TopicIndex groups={topicGroups(sections, topics, articles)} intro={intro} />
   <ContactBand />
 </BaseLayout>

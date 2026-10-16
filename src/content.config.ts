@@ -1,7 +1,9 @@
 import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
+import { extraBlogSections } from './content/blogSections'
 import { disciplines } from './content/disciplines'
+import { blogSections } from './lib/blogSections'
 
 // A media slot. No `src` means a labelled placeholder; `alt` names what belongs there.
 // `src` and `poster` are paths relative to src/assets/case-studies/. The objects are strict so a
@@ -35,7 +37,8 @@ const caseStudies = defineCollection({
   }),
 })
 
-const disciplineSlugs = disciplines.map((discipline) => discipline.slug) as [string, ...string[]]
+// A topic belongs to a blog section: one of the five disciplines, or a section such as My story.
+const sectionSlugs = blogSections(disciplines, extraBlogSections).map((section) => section.slug) as [string, ...string[]]
 
 // A topic is a folder under src/content/blog with an index.mdx; the folder name is its slug.
 // Strict, so a retired key (slug, coverImage) stops the build instead of being ignored.
@@ -49,7 +52,7 @@ const blogTopics = defineCollection({
     title: z.string(),
     headline: z.string(),
     description: z.string(),
-    discipline: z.enum(disciplineSlugs),
+    discipline: z.enum(sectionSlugs),
     order: z.number().int(),
     keywords: z.array(z.string()).optional(),
   }),

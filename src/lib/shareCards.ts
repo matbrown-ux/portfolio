@@ -1,5 +1,6 @@
-import type { Discipline } from '../content/disciplines'
-import { articleHref, requireDiscipline, requireTopic, topicHref, topicSlug, type ArticleEntry, type TopicEntry } from './blog'
+import type { BlogSection } from './blogSections'
+import { requireSection } from './blogSections'
+import { articleHref, requireTopic, topicHref, topicSlug, type ArticleEntry, type TopicEntry } from './blog'
 import { mediaKind } from './media'
 
 /** What one page's share card says. */
@@ -54,8 +55,8 @@ export function heroCapture(media: StudyEntry['data']['media']): string | undefi
 }
 
 /** One card per page that has its own. Home is first, and is the fallback for every other page. */
-export function shareCards(input: { disciplines: Discipline[]; caseStudies: StudyEntry[]; topics: TopicEntry[]; articles: ArticleEntry[] }): ShareCard[] {
-  const { disciplines, caseStudies, topics, articles } = input
+export function shareCards(input: { sections: BlogSection[]; caseStudies: StudyEntry[]; topics: TopicEntry[]; articles: ArticleEntry[] }): ShareCard[] {
+  const { sections, caseStudies, topics, articles } = input
   return [
     { path: '/', label: 'Mathew Brown', title: 'UX/UI engineer & SEO specialist', address: 'matbrown.io' },
     { path: '/work', label: 'Work', title: 'UX/UI engineering & SEO case studies', address: 'matbrown.io / work' },
@@ -70,7 +71,7 @@ export function shareCards(input: { disciplines: Discipline[]; caseStudies: Stud
     }),
     ...topics.map((topic) => ({
       path: topicHref(topic.id),
-      label: `Blog topic / ${requireDiscipline(disciplines, topic.data.discipline).title}`,
+      label: `Blog topic / ${requireSection(sections, topic.data.discipline).title}`,
       title: topic.data.title,
       address: 'matbrown.io / blog',
     })),

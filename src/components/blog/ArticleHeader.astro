@@ -11,10 +11,10 @@ interface Props {
   /** Shown beside the publication date when the article was revised. */
   updated?: { label: string; iso: string }
   topic: { title: string; href: string }
-  discipline: { title: string; slug: string }
+  section: { title: string; href: string; isService: boolean }
 }
 
-const { crumbs, card, updated, topic, discipline } = Astro.props
+const { crumbs, card, updated, topic, section } = Astro.props
 // About thirteen characters of the display size fit a line; a longer word is set smaller.
 // The line length is thirteen characters of the full size, so it is divided by the same scale.
 const fit = `--fit:${titleFit(card.title, { charsPerLine: 13 })}`
@@ -44,8 +44,8 @@ const link = 'underline-offset-[0.15em] decoration-vermilion decoration-2 hover:
         <dd {...stripReveal(2, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={topic.href} class={link}>{topic.title} <span aria-hidden="true"><Arrow /></span></a></dd>
       </div>
       <div class={cell}>
-        <dt {...stripReveal(3, PAGE_ENTRANCE)} class="type-label text-vermilion">Discipline</dt>
-        <dd {...stripReveal(3, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={`/services#${discipline.slug}`} class={link}>{discipline.title} <span aria-hidden="true"><Arrow /></span></a></dd>
+        <dt {...stripReveal(3, PAGE_ENTRANCE)} class="type-label text-vermilion">{section.isService ? 'Discipline' : 'Section'}</dt>
+        <dd {...stripReveal(3, PAGE_ENTRANCE)} class="type-display mt-2 text-[clamp(1.125rem,1.5vw,1.5rem)]"><a href={section.href} class={link}>{section.title} <span aria-hidden="true"><Arrow /></span></a></dd>
       </div>
     </dl>
   </div>
