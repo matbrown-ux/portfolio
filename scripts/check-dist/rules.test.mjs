@@ -213,6 +213,19 @@ describe('a phrase repeated inside one sentence', () => {
   })
 })
 
+describe('a sentence repeated back to back', () => {
+  const twice = (sentence) => `${url}: repeats the sentence "${sentence}" back to back`
+
+  it('fails the same sentence written twice in a row, ignoring case', () => {
+    expect(problems({ body: 'You know the photo? This looks great. this looks great! The sand is criminal.' })).toEqual([twice('this looks great')])
+  })
+
+  it('allows a one-word echo and the same sentence further apart', () => {
+    expect(problems({ body: 'Yes. Yes. It works.' })).toEqual([])
+    expect(problems({ body: 'It looks great. Then it breaks. It looks great.' })).toEqual([])
+  })
+})
+
 describe('linksIn', () => {
   it('finds the site links in a text or XML file', () => {
     expect(linksIn('- [A](https://matbrown.io/a): x\n<link>https://matbrown.io/b</link> mailto:mat@matbrown.io https://example.com/c')).toEqual([
@@ -315,5 +328,19 @@ describe('siteProblems', () => {
 
   it('reports page problems too', () => {
     expect(siteProblems({ ...base, pages: [pageFacts(page({ h1: 2 }), url)] })).toEqual([`${url}: has 2 h1 elements, expected 1`])
+  })
+})
+
+describe('Wikipedia links', () => {
+  const wiki = `${url}: links to Wikipedia (cite an authoritative source instead)`
+
+  it('fails a link to any Wikipedia page, in any language or on mobile', () => {
+    for (const href of ['https://en.wikipedia.org/wiki/Hawaiian_Pidgin', 'http://haw.wikipedia.org/wiki/Hawaii', 'https://en.m.wikipedia.org/wiki/Kama%CA%BB%C4%81ina']) {
+      expect(problems({ body: `See <a href="${href}">this</a>.` })).toEqual([wiki])
+    }
+  })
+
+  it('allows the word Wikipedia in text and links to other sites', () => {
+    expect(problems({ body: 'I never cite Wikipedia. See <a href="https://www.hawaii.edu/satocenter/">the Sato Center</a>.' })).toEqual([])
   })
 })
