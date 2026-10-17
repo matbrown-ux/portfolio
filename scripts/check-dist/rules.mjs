@@ -120,6 +120,9 @@ export function pageProblems(facts, site) {
   if (!facts.noindex) {
     if (facts.h1 !== 1) say(`has ${facts.h1} h1 elements, expected 1`)
     if (facts.title === '') say('has no title')
+    // Google cuts a title off at about 600 pixels, roughly 60 characters.
+    const titleLength = decode(facts.title).length
+    if (titleLength > 60) say(`title is ${titleLength} characters, over 60 (give the page a shorter seoTitle)`)
     if (facts.description === '') say('has no description')
     if (facts.canonical !== facts.url) say(`canonical is ${facts.canonical}`)
     const lead = facts.h1Text.replace(/[\s.,;:!?]+$/, '').toLowerCase()
