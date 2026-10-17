@@ -213,6 +213,19 @@ describe('a phrase repeated inside one sentence', () => {
   })
 })
 
+describe('a sentence repeated back to back', () => {
+  const twice = (sentence) => `${url}: repeats the sentence "${sentence}" back to back`
+
+  it('fails the same sentence written twice in a row, ignoring case', () => {
+    expect(problems({ body: 'You know the photo? This looks great. this looks great! The sand is criminal.' })).toEqual([twice('this looks great')])
+  })
+
+  it('allows a one-word echo and the same sentence further apart', () => {
+    expect(problems({ body: 'Yes. Yes. It works.' })).toEqual([])
+    expect(problems({ body: 'It looks great. Then it breaks. It looks great.' })).toEqual([])
+  })
+})
+
 describe('linksIn', () => {
   it('finds the site links in a text or XML file', () => {
     expect(linksIn('- [A](https://matbrown.io/a): x\n<link>https://matbrown.io/b</link> mailto:mat@matbrown.io https://example.com/c')).toEqual([

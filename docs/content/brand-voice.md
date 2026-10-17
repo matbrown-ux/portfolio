@@ -75,7 +75,7 @@ This is how he teaches on a call, and it is the shape to use when an article exp
 
 **Plenty of it, conversational,** the way he jokes on a sales call. People have told him they trust him more because the call was not all business.
 
-- **The roast** is his signature move. Give honest praise first, then hit one thing with an outrageous big word, then show how to fix it: "This looks great. This looks great. This is absolutely atrocious." Use it on patterns and on generic examples (a typical template, "the website every plumber has"). Never roast a real business, a real person or a past client.
+- **The roast** is his signature move. Give honest praise first, then hit one thing with an outrageous big word, then show how to fix it. Out loud he says "This looks great. This looks great. This is absolutely atrocious." On the page, never repeat the praise word for word: a repeated sentence reads as an error (owner, 2026-10-16). Say it once, or vary it: "It looks great, honestly, right up until you think about it." Use it on patterns and on generic examples (a typical template, "the website every plumber has"). Never roast a real business, a real person or a past client.
 - Playful asides and a bit of self-teasing ("I'm already pretty eccentric"), about once per section at most. Keep the answer paragraph under each heading clean and direct; the jokes go in the detail below it.
 - Big words used for comic effect: atrocious, unhinged, criminal (as in "criminally slow").
 - **Not his humor:** dark humor, anything that belittles a person or group, anything about politics or the country, anything at a past client's expense, memes, puns for their own sake.

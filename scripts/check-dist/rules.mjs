@@ -57,6 +57,18 @@ export function repeatedPhrases(blocks) {
   return [...found]
 }
 
+/** Sentences of two or more words written twice in a row in one paragraph or list item ("This looks great. This looks great."). */
+export function doubledSentences(blocks) {
+  const found = new Set()
+  for (const block of blocks) {
+    const sentences = block.split(/[.!?]+/).map((sentence) => (sentence.toLowerCase().match(/[\p{L}\p{N}']+/gu) ?? []).join(' '))
+    for (let i = 1; i < sentences.length; i++) {
+      if (sentences[i].includes(' ') && sentences[i] === sentences[i - 1]) found.add(sentences[i])
+    }
+  }
+  return [...found]
+}
+
 const attr = (html, pattern) => pattern.exec(html)?.[1] ?? ''
 
 /** What the rules need to know about one built page. */
@@ -124,6 +136,7 @@ export function pageProblems(facts, site) {
   for (const word of new Set(facts.text.match(BRITISH) ?? [])) say(`uses the British spelling "${word}" (write American English)`)
   if (SYMBOL.test(facts.text)) say('has an emoji or symbol character in its text (draw it with Arrow.astro or an SVG)')
   for (const phrase of repeatedPhrases(facts.prose ?? [])) say(`repeats "${phrase}" in one sentence`)
+  for (const sentence of doubledSentences(facts.prose ?? [])) say(`repeats the sentence "${sentence}" back to back`)
   return problems
 }
 
