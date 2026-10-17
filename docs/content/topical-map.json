@@ -677,7 +677,7 @@
       "angle": "The SERP is vendors selling the fix (Zeplin, Builder.io, rocket.new). I write from the side of someone who does both ends: handoff as a written spec for future me and for AI agents (DESIGN.md, CLAUDE.md), with the checklist I actually use for states, breakpoints, motion and content.",
       "proof_link": "/work/portfolio-optimization",
       "internal_links": [
-        "claude-code-figma-mcp",
+        "claude-code-design-without-figma",
         "figma-dev-mode-worth-it",
         "design-md-file-for-ai-agents",
         "/blog/ux-ui-design/button-states-that-convert"
@@ -698,6 +698,56 @@
     {
       "order": 11,
       "planned_run": "2026-11-06",
+      "status": "planned",
+      "branch": null,
+      "topic": "answer-engine-optimization",
+      "cluster": "AEO foundations",
+      "role": "pillar",
+      "title": "How to rank in ChatGPT as a local business",
+      "slug": "how-to-rank-in-chatgpt-local-business",
+      "primary_keyword": "how to rank in chatgpt",
+      "secondary_keywords": [
+        "how to get cited by chatgpt",
+        "how to optimize for chatgpt",
+        "chatgpt seo"
+      ],
+      "intent": "commercial",
+      "volume_tier": "medium (est.)",
+      "difficulty": 36,
+      "relevancy": 10,
+      "aeo_opportunity": 5,
+      "questions_to_answer": [
+        "How does ChatGPT decide which local businesses to recommend?",
+        "Where does ChatGPT get local business information?",
+        "Does my Google Business Profile affect AI answers?",
+        "Do Bing Places and Yelp matter for ChatGPT?",
+        "How do I check if AI recommends my business?"
+      ],
+      "angle": "Built on a live test (2026-10-16): three prompts in ChatGPT, Gemini, Perplexity and Google AI Mode. 'Aiwi Waffles appears in all 12 answers and is first in 8; generic 'waffles' goes to a shop with far more reviews, anything gluten-free goes to 'Aiwi. Lesson: own a niche the tools can state clearly, and keep the website and listings saying it. Facts: owner-facts.md, 'AI search test for 'Aiwi Waffles'. Keep the listing problems out.",
+      "proof_link": "/work/aiwi-waffles",
+      "internal_links": [
+        "answer-engine-optimization-guide",
+        "ai-mode-seo-local-business",
+        "do-i-need-a-website-for-my-business",
+        "google-reviews-for-small-business",
+        "track-brand-mentions-in-ai-answers"
+      ],
+      "format": "case breakdown",
+      "word_count": 2400,
+      "evidence": "SERP: pbjmarketing.com, bigeyeagency.com, localfalcon.com, birdeye.com (ChatGPT local map panel). Sources say ChatGPT uses Bing, Yelp, TripAdvisor and Google profiles; none show a named business tested across engines.",
+      "discipline": "SEO/AEO",
+      "priority": 84.9,
+      "owner_input": "Run the 'best waffles in Waikiki' style prompts in ChatGPT, Gemini, Perplexity and Google AI Mode and send the results (screenshots are fine).",
+      "difficulty_est": 40,
+      "semrush_volume": 590,
+      "semrush_kd": 36,
+      "semrush_intent": "informational",
+      "semrush_action": "retarget",
+      "semrush_note": "Original 20/0; 590/36 and 'how to get cited by chatgpt' 320/29. Pillar keeps relevancy 10."
+    },
+    {
+      "order": 12,
+      "planned_run": "2026-11-09",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -747,8 +797,53 @@
       "semrush_note": "Original keyword 40/0; checklist variant 3600/49 fits a pillar (KD up to 60). Absorbs search-console-for-small-business-owners."
     },
     {
-      "order": 12,
-      "planned_run": "2026-11-09",
+      "order": 13,
+      "planned_run": "2026-11-11",
+      "status": "planned",
+      "branch": null,
+      "topic": "ai-automation",
+      "cluster": "Foundations",
+      "role": "spoke",
+      "title": "AI automation pricing: what a small business should expect to pay",
+      "slug": "ai-automation-pricing",
+      "primary_keyword": "ai automation pricing",
+      "secondary_keywords": [
+        "ai automation cost",
+        "ai automation services pricing"
+      ],
+      "intent": "commercial",
+      "volume_tier": "medium",
+      "difficulty": 14,
+      "relevancy": 9,
+      "aeo_opportunity": 5,
+      "questions_to_answer": [
+        "How much does AI automation cost?",
+        "Fixed fee or retainer?",
+        "What hidden costs are there?",
+        "How long to pay back?"
+      ],
+      "angle": "Sources quote $2,500 to $15,000 projects and disagree widely. Mat states his own method: no set prices, scope and price set on the same call, then a monthly retainer of $2,000 to $10,000 covering the brief, the build and scheduled upkeep. What sits at each end, and why the goal is faster staff rather than fewer staff. Facts: owner-facts.md, 'Automation pricing'.",
+      "proof_link": "/services",
+      "internal_links": [
+        "small-business-automation",
+        "n8n-vs-zapier"
+      ],
+      "format": "guide",
+      "word_count": 1900,
+      "evidence": "WebSearch: aibusiness.vc ($2.5K-$15K), layer3labs.io, lobsterpack.com; figures vary, vendor blogs.",
+      "discipline": "Agentic Workflows",
+      "priority": 80.6,
+      "owner_input": "Your price ranges for automation work, or the go-ahead to write it without prices.",
+      "difficulty_est": 42,
+      "semrush_volume": 40,
+      "semrush_kd": 14,
+      "semrush_intent": "commercial",
+      "semrush_action": "retarget",
+      "semrush_note": "Original 20/KD0; 'ai automation pricing' 40/KD14, still tiny. Kept for relevancy 10 and aeo 5."
+    },
+    {
+      "order": 14,
+      "planned_run": "2026-11-13",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -798,8 +893,56 @@
       "semrush_note": "Pillar, KD56 within the pillar allowance. Absorbs naming-design-tokens. \"what are design tokens\" 210/KD55."
     },
     {
-      "order": 13,
-      "planned_run": "2026-11-11",
+      "order": 15,
+      "planned_run": "2026-11-16",
+      "status": "planned",
+      "branch": null,
+      "topic": "design-systems",
+      "cluster": "Design systems for small teams",
+      "role": "spoke",
+      "title": "One component base, ten brands: theming client sites from a shared system",
+      "slug": "one-component-base-many-brands",
+      "primary_keyword": "multi-brand design system",
+      "secondary_keywords": [
+        "theming design system multiple brands",
+        "white label design tokens",
+        "reusable website template agency"
+      ],
+      "intent": "informational",
+      "volume_tier": "low (est.)",
+      "difficulty": 0,
+      "relevancy": 10,
+      "aeo_opportunity": 4,
+      "questions_to_answer": [
+        "How do you theme one design system for several brands?",
+        "What changes per brand and what stays shared?",
+        "How do agencies reuse a site build across clients without them looking the same?",
+        "Where do brand tokens live in code?"
+      ],
+      "angle": "Multi-brand content is enterprise (Atlassian, Carbon, Hub24). Mat shows the Portfolio Optimization service: ten creator sites on a shared starter, started with a slash command that scaffolds the codebase and pulls in the creator's old portfolio, with each creator's colors, logo, open-license fonts, copy and section changes on top. Facts: owner-facts.md, 'Creator portfolio starter'.",
+      "proof_link": "/work/portfolio-optimization",
+      "internal_links": [
+        "how-to-create-a-design-system",
+        "tailwind-v4-theme-design-tokens",
+        "css-light-dark-dark-mode-tokens",
+        "/blog/brand-identity"
+      ],
+      "format": "case breakdown",
+      "word_count": 1800,
+      "evidence": "hds.hub24.com.au uses namespaces 'to distinguish systems and white-label themes'; DTCG 2025.10 adds 'theming and multi-brand support'. No small-studio multi-brand example in the SERP.",
+      "discipline": "UX/UI Engineering",
+      "priority": 83.6,
+      "owner_input": "How the ten creator sites are built: one shared starter or separate projects, and what is shared versus per creator.",
+      "difficulty_est": 35,
+      "semrush_volume": 20,
+      "semrush_kd": 0,
+      "semrush_intent": null,
+      "semrush_action": "keep-aeo",
+      "semrush_note": "20 searches but relevancy 10 and aeo 4; proof piece for Portfolio Optimization (ten sites)."
+    },
+    {
+      "order": 16,
+      "planned_run": "2026-11-18",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -845,8 +988,52 @@
       "semrush_note": "aeo vs seo 2900/44 beats aeo vs geo vs seo 110/35; geo vs seo is 3600/47 as secondary."
     },
     {
-      "order": 14,
-      "planned_run": "2026-11-13",
+      "order": 17,
+      "planned_run": "2026-11-20",
+      "status": "planned",
+      "branch": null,
+      "topic": "brand-identity",
+      "cluster": "Identity foundations",
+      "role": "spoke",
+      "title": "Logo design cost: what a freelancer delivers at each price",
+      "slug": "logo-design-cost-freelancer",
+      "primary_keyword": "logo design cost",
+      "secondary_keywords": [
+        "how much does a logo cost"
+      ],
+      "intent": "commercial",
+      "volume_tier": "high",
+      "difficulty": 27,
+      "relevancy": 8,
+      "aeo_opportunity": 4,
+      "questions_to_answer": [
+        "How much should a logo cost?",
+        "How much does branding cost for a small business?",
+        "Freelancer or agency for branding?",
+        "What is included in a branding package?"
+      ],
+      "angle": "Deliverable-based pricing with Mat's own published prices: a basic logo at $1,000 to $1,500 (5 to 7 first concepts narrowed to 1 or 2, up to 3 revision rounds, one final logo in large, medium and small lockups, PDF and vector file) versus a full brand package that has run $6,000 to $7,000 and more. Candid on what a logo-only buy leaves out. Vendor ranges as context. Facts: owner-facts.md, 'Logo and brand pricing'.",
+      "proof_link": "/services",
+      "internal_links": [
+        "small-business-branding-guide",
+        "brand-guidelines-one-page"
+      ],
+      "format": "guide",
+      "word_count": 1900,
+      "evidence": "SERP: vistaprint.com/hub/logo-design-cost ('$300-$2,500 most common'), arounda.agency, designrush, clutch. Freelance quoted $500 to $15,000; agencies 2 to 4x. High-authority vendor mix.",
+      "discipline": "Brand Development",
+      "priority": 76.5,
+      "owner_input": "Your price ranges for logo and brand work, or the go-ahead to write it without prices.",
+      "difficulty_est": 58,
+      "semrush_volume": 720,
+      "semrush_kd": 27,
+      "semrush_intent": "informational",
+      "semrush_action": "retarget",
+      "semrush_note": "720 at KD 27 vs 260 at KD 28."
+    },
+    {
+      "order": 18,
+      "planned_run": "2026-11-23",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -892,8 +1079,54 @@
       "semrush_note": "1300/KD42 passes."
     },
     {
-      "order": 15,
-      "planned_run": "2026-11-16",
+      "order": 19,
+      "planned_run": "2026-11-25",
+      "status": "planned",
+      "branch": null,
+      "topic": "saas-development",
+      "cluster": "Internal tools and dashboards",
+      "role": "spoke",
+      "title": "Custom software development cost for a small business, and what it costs to keep running",
+      "slug": "custom-software-development-cost-small-business",
+      "primary_keyword": "custom software development cost",
+      "secondary_keywords": [
+        "custom software cost",
+        "internal tool maintenance cost",
+        "how much does a custom dashboard cost"
+      ],
+      "intent": "commercial",
+      "volume_tier": "medium",
+      "difficulty": 15,
+      "relevancy": 8,
+      "aeo_opportunity": 3,
+      "questions_to_answer": [
+        "How much does a custom internal tool cost?",
+        "What are the yearly maintenance costs?",
+        "What drives the price up?",
+        "How do I scope a v1 so it ships?"
+      ],
+      "angle": "Freelancer-scale numbers instead of agency $30K to $150K bands: Mat's builds start at $10,000 as a one-time fee, with an optional upkeep retainer of $2,500 to $5,000 a month. Running costs (hosting, database, API fees) and why the client owns every account and the IP. Facts: owner-facts.md, 'Custom software pricing'. Never present a range as a client result.",
+      "proof_link": "/services",
+      "internal_links": [
+        "build-vs-buy-software-small-business",
+        "react-admin-dashboard-supabase"
+      ],
+      "format": "guide",
+      "word_count": 1700,
+      "evidence": "SERP: mainsaildata, fuzen.io, soltech.net quote $30K to $150K agency ranges and 15 to 25% yearly maintenance; all agency-voiced.",
+      "discipline": "SaaS Development",
+      "priority": 75.2,
+      "owner_input": "Your price ranges for dashboards and internal tools, or the go-ahead to write it without prices.",
+      "difficulty_est": 58,
+      "semrush_volume": 390,
+      "semrush_kd": 15,
+      "semrush_intent": "informational",
+      "semrush_action": "retarget",
+      "semrush_note": "390/KD15 vs no data; keep small business internal tool framing. Still needs-input."
+    },
+    {
+      "order": 20,
+      "planned_run": "2026-11-27",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -938,8 +1171,53 @@
       "semrush_note": "Original 90/KD25; 'n8n claude' 210/KD37 (intent mixed)."
     },
     {
-      "order": 16,
-      "planned_run": "2026-11-18",
+      "order": 21,
+      "planned_run": "2026-11-30",
+      "status": "planned",
+      "branch": null,
+      "topic": "technical-seo",
+      "cluster": "Local SEO and Google Business Profile",
+      "role": "spoke",
+      "title": "How to get more Google reviews without breaking Google's rules",
+      "slug": "google-reviews-for-small-business",
+      "primary_keyword": "how to get more google reviews",
+      "secondary_keywords": [
+        "how to get google reviews"
+      ],
+      "intent": "informational",
+      "volume_tier": "high (est.)",
+      "difficulty": 44,
+      "relevancy": 7,
+      "aeo_opportunity": 3,
+      "questions_to_answer": [
+        "How do I ask customers for a Google review?",
+        "Should I reply to every Google review?",
+        "Do review count and recency affect local rankings?",
+        "Is it allowed to offer a discount for a review?",
+        "Where do I find my Google review link?"
+      ],
+      "angle": "How 'Aiwi Waffles earns reviews without a pushy ask: the owner and staff check in with customers at the tables, and a review comes up only when a customer starts the conversation. Teach Google's rule against selectively asking happy customers and against naming a star rating, and give neutral wording. 4.9 stars from 214 Google reviews and 5.0 from 182 on Find Me Gluten Free as of October 2026. Facts: owner-facts.md, 'How 'Aiwi Waffles gets reviews'. Never claim signage, receipts or merch for reviews.",
+      "proof_link": "/work/aiwi-waffles",
+      "internal_links": [
+        "local-seo-case-study-aiwi-waffles",
+        "how-to-rank-in-chatgpt-local-business"
+      ],
+      "format": "how-to",
+      "word_count": 1500,
+      "evidence": "High-competition SERP (Google support, BrightLocal, Birdeye, Podium). visionary-marketing.co.uk lists count, recency, velocity and sentiment as review signals. Distinct angle needed to compete.",
+      "discipline": "SEO/AEO",
+      "priority": 64.4,
+      "owner_input": "How 'Aiwi Waffles actually asks for Google reviews (signage, receipts, staff, nothing yet).",
+      "difficulty_est": 58,
+      "semrush_volume": 480,
+      "semrush_kd": 44,
+      "semrush_intent": "informational",
+      "semrush_action": "keep",
+      "semrush_note": "Kept; head variant 880/54 too hard. Relevancy 7."
+    },
+    {
+      "order": 22,
+      "planned_run": "2026-12-02",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -975,7 +1253,7 @@
       "word_count": 2400,
       "evidence": "WebSearch 'AI SDK agent loop stopWhen': vercel.com/docs/agents, ai-sdk docs on unpkg (default 20 step cap); few independent walkthroughs.",
       "discipline": "Agentic Workflows",
-      "priority": 91.0,
+      "priority": 91,
       "owner_input": null,
       "difficulty_est": 52,
       "semrush_volume": 9900,
@@ -985,8 +1263,59 @@
       "semrush_note": "Original 40/KD31; 'claude agent sdk' 9900/KD20 is the same reader and tool-use angle."
     },
     {
-      "order": 17,
-      "planned_run": "2026-11-20",
+      "order": 23,
+      "planned_run": "2026-12-04",
+      "status": "planned",
+      "branch": null,
+      "topic": "ux-ui-design",
+      "cluster": "Design to code handoff",
+      "role": "spoke",
+      "title": "Claude Code design without Figma: from a reference folder to a working site",
+      "slug": "claude-code-design-without-figma",
+      "primary_keyword": "claude code design",
+      "secondary_keywords": [
+        "claude code ui design",
+        "claude code frontend design",
+        "ai wireframing",
+        "figma alternative"
+      ],
+      "intent": "informational",
+      "volume_tier": "medium (est.)",
+      "difficulty": 51,
+      "relevancy": 9,
+      "aeo_opportunity": 5,
+      "questions_to_answer": [
+        "Can you design a website with Claude Code instead of Figma?",
+        "How do you give Claude Code design references?",
+        "Do you still need wireframes when you design with AI?",
+        "When should a design system come in?",
+        "Do you need the Figma MCP server?"
+      ],
+      "angle": "Most Claude Code design pages are Figma MCP setup demos. Mat skips Figma: Pinterest mood boards and Mobbin screens go into a reference folder, Claude builds from them, and the finished design moves far from the references. Wireframes and user flows are made with Claude and go through a client revision round, and the design system comes after the wireframes. One honest paragraph on the Figma MCP server and why he does not use it. Facts: owner-facts.md, 'Designing without Figma'.",
+      "proof_link": "/services",
+      "internal_links": [
+        "design-handoff-guide",
+        "design-md-file-for-ai-agents",
+        "claude-code-design-system-rules",
+        "how-to-create-a-design-system",
+        "/blog/agentic-workflows"
+      ],
+      "format": "how-to",
+      "word_count": 1800,
+      "evidence": "Semrush 2026-10-16 (us): 'claude code design' 480/KD53, 'claude code ui design' 90/KD25, 'claude code frontend design' 110/KD49, 'ai wireframing' 140/KD22, 'figma alternative' 480. Owner interview 2026-10-16.",
+      "discipline": "UX/UI Engineering",
+      "priority": 76.7,
+      "owner_input": "Confirm you have taken a Figma frame into code through the Figma MCP server, and what you still changed by hand.",
+      "difficulty_est": 40,
+      "semrush_volume": 480,
+      "semrush_kd": 53,
+      "semrush_intent": "informational",
+      "semrush_action": "retarget",
+      "semrush_note": "Retargeted 2026-10-16 from 'claude code figma' after the owner said he does not use the Figma MCP server."
+    },
+    {
+      "order": 24,
+      "planned_run": "2026-12-07",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -1029,8 +1358,55 @@
       "semrush_note": "'UGC portfolio' 880 at KD 17 beats 'UGC creator branding'."
     },
     {
-      "order": 18,
-      "planned_run": "2026-11-23",
+      "order": 25,
+      "planned_run": "2026-12-09",
+      "status": "planned",
+      "branch": null,
+      "topic": "ai-automation",
+      "cluster": "Tools and platforms",
+      "role": "spoke",
+      "title": "n8n vs Zapier vs Make: which to pick for a small business",
+      "slug": "n8n-vs-zapier",
+      "primary_keyword": "n8n vs zapier",
+      "secondary_keywords": [
+        "zapier vs n8n",
+        "n8n vs make",
+        "make vs zapier",
+        "n8n alternatives"
+      ],
+      "intent": "commercial",
+      "volume_tier": "high",
+      "difficulty": 36,
+      "relevancy": 8,
+      "aeo_opportunity": 4,
+      "questions_to_answer": [
+        "Which is best: n8n, Zapier or Make?",
+        "Is n8n free?",
+        "Which is cheapest at volume?",
+        "Do I need to code for n8n?"
+      ],
+      "angle": "Mat builds on n8n and has not used Zapier or Make on a real job, and the article says so plainly. Why he chose n8n (flexibility), why it overwhelmed him at first, and how having Claude Code build the workflow file to import and tweak made it manageable. Zapier and Make are compared from their own pricing and docs only. Facts: owner-facts.md, 'n8n and Claude' and 'n8n, Zapier and Make'.",
+      "proof_link": "/services",
+      "internal_links": [
+        "small-business-automation",
+        "n8n-vs-claude"
+      ],
+      "format": "comparison",
+      "word_count": 2400,
+      "evidence": "WebSearch: parseur.com, bacancytechnology.com, digidop.com, automationatlas.io; rule 'n8n with a developer, Make without, Zapier if already used'.",
+      "discipline": "Agentic Workflows",
+      "priority": 76,
+      "owner_input": "Confirm which of n8n, Zapier and Make you have used on real jobs.",
+      "difficulty_est": 70,
+      "semrush_volume": 1600,
+      "semrush_kd": 36,
+      "semrush_intent": "informational",
+      "semrush_action": "retarget",
+      "semrush_note": "Original 210/KD31; 'n8n vs zapier' 1600/KD36; 'n8n vs make' 720/KD33, 'make vs zapier' 590/KD32 in the same article."
+    },
+    {
+      "order": 26,
+      "planned_run": "2026-12-11",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -1077,8 +1453,8 @@
       "semrush_note": "Original 20/KD0. \"ux developer\" 390/KD18 and \"ui ux developer\" 320/KD14 fit the same role-comparison article."
     },
     {
-      "order": 19,
-      "planned_run": "2026-11-25",
+      "order": 27,
+      "planned_run": "2026-12-14",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -1121,8 +1497,8 @@
       "priority": 85.3
     },
     {
-      "order": 20,
-      "planned_run": "2026-11-27",
+      "order": 28,
+      "planned_run": "2026-12-16",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -1163,8 +1539,8 @@
       "priority": 79.5
     },
     {
-      "order": 21,
-      "planned_run": "2026-11-30",
+      "order": 29,
+      "planned_run": "2026-12-18",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -1209,8 +1585,8 @@
       "semrush_note": "Low KD. Absorbs the Search Console and GA4 AI-traffic articles as sections."
     },
     {
-      "order": 22,
-      "planned_run": "2026-12-02",
+      "order": 30,
+      "planned_run": "2026-12-21",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -1258,8 +1634,8 @@
       "semrush_note": "supabase rls 210/KD40 beats 90/27 for supabase row level security; pillar so KD ok; keep the long form as secondary."
     },
     {
-      "order": 23,
-      "planned_run": "2026-12-04",
+      "order": 31,
+      "planned_run": "2026-12-23",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -1303,8 +1679,8 @@
       "priority": 81.8
     },
     {
-      "order": 24,
-      "planned_run": "2026-12-07",
+      "order": 32,
+      "planned_run": "2026-12-25",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -1347,8 +1723,8 @@
       "priority": 81.3
     },
     {
-      "order": 25,
-      "planned_run": "2026-12-09",
+      "order": 33,
+      "planned_run": "2026-12-28",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -1394,8 +1770,8 @@
       "semrush_note": "Original had no data; this question variant 170/31 (do i need a website 140/12)."
     },
     {
-      "order": 26,
-      "planned_run": "2026-12-11",
+      "order": 34,
+      "planned_run": "2026-12-30",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -1441,8 +1817,8 @@
       "semrush_note": "Low volume (30 original; \"claude code frontend\" 90/KD30) but relevancy 9 and aeo 5; first-hand site rules are the edge. Related \"claude.md best practices\" 1300/KD42 as a secondary."
     },
     {
-      "order": 27,
-      "planned_run": "2026-12-14",
+      "order": 35,
+      "planned_run": "2027-01-01",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -1489,8 +1865,8 @@
       "semrush_note": "Good volume and KD; aeo services is 1300/21 as secondary."
     },
     {
-      "order": 28,
-      "planned_run": "2026-12-16",
+      "order": 36,
+      "planned_run": "2027-01-04",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -1534,8 +1910,8 @@
       "semrush_note": "Examples variant has 720 at KD 27 vs 110 at KD 40; guide stays as the format."
     },
     {
-      "order": 29,
-      "planned_run": "2026-12-18",
+      "order": 37,
+      "planned_run": "2027-01-06",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -1581,8 +1957,8 @@
       "semrush_note": "Original 'claude code subagents' 2400/KD50; 'claude code skills' 9900/KD25. Subagents and hooks split into a new spoke."
     },
     {
-      "order": 30,
-      "planned_run": "2026-12-21",
+      "order": 38,
+      "planned_run": "2027-01-08",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -1631,8 +2007,8 @@
       "semrush_note": "Primary moved from the long phrase to \"website accessibility checklist\" 260/KD35. ada compliance checklist 480/KD17, wcag checklist 170/KD22 as secondaries."
     },
     {
-      "order": 31,
-      "planned_run": "2026-12-23",
+      "order": 39,
+      "planned_run": "2027-01-11",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -1678,8 +2054,8 @@
       "semrush_note": "Strong. Split off a separate AI-crawler JS article (new)."
     },
     {
-      "order": 32,
-      "planned_run": "2026-12-25",
+      "order": 40,
+      "planned_run": "2027-01-13",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -1710,7 +2086,7 @@
       "proof_link": "/services",
       "internal_links": [
         "claude-code-design-system-rules",
-        "claude-code-figma-mcp",
+        "claude-code-design-without-figma",
         "how-to-create-a-design-system",
         "/blog/agentic-workflows"
       ],
@@ -1728,8 +2104,8 @@
       "semrush_note": "\"design.md\" 590/KD61 and \"design md\" 880/KD57 are too hard for now; \"design md file\" 110/KD36 is winnable and fits."
     },
     {
-      "order": 33,
-      "planned_run": "2026-12-28",
+      "order": 41,
+      "planned_run": "2027-01-15",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -1773,8 +2149,8 @@
       "semrush_note": "google ai mode is 135000/77 but unwinnable; ai mode seo 260/37 fits the same angle."
     },
     {
-      "order": 34,
-      "planned_run": "2026-12-30",
+      "order": 42,
+      "planned_run": "2027-01-18",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -1817,8 +2193,8 @@
       "semrush_note": "Low volume but KD 5, relevancy 10, aeo 5; 'brand consistency' (1300) is KD 57, kept as secondary."
     },
     {
-      "order": 35,
-      "planned_run": "2027-01-01",
+      "order": 43,
+      "planned_run": "2027-01-20",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -1862,8 +2238,8 @@
       "priority": 77.7
     },
     {
-      "order": 36,
-      "planned_run": "2027-01-04",
+      "order": 44,
+      "planned_run": "2027-01-22",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -1905,8 +2281,8 @@
       "priority": 79.8
     },
     {
-      "order": 37,
-      "planned_run": "2027-01-06",
+      "order": 45,
+      "planned_run": "2027-01-25",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -1954,8 +2330,8 @@
       "semrush_note": "json-ld 2900/23 is far larger than person schema 210/4 at low KD."
     },
     {
-      "order": 38,
-      "planned_run": "2027-01-08",
+      "order": 46,
+      "planned_run": "2027-01-27",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -1996,8 +2372,8 @@
       "priority": 76.2
     },
     {
-      "order": 39,
-      "planned_run": "2027-01-11",
+      "order": 47,
+      "planned_run": "2027-01-29",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -2039,8 +2415,8 @@
       "priority": 78.7
     },
     {
-      "order": 40,
-      "planned_run": "2027-01-13",
+      "order": 48,
+      "planned_run": "2027-02-01",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -2083,8 +2459,8 @@
       "semrush_note": "Original had no data; 'form automation' 210/KD24; 'client intake automation' 50 kept as secondary."
     },
     {
-      "order": 41,
-      "planned_run": "2027-01-15",
+      "order": 49,
+      "planned_run": "2027-02-03",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -2124,8 +2500,8 @@
       "priority": 81.7
     },
     {
-      "order": 42,
-      "planned_run": "2027-01-18",
+      "order": 50,
+      "planned_run": "2027-02-05",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -2173,8 +2549,8 @@
       "semrush_note": "Original had no data. \"freelance ux designer\" 390/KD30 (hire ux designer 390/KD24, freelance ui ux designer 90/KD19) matches the buyer."
     },
     {
-      "order": 43,
-      "planned_run": "2027-01-20",
+      "order": 51,
+      "planned_run": "2027-02-08",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -2219,8 +2595,8 @@
       "semrush_note": "Original 0 volume. metrics 90/22 is the best of the family (insights 210/55 too hard); kept for relevancy 9 and 'Aiwi proof."
     },
     {
-      "order": 44,
-      "planned_run": "2027-01-22",
+      "order": 52,
+      "planned_run": "2027-02-10",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -2261,8 +2637,8 @@
       "priority": 75.4
     },
     {
-      "order": 45,
-      "planned_run": "2027-01-25",
+      "order": 53,
+      "planned_run": "2027-02-12",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -2305,8 +2681,8 @@
       "semrush_note": "No demand, but aeo 5 and relevancy 8; a how-to proof piece."
     },
     {
-      "order": 46,
-      "planned_run": "2027-01-27",
+      "order": 54,
+      "planned_run": "2027-02-15",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -2352,8 +2728,8 @@
       "semrush_note": "Original 20/KD0; 'ai agents vs agentic ai' 1300/KD24 is the same comparison reader."
     },
     {
-      "order": 47,
-      "planned_run": "2027-01-29",
+      "order": 55,
+      "planned_run": "2027-02-17",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -2397,8 +2773,8 @@
       "semrush_note": "880 at KD 20 and the Aiwi proof fits; absorbs the signage article."
     },
     {
-      "order": 48,
-      "planned_run": "2027-02-01",
+      "order": 56,
+      "planned_run": "2027-02-19",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -2445,8 +2821,8 @@
       "semrush_note": "Original 0. \"multi step form\" 140/KD33 keeps the Vamp intake-flow angle."
     },
     {
-      "order": 49,
-      "planned_run": "2027-02-03",
+      "order": 57,
+      "planned_run": "2027-02-22",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -2488,8 +2864,8 @@
       "priority": 76.4
     },
     {
-      "order": 50,
-      "planned_run": "2027-02-05",
+      "order": 58,
+      "planned_run": "2027-02-24",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -2526,7 +2902,7 @@
       "word_count": 1600,
       "evidence": "SERP: magicui.design, peerlist.io, openreplay.com, vercel.com academy, pkgpulse.com; one source calls shadcn 'a starting point for building your own design system'. Many results are promotional.",
       "discipline": "UX/UI Engineering",
-      "priority": 75.0,
+      "priority": 75,
       "owner_input": null,
       "difficulty_est": 40,
       "semrush_volume": 110,
@@ -2536,8 +2912,8 @@
       "semrush_note": "Original no data. \"shadcn vs radix\" 110/KD17; \"shadcn ui\" 12100/KD28 is the head term for the intro."
     },
     {
-      "order": 51,
-      "planned_run": "2027-02-08",
+      "order": 59,
+      "planned_run": "2027-02-26",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -2583,8 +2959,8 @@
       "semrush_note": "Original no data. entity seo 1300/51 is above the KD 45 target; accepted at relevancy 9 and as a peer-link piece. personal brand seo is only 90/20."
     },
     {
-      "order": 52,
-      "planned_run": "2027-02-10",
+      "order": 60,
+      "planned_run": "2027-03-01",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -2631,8 +3007,8 @@
       "semrush_note": "build vs buy software 210/KD31 (internal tools 590/30 is too broad and tool-listicle intent)."
     },
     {
-      "order": 53,
-      "planned_run": "2027-02-12",
+      "order": 61,
+      "planned_run": "2027-03-03",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -2677,8 +3053,8 @@
       "semrush_note": "Original had no data; 'automate google reviews' 210/KD20; 'ai review response generator' 210/KD24 as secondary."
     },
     {
-      "order": 54,
-      "planned_run": "2027-02-15",
+      "order": 62,
+      "planned_run": "2027-03-05",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -2726,8 +3102,8 @@
       "semrush_note": "\"dashboard design\" 2900/KD39; dashboard ui design 390/KD35, dashboard ui examples 210/KD25."
     },
     {
-      "order": 55,
-      "planned_run": "2027-02-17",
+      "order": 63,
+      "planned_run": "2027-03-08",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -2775,8 +3151,8 @@
       "semrush_note": "Only 90/mo but first-hand proof from this site (Astro, Lighthouse 97 to 100), relevancy 9, aeo 4."
     },
     {
-      "order": 56,
-      "planned_run": "2027-02-19",
+      "order": 64,
+      "planned_run": "2027-03-10",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -2814,11 +3190,11 @@
       "semrush_action": "new",
       "discipline": "UX/UI Engineering",
       "owner_input": null,
-      "priority": 72.0
+      "priority": 72
     },
     {
-      "order": 57,
-      "planned_run": "2027-02-22",
+      "order": 65,
+      "planned_run": "2027-03-12",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -2863,8 +3239,8 @@
       "semrush_note": "Original 20/0; 170/30 variant keeps the same idea."
     },
     {
-      "order": 58,
-      "planned_run": "2027-02-24",
+      "order": 66,
+      "planned_run": "2027-03-15",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -2907,8 +3283,8 @@
       "semrush_note": "Meets thresholds; 'message hierarchy' 110/11 as secondary."
     },
     {
-      "order": 59,
-      "planned_run": "2027-02-26",
+      "order": 67,
+      "planned_run": "2027-03-17",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -2953,8 +3329,8 @@
       "semrush_note": "No keyword reaches 30 searches; aeo 5, relevancy 8, strong answer-engine question piece."
     },
     {
-      "order": 60,
-      "planned_run": "2027-03-01",
+      "order": 68,
+      "planned_run": "2027-03-19",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -2995,8 +3371,8 @@
       "priority": 75.6
     },
     {
-      "order": 61,
-      "planned_run": "2027-03-03",
+      "order": 69,
+      "planned_run": "2027-03-22",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -3035,11 +3411,11 @@
       "semrush_action": "new",
       "discipline": "SEO/AEO",
       "owner_input": null,
-      "priority": 73.0
+      "priority": 73
     },
     {
-      "order": 62,
-      "planned_run": "2027-03-05",
+      "order": 70,
+      "planned_run": "2027-03-24",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -3086,8 +3462,8 @@
       "semrush_note": "Original 20/KD0. \"design tokens figma\" 170/KD42; tokens studio 320/KD17, style dictionary 480/KD31 as secondaries. Absorbs code-as-source-of-truth."
     },
     {
-      "order": 63,
-      "planned_run": "2027-03-08",
+      "order": 71,
+      "planned_run": "2027-03-26",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -3129,8 +3505,8 @@
       "priority": 73.9
     },
     {
-      "order": 64,
-      "planned_run": "2027-03-10",
+      "order": 72,
+      "planned_run": "2027-03-29",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -3174,8 +3550,8 @@
       "semrush_note": "'UGC creator portfolio' has 480 at KD 15; keeps the own-domain angle."
     },
     {
-      "order": 65,
-      "planned_run": "2027-03-12",
+      "order": 73,
+      "planned_run": "2027-03-31",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -3221,8 +3597,8 @@
       "priority": 75.7
     },
     {
-      "order": 66,
-      "planned_run": "2027-03-15",
+      "order": 74,
+      "planned_run": "2027-04-02",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -3263,8 +3639,8 @@
       "priority": 73.7
     },
     {
-      "order": 67,
-      "planned_run": "2027-03-17",
+      "order": 75,
+      "planned_run": "2027-04-05",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -3308,8 +3684,8 @@
       "semrush_note": "Original 0/0; shopify seo tips 880/33."
     },
     {
-      "order": 68,
-      "planned_run": "2027-03-19",
+      "order": 76,
+      "planned_run": "2027-04-07",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -3358,8 +3734,8 @@
       "semrush_note": "Controller: \"css variables\" (2,400) is a generic MDN-style query this article cannot win; kept as a long-tail and answer-engine piece."
     },
     {
-      "order": 69,
-      "planned_run": "2027-03-22",
+      "order": 77,
+      "planned_run": "2027-04-09",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -3401,8 +3777,8 @@
       "priority": 73.8
     },
     {
-      "order": 70,
-      "planned_run": "2027-03-24",
+      "order": 78,
+      "planned_run": "2027-04-12",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -3446,8 +3822,8 @@
       "priority": 78.7
     },
     {
-      "order": 71,
-      "planned_run": "2027-03-26",
+      "order": 79,
+      "planned_run": "2027-04-14",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -3488,8 +3864,8 @@
       "priority": 76.7
     },
     {
-      "order": 72,
-      "planned_run": "2027-03-29",
+      "order": 80,
+      "planned_run": "2027-04-16",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -3534,8 +3910,8 @@
       "semrush_note": "\"accessibility overlay\" 140/KD25 beats the question phrase."
     },
     {
-      "order": 73,
-      "planned_run": "2027-03-31",
+      "order": 81,
+      "planned_run": "2027-04-19",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -3579,8 +3955,8 @@
       "semrush_note": "Slug unchanged; head variant has 3x volume at lower KD than trailing slash seo (320/44). Uses this site's trailingSlash never setup."
     },
     {
-      "order": 74,
-      "planned_run": "2027-04-02",
+      "order": 82,
+      "planned_run": "2027-04-21",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -3626,8 +4002,8 @@
       "semrush_note": "\"dtcg\" 170/KD34; relevancy only 6, consider deprioritising."
     },
     {
-      "order": 75,
-      "planned_run": "2027-04-05",
+      "order": 83,
+      "planned_run": "2027-04-23",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -3671,8 +4047,8 @@
       "semrush_note": "Low volume; aeo 5, rel 8. Link to the JSON-LD article."
     },
     {
-      "order": 76,
-      "planned_run": "2027-04-07",
+      "order": 84,
+      "planned_run": "2027-04-26",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -3717,8 +4093,8 @@
       "priority": 78.1
     },
     {
-      "order": 77,
-      "planned_run": "2027-04-09",
+      "order": 85,
+      "planned_run": "2027-04-28",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -3758,8 +4134,8 @@
       "priority": 79.6
     },
     {
-      "order": 78,
-      "planned_run": "2027-04-12",
+      "order": 86,
+      "planned_run": "2027-04-30",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -3804,8 +4180,8 @@
       "semrush_note": "Original 0. \"prefers-reduced-motion\" 110/KD38 with the GSAP angle intact."
     },
     {
-      "order": 79,
-      "planned_run": "2027-04-14",
+      "order": 87,
+      "planned_run": "2027-05-03",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -3839,7 +4215,7 @@
       "word_count": 1200,
       "evidence": "storerocket.io and visu.network note that a primary category of Restaurant puts you in the restaurant pack and a specific category helps specific searches; SERP is small agency blogs and Whitespark.",
       "discipline": "SEO/AEO",
-      "priority": 72.0,
+      "priority": 72,
       "owner_input": null,
       "difficulty_est": 25,
       "semrush_volume": 110,
@@ -3849,8 +4225,8 @@
       "semrush_note": "Original no data; restaurant variant 110/29 (categories alone 140/31)."
     },
     {
-      "order": 80,
-      "planned_run": "2027-04-16",
+      "order": 88,
+      "planned_run": "2027-05-05",
       "status": "planned",
       "branch": null,
       "topic": "design-systems",
@@ -3886,7 +4262,7 @@
       "word_count": 1300,
       "evidence": "frontendchecklist.io dark-mode-css, dev.to 'Automatic dark mode', muz.li guide (its dark block omits the :root selector), skills.cat dark-mode skill.",
       "discipline": "UX/UI Engineering",
-      "priority": 65.0,
+      "priority": 65,
       "owner_input": null,
       "difficulty_est": 35,
       "semrush_volume": 90,
@@ -3896,8 +4272,8 @@
       "semrush_note": "Original no data. \"css light-dark\" 90/KD39 and \"dark mode css\" 70/KD48; low volume, borderline."
     },
     {
-      "order": 81,
-      "planned_run": "2027-04-19",
+      "order": 89,
+      "planned_run": "2027-05-07",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -3933,7 +4309,7 @@
       "word_count": 1300,
       "evidence": "Surfer, Writesonic, metehan.ai, contentgrip.com rank; one analysis says only about 27 percent of sub-queries stay stable. Mostly vendor speculation.",
       "discipline": "SEO/AEO",
-      "priority": 72.0,
+      "priority": 72,
       "owner_input": null,
       "difficulty_est": 38,
       "semrush_volume": 390,
@@ -3943,8 +4319,8 @@
       "semrush_note": "Good for AEO peers."
     },
     {
-      "order": 82,
-      "planned_run": "2027-04-21",
+      "order": 90,
+      "planned_run": "2027-05-10",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -3990,8 +4366,8 @@
       "semrush_note": "supabase security 110/KD38 plus vibe coding security 210/34 as secondary; same checklist article."
     },
     {
-      "order": 83,
-      "planned_run": "2027-04-23",
+      "order": 91,
+      "planned_run": "2027-05-12",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -4035,8 +4411,8 @@
       "semrush_note": "880/KD41 passes; 'mcp server security' 210/KD46 as secondary."
     },
     {
-      "order": 84,
-      "planned_run": "2027-04-26",
+      "order": 92,
+      "planned_run": "2027-05-14",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -4072,7 +4448,7 @@
       "word_count": 1700,
       "evidence": "Small-business checklist page flags Target Size, Accessible Authentication, Focus Not Obscured, Dragging Movements and Redundant Entry as the criteria most likely to fail; WCAG 2.2 became a Recommendation Oct 2023 with nine new criteria.",
       "discipline": "UX/UI Engineering",
-      "priority": 72.0,
+      "priority": 72,
       "owner_input": null,
       "difficulty_est": 45,
       "semrush_volume": 90,
@@ -4082,8 +4458,8 @@
       "semrush_note": "Original 30/KD0. \"wcag 2.2 checklist\" 90/KD39 and \"wcag 2.2 aa checklist\" 110/KD41 are better."
     },
     {
-      "order": 85,
-      "planned_run": "2027-04-28",
+      "order": 93,
+      "planned_run": "2027-05-17",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -4125,8 +4501,8 @@
       "priority": 70.4
     },
     {
-      "order": 86,
-      "planned_run": "2027-04-30",
+      "order": 94,
+      "planned_run": "2027-05-19",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -4172,8 +4548,8 @@
       "semrush_note": "Meets threshold (320/KD23). \"astro islands\" 110/KD29."
     },
     {
-      "order": 87,
-      "planned_run": "2027-05-03",
+      "order": 95,
+      "planned_run": "2027-05-21",
       "status": "planned",
       "branch": null,
       "topic": "answer-engine-optimization",
@@ -4213,11 +4589,11 @@
       "semrush_action": "new",
       "discipline": "SEO/AEO",
       "owner_input": null,
-      "priority": 70.0
+      "priority": 70
     },
     {
-      "order": 88,
-      "planned_run": "2027-05-05",
+      "order": 96,
+      "planned_run": "2027-05-24",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -4252,7 +4628,7 @@
       "word_count": 1800,
       "evidence": "SERP summary: Jeff Bullas threads and skillselion 'brand-voice-guidelines' skill show demand for AI-prompted voice guides, mostly shallow.",
       "discipline": "Brand Development",
-      "priority": 76.0,
+      "priority": 76,
       "owner_input": null,
       "difficulty_est": 30,
       "semrush_volume": 110,
@@ -4262,8 +4638,8 @@
       "semrush_note": "Original keyword had no data; 'brand voice ai' 110 at KD 25."
     },
     {
-      "order": 89,
-      "planned_run": "2027-05-07",
+      "order": 97,
+      "planned_run": "2027-05-26",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -4308,8 +4684,8 @@
       "priority": 76.4
     },
     {
-      "order": 90,
-      "planned_run": "2027-05-10",
+      "order": 98,
+      "planned_run": "2027-05-28",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -4338,7 +4714,7 @@
       "proof_link": null,
       "internal_links": [
         "design-handoff-guide",
-        "claude-code-figma-mcp",
+        "claude-code-design-without-figma",
         "figma-design-tokens-to-code"
       ],
       "format": "opinion",
@@ -4355,8 +4731,8 @@
       "semrush_note": "\"figma dev mode\" 1300/KD37 versus 20 for the question."
     },
     {
-      "order": 91,
-      "planned_run": "2027-05-12",
+      "order": 99,
+      "planned_run": "2027-05-31",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -4400,8 +4776,8 @@
       "semrush_note": "Original no data; 260/45 at the edge of target. Core web vitals itself is 6600/82."
     },
     {
-      "order": 92,
-      "planned_run": "2027-05-14",
+      "order": 100,
+      "planned_run": "2027-06-02",
       "status": "planned",
       "branch": null,
       "topic": "ux-ui-design",
@@ -4448,8 +4824,8 @@
       "semrush_note": "No searches (\"cumulative layout shift\" 1600/KD61 too hard). Kept as proof piece for the site 97 to 100 Lighthouse; aeo 4, relevancy 8."
     },
     {
-      "order": 93,
-      "planned_run": "2027-05-17",
+      "order": 101,
+      "planned_run": "2027-06-04",
       "status": "planned",
       "branch": null,
       "topic": "technical-seo",
@@ -4494,8 +4870,8 @@
       "semrush_note": "Proof piece for this site's check-dist script; low volume, relevancy 8, aeo 4."
     },
     {
-      "order": 94,
-      "planned_run": "2027-05-19",
+      "order": 102,
+      "planned_run": "2027-06-07",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -4539,8 +4915,8 @@
       "semrush_note": "Strong volume at KD 40."
     },
     {
-      "order": 95,
-      "planned_run": "2027-05-21",
+      "order": 103,
+      "planned_run": "2027-06-09",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -4586,8 +4962,8 @@
       "semrush_note": "supabase auth 1900/KD41 vs 20 for the vs-Clerk phrase; reframe as Supabase Auth for small apps with the Clerk comparison as a section."
     },
     {
-      "order": 96,
-      "planned_run": "2027-05-24",
+      "order": 104,
+      "planned_run": "2027-06-11",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -4632,8 +5008,8 @@
       "semrush_note": "Original no data ('ai employee handbook' 20); 'internal knowledge base chatbot' 70/KD23, 'ai knowledge base chatbot' 140/KD46 as secondary. Low volume; relevancy 9 and 'Aiwi proof."
     },
     {
-      "order": 97,
-      "planned_run": "2027-05-26",
+      "order": 105,
+      "planned_run": "2027-06-14",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -4677,8 +5053,8 @@
       "semrush_note": "Meets thresholds; absorbs customer interviews. 'positioning statement examples' 480/29 secondary."
     },
     {
-      "order": 98,
-      "planned_run": "2027-05-28",
+      "order": 106,
+      "planned_run": "2027-06-16",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -4714,7 +5090,7 @@
       "word_count": 1700,
       "evidence": "WebSearch HITL: firstaimovers.com suggests approval checkpoints for 60 to 90 days; raftlabs.com confidence threshold escalation.",
       "discipline": "Agentic Workflows",
-      "priority": 76.0,
+      "priority": 76,
       "owner_input": null,
       "difficulty_est": 30,
       "semrush_volume": 140,
@@ -4724,8 +5100,8 @@
       "semrush_note": "Original 10/KD0; 'human in the loop automation' has 140 at KD31 and fits the same angle."
     },
     {
-      "order": 99,
-      "planned_run": "2027-05-31",
+      "order": 107,
+      "planned_run": "2027-06-18",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -4765,8 +5141,8 @@
       "priority": 79.3
     },
     {
-      "order": 100,
-      "planned_run": "2027-06-02",
+      "order": 108,
+      "planned_run": "2027-06-21",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -4812,8 +5188,8 @@
       "priority": 71.3
     },
     {
-      "order": 101,
-      "planned_run": "2027-06-04",
+      "order": 109,
+      "planned_run": "2027-06-23",
       "status": "planned",
       "branch": null,
       "topic": "ai-automation",
@@ -4859,8 +5235,8 @@
       "semrush_note": "Original 30/KD0; 'build mcp server' 1600/KD43, 'how to build an mcp server' 590/KD34."
     },
     {
-      "order": 102,
-      "planned_run": "2027-06-07",
+      "order": 110,
+      "planned_run": "2027-06-25",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -4905,8 +5281,8 @@
       "semrush_note": "Meets thresholds (KD 49 borderline); keep."
     },
     {
-      "order": 103,
-      "planned_run": "2027-06-09",
+      "order": 111,
+      "planned_run": "2027-06-28",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -4952,8 +5328,8 @@
       "semrush_note": "Original 20/KD0; 'agentic design patterns' 1900/KD39; 'prompt chaining' 880/KD38 as secondary."
     },
     {
-      "order": 104,
-      "planned_run": "2027-06-11",
+      "order": 112,
+      "planned_run": "2027-06-30",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -4995,8 +5371,8 @@
       "semrush_note": "260 at KD 13 beats 90 at KD 8."
     },
     {
-      "order": 105,
-      "planned_run": "2027-06-14",
+      "order": 113,
+      "planned_run": "2027-07-02",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -5032,7 +5408,7 @@
       "word_count": 1600,
       "evidence": "SERP: security guides stress moving 'every secret to server-only environment variables' and service_role bypassing RLS (vibe-coding security results, makerkit security docs).",
       "discipline": "SaaS Development",
-      "priority": 70.0,
+      "priority": 70,
       "owner_input": null,
       "difficulty_est": 33,
       "semrush_volume": 720,
@@ -5042,8 +5418,8 @@
       "semrush_note": "supabase edge functions 720/KD37; keep API-keys angle as the hook. Service role key searches go to the new api-keys article."
     },
     {
-      "order": 106,
-      "planned_run": "2027-06-16",
+      "order": 114,
+      "planned_run": "2027-07-05",
       "status": "planned",
       "branch": null,
       "topic": "brand-strategy",
@@ -5088,8 +5464,8 @@
       "semrush_note": "No Semrush data; relevancy 9 and aeo 4, Aiwi proof piece."
     },
     {
-      "order": 107,
-      "planned_run": "2027-06-18",
+      "order": 115,
+      "planned_run": "2027-07-07",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -5135,8 +5511,8 @@
       "semrush_note": "Original 170/KD54 too hard; 'llm evals' 590/KD38."
     },
     {
-      "order": 108,
-      "planned_run": "2027-06-21",
+      "order": 116,
+      "planned_run": "2027-07-09",
       "status": "planned",
       "branch": null,
       "topic": "brand-identity",
@@ -5179,8 +5555,8 @@
       "semrush_note": "1300 at KD 45 vs 210 at KD 39; same article."
     },
     {
-      "order": 109,
-      "planned_run": "2027-06-23",
+      "order": 117,
+      "planned_run": "2027-07-12",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -5226,8 +5602,8 @@
       "semrush_note": "590/KD33 vs no data; checklist template plus the tracking-screen build keeps the angle."
     },
     {
-      "order": 110,
-      "planned_run": "2027-06-25",
+      "order": 118,
+      "planned_run": "2027-07-14",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -5261,7 +5637,7 @@
       "word_count": 2000,
       "evidence": "WebSearch MCP security: workos.com/blog/mcp-security-risks-best-practices says tool descriptions steer model behavior; n8n tip that 'specific descriptions beat vague ones'.",
       "discipline": "Agentic Workflows",
-      "priority": 71.0,
+      "priority": 71,
       "owner_input": null,
       "difficulty_est": 50,
       "semrush_volume": 50,
@@ -5271,8 +5647,8 @@
       "semrush_note": "Original 110/KD56 too hard; 'claude function calling' 50/KD26 is low but easy, and the section also lives in the Agent SDK guide."
     },
     {
-      "order": 111,
-      "planned_run": "2027-06-28",
+      "order": 119,
+      "planned_run": "2027-07-16",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -5317,8 +5693,8 @@
       "semrush_note": "1600/KD29 passes; firebase vs supabase 720/25 as secondary."
     },
     {
-      "order": 112,
-      "planned_run": "2027-06-30",
+      "order": 120,
+      "planned_run": "2027-07-19",
       "status": "planned",
       "branch": null,
       "topic": "agentic-workflows",
@@ -5362,8 +5738,8 @@
       "semrush_note": "720/KD50 passes the filter (borderline); 'multi agent systems' 1600/KD56 is harder."
     },
     {
-      "order": 113,
-      "planned_run": "2027-07-02",
+      "order": 121,
+      "planned_run": "2027-07-21",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -5409,8 +5785,8 @@
       "semrush_note": "No Semrush data; proof piece for the Vamp Network intake flow case study."
     },
     {
-      "order": 114,
-      "planned_run": "2027-07-05",
+      "order": 122,
+      "planned_run": "2027-07-23",
       "status": "planned",
       "branch": null,
       "topic": "saas-development",
@@ -5458,335 +5834,7 @@
       "semrush_note": "No data (ai employee handbook 20); rel 8, aeo 4 and proof for Ask 'Aiwi."
     },
     {
-      "order": 115,
-      "planned_run": null,
-      "status": "needs-input",
-      "branch": null,
-      "topic": "answer-engine-optimization",
-      "cluster": "AEO foundations",
-      "role": "pillar",
-      "title": "How to rank in ChatGPT as a local business",
-      "slug": "how-to-rank-in-chatgpt-local-business",
-      "primary_keyword": "how to rank in chatgpt",
-      "secondary_keywords": [
-        "how to get cited by chatgpt",
-        "how to optimize for chatgpt",
-        "chatgpt seo"
-      ],
-      "intent": "commercial",
-      "volume_tier": "medium (est.)",
-      "difficulty": 36,
-      "relevancy": 10,
-      "aeo_opportunity": 5,
-      "questions_to_answer": [
-        "How does ChatGPT decide which local businesses to recommend?",
-        "Where does ChatGPT get local business information?",
-        "Does my Google Business Profile affect AI answers?",
-        "Do Bing Places and Yelp matter for ChatGPT?",
-        "How do I check if AI recommends my business?"
-      ],
-      "angle": "Built on a live example: I run the 'best waffles in Waikiki' style prompts across ChatGPT, Gemini, Perplexity and AI Mode, record whether and how 'Aiwi Waffles is named, and trace which sources (Business Profile, reviews, site, directories) each engine leaned on. State only what the test shows.",
-      "proof_link": "/work/aiwi-waffles",
-      "internal_links": [
-        "answer-engine-optimization-guide",
-        "ai-mode-seo-local-business",
-        "do-i-need-a-website-for-my-business",
-        "google-reviews-for-small-business",
-        "track-brand-mentions-in-ai-answers"
-      ],
-      "format": "case breakdown",
-      "word_count": 2400,
-      "evidence": "SERP: pbjmarketing.com, bigeyeagency.com, localfalcon.com, birdeye.com (ChatGPT local map panel). Sources say ChatGPT uses Bing, Yelp, TripAdvisor and Google profiles; none show a named business tested across engines.",
-      "discipline": "SEO/AEO",
-      "priority": 84.9,
-      "owner_input": "Run the 'best waffles in Waikiki' style prompts in ChatGPT, Gemini, Perplexity and Google AI Mode and send the results (screenshots are fine).",
-      "difficulty_est": 40,
-      "semrush_volume": 590,
-      "semrush_kd": 36,
-      "semrush_intent": "informational",
-      "semrush_action": "retarget",
-      "semrush_note": "Original 20/0; 590/36 and 'how to get cited by chatgpt' 320/29. Pillar keeps relevancy 10."
-    },
-    {
-      "order": 116,
-      "planned_run": null,
-      "status": "needs-input",
-      "branch": null,
-      "topic": "design-systems",
-      "cluster": "Design systems for small teams",
-      "role": "spoke",
-      "title": "One component base, ten brands: theming client sites from a shared system",
-      "slug": "one-component-base-many-brands",
-      "primary_keyword": "multi-brand design system",
-      "secondary_keywords": [
-        "theming design system multiple brands",
-        "white label design tokens",
-        "reusable website template agency"
-      ],
-      "intent": "informational",
-      "volume_tier": "low (est.)",
-      "difficulty": 0,
-      "relevancy": 10,
-      "aeo_opportunity": 4,
-      "questions_to_answer": [
-        "How do you theme one design system for several brands?",
-        "What changes per brand and what stays shared?",
-        "How do agencies reuse a site build across clients without them looking the same?",
-        "Where do brand tokens live in code?"
-      ],
-      "angle": "Multi-brand content is enterprise (Atlassian, Carbon, Hub24). I show the Portfolio Optimization service: ten creator sites in production on Astro, React and Tailwind, each with its own logo, palette and copy, and what I keep shared versus per creator.",
-      "proof_link": "/work/portfolio-optimization",
-      "internal_links": [
-        "how-to-create-a-design-system",
-        "tailwind-v4-theme-design-tokens",
-        "css-light-dark-dark-mode-tokens",
-        "/blog/brand-identity"
-      ],
-      "format": "case breakdown",
-      "word_count": 1800,
-      "evidence": "hds.hub24.com.au uses namespaces 'to distinguish systems and white-label themes'; DTCG 2025.10 adds 'theming and multi-brand support'. No small-studio multi-brand example in the SERP.",
-      "discipline": "UX/UI Engineering",
-      "priority": 83.6,
-      "owner_input": "How the ten creator sites are built: one shared starter or separate projects, and what is shared versus per creator.",
-      "difficulty_est": 35,
-      "semrush_volume": 20,
-      "semrush_kd": 0,
-      "semrush_intent": null,
-      "semrush_action": "keep-aeo",
-      "semrush_note": "20 searches but relevancy 10 and aeo 4; proof piece for Portfolio Optimization (ten sites)."
-    },
-    {
-      "order": 117,
-      "planned_run": null,
-      "status": "needs-input",
-      "branch": null,
-      "topic": "ai-automation",
-      "cluster": "Foundations",
-      "role": "spoke",
-      "title": "AI automation pricing: what a small business should expect to pay",
-      "slug": "ai-automation-pricing",
-      "primary_keyword": "ai automation pricing",
-      "secondary_keywords": [
-        "ai automation cost",
-        "ai automation services pricing"
-      ],
-      "intent": "commercial",
-      "volume_tier": "medium",
-      "difficulty": 14,
-      "relevancy": 9,
-      "aeo_opportunity": 5,
-      "questions_to_answer": [
-        "How much does AI automation cost?",
-        "Fixed fee or retainer?",
-        "What hidden costs are there?",
-        "How long to pay back?"
-      ],
-      "angle": "Sources quote $2,500 to $15,000 projects and disagree widely, so Mat states his own scoping method and ranges only where he chooses to publish them.",
-      "proof_link": "/services",
-      "internal_links": [
-        "small-business-automation",
-        "n8n-vs-zapier"
-      ],
-      "format": "guide",
-      "word_count": 1900,
-      "evidence": "WebSearch: aibusiness.vc ($2.5K-$15K), layer3labs.io, lobsterpack.com; figures vary, vendor blogs.",
-      "discipline": "Agentic Workflows",
-      "priority": 80.6,
-      "owner_input": "Your price ranges for automation work, or the go-ahead to write it without prices.",
-      "difficulty_est": 42,
-      "semrush_volume": 40,
-      "semrush_kd": 14,
-      "semrush_intent": "commercial",
-      "semrush_action": "retarget",
-      "semrush_note": "Original 20/KD0; 'ai automation pricing' 40/KD14, still tiny. Kept for relevancy 10 and aeo 5."
-    },
-    {
-      "order": 118,
-      "planned_run": null,
-      "status": "needs-input",
-      "branch": null,
-      "topic": "ux-ui-design",
-      "cluster": "Design to code handoff",
-      "role": "spoke",
-      "title": "Claude Code with the Figma MCP server: a working setup",
-      "slug": "claude-code-figma-mcp",
-      "primary_keyword": "claude code figma",
-      "secondary_keywords": [
-        "figma mcp claude code",
-        "figma mcp setup",
-        "figma to code ai"
-      ],
-      "intent": "informational",
-      "volume_tier": "medium (est.)",
-      "difficulty": 51,
-      "relevancy": 9,
-      "aeo_opportunity": 5,
-      "questions_to_answer": [
-        "How do I connect Figma to Claude Code?",
-        "What does the Figma MCP server send to the AI?",
-        "Does the Figma MCP server need a paid seat?",
-        "How good is the code it generates, and what do you still fix by hand?"
-      ],
-      "angle": "Current pages are setup demos. I show a real frame through to a merged component in an Astro and Tailwind codebase, with the edits I still made (tokens, accessibility, motion) and why file structure decided the output quality.",
-      "proof_link": "/services",
-      "internal_links": [
-        "design-handoff-guide",
-        "design-md-file-for-ai-agents",
-        "claude-code-design-system-rules",
-        "/blog/agentic-workflows"
-      ],
-      "format": "how-to",
-      "word_count": 1800,
-      "evidence": "builder.io/blog/figma-mcp-server, superdesign.dev/blog/figma-to-claude-code, vibecodingacademy.ai guide; lennysnewsletter.com 'From Figma to Claude Code and back' (YouTube episode). Rising after Codex + Figma MCP (Feb 2026) and Config 2026.",
-      "discipline": "UX/UI Engineering",
-      "priority": 76.7,
-      "owner_input": "Confirm you have taken a Figma frame into code through the Figma MCP server, and what you still changed by hand.",
-      "difficulty_est": 40,
-      "semrush_volume": 480,
-      "semrush_kd": 51,
-      "semrush_intent": "informational",
-      "semrush_action": "retarget",
-      "semrush_note": "\"figma mcp claude code\" 720/KD61 and \"figma mcp\" 9900/KD78 are too hard; \"claude code figma\" 480/KD51 is a stretch but aeo 5."
-    },
-    {
-      "order": 119,
-      "planned_run": null,
-      "status": "needs-input",
-      "branch": null,
-      "topic": "brand-identity",
-      "cluster": "Identity foundations",
-      "role": "spoke",
-      "title": "Logo design cost: what a freelancer delivers at each price",
-      "slug": "logo-design-cost-freelancer",
-      "primary_keyword": "logo design cost",
-      "secondary_keywords": [
-        "how much does a logo cost"
-      ],
-      "intent": "commercial",
-      "volume_tier": "high",
-      "difficulty": 27,
-      "relevancy": 8,
-      "aeo_opportunity": 4,
-      "questions_to_answer": [
-        "How much should a logo cost?",
-        "How much does branding cost for a small business?",
-        "Freelancer or agency for branding?",
-        "What is included in a branding package?"
-      ],
-      "angle": "Deliverable-based pricing explainer: what you get at $300 versus $2,500 versus a strategy-backed project, using vendor ranges as context. I avoid inventing my prices. Candid on what a logo-only buy leaves out (files, guide, signage prep).",
-      "proof_link": "/services",
-      "internal_links": [
-        "small-business-branding-guide",
-        "brand-guidelines-one-page"
-      ],
-      "format": "guide",
-      "word_count": 1900,
-      "evidence": "SERP: vistaprint.com/hub/logo-design-cost ('$300-$2,500 most common'), arounda.agency, designrush, clutch. Freelance quoted $500 to $15,000; agencies 2 to 4x. High-authority vendor mix.",
-      "discipline": "Brand Development",
-      "priority": 76.5,
-      "owner_input": "Your price ranges for logo and brand work, or the go-ahead to write it without prices.",
-      "difficulty_est": 58,
-      "semrush_volume": 720,
-      "semrush_kd": 27,
-      "semrush_intent": "informational",
-      "semrush_action": "retarget",
-      "semrush_note": "720 at KD 27 vs 260 at KD 28."
-    },
-    {
-      "order": 120,
-      "planned_run": null,
-      "status": "needs-input",
-      "branch": null,
-      "topic": "ai-automation",
-      "cluster": "Tools and platforms",
-      "role": "spoke",
-      "title": "n8n vs Zapier vs Make: which to pick for a small business",
-      "slug": "n8n-vs-zapier",
-      "primary_keyword": "n8n vs zapier",
-      "secondary_keywords": [
-        "zapier vs n8n",
-        "n8n vs make",
-        "make vs zapier",
-        "n8n alternatives"
-      ],
-      "intent": "commercial",
-      "volume_tier": "high",
-      "difficulty": 36,
-      "relevancy": 8,
-      "aeo_opportunity": 4,
-      "questions_to_answer": [
-        "Which is best: n8n, Zapier or Make?",
-        "Is n8n free?",
-        "Which is cheapest at volume?",
-        "Do I need to code for n8n?"
-      ],
-      "angle": "Crowded with agency comparisons that disagree on prices. Mat offers a decision tree from real jobs and tests per-execution cost, kept to claims he can verify.",
-      "proof_link": "/services",
-      "internal_links": [
-        "small-business-automation",
-        "n8n-vs-claude"
-      ],
-      "format": "comparison",
-      "word_count": 2400,
-      "evidence": "WebSearch: parseur.com, bacancytechnology.com, digidop.com, automationatlas.io; rule 'n8n with a developer, Make without, Zapier if already used'.",
-      "discipline": "Agentic Workflows",
-      "priority": 76.0,
-      "owner_input": "Confirm which of n8n, Zapier and Make you have used on real jobs.",
-      "difficulty_est": 70,
-      "semrush_volume": 1600,
-      "semrush_kd": 36,
-      "semrush_intent": "informational",
-      "semrush_action": "retarget",
-      "semrush_note": "Original 210/KD31; 'n8n vs zapier' 1600/KD36; 'n8n vs make' 720/KD33, 'make vs zapier' 590/KD32 in the same article."
-    },
-    {
-      "order": 121,
-      "planned_run": null,
-      "status": "needs-input",
-      "branch": null,
-      "topic": "saas-development",
-      "cluster": "Internal tools and dashboards",
-      "role": "spoke",
-      "title": "Custom software development cost for a small business, and what it costs to keep running",
-      "slug": "custom-software-development-cost-small-business",
-      "primary_keyword": "custom software development cost",
-      "secondary_keywords": [
-        "custom software cost",
-        "internal tool maintenance cost",
-        "how much does a custom dashboard cost"
-      ],
-      "intent": "commercial",
-      "volume_tier": "medium",
-      "difficulty": 15,
-      "relevancy": 8,
-      "aeo_opportunity": 3,
-      "questions_to_answer": [
-        "How much does a custom internal tool cost?",
-        "What are the yearly maintenance costs?",
-        "What drives the price up?",
-        "How do I scope a v1 so it ships?"
-      ],
-      "angle": "Freelancer-scale ranges tied to scope drivers (roles, integrations, onboarding content) instead of agency $30K to $150K bands. Must label any figure as a range I quote for scoping, not a client result; do not invent client costs.",
-      "proof_link": "/services",
-      "internal_links": [
-        "build-vs-buy-software-small-business",
-        "react-admin-dashboard-supabase"
-      ],
-      "format": "guide",
-      "word_count": 1700,
-      "evidence": "SERP: mainsaildata, fuzen.io, soltech.net quote $30K to $150K agency ranges and 15 to 25% yearly maintenance; all agency-voiced.",
-      "discipline": "SaaS Development",
-      "priority": 75.2,
-      "owner_input": "Your price ranges for dashboards and internal tools, or the go-ahead to write it without prices.",
-      "difficulty_est": 58,
-      "semrush_volume": 390,
-      "semrush_kd": 15,
-      "semrush_intent": "informational",
-      "semrush_action": "retarget",
-      "semrush_note": "390/KD15 vs no data; keep small business internal tool framing. Still needs-input."
-    },
-    {
-      "order": 122,
+      "order": 123,
       "planned_run": null,
       "status": "needs-input",
       "branch": null,
@@ -5833,7 +5881,7 @@
       "semrush_note": "Only real demand is the head term (KD 60 high); long-tail llms.txt seo 70/32. This site ships llms.txt. Absorbs ai-crawlers-robots-txt."
     },
     {
-      "order": 123,
+      "order": 124,
       "planned_run": null,
       "status": "needs-input",
       "branch": null,
@@ -5878,7 +5926,7 @@
       "semrush_note": "Original 50/30; 320/40 variant."
     },
     {
-      "order": 124,
+      "order": 125,
       "planned_run": null,
       "status": "needs-input",
       "branch": null,
@@ -5923,7 +5971,7 @@
       "semrush_note": "Fine; discovered variant 320/32."
     },
     {
-      "order": 125,
+      "order": 126,
       "planned_run": null,
       "status": "needs-input",
       "branch": null,
@@ -5962,7 +6010,7 @@
       "word_count": 1900,
       "evidence": "SERP for Square dashboard shows developer.squareup.com docs, ScreenCloud, rapidevelopers Retool page; third-party guide says Custom reports tab 'lacks charts or graphs'. No small-business case on page 1.",
       "discipline": "SaaS Development",
-      "priority": 67.0,
+      "priority": 67,
       "owner_input": "Home Base's Square details (which data it pulls, how often, how tokens are stored) once the build has them.",
       "difficulty_est": 24,
       "semrush_volume": 0,
@@ -5972,55 +6020,10 @@
       "semrush_note": "No data (square dashboard 49500 but KD71 and is Square's own product); rel 9, aeo 4, proof for Home Base. Still needs-input."
     },
     {
-      "order": 126,
-      "planned_run": null,
-      "status": "needs-input",
-      "branch": null,
-      "topic": "technical-seo",
-      "cluster": "Local SEO and Google Business Profile",
-      "role": "spoke",
-      "title": "How to get more Google reviews without breaking Google's rules",
-      "slug": "google-reviews-for-small-business",
-      "primary_keyword": "how to get more google reviews",
-      "secondary_keywords": [
-        "how to get google reviews"
-      ],
-      "intent": "informational",
-      "volume_tier": "high (est.)",
-      "difficulty": 44,
-      "relevancy": 7,
-      "aeo_opportunity": 3,
-      "questions_to_answer": [
-        "How do I ask customers for a Google review?",
-        "Should I reply to every Google review?",
-        "Do review count and recency affect local rankings?",
-        "Is it allowed to offer a discount for a review?",
-        "Where do I find my Google review link?"
-      ],
-      "angle": "Review collection designed into the physical shop: signage, receipts and merch I designed for 'Aiwi, so asking for a review is part of the brand, not a pushy email. Ties to review recency and velocity as prominence signals.",
-      "proof_link": "/work/aiwi-waffles",
-      "internal_links": [
-        "local-seo-case-study-aiwi-waffles",
-        "how-to-rank-in-chatgpt-local-business"
-      ],
-      "format": "how-to",
-      "word_count": 1500,
-      "evidence": "High-competition SERP (Google support, BrightLocal, Birdeye, Podium). visionary-marketing.co.uk lists count, recency, velocity and sentiment as review signals. Distinct angle needed to compete.",
-      "discipline": "SEO/AEO",
-      "priority": 64.4,
-      "owner_input": "How 'Aiwi Waffles actually asks for Google reviews (signage, receipts, staff, nothing yet).",
-      "difficulty_est": 58,
-      "semrush_volume": 480,
-      "semrush_kd": 44,
-      "semrush_intent": "informational",
-      "semrush_action": "keep",
-      "semrush_note": "Kept; head variant 880/54 too hard. Relevancy 7."
-    },
-    {
       "order": 127,
       "planned_run": null,
-      "status": "in-review",
-      "branch": "content/working-for-yourself",
+      "status": "published",
+      "branch": null,
       "topic": "working-for-yourself",
       "cluster": "Working for yourself",
       "role": "spoke",
@@ -6064,8 +6067,8 @@
     {
       "order": 128,
       "planned_run": null,
-      "status": "in-review",
-      "branch": "content/working-for-yourself",
+      "status": "published",
+      "branch": null,
       "topic": "working-for-yourself",
       "cluster": "Working for yourself",
       "role": "spoke",
