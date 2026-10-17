@@ -89,6 +89,7 @@ export function pageFacts(html, url) {
     jsonLd: [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => match[1]),
     text,
     prose: proseBlocks(body),
+    wikipedia: /\shref=["']?https?:\/\/[^"'\s>]*wikipedia\.org/i.test(body),
   }
 }
 
@@ -137,6 +138,8 @@ export function pageProblems(facts, site) {
   if (SYMBOL.test(facts.text)) say('has an emoji or symbol character in its text (draw it with Arrow.astro or an SVG)')
   for (const phrase of repeatedPhrases(facts.prose ?? [])) say(`repeats "${phrase}" in one sentence`)
   for (const sentence of doubledSentences(facts.prose ?? [])) say(`repeats the sentence "${sentence}" back to back`)
+  // The owner, 2026-10-16: Wikipedia is unreliable; it is for leads, never a cited source.
+  if (facts.wikipedia) say('links to Wikipedia (cite an authoritative source instead)')
   return problems
 }
 

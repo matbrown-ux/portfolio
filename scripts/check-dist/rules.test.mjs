@@ -330,3 +330,17 @@ describe('siteProblems', () => {
     expect(siteProblems({ ...base, pages: [pageFacts(page({ h1: 2 }), url)] })).toEqual([`${url}: has 2 h1 elements, expected 1`])
   })
 })
+
+describe('Wikipedia links', () => {
+  const wiki = `${url}: links to Wikipedia (cite an authoritative source instead)`
+
+  it('fails a link to any Wikipedia page, in any language or on mobile', () => {
+    for (const href of ['https://en.wikipedia.org/wiki/Hawaiian_Pidgin', 'http://haw.wikipedia.org/wiki/Hawaii', 'https://en.m.wikipedia.org/wiki/Kama%CA%BB%C4%81ina']) {
+      expect(problems({ body: `See <a href="${href}">this</a>.` })).toEqual([wiki])
+    }
+  })
+
+  it('allows the word Wikipedia in text and links to other sites', () => {
+    expect(problems({ body: 'I never cite Wikipedia. See <a href="https://www.hawaii.edu/satocenter/">the Sato Center</a>.' })).toEqual([])
+  })
+})
