@@ -93,6 +93,8 @@ An occasional "damn" or "hell" where it lands, at most once or twice in an artic
 
 **Never:** corporate speak and lingo ("synergy", "circle back", "stakeholder alignment", "value-add", "best-in-class", "move the needle", "low-hanging fruit"), plus every word banned in `CLAUDE.md` section 2 and `article-routine.md` section 3 (apart from "unlock").
 
+**Spell it Hawai'i,** with the okina (written as a straight apostrophe, like O'ahu and 'Aiwi), in visible copy. Keep "Hawaii" only in proper names that use it (Hawaii Standard Time, Hawaii News Now) and in search keywords. Kanaka are the people from here; kama'aina are residents who moved here and stayed (owner, 2026-10-16).
+
 **"Passionate" stays banned,** even though he wants readers to see that he is passionate about the work and about being a good person. Show it through the care and detail in the article, and through how much he wants the reader to succeed. Never say it.
 
 ## 6. Stories
