@@ -12,11 +12,14 @@ import { person } from '../content/person'
 import { analytics } from '../content/analytics'
 import { BLOG_FEED_TITLE } from '../lib/blog'
 import { beacon } from '../lib/analytics'
+import { pageTitle } from '../lib/pageTitle'
 import { LOADER_HEAD_SCRIPT } from '../lib/siteLoader'
 import { pageUrl, personNode, websiteNode, type Node } from '../lib/structuredData'
 
 interface Props {
   title: string
+  /** A shorter title for search results when `title` is a long display headline. */
+  seoTitle?: string
   description: string
   type?: 'website' | 'article'
   noindex?: boolean
@@ -26,9 +29,9 @@ interface Props {
   schema?: Node[]
 }
 
-const { title, description, type = 'website', noindex = false, fill = false, schema = [] } = Astro.props
+const { title, seoTitle, description, type = 'website', noindex = false, fill = false, schema = [] } = Astro.props
 const cloudflare = beacon(analytics, { context: process.env.CONTEXT })
-const fullTitle = `${title} | Mathew Brown`
+const fullTitle = pageTitle(title, seoTitle)
 const canonical = pageUrl(Astro.url.pathname)
 const siteNodes = [personNode(person, disciplines.map((discipline) => discipline.title), new URL(portrait.src, Astro.site).href), websiteNode()]
 ---

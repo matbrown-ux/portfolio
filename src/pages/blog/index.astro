@@ -19,7 +19,7 @@ const sections = blogSections(disciplines, extraBlogSections)
 const intro = indexIntro(topics.length, disciplines.length, countOutsideServices(sections, topics))
 ---
 
-<BaseLayout title="Blog" description={BLOG_DESCRIPTION} schema={[blogNode(BLOG_DESCRIPTION)]}>
+<BaseLayout title="UX/UI, SEO & AI Automation Blog" description={BLOG_DESCRIPTION} schema={[blogNode(BLOG_DESCRIPTION)]}>
   <BlogHeader topics={countLabel(topics.length, 'topic', 'topics')} articles={countLabel(articles.length, 'article', 'articles')} />
   {latest && <LatestArticle card={latest} />}
   {

@@ -19,6 +19,8 @@ const caseStudies = defineCollection({
   schema: z.object({
     title: z.string(),
     headline: z.string(),
+    /** A shorter title for search results, when the headline is too long for one. */
+    seoTitle: z.string().optional(),
     summary: z.string(),
     date: z.coerce.date(),
     /** Position in the owner's order of case studies; ones without it follow, newest first. */
@@ -51,6 +53,7 @@ const blogTopics = defineCollection({
   schema: z.strictObject({
     title: z.string(),
     headline: z.string(),
+    seoTitle: z.string().optional(),
     description: z.string(),
     discipline: z.enum(sectionSlugs),
     order: z.number().int(),
@@ -67,6 +70,7 @@ const blogArticles = defineCollection({
   }),
   schema: z.strictObject({
     title: z.string(),
+    seoTitle: z.string().optional(),
     description: z.string(),
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),

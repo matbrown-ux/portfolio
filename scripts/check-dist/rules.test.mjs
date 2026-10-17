@@ -344,3 +344,15 @@ describe('Wikipedia links', () => {
     expect(problems({ body: 'I never cite Wikipedia. See <a href="https://www.hawaii.edu/satocenter/">the Sato Center</a>.' })).toEqual([])
   })
 })
+
+describe('title length', () => {
+  it('fails an indexable title over 60 characters, counting &amp; as one', () => {
+    const long = 'A'.repeat(53) + ' | UX/UI'
+    expect(problems({ title: long })).toEqual([`${url}: title is 61 characters, over 60 (give the page a shorter seoTitle)`])
+    expect(problems({ title: 'A'.repeat(48) + ' &amp; B | UX/UI' })).toEqual([])
+  })
+
+  it('skips noindex pages', () => {
+    expect(problems({ noindex: true, title: 'A'.repeat(80) }, { sitemap: new Set(), files: site.files })).toEqual([])
+  })
+})
