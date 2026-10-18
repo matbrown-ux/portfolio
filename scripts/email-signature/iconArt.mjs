@@ -52,7 +52,7 @@ export function iconSvg(strokes, progress) {
     const length = strokeLength(stroke)
     const drawn = Math.min(length, budget)
     budget -= drawn
-    if (drawn <= 0) break
+    if (drawn < 1e-6) continue
     const points = stroke.map(([x, y]) => `${num(x)},${num(y)}`).join(' ')
     lines.push(
       `<polyline points="${points}" stroke-dasharray="${num(length)} ${num(length)}" ` +

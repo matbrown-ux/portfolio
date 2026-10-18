@@ -1,14 +1,10 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { renderSignature } from './signatureHtml.mjs'
+import { parseBase } from './pageArgs.mjs'
 
-/** Reads --base <url> from the arguments, defaulting to the live site. */
-function parseBase(args) {
-  const at = args.indexOf('--base')
-  return at === -1 ? 'https://matbrown.io' : args[at + 1]
-}
-
-const signature = renderSignature(parseBase(process.argv.slice(2)))
+const base = parseBase(process.argv.slice(2))
+const signature = renderSignature(base)
 
 const page = `<!doctype html>
 <html lang="en">
@@ -30,4 +26,4 @@ ${signature}
 const out = fileURLToPath(new URL('../../.email-signature/index.html', import.meta.url))
 mkdirSync(new URL('../../.email-signature/', import.meta.url), { recursive: true })
 writeFileSync(out, page)
-console.log(`Wrote ${out} (signature ${signature.length} characters)`)
+console.log(`Wrote ${out} (base ${base}, signature ${signature.length} characters)`)

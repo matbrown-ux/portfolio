@@ -49,6 +49,13 @@ describe('iconSvg and iconFrame', () => {
     expect(lines[0]).toContain('stroke-dashoffset="7"')
   })
 
+  it('a progress at a stroke boundary draws exactly that stroke despite float residue', () => {
+    for (const [a, b] of [[3, 7], [0.7, 0.5], [0.9, 0.8], [0.7, 0.6]]) {
+      const strokes = [[[2, 4], [2 + a, 4]], [[2, 10], [2 + b, 10]]]
+      expect(polylines(iconSvg(strokes, a / (a + b)))).toHaveLength(1)
+    }
+  })
+
   it('progress 1 draws every stroke', async () => {
     for (const name of ['linkedin', 'github']) {
       const svg = iconSvg(ICONS[name], 1)

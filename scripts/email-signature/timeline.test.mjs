@@ -17,11 +17,15 @@ describe('timeline', () => {
   it('writes the name, then linkedin, then github', () => {
     expect(progressAt(7.2).name).toBeCloseTo(0.5)
     expect(progressAt(8.6)).toMatchObject({ name: 1, github: 0 })
+    const mid = progressAt(8.6)
+    expect(mid.linkedin).toBeGreaterThan(0)
+    expect(mid.linkedin).toBeLessThan(1)
     expect(progressAt(9.39).github).toBeGreaterThan(0.99)
   })
   it('schedules 2 cs frames that sum to one cycle', () => {
     const s = frameSchedule()
     expect(s.every((f) => f.delayCs === STEP_CS)).toBe(true)
+    expect(CYCLE_CS).toBe(940)
     expect(s.reduce((n, f) => n + f.delayCs, 0)).toBe(CYCLE_CS)
     expect(s[0].t).toBe(0)
     expect(s).toHaveLength(470)

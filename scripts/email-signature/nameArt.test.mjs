@@ -6,8 +6,9 @@ const square = { d: 'M0 0H100V100H0Z', box: { minX: 0, minY: 0, maxX: 100, maxY:
 describe('nameMask', () => {
   it('rasterizes to the 2x size times ss', async () => {
     const { mask, width, height } = await nameMask(square)
-    expect(height).toBe((NAME.inkHeight2x + 2 * NAME.pad2x) * NAME.ss)
-    expect(width % NAME.ss).toBe(0)
+    expect(height).toBeGreaterThanOrEqual((NAME.inkHeight2x + 2 * NAME.pad2x) * NAME.ss)
+    expect(width % (2 * NAME.ss)).toBe(0)
+    expect(height % (2 * NAME.ss)).toBe(0)
     expect(mask.length).toBe(width * height)
     expect(mask.some((v) => v === 1)).toBe(true)
   })

@@ -14,8 +14,9 @@ export async function nameMask({ d, box }) {
   const boxH = box.maxY - box.minY
   const scale = (inkHeight2x * ss) / boxH
   const pad = pad2x * ss
-  const width = Math.ceil((boxW * scale + 2 * pad) / ss) * ss
-  const height = Math.ceil((inkHeight2x * ss + 2 * pad) / ss) * ss
+  // Multiples of 2 * ss, so the 2x size halves to a whole pixel with no stretch.
+  const width = Math.ceil((boxW * scale + 2 * pad) / (2 * ss)) * 2 * ss
+  const height = Math.ceil((inkHeight2x * ss + 2 * pad) / (2 * ss)) * 2 * ss
   // The viewBox spans the padded canvas in font units.
   const vx = box.minX - pad / scale
   const vy = box.minY - pad / scale
