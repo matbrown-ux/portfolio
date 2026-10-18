@@ -17,7 +17,8 @@
     "typecheck": "astro check",
     "script-art": "node scripts/script-art/generate.mjs",
     "favicons": "node scripts/favicons/generate.mjs",
-    "prepare": "git config core.hooksPath .githooks 2>/dev/null || true"
+    "prepare": "git config core.hooksPath .githooks 2>/dev/null || true",
+    "email-signature": "node scripts/email-signature/generate.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.4.3",
