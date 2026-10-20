@@ -298,8 +298,8 @@
     {
       "order": 3,
       "planned_run": "2026-10-19",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/local-seo-case-study-aiwi-waffles",
       "topic": "technical-seo",
       "cluster": "Local SEO and Google Business Profile",
       "role": "pillar",
