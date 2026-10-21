@@ -1,0 +1,212 @@
+---
+title: "Answer engine optimization (AEO): a practical guide for small businesses"
+seoTitle: "Answer engine optimization: a small business guide"
+description: "I sort AEO tactics into what the engines document and what is a guess, then give you the short list I would do first if you own a small business."
+date: "2026-10-21"
+keywords: ["answer engine optimization", "aeo", "what is answer engine optimization", "aeo meaning", "how does answer engine optimization work"]
+---
+
+Answer engine optimization (AEO) is the work of making your business easy for AI tools like Google's AI Overviews, ChatGPT and Perplexity to find, understand and name in their answers. It mostly means good SEO, plain answers near the top of your pages, accurate listings and other sites mentioning you. You don't need a secret file or special markup.
+
+## What is answer engine optimization?
+
+Answer engine optimization is the practice of getting your content quoted or cited when an AI tool answers a question. When you ask Google something and an AI overview pops up with a few links under it, that is an answer engine at work. Getting your business into those answers is AEO.
+
+There's a lot of information out there about this, and most of it is written by companies selling AEO software or services, so it gets overwhelming fast and some of it sounds like a timeshare pitch. I sort it by how much evidence sits behind each claim, because that is the only way I have found to tell what is worth your time.
+
+The vocabulary, simply:
+
+<Terms>
+<Term name="Answer engine">
+
+Any tool that answers a question directly instead of handing you a list of links. Google's AI Overviews and AI Mode, ChatGPT search and Perplexity all fit.
+
+</Term>
+<Term name="AEO (answer engine optimization)">
+
+Making your content and your business easy for those tools to find, understand and cite.
+
+</Term>
+<Term name="GEO (generative engine optimization)">
+
+A close cousin that most guides treat as nearly the same job.
+
+</Term>
+</Terms>
+
+![A speech bubble leads to a stack of three pages, which leads to one short answer card with three link tabs.](./images/answer-engine-optimization-guide-1.png)
+
+## How does answer engine optimization work?
+
+An answer engine looks up pages that match a question, reads the useful parts and writes a short answer with links to its sources. To be one of those sources, your page has to be crawlable, indexed, clear about what it says and trustworthy enough that a tool is willing to name it.
+
+Google describes its version on its page <a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener" aria-label="Google's AI features and your website page, opens in a new tab">AI features and your website</a>. AI Overviews and AI Mode show links to supporting websites, and they may use what Google calls "query fan-out," which means the system runs several related searches behind the scenes to find more pages. The page also says AI Overviews are only shown when Google's systems decide they are additive to classic Search, so they often don't appear at all.
+
+In plain steps:
+
+1. Someone asks a question, often a long and conversational one.
+2. The engine searches, sometimes for several related questions at once.
+3. It reads the pages it finds and writes one answer.
+4. It shows links to the pages that supported the answer.
+
+Your levers are in steps 2 to 4: be findable, be readable and be worth naming. Everything else in this guide is a version of that.
+
+![Four boxes joined by arrows: a speech bubble, a page under a magnifying glass, a page with highlighted lines, and an answer card with link tabs.](./images/answer-engine-optimization-guide-2.png)
+
+## Are answer engine optimization and generative engine optimization the same?
+
+For a small business, yes, close enough. Both terms describe getting your content used and cited by AI tools. The guides I read draw fine lines between them, and they don't agree with each other, so I treat AEO and GEO as one job with two names.
+
+NoGood's <a href="https://nogood.io/blog/aeo-guide/" target="_blank" rel="noopener" aria-label="NoGood's AEO guide, opens in a new tab">AEO guide</a> lists AEO, GEO, LLM SEO, LLMO and AIO as overlapping terms and uses "AEO" throughout. It says AEO is about being found and cited, while GEO is about being worth citing in the first place. That makes a nice line, but you can't do one without the other: a page nobody can find never gets cited, and a page not worth citing never does either.
+
+I use "AEO" here because it's the term people search for. If an agency says GEO is a different service that costs extra, ask what they do differently.
+
+## How do I optimize for answer engines in 2026?
+
+Start with what holds across engines: pages that can be crawled and indexed, answers placed near the top, content that carries real experience, accurate business listings, and other sites that mention you. Add a way to measure it. Skip anything that claims a special file or markup is required.
+
+Here are those steps in the order I would do them.
+
+### Make sure the engines can reach you
+
+Google's page says a page must be "indexed and eligible to be shown in Google Search with a snippet" to appear as a supporting link, and that "there are no additional technical requirements." It lists the usual basics as still applying: allow crawling in robots.txt, link your pages to each other, provide a good page experience and keep important content in text form.
+
+For ChatGPT, OpenAI documents its crawlers on its <a href="https://developers.openai.com/api/docs/bots" target="_blank" rel="noopener" aria-label="OpenAI's crawler documentation, opens in a new tab">bots page</a>. It names three that matter here:
+
+<Terms>
+<Term name="OAI-SearchBot">
+
+Surfaces websites in ChatGPT's search features. OpenAI says sites that are opted out of it "will not be shown in ChatGPT search answers," and it recommends allowing it in your robots.txt.
+
+</Term>
+<Term name="GPTBot">
+
+Crawls content that may be used to train OpenAI's models. Disallowing it says your content should not be used for training. This one is independent of search visibility.
+
+</Term>
+<Term name="ChatGPT-User">
+
+Fetches a page when a person asks ChatGPT about it. OpenAI says it is not used to decide whether content appears in search.
+
+</Term>
+</Terms>
+
+So you can allow ChatGPT search and still opt out of training, because each setting stands alone. A robots.txt that does that looks like this:
+
+```txt
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: GPTBot
+Disallow: /
+```
+
+Blocking training is your call. What you want to avoid is blocking search by accident, because a security plugin or a host's default rules can do it without telling you, and a look at your own robots.txt takes about a minute.
+
+This site's robots.txt allows everything and points to a sitemap, because my site is simple.
+
+### Put the answer first
+
+Open each page, and each section, with a plain answer to the question the heading asks, in a couple of sentences. Then give the detail. A person skimming gets what they came for, and a tool pulling a passage gets a clean one.
+
+Some of the advice here gets very specific with no evidence behind it. NoGood says a 40 to 50 word opening paragraph is the best length for being picked up, and it doesn't source that. I follow roughly that length because it forces me to be direct. It's a good writing habit, and nobody has shown me it is a ranking rule.
+
+### Write for people, with real experience in it
+
+Google's guidance on <a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" target="_blank" rel="noopener" aria-label="Google's helpful content guidance, opens in a new tab">creating helpful, reliable, people-first content</a> asks for first-hand experience and real depth of knowledge, like having actually used a product or visited a place. It says trust is the most important part of E-E-A-T (experience, expertise, authoritativeness and trustworthiness). It adds that the framework is not a direct ranking factor but helps identify good content.
+
+It also warns against mass-producing pages on many topics, summarizing other people's work without adding anything, and changing dates to look fresh without real updates.
+
+For a small business, this is your advantage. A Waikiki waffle shop knows things a content farm can't. Write those things down on your own site, with your name on them.
+
+### Keep your listings accurate
+
+Google's page says to keep your Merchant Center and Business Profile information current. Your Google Business Profile (the free listing on Maps and in search with your hours, photos and reviews) is one of the first places an answer engine looks, so wrong hours there become wrong answers everywhere.
+
+I walk through a real example in my <a href="/blog/technical-seo/local-seo-case-study-aiwi-waffles">local SEO case study</a>.
+
+### Get mentioned elsewhere
+
+Profound's <a href="https://www.tryprofound.com/resources/white-papers/answer-engine-optimization" target="_blank" rel="noopener" aria-label="Profound's answer engine optimization guide, opens in a new tab">guide to AEO</a> recommends earning citations on third-party sites like review platforms and industry publications, so other sources vouch for you. That matches how I think about it, since an engine that reads several pages trusts a claim more when more than one place says it. Profound doesn't show the data behind that, so treat it as a sensible habit and not a measured result.
+
+The practical version: get honest reviews, get listed in the directories your customers use, and say the same thing about your business everywhere. If your name, address and description differ on each site, that's a small mess you can fix this week.
+
+![Five slabs stacked like a tower, with a map pin on the vermilion slab second from the top.](./images/answer-engine-optimization-guide-3.png)
+
+## What tactics does Google say you don't need?
+
+Google says you don't need special files, special markup or AI-only content to appear in AI Overviews and AI Mode. That covers new "AI text files" and special schema.org structured data. Its advice is to keep doing the SEO basics and keep any markup consistent with what the page shows.
+
+These are Google's exact lines, and this is where the most money gets wasted:
+
+- "There are no additional requirements to appear in AI Overviews or AI Mode, nor other special optimizations necessary."
+- "There's also no special schema.org structured data that you need to add."
+- "You don't need to create new machine readable files, AI text files, or markup to appear in these features."
+
+The page does not mention llms.txt by name, and I'm not going to claim Google said something it didn't. Its "AI text files" line covers the idea, though, so for Google's features the file isn't a requirement. This site publishes an llms.txt because it costs me nothing, but I wouldn't tell you it gets anyone cited. Whether other engines read it is a separate question, and I have no evidence either way.
+
+Structured data (JSON-LD, the code that labels your page for machines) is still worth doing right for other reasons. Google asks that it stay consistent with the visible text. I only put facts in mine that the page shows. That's a good rule for anything you add to a page.
+
+## How do I sort AEO tactics by evidence?
+
+Sort every tactic into three piles: documented by the engine itself, plausible but unproven, and unsupported. Do the first pile before you touch the others. Most paid AEO advice lives in the second and third piles, and a good provider will tell you which is which.
+
+| Tactic | Evidence I found | My call |
+| --- | --- | --- |
+| Crawlable, indexed pages with text content | Google's AI features page | Do it |
+| Allow OAI-SearchBot for ChatGPT search | OpenAI's bots page | Do it |
+| Accurate Business Profile | Google's AI features page | Do it |
+| People-first content with real experience | Google's helpful content page | Do it |
+| Answer-first writing | Widely recommended, length claims unsourced | Do it, don't obsess over word counts |
+| Mentions on third-party sites | Recommended by vendors, no data shown | Do it, it's good business anyway |
+| FAQ, HowTo and similar schema for AI | Vendor claims, and Google says no special schema is needed | Only if the markup matches the page |
+| llms.txt | Not mentioned by Google, no evidence from other engines found | Optional, low cost |
+| "Freshness" updates with no real change | Google lists this as a warning sign | Skip |
+
+That table is a snapshot of what I read this week, and the engines change their documentation.
+
+## How can a business improve its answer engine optimization?
+
+Pick one page that matters, such as your main service or your location page, and fix it end to end: put a plain answer at the top, make it match your listings, add something only you know, and check that it's indexed. Then measure and move to the next page. A first pass takes an afternoon:
+
+1. Search your own business name and two questions a customer would ask in Google, ChatGPT and Perplexity. Write down what comes back, and whether you're named.
+2. Open your robots.txt and make sure you haven't blocked search crawlers.
+3. Open your Google Business Profile and fix anything out of date.
+4. Rewrite the top of your most important page so it answers the question in two or three sentences.
+5. Add one thing to it that only you could write: a real example, a photo you took, a number you can source.
+6. Ask for one honest review you don't already have.
+
+Answers in step 1 vary by person, location and day, so a single check is a snapshot. I log the date and time when I run one, and you should too.
+
+### How do I measure it?
+
+Google says links shown in AI Overviews and AI Mode are reported in Search Console's Performance report, under the Web search type, and count toward your overall Search traffic. It also suggests tracking conversions and engagement in a tool like Google Analytics. That is the measurement I trust today, because it comes from Google.
+
+For the other engines, you can run the same questions by hand every month and write down what you see. Profound's guide describes a "visibility score" that compares how often your brand appears against competitors, and it doesn't define the formula, so I'd take the idea and skip the number. Paid tools exist, and for a shop with one location I'd try the cheap manual check first.
+
+## Which agencies handle both SEO and AEO?
+
+Most SEO agencies now say they do both, and since Google says AI search is built on the same foundations as classic SEO, that is a reasonable claim. What matters is whether they can show you the work.
+
+Ask any provider, me included:
+
+- Which of your tactics does an engine's own documentation support, and which are your best guess?
+- Do you sell a file or markup as the thing that gets me cited?
+- How will I know it worked, and what will you show me in month three?
+- Will you promise a placement? (If yes, walk away. No one controls what an AI tool says.)
+
+The pitch "we'll get you into ChatGPT" looks great, honestly, right up until you ask how and get a lot of confident hand-waving.
+
+I do this work myself. SEO/AEO is one of my five services, and the technical side, the content structure and the schema are all things I build and fix directly on client sites.
+
+## How does this look on a real project?
+
+On 'Aiwi Waffles, a waffle shop in Waikiki, I am the lead designer, developer and SEO/AEO person. The shop ranks #1 on Google for multiple local searches. I also ran three questions through four tools, and the details are in the <a href="/blog/technical-seo/local-seo-case-study-aiwi-waffles">local SEO case study</a>.
+
+On October 16, 2026, around 7:30pm Hawaii time, I ran "best waffles in Waikiki," "best gluten-free breakfast in Honolulu" and "where can I get gluten-free waffles on Oahu" in Google AI Mode, ChatGPT, Gemini and Perplexity, logged out. 'Aiwi appeared in all 12 answers and was first in 8. It was a one-evening snapshot, and I'd run it again before leaning on it.
+
+I built the shop's site and I handle its Business Profile and local SEO, the same things this guide keeps coming back to. The full story is in the <a href="/work/aiwi-waffles">'Aiwi Waffles case study</a>.
+
+If you own a business and you're thinking "cool, but I just need people to find me," that is exactly the job. AEO is the same careful work as good SEO, so you don't have to buy it as a separate project. It pays you back every time a customer finds you without a click on an ad, which is why it costs more than a $1,000 template. If you want it dialed in for your business, look at my <a href="/services">services</a> and get in touch.
+
+If you're a designer or developer, start with the unglamorous parts: check your client's robots.txt, make sure the important text is real HTML, and keep any structured data honest. There are more posts like this under <a href="/blog/answer-engine-optimization">Answer Engine Optimization</a>.
