@@ -298,7 +298,7 @@
     {
       "order": 3,
       "planned_run": "2026-10-19",
-      "status": "in-review",
+      "status": "published",
       "branch": "article/local-seo-case-study-aiwi-waffles",
       "topic": "technical-seo",
       "cluster": "Local SEO and Google Business Profile",
@@ -349,8 +349,8 @@
     {
       "order": 4,
       "planned_run": "2026-10-21",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/answer-engine-optimization-guide",
       "topic": "answer-engine-optimization",
       "cluster": "AEO foundations",
       "role": "pillar",
