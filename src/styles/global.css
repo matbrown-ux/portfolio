@@ -609,6 +609,9 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   font-size: 1.25em;
   line-height: 1.1;
   text-transform: uppercase;
+  /* Display type never breaks inside a word: the prose's `anywhere` would cut PARALLELIZATION
+     into PARALLELIZATIO and N. A name breaks only at a space or its own hyphen. */
+  overflow-wrap: normal;
 }
 
 .article-terms dd {
@@ -620,8 +623,17 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   margin-top: 0.6rem;
 }
 
+/* The rows share one name column, as wide as the longest word in any name (at least 9rem), so
+   every description starts on the same line. */
 @media (width >= 40rem) {
+  .article-terms {
+    display: grid;
+    grid-template-columns: minmax(9rem, min-content) 1fr;
+    column-gap: 1.5rem;
+  }
+
   .article-terms > div {
-    grid-template-columns: 9rem 1fr;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
   }
 }
