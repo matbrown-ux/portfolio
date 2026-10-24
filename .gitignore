@@ -49,3 +49,4 @@ auth.json
 
 # Playwright MCP output
 .playwright-mcp/
+.email-signature/
