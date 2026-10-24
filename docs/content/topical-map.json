@@ -349,7 +349,7 @@
     {
       "order": 4,
       "planned_run": "2026-10-21",
-      "status": "in-review",
+      "status": "published",
       "branch": "article/answer-engine-optimization-guide",
       "topic": "answer-engine-optimization",
       "cluster": "AEO foundations",
@@ -401,8 +401,8 @@
     {
       "order": 5,
       "planned_run": "2026-10-23",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/agentic-workflows-explained",
       "topic": "agentic-workflows",
       "cluster": "Foundations",
       "role": "pillar",
