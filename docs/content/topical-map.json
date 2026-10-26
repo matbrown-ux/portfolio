@@ -452,8 +452,8 @@
     {
       "order": 6,
       "planned_run": "2026-10-26",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/small-business-automation",
       "topic": "ai-automation",
       "cluster": "Foundations",
       "role": "pillar",
