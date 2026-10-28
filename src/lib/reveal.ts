@@ -1,4 +1,4 @@
-import { gsap, type ScrollTrigger } from './gsap'
+import { gsap, ScrollTrigger } from './gsap'
 import { DURATION, EASE, prefersReducedMotion, STAGGER } from './motionTokens'
 import { loaderActive, whenPageRevealed } from './siteLoader'
 
@@ -91,6 +91,22 @@ function scrollTriggerFor(el: HTMLElement, kind: RevealKind): ScrollTrigger.Vars
   return { trigger: el, start: revealStart(kind), once: true }
 }
 
+/**
+ * For an image whose file has not arrived (a lazy image fetches only as it nears the screen),
+ * a promise that settles once it loads or fails; otherwise null. A reveal that played before
+ * then would animate an empty box, and the finished image would pop in after it. A lazy image is
+ * fetched at once: a wipe's start state clips it away, and the browser never fetches a lazy image
+ * it cannot see, so the reveal would wait for it forever.
+ */
+function imageLoading(el: HTMLElement): Promise<void> | null {
+  if (!(el instanceof HTMLImageElement) || el.complete) return null
+  if (el.getAttribute('loading') === 'lazy') el.setAttribute('loading', 'eager')
+  return new Promise((resolve) => {
+    el.addEventListener('load', () => resolve(), { once: true })
+    el.addEventListener('error', () => resolve(), { once: true })
+  })
+}
+
 /** Set on <html> once reveals no longer need the stylesheet to hold them hidden. */
 const READY_CLASS = 'reveals-ready'
 
@@ -127,6 +143,8 @@ export function initReveals(root: ParentNode = document): () => void {
           ? { ...parsed, onLoad: false, delay: parsed.scrollDelay }
           : parsed
       const { from, to } = revealTween(config.kind)
+      const loading = imageLoading(el)
+      const held = (config.onLoad && holdForLoader) || loading !== null
       const tween = gsap.fromTo(el, from, {
         ...to,
         duration: DURATION.slow,
@@ -136,10 +154,15 @@ export function initReveals(root: ParentNode = document): () => void {
         // for a frame once the stylesheet's hold is released.
         lazy: false,
         clearProps: revealClearProps(config.kind),
-        scrollTrigger: config.onLoad ? undefined : scrollTriggerFor(el, config.kind),
-        paused: config.onLoad && holdForLoader,
+        scrollTrigger: config.onLoad || loading ? undefined : scrollTriggerFor(el, config.kind),
+        paused: held,
       })
-      if (config.onLoad && holdForLoader) whenPageRevealed().then(() => tween.play())
+      if (config.onLoad && held) {
+        Promise.all([holdForLoader ? whenPageRevealed() : null, loading]).then(() => tween.play())
+      } else if (loading) {
+        // A still-loading image keeps its own trigger, which plays the tween once the file is in.
+        ScrollTrigger.create({ ...scrollTriggerFor(el, config.kind), onEnter: () => loading.then(() => tween.play()) })
+      }
       tweens.set(el, tween)
     })
   }, root)

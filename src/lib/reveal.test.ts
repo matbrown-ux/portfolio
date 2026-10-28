@@ -23,6 +23,15 @@ function el(attrs: Record<string, string>) {
   return node
 }
 
+/** An image whose file has not arrived yet, as a lazy-loaded image is until it nears the screen. */
+function loadingImage(attrs: Record<string, string>) {
+  const node = document.createElement('img')
+  for (const [name, value] of Object.entries(attrs)) node.setAttribute(name, value)
+  Object.defineProperty(node, 'complete', { value: false, configurable: true })
+  document.body.append(node)
+  return node
+}
+
 describe('parseReveal', () => {
   it('reads kind, delay and trigger', () => {
     expect(parseReveal(el({ 'data-reveal': 'wipe', 'data-reveal-delay': '0.25', 'data-reveal-on': 'load' }))).toEqual({
@@ -225,6 +234,63 @@ describe('initReveals', () => {
     const node = el({ 'data-reveal': 'fade', 'data-reveal-on': 'load' })
     const cleanup = initReveals()
     expect(gsap.getTweensOf(node)[0].paused()).toBe(false)
+    cleanup()
+  })
+
+  it('holds a load reveal on an image at its start state until the image has loaded, then plays it', async () => {
+    const image = loadingImage({ 'data-reveal': 'wipe', 'data-reveal-on': 'load' })
+    const cleanup = initReveals()
+    const [tween] = gsap.getTweensOf(image)
+    expect(image.style.clipPath).not.toBe('')
+    expect(tween.paused()).toBe(true)
+    image.dispatchEvent(new Event('load'))
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(tween.paused()).toBe(false)
+    cleanup()
+  })
+
+  it('waits for an image that is still loading when its scroll trigger fires, then plays it', async () => {
+    const image = loadingImage({ 'data-reveal': 'wipe' })
+    // Far below the screen, so the trigger has not fired when it is created.
+    const below = window.innerHeight * 3
+    image.getBoundingClientRect = () => ({ top: below, bottom: below + 100, left: 0, right: 100, width: 100, height: 100, x: 0, y: below }) as DOMRect
+    const cleanup = initReveals()
+    const [tween] = gsap.getTweensOf(image)
+    const trigger = ScrollTrigger.getAll().find((t) => t.trigger === image)
+    expect(trigger?.vars.start).toBe('top 85%')
+    expect(tween.paused()).toBe(true)
+    trigger?.vars.onEnter?.(trigger)
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(tween.paused()).toBe(true)
+    image.dispatchEvent(new Event('load'))
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(tween.paused()).toBe(false)
+    cleanup()
+  })
+
+  // A wipe's start state clips the image away entirely, and the browser never fetches a lazy
+  // image it cannot see, so the reveal would wait for a file that never comes.
+  it('fetches a lazy image it is holding at once, since the browser will not fetch one that is clipped away', () => {
+    const image = loadingImage({ 'data-reveal': 'wipe', loading: 'lazy' })
+    const cleanup = initReveals()
+    expect(image.getAttribute('loading')).toBe('eager')
+    cleanup()
+  })
+
+  it('plays a reveal on an image that failed to load, so it is never left hidden', async () => {
+    const image = loadingImage({ 'data-reveal': 'wipe', 'data-reveal-on': 'load' })
+    const cleanup = initReveals()
+    image.dispatchEvent(new Event('error'))
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(gsap.getTweensOf(image)[0].paused()).toBe(false)
+    cleanup()
+  })
+
+  it('reveals an image that has already loaded the same way as any other element', () => {
+    const image = loadingImage({ 'data-reveal': 'wipe' })
+    Object.defineProperty(image, 'complete', { value: true })
+    const cleanup = initReveals()
+    expect(gsap.getTweensOf(image)[0].scrollTrigger).toBeDefined()
     cleanup()
   })
 
