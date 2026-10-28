@@ -58,10 +58,10 @@ export function heroCapture(media: StudyEntry['data']['media']): string | undefi
 export function shareCards(input: { sections: BlogSection[]; caseStudies: StudyEntry[]; topics: TopicEntry[]; articles: ArticleEntry[] }): ShareCard[] {
   const { sections, caseStudies, topics, articles } = input
   return [
-    { path: '/', label: 'Mathew Brown', title: 'UX/UI engineer & SEO specialist', address: 'matbrown.io' },
+    { path: '/', label: 'Mat Brown', title: 'UX/UI engineer & SEO specialist', address: 'matbrown.io' },
     { path: '/work', label: 'Work', title: 'UX/UI engineering & SEO case studies', address: 'matbrown.io / work' },
     { path: '/services', label: 'Services', title: 'UX/UI, SEO & AI workflow services', address: 'matbrown.io / services' },
-    { path: '/about', label: 'About', title: 'Mathew Brown', address: 'matbrown.io / about' },
+    { path: '/about', label: 'About', title: 'Mat Brown', address: 'matbrown.io / about' },
     { path: '/contact', label: 'Contact', title: 'Start a project', address: 'matbrown.io / contact' },
     { path: '/blog', label: 'Blog', title: 'Articles on UX/UI, SEO & AI workflows', address: 'matbrown.io / blog' },
     ...caseStudies.map((study) => {

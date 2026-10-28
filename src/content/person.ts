@@ -6,7 +6,7 @@ export interface Person {
   name: string
   alternateName: string
   jobTitle: string
-  /** The sentence the About page opens with. */
+  /** The one-sentence introduction used by structured data, llms.txt and Home's description. */
   description: string
   location: { locality: string; region: string; country: string }
   email: string
@@ -15,10 +15,11 @@ export interface Person {
 }
 
 export const person: Person = {
-  name: 'Mathew Brown',
-  alternateName: 'Mat Brown',
+  name: 'Mat Brown',
+  /** The formal name, kept to structured data, llms.txt and one line on About (the owner, 2026-10-27). */
+  alternateName: 'Mathew Brown',
   jobTitle: 'Freelance UX/UI Engineer, SEO/AEO Specialist and Agentic Workflow Developer',
-  description: "I'm Mathew Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer.",
+  description: "I'm Mat Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer.",
   location: { locality: "O'ahu", region: "Hawai'i", country: 'United States' },
   email: 'mat@matbrown.io',
   profiles: [

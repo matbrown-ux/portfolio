@@ -3,13 +3,13 @@ import { person } from './person'
 
 describe('person', () => {
   it('names the owner as the site does', () => {
-    expect(person.name).toBe('Mathew Brown')
-    expect(person.alternateName).toBe('Mat Brown')
+    expect(person.name).toBe('Mat Brown')
+    expect(person.alternateName).toBe('Mathew Brown')
     expect(person.email).toBe('mat@matbrown.io')
   })
 
   it('describes the owner in the first person', () => {
-    expect(person.description).toBe("I'm Mathew Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer.")
+    expect(person.description).toBe("I'm Mat Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer.")
   })
 
   it("places the owner on O'ahu", () => {

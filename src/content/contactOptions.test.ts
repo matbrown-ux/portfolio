@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { budgetRanges, MULTIPLE_SERVICES } from './contactOptions'
+import { budgetRanges, MULTIPLE_SERVICES, PRICING_NOTE } from './contactOptions'
 
 describe('contact options', () => {
   it('lists the budget ranges from smallest to largest, without hyphens or dashes', () => {
@@ -9,6 +9,11 @@ describe('contact options', () => {
 
   it('has no duplicate range', () => {
     expect(new Set(budgetRanges).size).toBe(budgetRanges.length)
+  })
+
+  it('states the one published price, a software build starting at $10,000, without dashes', () => {
+    expect(PRICING_NOTE).toBe('Software builds start at $10,000. Everything else is priced to your business after a free call.')
+    expect(PRICING_NOTE).not.toMatch(/[-\u2013\u2014]/)
   })
 
   it('names the option for more than one service', () => {

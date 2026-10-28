@@ -50,7 +50,7 @@ export function websiteNode(): Node {
   return {
     '@type': 'WebSite',
     '@id': WEBSITE_ID,
-    name: 'Mathew Brown',
+    name: 'Mat Brown',
     url: pageUrl('/'),
     inLanguage: 'en',
     publisher: { '@id': PERSON_ID },

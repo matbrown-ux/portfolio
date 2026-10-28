@@ -33,7 +33,7 @@ export function llmsTxt(input: {
   const { person, disciplines, caseStudies, articles } = input
   const where = `I'm based on ${person.location.locality}, ${person.location.region}, and work with most clients remotely.`
   return (
-    `# ${person.name}\n\n> ${person.description} ${where}\n` +
+    `# ${person.name}\n\n> ${person.description} My full name is ${person.alternateName}. ${where}\n` +
     section('Services', disciplines.map((discipline) => item(discipline.title, pageUrl(`/services#${discipline.slug}`), discipline.blurb))) +
     section('Case studies', caseStudies.map((study) => item(study.data.title, pageUrl(`/work/${study.id}`), study.data.summary))) +
     section('Articles', sortArticles(articles).map((article) => item(article.data.title, articleUrl(article.id), article.data.description))) +
