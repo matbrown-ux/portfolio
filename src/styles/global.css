@@ -231,6 +231,20 @@ html.js [data-typewriter][data-typewriter-done] + .caret {
   display: contents;
 }
 
+/* A lead block (a gallery with `lead`) opens its chapter below desktop width, above the number and
+   heading. Only those chapters become a column, so the others keep their margins as they are. */
+@media (width < 80rem) {
+  .cs-chapter:has(> .cs-chapter-body > .cs-lead) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cs-chapter-body > .cs-lead {
+    order: -1;
+    margin-top: 0;
+  }
+}
+
 /* Reading styles for prose written in a chapter. The gallery is a list too, so blocks are excluded. */
 .cs-chapter-body > :is(p, ul, ol):not(.cs-block) {
   max-width: 42rem;

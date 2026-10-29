@@ -45,10 +45,11 @@ The product had to cover all of that without asking anything technical of the ow
 
 <Chapter title="The approach">
 
-I built The Booking Flow on Astro and React, with a Supabase database, serverless functions on Netlify, Stripe for billing, Resend for email and n8n for the timed follow-ups. I also made the explainer below. It follows one lead from her 9:47 PM request to her booked estimate, and every screen and email in it is rebuilt from the product's own code and templates. The stills after it come from the same film, and the dashboard shows sample data.
+I built The Booking Flow on Astro and React, with a Supabase database, serverless functions on Netlify, Stripe for billing, Resend for email and n8n for the timed follow-ups. I also made the explainer for it, which follows one lead from her 9:47 PM request to her booked estimate, and every screen and email in it is rebuilt from the product's own code and templates. The step stills come from the same film, and the dashboard shows sample data.
 
-{/* The explainer plays muted on a loop while on screen; the words are on screen, so it reads without sound. */}
+{/* The explainer plays muted on a loop while on screen; the words are on screen, so it reads without sound. `lead` puts it at the top of this chapter on phones and tablets, where it otherwise sits among the step stills. */}
 <Gallery
+  lead
   images={[
     {
       src: "the-booking-flow/explainer.mp4",

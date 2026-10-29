@@ -12,14 +12,16 @@ interface GalleryImage {
 
 interface Props {
   images: GalleryImage[]
+  /** Below desktop width, show this gallery at the top of its chapter, above the heading. */
+  lead?: boolean
 }
 
-const { images } = Astro.props
+const { images, lead = false } = Astro.props
 const slug = Astro.params.slug
 const layout = galleryLayout(images.length)
 ---
 
-<ul role="list" class:list={['cs-block my-10 grid gap-4 px-6 md:px-12 xl:my-14', layout.grid]}>
+<ul role="list" class:list={['cs-block my-10 grid gap-4 px-6 md:px-12 xl:my-14', lead && 'cs-lead', layout.grid]}>
   {
     images.map((image, i) => (
       <li class:list={['group/item relative', layout.items[i].span]} data-reveal="rise" data-reveal-index={i}>
