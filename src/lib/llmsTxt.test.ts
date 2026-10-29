@@ -25,7 +25,7 @@ describe('llmsTxt', () => {
   const text = llmsTxt({ person, disciplines, caseStudies, articles })
 
   it('opens with the name and a summary in a quote block', () => {
-    expect(text.startsWith("# Mathew Brown\n\n> I'm Mathew Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer. I'm based on O'ahu, Hawai'i, and work with most clients remotely.\n")).toBe(true)
+    expect(text.startsWith("# Mat Brown\n\n> I'm Mat Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer. My full name is Mathew Brown. I'm based on O'ahu, Hawai'i, and work with most clients remotely.\n")).toBe(true)
   })
 
   it('lists the services with their section links', () => {

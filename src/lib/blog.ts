@@ -17,10 +17,10 @@ export interface ArticleEntry {
 
 /** The blog index's description: its meta description and its structured data. */
 export const BLOG_DESCRIPTION =
-  'Articles on UX/UI engineering, SEO and AEO, agentic workflows, brand development and SaaS development by Mathew Brown.'
+  'Articles on UX/UI engineering, SEO and AEO, agentic workflows, brand development and SaaS development by Mat Brown.'
 
 /** The blog's name: its structured data, its feed and the feed link in every page head. */
-export const BLOG_FEED_TITLE = 'Mathew Brown: articles'
+export const BLOG_FEED_TITLE = 'Mat Brown: articles'
 
 export function topicSlug(articleId: string): string {
   return articleId.split('/')[0]

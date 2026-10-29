@@ -3,7 +3,7 @@ import Arrow from '../ui/Arrow.astro'
 import { PAGE_ENTRANCE } from '../../lib/heroEntrance'
 import Confirmation from './Confirmation.astro'
 import { disciplines } from '../../content/disciplines'
-import { budgetRanges, MULTIPLE_SERVICES } from '../../content/contactOptions'
+import { budgetRanges, MULTIPLE_SERVICES, PRICING_NOTE } from '../../content/contactOptions'
 import { FALLBACK_SUBJECT } from '../../lib/contactSubject'
 
 interface Props {
@@ -89,6 +89,7 @@ const required = 'text-vermilion'
         </select>
         <span class={caret} aria-hidden="true">▾</span>
       </div>
+      <p class="mt-2 text-sm leading-relaxed text-ivory/75">{PRICING_NOTE}</p>
       <p id="budget-error" data-error-for="budget" class={error} hidden></p>
     </div>
     <div class="sm:col-span-2">

@@ -5,7 +5,7 @@ import sharp from 'sharp'
 import { describe, expect, it } from 'vitest'
 import { renderCard } from './cardRender'
 
-const home = { path: '/', label: 'Mathew Brown', title: 'UX/UI engineer & SEO specialist', address: 'matbrown.io' }
+const home = { path: '/', label: 'Mat Brown', title: 'UX/UI engineer & SEO specialist', address: 'matbrown.io' }
 
 /** The colour of one pixel of a PNG, as [r, g, b]. */
 async function pixel(png: Buffer, left: number, top: number) {

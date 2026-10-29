@@ -48,8 +48,8 @@ describe('personNode', () => {
     expect(node).toMatchObject({
       '@type': 'Person',
       '@id': PERSON_ID,
-      name: 'Mathew Brown',
-      alternateName: 'Mat Brown',
+      name: 'Mat Brown',
+      alternateName: 'Mathew Brown',
       jobTitle: person.jobTitle,
       description: person.description,
       email: 'mailto:mat@matbrown.io',
@@ -73,7 +73,7 @@ describe('websiteNode', () => {
     expect(websiteNode()).toEqual({
       '@type': 'WebSite',
       '@id': WEBSITE_ID,
-      name: 'Mathew Brown',
+      name: 'Mat Brown',
       url: 'https://matbrown.io/',
       inLanguage: 'en',
       publisher: { '@id': PERSON_ID },

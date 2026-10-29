@@ -341,11 +341,12 @@ describe('BLOG_DESCRIPTION', () => {
     expect(BLOG_DESCRIPTION.length).toBeGreaterThan(40)
     expect(BLOG_DESCRIPTION).not.toMatch(/[\u2013\u2014]/)
     expect(BLOG_DESCRIPTION.endsWith('.')).toBe(true)
+    expect(BLOG_DESCRIPTION).toMatch(/by Mat Brown\.$/)
   })
 })
 
 describe('BLOG_FEED_TITLE', () => {
   it('names the blog and its feed the same way everywhere', () => {
-    expect(BLOG_FEED_TITLE).toBe('Mathew Brown: articles')
+    expect(BLOG_FEED_TITLE).toBe('Mat Brown: articles')
   })
 })
