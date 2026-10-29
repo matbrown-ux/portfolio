@@ -1,0 +1,112 @@
+---
+title: The Booking Flow
+headline: "SaaS Development & UX/UI Engineering for a Lead Booking Platform"
+seoTitle: "The Booking Flow: SaaS Development & UX/UI"
+slug: the-booking-flow
+summary: "My own SaaS for contractors and service businesses. It replies to every form lead the moment it arrives, books the estimate on the business's calendar, follows up on its own and tracks each lead to the review. I designed it, built it and run it, with test-driven development and a security kit built on OWASP guidance."
+tags: ["SaaS Development", "UX/UI Engineering", "Brand Development", "Automation"]
+date: "2026-03-25"
+order: 4
+year: "2026"
+result: "Live at thebookingflow.com with 819 automated tests passing and a security gate on every commit. It has no customers yet, so this case study is about how it is built."
+heroNote: "The homepage, with the booked lead on a phone beside the Leads dashboard."
+liveUrl: "https://thebookingflow.com"
+role: "Founder, Designer & Engineer"
+services: ["Product Design", "UX/UI Engineering", "SaaS Development", "Brand Development", "Security", "SEO/AEO"]
+stack: ["Astro", "React", "Supabase", "Netlify Functions", "Stripe", "Resend", "n8n", "Google Calendar", "Zod", "Vitest"]
+media:
+  hero:
+    src: the-booking-flow/homepage.jpg
+    alt: "The Booking Flow homepage: The first call wins the job, beside a phone showing You're booked and a list of leads marked Booked, New and Contacted"
+  work:
+    src: the-booking-flow/work.jpg
+    alt: "The Booking Flow logo, a white traffic cone on a red square, beside the name in large type on ink"
+---
+
+{/* No customers yet (the owner, 2026-10-29). Every figure on this page is about the build, checked in the-booking-flow repo on 2026-10-29. Never add a customer result until the owner gives one. */}
+
+<Chapter title="Overview" asideLabel="Services" aside={frontmatter.services}>
+
+The Booking Flow is my own software for contractors and service businesses: roofers, HVAC and electrical crews, plumbers and general contractors. A business puts its lead form on its website, and from there the product does the work a busy owner never gets to. It replies to the lead the moment they ask, lets them book an estimate on the business's own calendar, sends the confirmation emails, follows up when they go quiet and keeps every lead in one dashboard.
+
+I own all of it. I designed the brand and the interface, wrote the code, set up the billing and the email, and I run it now that it is live.
+
+<PullQuote text="I designed it, built it, and I run it." />
+
+</Chapter>
+
+<Chapter title="The challenge">
+
+A lead who fills out a form at 9:47 PM usually hears nothing until the next morning, and by then they have often called someone else. Owners of trades businesses are on a roof or under a sink all day, so the reply, the scheduling and the follow-up are the jobs that slip.
+
+The product had to cover all of that without asking anything technical of the owner. It also handles other people's customers, calendars and payments, so I built it the way I would expect an enterprise product to be built, with tests and security checks on every change.
+
+</Chapter>
+
+<Chapter title="The approach">
+
+I built The Booking Flow on Astro and React, with a Supabase database, serverless functions on Netlify, Stripe for billing, Resend for email and n8n for the timed follow-ups. I also made the explainer below. It follows one lead from her 9:47 PM request to her booked estimate, and every screen and email in it is rebuilt from the product's own code and templates. The stills after it come from the same film, and the dashboard shows sample data.
+
+{/* The explainer plays muted on a loop while on screen; the words are on screen, so it reads without sound. */}
+<Gallery
+  images={[
+    {
+      src: "the-booking-flow/explainer.mp4",
+      poster: "the-booking-flow/explainer-poster.jpg",
+      alt: "The Booking Flow explainer: a homeowner's 9:47 PM estimate request gets an instant reply, she books a time on the roofer's calendar, and the booking lands in the dashboard",
+      caption: "The explainer",
+    },
+  ]}
+/>
+
+<Walkthrough
+  steps={[
+    { title: "A form that qualifies the job", body: "The lead gives the service, job address and budget range, under the business's name and logo. The form goes on any site with one snippet, or out as a link.", alt: "The Booking Flow lead form filled in for Kaimana Roofing: contact name, email, phone, job site address, service type and budget range, above the Request My Free Estimate button", src: "the-booking-flow/form.jpg" },
+    { title: "Booked on the business's calendar", body: "The lead picks an open time read from the business's Google Calendar, shown in the business's own time zone.", alt: "The Booking Flow booking calendar with Wednesday, November 4 picked and 10:30 AM selected, times shown in Hawaii Time, above the Confirm Booking button", src: "the-booking-flow/calendar.jpg" },
+    { title: "Confirmed for both sides", body: "The lead gets a confirmation with a calendar invite, and the business gets the booking with the lead's details.", alt: "Two booking emails side by side: You're booked, Leilani to the lead, and Leilani K. booked an estimate to the business, with an appointment.ics invite", src: "the-booking-flow/emails.jpg" },
+    { title: "Every lead in one dashboard", body: "Owners see every lead and its status, with search, CSV export and a chart of leads captured. The figures here are sample data.", alt: "The Booking Flow Leads dashboard with sample data: a leads captured chart, summary tiles, status tabs and a list of leads", src: "the-booking-flow/dashboard.jpg" },
+  ]}
+/>
+
+What the product does after the form:
+
+- **Replies at once.** The lead gets an email in the business's name with a link to book, and the owner gets an alert by email, with Slack, Microsoft Teams or Discord if they use one.
+- **Follows up on its own.** Three follow-up emails over seven days stop as soon as the lead books. A reminder goes out the day before, a "We missed you" email after a no-show, and one Google review request after the job is marked done.
+- **Tags where each lead came from.** Owners can label leads by source, such as their website, Angi, Thumbtack or Google Local Services Ads, and see which ones turn into booked jobs.
+- **Bills and manages accounts.** Stripe runs a 14-day free trial, the plans and the billing portal, and owners on the Pro plan can invite their team.
+
+</Chapter>
+
+<Chapter title="How I built it">
+
+With no customers yet, the way the software is built is the best proof of what I can do. I hold this product to the same rules I would hold an enterprise team to.
+
+**Test-driven development.** Every change to the code starts with a test that fails, and git hooks refuse a commit that changes code without one. The suite has 819 tests in 104 files, and it runs before every commit and again on GitHub. The database rules are tested too, against a real Postgres engine running inside the test suite.
+
+**A security kit built on OWASP guidance.** I built my own security kit and installed it in this product. It follows the OWASP Top 10 and the OWASP Application Security Verification Standard, plus NIST's guidance on sign-in limits and the OWASP cheat sheets for input validation, injection, cross-site scripting and access control. In practice that means:
+
+- Every endpoint goes through one shared wrapper that checks the request against a strict schema, with a length limit on every field, and applies a rate limit.
+- Every webhook proves where it came from: Stripe's signature, or a shared secret compared in constant time.
+- Every database table has row level security, and an access control matrix lists who can do what to each endpoint and table, deny by default, each row tied to the test that proves it.
+- Secrets stay on the server. The kit blocks a key from reaching browser code, scans every commit and the git history for leaked secrets with Gitleaks and TruffleHog, scans the built site before it ships, and keeps a log of when each key was last rotated.
+- Dependencies are audited on every push, and Semgrep scans the code against its OWASP Top 10 rules.
+- Security headers come from one policy file, and a weekly job checks the live headers and the key rotation dates, then opens an issue when something is overdue.
+
+These checks run on every commit and again on GitHub, so a change has to pass them before it reaches the live site.
+
+</Chapter>
+
+<Chapter title="The outcome">
+
+The Booking Flow is live at thebookingflow.com with a 14-day free trial. It does not have customers yet, so I have no customer results to show you, and I will add them here when I do. What I can show you is the build. Every step in the explainer above works in the product today, and the numbers below are about how it is made.
+
+{/* Build facts, checked in the-booking-flow repo on 2026-10-29: `npx vitest run`, the access control matrix in its CLAUDE.md, and `npm audit --omit=dev`. Update them only after re-checking. */}
+<Outcome
+  metrics={[
+    { value: "819", label: "Automated tests passing" },
+    { value: "15", label: "Endpoints and tables in the access control matrix, each with a test" },
+    { value: "0", label: "Known vulnerabilities in production dependencies" },
+  ]}
+/>
+
+</Chapter>
