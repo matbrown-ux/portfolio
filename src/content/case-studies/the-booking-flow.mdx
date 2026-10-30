@@ -4,7 +4,7 @@ headline: "SaaS Development & UX/UI Engineering for a Lead Booking Platform"
 seoTitle: "The Booking Flow: SaaS Development & UX/UI"
 slug: the-booking-flow
 summary: "My own SaaS for contractors and service businesses. It replies to every form lead the moment it arrives, books the estimate on the business's calendar, follows up on its own and tracks each lead to the review. I designed it, built it and run it, with test-driven development and a security kit built on OWASP guidance."
-tags: ["SaaS Development", "UX/UI Engineering", "Brand Development", "Automation"]
+tags: ["SaaS Development", "Agentic Workflows", "UX/UI Engineering", "Brand Development", "Automated SEO/AEO Pipeline"]
 date: "2026-03-25"
 order: 1
 year: "2026"
@@ -12,8 +12,8 @@ result: "Live at thebookingflow.com with 819 automated tests passing and a secur
 heroNote: "The homepage, with the booked lead on a phone beside the Leads dashboard."
 liveUrl: "https://thebookingflow.com"
 role: "Founder, Designer & Engineer"
-services: ["Product Design", "UX/UI Engineering", "SaaS Development", "Brand Development", "Security", "SEO/AEO"]
-stack: ["Astro", "React", "Supabase", "Netlify Functions", "Stripe", "Resend", "n8n", "Google Calendar", "Zod", "Vitest"]
+services: ["Product Design", "UX/UI Engineering", "SaaS Development", "Agentic Workflows", "Brand Development", "Security", "SEO/AEO"]
+stack: ["Astro", "React", "Supabase", "Netlify Functions", "Stripe", "Resend", "n8n", "Google Calendar", "Zod", "Vitest", "Claude Code", "Codex"]
 media:
   hero:
     src: the-booking-flow/homepage.jpg
@@ -95,6 +95,34 @@ With no customers yet, the way the software is built is the best proof of what I
 - Security headers come from one policy file, and a weekly job checks the live headers and the key rotation dates, then opens an issue when something is overdue.
 
 These checks run on every commit and again on GitHub, so a change has to pass them before it reaches the live site.
+
+</Chapter>
+
+<Chapter title="The SEO and AEO content engine">
+
+{/* Facts checked on 2026-10-29: seven article pull requests merged on matbrown.io since 2026-10-15 (#12 to #28), the brand voice from the owner's interview on 2026-10-16, and both article-run.sh scripts and routines. The Booking Flow's version had not run yet. The last step's capture is agentic-workflows-explained on matbrown.io. */}
+
+Search engine optimization (SEO) gets a business found on Google. Answer engine optimization (AEO) gets it quoted when someone asks ChatGPT, Gemini or Google's AI Overviews a question. Both need a steady supply of useful articles, and most small businesses never have the hours to write them.
+
+So I built an agentic workflow that does the writing: a set of AI agents that each do one job and hand the work to the next, with a script in charge of what each one can touch. It runs on my own blog three mornings a week and has published seven articles there since October 15, 2026. The voice comes from a long interview I did about how I talk and what I believe, so the articles sound like me on a call.
+
+<Walkthrough
+  steps={[
+    { title: "Research", body: "A Claude session takes the next article from a topical map of keywords and the questions people ask. It reads the pages that already rank and checks every fact against a primary source.", alt: "Illustration: a keyword search, three ranking pages checked off, and a primary source with the fact underlined", art: "research" },
+    { title: "Written for AI answers", body: "Each article opens with a 40 to 60 word answer, and every heading is a question with a direct answer under it. Those are the lines answer engines lift and quote.", alt: "Illustration: an article with its answer up top and question headings, quoted in an AI answer", art: "answer" },
+    { title: "Images from a brief", body: "The script hands the writer's brief to Codex, OpenAI's coding agent, which makes the images. The brief rules out faces, text and logos.", alt: "Illustration: an image brief with its never list crossed off turns into a new picture of a house", art: "images" },
+    { title: "Edited into my voice", body: "A fresh Claude session with no stake in the draft edits it against my brand voice, then runs my copywriting and humanizer skills. It throws out any image with AI mistakes.", alt: "Illustration: a draft marked up in red, one image crossed out and one checked", art: "edit" },
+    { title: "Reviewed, then published", body: "The script opens the article on GitHub for me, and nothing goes live until I read it on a preview and merge it. This one is Agentic workflows explained.", alt: "A published article on matbrown.io: the question heading What does an agentic workflow look like?, its direct answer and a diagram the pipeline made", src: "the-booking-flow/article.jpg" },
+  ]}
+/>
+
+<PullQuote text="The rules live in code, so the AI can't talk its way out of them." />
+
+Tests fail an article with a dash, an emoji, a British spelling, a repeated phrase or a title that runs too long. The AI sessions can't push code or publish anything, so every step that reaches the outside world belongs to the script.
+
+**Rebuilt for The Booking Flow.** The same engine now writes for roofers and HVAC owners on The Booking Flow's blog. I gave it a topical map of 68 articles from keyword research, a monthly research run, a glossary of trade terms and a file of product facts, so it can't invent a feature the product doesn't have. Its voice speaks as the company and comes from research into what those owners ask and trust. It's brand new, so the articles on my own blog are its track record for now.
+
+If you run a business, this is the part worth stealing. A pipeline like this keeps researched articles coming in your voice, and the final call stays with you. If you want one dialed in for your business, check out [my agentic workflow services](/services#agentic-workflows).
 
 </Chapter>
 

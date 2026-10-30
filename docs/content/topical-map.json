@@ -503,7 +503,7 @@
     {
       "order": 7,
       "planned_run": "2026-10-28",
-      "status": "in-review",
+      "status": "published",
       "branch": "article/small-business-branding-guide",
       "topic": "brand-identity",
       "cluster": "Identity foundations",

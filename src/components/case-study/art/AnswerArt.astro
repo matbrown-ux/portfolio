@@ -1,0 +1,74 @@
+---
+/**
+ * Step art: an article built for search and answer engines. The answer up top and the answer under
+ * each question heading are what an answer engine quotes.
+ * The markup is the finished drawing. Parts marked `data-art` are animated by src/lib/stepArt.ts
+ * (`data-art-at` is seconds into the loop). Colors come from the palette tokens only.
+ */
+interface Props {
+  label: string
+}
+
+const { label } = Astro.props
+---
+
+<svg viewBox="0 0 800 470" role="img" aria-label={label} class="block h-full w-full" preserveAspectRatio="xMidYMid slice" data-step-art>
+  <defs>
+    <pattern id="art-answer-dots" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(24)">
+      <circle cx="4" cy="4" r="2.6" fill="var(--color-vermilion)" />
+    </pattern>
+  </defs>
+  <rect width="800" height="470" fill="var(--color-ivory)" />
+  <circle cx="110" cy="400" r="150" fill="url(#art-answer-dots)" data-art="fade" data-art-at="0" />
+
+  {/* The article */}
+  <rect x="94" y="54" width="330" height="390" fill="var(--color-ink)" />
+  <rect x="80" y="40" width="330" height="390" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="4" />
+  <line x1="100" y1="64" x2="330" y2="64" stroke="var(--color-ink)" stroke-width="12" />
+
+  {/* The answer up top */}
+  <g data-art="pop" data-art-at="0.6">
+    <rect x="100" y="84" width="290" height="70" fill="var(--color-vermilion)" stroke="var(--color-ink)" stroke-width="3" />
+    <line x1="114" y1="104" x2="370" y2="104" stroke="var(--color-ink)" stroke-width="5" />
+    <line x1="114" y1="120" x2="350" y2="120" stroke="var(--color-ink)" stroke-width="5" />
+    <line x1="114" y1="136" x2="300" y2="136" stroke="var(--color-ink)" stroke-width="5" />
+  </g>
+
+  {/* One heading per question, a direct answer under each */}
+  <text x="100" y="200" class="font-display" font-size="28" fill="var(--color-ink)">HOW?</text>
+  <line x1="100" y1="218" x2="380" y2="218" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.2" />
+  <line x1="100" y1="236" x2="330" y2="236" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.4" />
+  <text x="100" y="284" class="font-display" font-size="28" fill="var(--color-ink)">WHY?</text>
+  <line x1="100" y1="302" x2="370" y2="302" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.8" />
+  <line x1="100" y1="320" x2="310" y2="320" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="2.0" />
+  <text x="100" y="368" class="font-display" font-size="28" fill="var(--color-ink)">WHAT?</text>
+  <line x1="100" y1="386" x2="380" y2="386" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="2.4" />
+  <line x1="100" y1="404" x2="290" y2="404" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="2.6" />
+
+  <g transform="translate(0 50)">
+  {/* Speed lines to the answer engine */}
+  <g stroke="var(--color-ink)" stroke-width="5" stroke-linecap="square">
+    <line x1="430" y1="196" x2="476" y2="196" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="2.9" />
+    <line x1="442" y1="218" x2="476" y2="218" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="3.0" />
+    <line x1="430" y1="240" x2="476" y2="240" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="3.1" />
+  </g>
+
+  {/* The answer engine quotes it */}
+  <g data-art="pop" data-art-at="3.3">
+    <path d="M512 164 h240 v140 h-200 l-26 26 l2 -26 h-16 z" fill="var(--color-ink)" />
+    <path d="M498 150 h240 v140 h-200 l-26 26 l2 -26 h-16 z" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="4" stroke-linejoin="miter" />
+    <rect x="498" y="150" width="240" height="38" fill="var(--color-ink)" />
+    <text x="618" y="178" text-anchor="middle" class="font-display" font-size="22" fill="var(--color-ivory)">AI ANSWER</text>
+    <rect x="516" y="204" width="204" height="56" fill="var(--color-vermilion)" />
+    <line x1="528" y1="222" x2="704" y2="222" stroke="var(--color-ink)" stroke-width="5" />
+    <line x1="528" y1="242" x2="660" y2="242" stroke="var(--color-ink)" stroke-width="5" />
+    <line x1="516" y1="274" x2="640" y2="274" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" />
+  </g>
+
+  </g>
+
+  <g data-art="pop" data-art-at="3.9">
+    <polygon points="680.3,10.9 688.5,39.9 714.2,24.3 709.1,53.9 739.0,51.0 721.5,75.5 749.8,85.9 723.4,100.4 744.3,122.0 714.3,123.6 723.8,152.1 696.0,140.5 692.1,170.4 672.2,147.8 655.7,173.1 647.5,144.1 621.8,159.7 626.9,130.1 597.0,133.0 614.5,108.5 586.2,98.1 612.6,83.6 591.7,62.0 621.7,60.4 612.2,31.9 640.0,43.5 643.9,13.6 663.8,36.2" fill="var(--color-vermilion)" stroke="var(--color-ink)" stroke-width="4" />
+    <text x="668" y="101" text-anchor="middle" class="font-display" font-size="24" fill="var(--color-ink)" transform="rotate(-6 668 92)">QUOTED!</text>
+  </g>
+</svg>

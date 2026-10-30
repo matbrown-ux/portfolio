@@ -1,0 +1,70 @@
+---
+/**
+ * Step art: the writer's image brief, with its never-ask list, turns into a new image.
+ * The markup is the finished drawing. Parts marked `data-art` are animated by src/lib/stepArt.ts
+ * (`data-art-at` is seconds into the loop). Colors come from the palette tokens only.
+ */
+interface Props {
+  label: string
+}
+
+const { label } = Astro.props
+---
+
+<svg viewBox="0 0 800 470" role="img" aria-label={label} class="block h-full w-full" preserveAspectRatio="xMidYMid slice" data-step-art>
+  <defs>
+    <pattern id="art-images-dots" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(24)">
+      <circle cx="4" cy="4" r="2.6" fill="var(--color-vermilion)" />
+    </pattern>
+  </defs>
+  <rect width="800" height="470" fill="var(--color-ivory)" />
+
+  {/* The image brief */}
+  <rect x="94" y="54" width="230" height="270" fill="var(--color-ink)" />
+  <rect x="80" y="40" width="230" height="270" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="4" />
+  <rect x="80" y="40" width="230" height="40" fill="var(--color-ink)" />
+  <text x="195" y="70" text-anchor="middle" class="font-display" font-size="22" fill="var(--color-ivory)">BRIEF</text>
+  <line x1="100" y1="104" x2="290" y2="104" stroke="var(--color-ink)" stroke-width="5" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="0.4" />
+  <line x1="100" y1="124" x2="260" y2="124" stroke="var(--color-ink)" stroke-width="5" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="0.6" />
+  <line x1="100" y1="144" x2="280" y2="144" stroke="var(--color-ink)" stroke-width="5" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="0.8" />
+  {/* The never-ask list */}
+  <g>
+    <rect x="100" y="180" width="22" height="22" fill="none" stroke="var(--color-ink)" stroke-width="3" />
+    <line x1="134" y1="191" x2="240" y2="191" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" />
+    <rect x="100" y="220" width="22" height="22" fill="none" stroke="var(--color-ink)" stroke-width="3" />
+    <line x1="134" y1="231" x2="220" y2="231" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" />
+    <rect x="100" y="260" width="22" height="22" fill="none" stroke="var(--color-ink)" stroke-width="3" />
+    <line x1="134" y1="271" x2="256" y2="271" stroke="var(--color-ink)" stroke-width="4" opacity="0.45" />
+  </g>
+  <path d="M104 184 l14 14 m0 -14 l-14 14" fill="none" stroke="var(--color-vermilion)" stroke-width="5" stroke-linecap="square" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.2" />
+  <path d="M104 224 l14 14 m0 -14 l-14 14" fill="none" stroke="var(--color-vermilion)" stroke-width="5" stroke-linecap="square" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.4" />
+  <path d="M104 264 l14 14 m0 -14 l-14 14" fill="none" stroke="var(--color-vermilion)" stroke-width="5" stroke-linecap="square" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.6" />
+
+  {/* Speed lines to the new image */}
+  <g stroke="var(--color-ink)" stroke-width="5" stroke-linecap="square">
+    <line x1="340" y1="236" x2="406" y2="236" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="2.0" />
+    <line x1="356" y1="258" x2="406" y2="258" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="2.1" />
+    <line x1="340" y1="280" x2="406" y2="280" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="2.2" />
+  </g>
+  <polygon points="406,220 434,258 406,296" fill="var(--color-ink)" data-art="pop" data-art-at="2.3" />
+
+  {/* The image, painted in */}
+  <g data-art="slide" data-art-at="2.5">
+    <rect x="464" y="204" width="300" height="220" fill="var(--color-ink)" />
+    <rect x="450" y="190" width="300" height="220" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="4" />
+  </g>
+  <rect x="454" y="194" width="292" height="150" fill="url(#art-images-dots)" opacity="0.7" data-art="fade" data-art-at="2.9" />
+  <circle cx="680" cy="250" r="30" fill="var(--color-vermilion)" stroke="var(--color-ink)" stroke-width="4" data-art="pop" data-art-at="3.2" />
+  <g data-art="pop" data-art-at="3.5">
+    <polygon points="490,400 490,326 560,272 630,326 630,400" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="4" stroke-linejoin="miter" />
+    <polygon points="476,330 560,262 644,330 630,330 560,276 490,330" fill="var(--color-ink)" />
+    <rect x="540" y="350" width="36" height="50" fill="var(--color-ink)" />
+    <rect x="506" y="340" width="22" height="22" fill="none" stroke="var(--color-ink)" stroke-width="3" />
+  </g>
+  <line x1="454" y1="400" x2="746" y2="400" stroke="var(--color-ink)" stroke-width="5" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="3.4" />
+
+  <g data-art="pop" data-art-at="4.1">
+    <polygon points="680.3,10.9 688.5,39.9 714.2,24.3 709.1,53.9 739.0,51.0 721.5,75.5 749.8,85.9 723.4,100.4 744.3,122.0 714.3,123.6 723.8,152.1 696.0,140.5 692.1,170.4 672.2,147.8 655.7,173.1 647.5,144.1 621.8,159.7 626.9,130.1 597.0,133.0 614.5,108.5 586.2,98.1 612.6,83.6 591.7,62.0 621.7,60.4 612.2,31.9 640.0,43.5 643.9,13.6 663.8,36.2" fill="var(--color-vermilion)" stroke="var(--color-ink)" stroke-width="4" />
+    <text x="668" y="101" text-anchor="middle" class="font-display" font-size="26" fill="var(--color-ink)" transform="rotate(-6 668 92)">FRESH!</text>
+  </g>
+</svg>
