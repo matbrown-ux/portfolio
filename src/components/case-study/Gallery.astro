@@ -8,6 +8,8 @@ interface GalleryImage {
   caption?: string
   src?: string
   poster?: string
+  /** A video with sound waits for the visitor to press play instead of looping muted while on screen. */
+  start?: 'in-view' | 'click'
 }
 
 interface Props {
@@ -29,13 +31,13 @@ const layout = galleryLayout(images.length)
           media={caseStudyMedia({ src: image.src, alt: image.alt, poster: image.poster }, `${slug} gallery image "${image.alt}"`)}
           tone={layout.items[i].tone}
           frame="browser"
+          start={image.start}
           class="h-full"
         />
-        {/* A video that has its native controls (reduced motion, or a browser that refuses autoplay)
-            has its control bar along the bottom, so its caption moves to the top right, under the browser bar
-            (the top left of a site capture is usually its logo). */}
+        {/* The caption sits in the browser bar, out of the picture: past the frame's 2px border, the bar's
+            24px height, and in from the right by the bar's padding. */}
         {image.caption && (
-          <p class="type-label absolute bottom-3 left-3 bg-ivory px-2.5 py-1.5 text-ink group-has-[video[controls]]/item:bottom-auto group-has-[video[controls]]/item:top-10 group-has-[video[controls]]/item:left-auto group-has-[video[controls]]/item:right-3">
+          <p class="type-label absolute right-3.5 top-0.5 flex h-6 items-center text-ink">
             {image.caption}
           </p>
         )}
