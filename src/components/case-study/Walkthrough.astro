@@ -1,13 +1,26 @@
 ---
 import MediaSlot from '../media/MediaSlot.astro'
 import { caseStudyMedia } from '../../lib/caseStudyMedia'
+import AnswerArt from './art/AnswerArt.astro'
 import DesignArt from './art/DesignArt.astro'
+import EditArt from './art/EditArt.astro'
+import ImagesArt from './art/ImagesArt.astro'
 import IntakeArt from './art/IntakeArt.astro'
 import LaunchArt from './art/LaunchArt.astro'
+import ResearchArt from './art/ResearchArt.astro'
 import RevisionsArt from './art/RevisionsArt.astro'
 
 /** Animated illustrations a step can show in place of a capture, by name. */
-const ART = { intake: IntakeArt, design: DesignArt, revisions: RevisionsArt, launch: LaunchArt }
+const ART = {
+  intake: IntakeArt,
+  design: DesignArt,
+  revisions: RevisionsArt,
+  launch: LaunchArt,
+  research: ResearchArt,
+  answer: AnswerArt,
+  images: ImagesArt,
+  edit: EditArt,
+}
 
 interface Step {
   title: string

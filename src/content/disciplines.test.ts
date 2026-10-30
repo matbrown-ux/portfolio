@@ -28,9 +28,9 @@ describe('disciplines', () => {
     expect(Object.fromEntries(disciplines.map((d) => [d.slug, d.proofSlug]))).toEqual({
       'ux-ui-engineering': 'vamp-network',
       'seo-aeo': 'aiwi-waffles',
-      'agentic-workflows': 'vamp-network',
+      'agentic-workflows': 'the-booking-flow',
       'brand-development': 'aiwi-waffles',
-      'saas-development': 'aiwi-waffles',
+      'saas-development': 'the-booking-flow',
     })
   })
 

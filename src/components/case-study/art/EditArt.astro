@@ -1,0 +1,62 @@
+---
+/**
+ * Step art: a fresh editor marks up the draft in the owner's voice, throws out a bad image and keeps a good one.
+ * The markup is the finished drawing. Parts marked `data-art` are animated by src/lib/stepArt.ts
+ * (`data-art-at` is seconds into the loop). Colors come from the palette tokens only.
+ */
+interface Props {
+  label: string
+}
+
+const { label } = Astro.props
+---
+
+<svg viewBox="0 0 800 470" role="img" aria-label={label} class="block h-full w-full" preserveAspectRatio="xMidYMid slice" data-step-art>
+  <defs>
+    <pattern id="art-edit-dots" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(24)">
+      <circle cx="4" cy="4" r="2.6" fill="var(--color-vermilion)" />
+    </pattern>
+  </defs>
+  <rect width="800" height="470" fill="var(--color-ivory)" />
+  <circle cx="130" cy="390" r="150" fill="url(#art-edit-dots)" data-art="fade" data-art-at="0" />
+
+  {/* The draft, marked up */}
+  <rect x="264" y="64" width="290" height="300" fill="var(--color-ink)" />
+  <rect x="250" y="50" width="290" height="300" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="4" />
+  <line x1="270" y1="80" x2="450" y2="80" stroke="var(--color-ink)" stroke-width="12" />
+  <g stroke="var(--color-ink)" stroke-width="4" opacity="0.45">
+    <line x1="270" y1="122" x2="520" y2="122" />
+    <line x1="270" y1="152" x2="500" y2="152" />
+    <line x1="270" y1="182" x2="510" y2="182" />
+    <line x1="270" y1="242" x2="520" y2="242" />
+    <line x1="270" y1="272" x2="480" y2="272" />
+    <line x1="270" y1="302" x2="505" y2="302" />
+    <line x1="270" y1="322" x2="420" y2="322" />
+  </g>
+  <line x1="266" y1="152" x2="504" y2="152" stroke="var(--color-vermilion)" stroke-width="6" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="0.6" />
+  <path d="M276 140 q12 -14 24 0 t24 0 t24 0 t24 0 t24 0 t24 0" fill="none" stroke="var(--color-vermilion)" stroke-width="4" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.0" />
+  <line x1="266" y1="272" x2="484" y2="272" stroke="var(--color-vermilion)" stroke-width="6" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.5" />
+  <path d="M276 260 q12 -14 24 0 t24 0 t24 0 t24 0 t24 0" fill="none" stroke="var(--color-vermilion)" stroke-width="4" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="1.9" />
+
+  {/* The image that gets thrown out */}
+  <g data-art="slide" data-art-at="2.3">
+    <rect x="604" y="64" width="160" height="110" fill="var(--color-ink)" />
+    <rect x="590" y="50" width="160" height="110" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="4" />
+    <polygon points="606,146 646,96 670,124 690,104 734,146" fill="var(--color-ink)" />
+  </g>
+  <path d="M582 42 l176 126 m0 -126 l-176 126" fill="none" stroke="var(--color-vermilion)" stroke-width="10" stroke-linecap="square" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="2.8" />
+
+  {/* The image that stays */}
+  <g data-art="slide" data-art-at="3.2">
+    <rect x="604" y="214" width="160" height="110" fill="var(--color-ink)" />
+    <rect x="590" y="200" width="160" height="110" fill="var(--color-ivory)" stroke="var(--color-ink)" stroke-width="4" />
+    <circle cx="710" cy="232" r="14" fill="var(--color-vermilion)" stroke="var(--color-ink)" stroke-width="3" />
+    <polygon points="606,296 650,250 690,296" fill="var(--color-ink)" />
+  </g>
+  <path d="M606 226 l10 13 l20 -28" fill="none" stroke="var(--color-vermilion)" stroke-width="8" stroke-linecap="square" pathLength="1" stroke-dasharray="1" data-art="draw" data-art-at="3.6" />
+
+  <g data-art="pop" data-art-at="4.1">
+    <polygon points="174.0,12.1 185.2,38.1 208.3,21.7 207.1,50.0 235.0,45.3 221.6,70.3 248.8,78.1 225.9,94.8 247.0,113.7 219.2,118.8 230.0,144.9 202.7,137.5 201.1,165.7 179.7,147.2 166.0,171.9 154.8,145.9 131.7,162.3 132.9,134.0 105.0,138.7 118.4,113.7 91.2,105.9 114.1,89.2 93.0,70.3 120.8,65.2 110.0,39.1 137.3,46.5 138.9,18.3 160.3,36.8" fill="var(--color-vermilion)" stroke="var(--color-ink)" stroke-width="4" />
+    <text x="170" y="100" text-anchor="middle" class="font-display" font-size="22" fill="var(--color-ink)" transform="rotate(-6 170 92)">MY VOICE!</text>
+  </g>
+</svg>

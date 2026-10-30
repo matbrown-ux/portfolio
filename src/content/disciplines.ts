@@ -82,7 +82,7 @@ export const disciplines: Discipline[] = [
       'Tool integration',
       'Workflow design',
     ],
-    proofSlug: 'vamp-network',
+    proofSlug: 'the-booking-flow',
   },
   {
     number: '04',
@@ -112,6 +112,6 @@ export const disciplines: Discipline[] = [
     ],
     cta: 'Build my SaaS',
     skills: ['React & Vite', 'Supabase', 'Authentication', 'API integrations', 'Dashboard design', 'Marketing sites'],
-    proofSlug: 'aiwi-waffles',
+    proofSlug: 'the-booking-flow',
   },
 ]
