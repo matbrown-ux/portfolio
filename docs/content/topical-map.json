@@ -551,8 +551,8 @@
     {
       "order": 8,
       "planned_run": "2026-10-30",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/brand-strategy-for-small-business",
       "topic": "brand-strategy",
       "cluster": "Strategy foundations",
       "role": "pillar",
