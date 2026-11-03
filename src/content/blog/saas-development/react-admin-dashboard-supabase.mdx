@@ -1,0 +1,216 @@
+---
+title: "How to build a React admin dashboard on Supabase for a small business"
+seoTitle: "React admin dashboard on Supabase for small teams"
+description: "A plan for owners and developers who need one private screen to run the business: the tables, the roles, what to skip and what a first version really includes."
+date: "2026-11-02"
+keywords: ["react admin dashboard", "admin dashboard react", "supabase dashboard", "internal tool builder", "small business dashboard"]
+---
+
+To build a React admin dashboard on Supabase, create a few tables for the things your team manages, turn on Row Level Security (RLS) for every one of them, give each person a role, and build one list screen and one detail screen per table in React. Add charts and live updates only after the team uses the first version.
+
+## How do I build an admin dashboard with React and Supabase?
+
+Start with the database and finish with the screens. Create your tables, lock them down with RLS, add sign-in and roles, and then build a list and a detail screen for each table. The React part is the easy half. The hard half is deciding who is allowed to see what.
+
+There is a lot of advice out there on this, and it gets overwhelming fast, so here is the order I follow:
+
+1. Write down the three or four things the team keeps in spreadsheets or texts today. Each one becomes a table.
+2. Create the tables in Supabase and enable RLS on every one before you add a single row of real data.
+3. Turn on Supabase Auth, add a `profiles` table, and give every person a role.
+4. Write one policy per role per operation.
+5. Build the React screens: a list, a detail view and a form for each table.
+6. Show the totals the owner asked for, and only those.
+7. Put it in front of the team and watch what they do with it.
+
+I built the backend dashboard for Vamp Network on React, Vite and Supabase. It manages creators, managers and brands in one place, lists applications by status with totals, and charts the applications received. Operations runs on it every day. You can read the whole project in the <a href="/work/vamp-network">Vamp Network case study</a>. I describe it here only as far as the case study does, and everything else in this article is general advice you can check against the docs I link.
+
+### The stack in plain words
+
+React draws the screens. Vite is the tool that builds and serves your React code while you work. Supabase is a hosted Postgres database that also handles sign-in, file storage and an automatic API, so you don't write a server for the first version. Postgres is the database underneath, and it is where the real rules live. If you remember one thing from this article, make it that last sentence, because the rules belong in the database and not in your React code.
+
+## What tables and roles does a small-team dashboard need?
+
+A small team needs one table for each kind of thing it manages, a `profiles` table that holds each person's role, and a handful of policies that say which role can read or change which table. Most small dashboards need three roles: an owner who sees everything, staff who see their own work, and a read-only viewer.
+
+### Start with the nouns
+
+Most small-business dashboards are a list of nouns with a status. For a creator-management platform the nouns are creators, managers and brands. For a shop they are team members, checklists and sales. For a clinic they are patients and appointments. Write the nouns on paper before you open Supabase, and give each one a status column, because the status is what the team filters by all day.
+
+A first schema for a generic small team might look like this:
+
+```sql
+create table public.profiles (
+  id uuid not null references auth.users on delete cascade,
+  full_name text,
+  role text not null default 'viewer'
+    check (role in ('owner', 'staff', 'viewer')),
+  primary key (id)
+);
+
+create table public.clients (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  status text not null default 'new',
+  assigned_to uuid references public.profiles (id),
+  created_at timestamptz not null default now()
+);
+
+alter table public.profiles enable row level security;
+alter table public.clients enable row level security;
+```
+
+The `profiles` pattern comes straight from <a href="https://supabase.com/docs/guides/auth/managing-user-data" target="_blank" rel="noopener" aria-label="Supabase's guide to managing user data, opens in a new tab">Supabase's guide to managing user data</a>: a table in the `public` schema whose primary key references `auth.users`, with deletes cascading. The same guide explains why you need it. The Auth schema is not exposed through the automatic API, so the `public` table is how your dashboard reads a person's name and role.
+
+That guide also shows a trigger that creates a profile row when someone signs up, and it comes with a warning I'd repeat: if the trigger fails, it can block signups, so test it before anyone depends on it.
+
+### Roles live in the database
+
+You have two places to store a role: the user's metadata, or your own table. Supabase's <a href="https://supabase.com/docs/guides/auth/row-level-security" target="_blank" rel="noopener" aria-label="Supabase's Row Level Security guide for Auth, opens in a new tab">Row Level Security guide</a> is blunt about one of them. The `raw_user_meta_data` field can be updated by the signed-in user, so it is not a good place to store authorization data. The `raw_app_meta_data` field cannot be changed by the user, which makes it the safer one.
+
+For a small team I keep it simpler and put the role in the `profiles` table, where only the owner's policy lets anyone change it. Then a policy can look the role up, and changing someone's access is an `update` on one row. The trade-off is that every policy now needs a lookup, so keep the `profiles` table small and index the column you filter on.
+
+### What a policy looks like
+
+A policy is a rule that runs inside the database, a bit like a `WHERE` clause added to every query on that table. The Supabase guide says to name the role in every policy with the `to` clause and to write a separate policy for each operation. Here is staff seeing only their own clients:
+
+```sql
+create policy "Staff read their own clients"
+on public.clients for select
+to authenticated
+using ( assigned_to = (select auth.uid()) );
+
+create policy "Owners read all clients"
+on public.clients for select
+to authenticated
+using (
+  exists (
+    select 1 from public.profiles
+    where id = (select auth.uid()) and role = 'owner'
+  )
+);
+```
+
+Two details come from the docs and are easy to miss. First, wrapping the call as `(select auth.uid())` lets Postgres compute it once per statement instead of once per row, which matters once a table has thousands of rows. Second, an unindexed column used in a policy turns a read into a sequential scan, so add an index on `assigned_to`.
+
+### The three mistakes that expose data
+
+Row Level Security is the part of this build that deserves your attention, and the <a href="https://supabase.com/docs/guides/database/postgres/row-level-security" target="_blank" rel="noopener" aria-label="Supabase's Row Level Security guide for Postgres, opens in a new tab">Supabase RLS guide</a> names the traps:
+
+<Terms>
+<Term name="A table with RLS off">
+
+The guide says to enable RLS on every table in an exposed schema. With it on and no policies, a client using the publishable key gets no data, which is the safe starting point. A new table left with RLS off is the most common way a private dashboard becomes a public one.
+
+</Term>
+<Term name="The secret key in the browser">
+
+Secret keys use the `service_role` role and bypass RLS entirely. They belong on a server and never in your React bundle. If you can see the key by opening your site's source, so can everyone else.
+
+</Term>
+<Term name="A view over a protected table">
+
+Views usually bypass RLS. On Postgres 15 and later you set `security_invoker = true` so the view follows the table's policies. If you build a "totals" view for the owner's chart, check this before you ship it.
+
+</Term>
+</Terms>
+
+A dashboard that hides the sales page in the menu but leaves the table open to anyone with the URL looks great right up until a curious employee opens the browser console, and then it is absolutely atrocious. Hiding a button is design. Locking the row is security. You need both, and the second one is the database's job.
+
+![Three tall doors in a row: the left and right ones stand open and empty, while the middle one is closed and solid black with a vermilion padlock on it.](./images/react-admin-dashboard-supabase-1.png)
+
+## Should I use a template, Refine, Retool or hand-code it?
+
+Use a template or a framework when your screens are plain lists and forms, and hand-code when the screens are specific to how your team works. A framework like Refine saves the most time on lists and forms. A template saves the least, because you spend the saved hours removing features nobody asked for.
+
+Here is how I compare the four options for a small business:
+
+| Option | Good for | Watch out for |
+| --- | --- | --- |
+| Template | A fast first look at layouts | Pages and features you must delete, and a design that looks like every other dashboard |
+| Refine | Lists, forms and filters over many tables | You still design the screens and write the policies |
+| Retool or a similar builder | A very fast internal tool with a team that never needs custom screens | Your tool lives on the vendor's platform |
+| Hand-coded React | Screens shaped around your exact workflow | More work up front, and you own all of it |
+
+### What Refine actually is
+
+<a href="https://refine.dev/docs/" target="_blank" rel="noopener" aria-label="Refine's documentation, opens in a new tab">Refine's docs</a> describe it as a React meta-framework for CRUD-heavy web applications, aimed at admin panels, dashboards and internal tools. CRUD means create, read, update and delete, the four things you do to records. It is headless, so it handles the data logic and leaves the look to you, and it has a ready-made <a href="https://refine.dev/docs/data/packages/supabase/" target="_blank" rel="noopener" aria-label="Refine's Supabase data provider documentation, opens in a new tab">Supabase data provider</a> that covers CRUD, sign-in and live updates. That is a real head start.
+
+The Supabase page in Refine's docs never mentions RLS, so the policies from the section above are still your job. That is the gap I'd pay attention to with any generated dashboard: the framework gets you screens, and the screens don't know who should see them.
+
+### Why I hand-coded Vamp Network
+
+Off-the-shelf tooling couldn't model the relationships between creators, managers and brands the way the team needed, which is how the case study puts it. When the shape of your business is the product, a generic list screen fights you. I'd consider Refine on a simpler job, where the whole dashboard is a handful of tables and the team doesn't care how it looks.
+
+### Renting versus owning
+
+If you are weighing a monthly builder subscription against hiring someone, the honest comparison is a recurring fee for something you rent against a one-time build for something you own. My minimum for dashboards and internal tools is $10,000, going up with the scope, and it is usually a one-time fee. I put the database in the client's own Supabase account so they own the whole stack. If that sounds like a lot, it is the same trade as a template website against a custom one: the cheap option costs less on day one and more every time the business changes shape.
+
+## How do I show live data without overbuilding?
+
+Show the numbers the owner checks every morning, read straight from the database, and refresh them when the page loads or on a button. Add live updates through Supabase Realtime only when someone needs to watch a number change while sitting at the screen.
+
+### The morning-coffee test
+
+Ask the owner what they look at first and write the answers down. For Vamp Network, the dashboard lists applications by status with totals and a chart of applications received. That is a few questions, and each one is a count with a filter. For a shop, it might be today's sales, this week's sales and the best sellers.
+
+If you can answer a question with a `select count(*) ... group by status`, you don't need anything fancy. Postgres is fast at this on small data, and a page that loads fresh numbers is easier to trust than a page that updates by itself and sometimes doesn't.
+
+![A simple dashboard frame with three square summary blocks and one bar chart, while three small dashed cards drift off its right edge.](./images/react-admin-dashboard-supabase-2.png)
+
+### When Realtime earns its place
+
+<a href="https://supabase.com/docs/guides/realtime" target="_blank" rel="noopener" aria-label="Supabase's Realtime documentation, opens in a new tab">Supabase Realtime</a> has three features. Broadcast sends low-latency messages between clients, Presence tracks and synchronizes user state such as who is online, and Postgres Changes lets clients listen for database changes. The third is the one dashboards want.
+
+Live updates make sense when two people work the same queue and must not grab the same item, or when a screen on the wall shows today's orders. They don't make sense for a weekly report. Each live feed is one more thing to test and one more thing that can silently stop, so add them last and one at a time.
+
+### Leave these out of version one
+
+Here are things that sound good in a meeting and rarely get used in a first version:
+
+- **Custom report builders.** Pick the five reports the owner asked for and build those.
+- **Export to everything.** One CSV export covers most needs.
+- **Notifications for every change.** Start with one alert for the event that costs money when missed.
+- **Granular permissions per field.** Three roles carry a small team a long way.
+- **A mobile app.** A responsive page opened on a phone works for the first year.
+
+Every feature on that list is one more thing somebody has to maintain, so leaving it out of version one is a gift to your future self.
+
+## How long does a first version take?
+
+A first version with sign-in, three roles, two or three tables and a list and detail screen for each is a small project, and the time depends mostly on how fast the team decides what it needs. The build is the short part. The waiting is usually on the owner's answers about roles and statuses.
+
+I can't give you a number that holds for every team, and I'd distrust anyone who does, because the range depends on the number of tables, the number of roles and how many integrations you need. What I can tell you is what stretches it:
+
+- **Unclear roles.** If nobody can say who should see the money, every screen waits on that answer.
+- **Data that lives in five places.** Moving it into clean tables takes longer than building the screens.
+- **A second system.** Pulling sales from another service means working with its API, rate limits and data shape.
+- **Late changes to statuses.** Renaming a status after screens, policies and charts use it touches all three.
+
+To keep a first version small, plan the build in thin slices: sign-in and one role, then one table with its list screen, then the second role, then the next table. Each slice is something the team can use. If you are a business owner reading this, the useful question for any developer is "what will I be able to use after the first week?" and not "when will it be done?"
+
+### A word on AI
+
+I build with Claude Code every day, and it speeds up the repetitive parts of this kind of build, such as the list screens and form fields. It does nothing to make the decisions about roles and policies any less important. Read every policy an AI assistant writes for you, and test each role by signing in as that person and trying to see what they shouldn't. The preschool version of this is typing "build me an admin dashboard" and shipping whatever comes back, which is how a table ends up with RLS off. I wrote about the wider idea in <a href="/blog/ai-automation/small-business-automation">small business automation</a> if you want the plain-language version.
+
+## How do I check that the dashboard is safe before the team uses it?
+
+Sign in as each role, open the browser's network tab and try to read what that role shouldn't see. Then confirm that RLS is on for every table in the `public` schema and that no secret key appears in your front-end code. Ten minutes of this beats any checklist you could read afterward.
+
+Here is the test to run before you hand a dashboard over:
+
+1. Create one test user per role.
+2. Sign in as each one and open every screen.
+3. For each role, call the API for a table it shouldn't read and confirm you get an empty result or an error.
+4. Search the built JavaScript for your secret key.
+5. Try to update your own role from the browser as a non-owner.
+6. Delete a test user and check that its profile row goes with it.
+
+The Supabase docs add a warning on that last step: removing a user from `auth.users` doesn't sign them out, and their token stays valid until it expires. If you fire someone on a Friday afternoon, plan for that.
+
+## What I'm building on a different stack right now
+
+The second dashboard I'm working on doesn't use Supabase. Home Base is a private web app for 'Aiwi Waffles, and I'm building it on Astro, React and the Square API. The owner and each team member log in with their own email and see only what their role needs. The owner sees everything, staff see the day's checklist, training and handbook, and the sales and money figures are locked to the owner. You can read the plan in the <a href="/work/aiwi-waffles">'Aiwi Waffles case study</a>. It is still in build, so I'll write up what it changes for the shop once the team is using it.
+
+That is the same shape as everything above: a few tables, a few roles and a rule about who sees the money, decided before any screen got drawn. The stack changed and the order of decisions didn't.
+
+If you're a business owner reading this and thinking "I just need to see my numbers in one place," that is the right goal, and the best dashboards start there. It costs more than a template, and it pays you back in the hours your team no longer spends chasing the same answers every week. If you're a developer, the most valuable hour you can spend is on the policies before the first screen. When you want one built and dialed in for your team, my <a href="/services">services page</a> shows how I work, and the <a href="/blog/saas-development">SaaS development</a> topic has more like this.

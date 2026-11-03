@@ -598,8 +598,8 @@
     {
       "order": 9,
       "planned_run": "2026-11-02",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/react-admin-dashboard-supabase",
       "topic": "saas-development",
       "cluster": "Internal tools and dashboards",
       "role": "pillar",
