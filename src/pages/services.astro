@@ -5,6 +5,7 @@ import ServicesHeader from '../components/services/ServicesHeader.astro'
 import ServiceJumpNav from '../components/services/ServiceJumpNav.astro'
 import ServiceSection from '../components/services/ServiceSection.astro'
 import ContactBand from '../components/sections/ContactBand.astro'
+import Button from '../components/ui/Button.astro'
 import { disciplines } from '../content/disciplines'
 import { PRICING_NOTE } from '../content/contactOptions'
 import { servicesNode, webPageNode } from '../lib/structuredData'
@@ -25,6 +26,9 @@ const sections = serviceSections(disciplines, await getCollection('caseStudies')
     <div class="mx-auto max-w-[1600px] px-6 pt-16 md:px-12 lg:pt-20" data-reveal="rise">
       <h2 id="pricing-heading" class="type-label before:mb-3 before:block before:h-0.5 before:w-10 before:bg-ink">Pricing</h2>
       <p class="mt-4 max-w-2xl text-[clamp(1.0625rem,1.18vw,1.1875rem)] leading-relaxed">{PRICING_NOTE}</p>
+      <div class="mt-6">
+        <Button href="/services/audit" variant="outline">See the audit</Button>
+      </div>
     </div>
   </section>
   <ContactBand />

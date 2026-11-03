@@ -38,5 +38,10 @@
     "src": "/script/notes.svg",
     "width": 2323,
     "height": 1275
+  },
+  "start-here": {
+    "src": "/script/start-here.svg",
+    "width": 4813,
+    "height": 1445
   }
 }

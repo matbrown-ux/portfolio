@@ -1,0 +1,38 @@
+---
+import { audit, auditDeliverables } from '../../content/audit'
+---
+
+<section class="bg-ivory" aria-labelledby="deliverables-heading">
+  <div class="mx-auto grid max-w-[1600px] gap-12 px-6 py-16 md:px-12 lg:grid-cols-[1.15fr_1fr] lg:gap-[min(6vw,6rem)] lg:py-24">
+    <div>
+      <p class="type-label"><span aria-hidden="true">// </span>What you get</p>
+      <h2 id="deliverables-heading" class="type-display mt-4 max-w-[14ch] text-[clamp(2.25rem,4.2vw,4.25rem)] leading-[0.95]" data-reveal="rise">
+        What the audit gives you
+      </h2>
+      <ol role="list" class="mt-10">
+        {
+          auditDeliverables.map((item, i) => (
+            <li class="grid grid-cols-[3rem_1fr] items-baseline border-t border-ink/15 py-4 text-[clamp(1.0625rem,1.22vw,1.25rem)] leading-snug last:border-b">
+              <span class="type-label" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              {item}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+    <aside class="flex flex-col justify-between bg-vermilion p-8 text-ink md:p-10 lg:p-12" aria-labelledby="price-heading" data-reveal="fade">
+      <div>
+        <h3 id="price-heading" class="type-label">Price</h3>
+        <p class="type-display mt-4 text-[clamp(5rem,10vw,10rem)] leading-[0.85]">
+          <span class="sr-only">From </span>{audit.priceLabel}
+        </p>
+        <p class="type-label mt-4">One business, one location or one product</p>
+      </div>
+      <div class="mt-12 border-t-2 border-ink pt-6">
+        <p class="text-[clamp(1.0625rem,1.22vw,1.25rem)] leading-relaxed">
+          Hire me for the build within {audit.creditDays} days and the whole fee comes off its price, so the audit ends up costing you nothing.
+        </p>
+      </div>
+    </aside>
+  </div>
+</section>

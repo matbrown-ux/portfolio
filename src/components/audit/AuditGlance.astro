@@ -1,0 +1,31 @@
+---
+import { PAGE_ENTRANCE, stripReveal } from '../../lib/heroEntrance'
+import VerticalLabel from '../ui/VerticalLabel.astro'
+import { audit } from '../../content/audit'
+
+const cells = [
+  { term: 'Price', value: `From ${audit.priceLabel}`, display: true },
+  { term: 'Length', value: audit.length, display: true },
+  { term: 'You get', value: 'A written plan and a walkthrough call', display: false },
+  { term: 'Credit', value: `The fee comes off a build that starts within ${audit.creditDays} days`, display: false },
+]
+---
+
+<section class="bg-ink text-ivory" aria-labelledby="glance-heading">
+  <h2 id="glance-heading" class="sr-only">The audit at a glance</h2>
+  <div class="mx-auto flex max-w-[1600px]">
+    <div class="hidden w-20 shrink-0 items-center justify-center lg:flex" aria-hidden="true">
+      <VerticalLabel>At a glance</VerticalLabel>
+    </div>
+    <dl class="grid flex-1 grid-cols-2 lg:grid-cols-[1fr_1fr_1.3fr_1.6fr]">
+      {
+        cells.map((cell, i) => (
+          <div class:list={['overflow-hidden border-line-dark px-6 py-8 lg:border-b-0 lg:border-l lg:px-7', i < 2 && 'border-b', i % 2 === 1 && 'border-l']}>
+            <dt class="type-label text-vermilion" {...stripReveal(i, PAGE_ENTRANCE)}>{cell.term}</dt>
+            <dd {...stripReveal(i, PAGE_ENTRANCE)} class:list={['mt-3', cell.display ? 'type-display text-[clamp(1.5rem,2vw,2.25rem)]' : 'text-lg leading-snug']}>{cell.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>

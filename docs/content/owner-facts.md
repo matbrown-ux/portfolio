@@ -115,3 +115,10 @@ Facts the owner has confirmed in conversation that are not in a case study or th
 - "where can I get gluten-free waffles on Oahu": 'Aiwi first in all four; Gemini named only 'Aiwi.
 - 'Aiwi appeared in all 12 answers and was first in 8. Gemini and Perplexity cited aiwiwaffles.com most; other sources cited included Yelp, Find Me Gluten Free, Atly, Wanderlog and Grace & Lightness Magazine.
 - Keep out of any article (owner, 2026-10-16): the second Google listing, the mismatched hours, the name spelling on Google and other platforms' review counts. Those are private until the owner fixes them.
+
+## The audit offer and AI work (stated 2026-11-03; cleared for publishing)
+
+- The audit costs from $3,500, takes two weeks, and its fee comes off a build that starts within 60 days. It comes in two versions: startups, and tourism and hospitality.
+- The article pipeline has a new article ready three times a week, and Mat reviews each one before it goes live.
+- The 'Aiwi Waffles owner is fine with the site saying that Mat is adding an AI assistant to Home Base that answers staff questions from the shop's own guide.
+- "$20,000" is the example build size Mat wants visitors to see. In his words, it "kind of gets me qualified" people interested from the very get-go.

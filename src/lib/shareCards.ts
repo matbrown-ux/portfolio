@@ -61,6 +61,7 @@ export function shareCards(input: { sections: BlogSection[]; caseStudies: StudyE
     { path: '/', label: 'Mat Brown', title: 'UX/UI engineer & SEO specialist', address: 'matbrown.io' },
     { path: '/work', label: 'Work', title: 'UX/UI engineering & SEO case studies', address: 'matbrown.io / work' },
     { path: '/services', label: 'Services', title: 'UX/UI, SEO & AI workflow services', address: 'matbrown.io / services' },
+    { path: '/services/audit', label: 'Services / Audit', title: 'AI and website audits', address: 'matbrown.io / services' },
     { path: '/about', label: 'About', title: 'Mat Brown', address: 'matbrown.io / about' },
     { path: '/contact', label: 'Contact', title: 'Start a project', address: 'matbrown.io / contact' },
     { path: '/blog', label: 'Blog', title: 'Articles on UX/UI, SEO & AI workflows', address: 'matbrown.io / blog' },

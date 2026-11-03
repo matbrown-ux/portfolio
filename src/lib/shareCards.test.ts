@@ -71,6 +71,7 @@ describe('shareCards', () => {
   it('has a card for each fixed page', () => {
     expect(card('/work')).toMatchObject({ label: 'Work', title: 'UX/UI engineering & SEO case studies', address: 'matbrown.io / work' })
     expect(card('/services')).toMatchObject({ label: 'Services', title: 'UX/UI, SEO & AI workflow services', address: 'matbrown.io / services' })
+    expect(card('/services/audit')).toMatchObject({ label: 'Services / Audit', title: 'AI and website audits', address: 'matbrown.io / services' })
     expect(card('/about')).toMatchObject({ label: 'About', title: 'Mat Brown', address: 'matbrown.io / about' })
     expect(card('/contact')).toMatchObject({ label: 'Contact', title: 'Start a project', address: 'matbrown.io / contact' })
     expect(card('/blog')).toMatchObject({ label: 'Blog', title: 'Articles on UX/UI, SEO & AI workflows', address: 'matbrown.io / blog' })
@@ -97,7 +98,7 @@ describe('shareCards', () => {
 
   it('gives every page exactly one card', () => {
     expect(new Set(cards.map((c) => c.path)).size).toBe(cards.length)
-    expect(cards).toHaveLength(6 + caseStudies.length + topics.length + articles.length)
+    expect(cards).toHaveLength(7 + caseStudies.length + topics.length + articles.length)
   })
 })
 

@@ -1,0 +1,41 @@
+---
+import { auditVersions } from '../../content/audit'
+
+// Stone, then vermilion: text on both is ink, so the labels stay ink too.
+const surfaces = ['bg-stone', 'bg-vermilion']
+---
+
+<section class="bg-ivory" aria-labelledby="versions-heading">
+  <div class="mx-auto max-w-[1600px] px-6 md:px-12">
+    <p class="type-label before:mb-3 before:block before:h-0.5 before:w-10 before:bg-ink">Two versions</p>
+    <h2 id="versions-heading" class="type-display mt-4 max-w-[18ch] text-[clamp(2.25rem,4.2vw,4.25rem)] leading-[0.95]" data-reveal="rise">
+      Audits for startups and for tourism &amp; hospitality
+    </h2>
+  </div>
+  <div class="mx-auto mt-10 grid max-w-[1600px] lg:mt-14 lg:grid-cols-2">
+    {
+      auditVersions.map((version, i) => (
+        <article class:list={['relative isolate overflow-hidden px-6 pb-12 pt-12 text-ink md:px-12 lg:px-[min(4vw,4rem)] lg:pb-16 lg:pt-14', surfaces[i]]} aria-labelledby={`${version.slug}-heading`}>
+          <span class="type-display pointer-events-none absolute -bottom-[0.12em] right-4 -z-10 select-none text-[clamp(8rem,16vw,16rem)] leading-[0.8] text-ink/[0.08]" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <p class="type-label">Version {String(i + 1).padStart(2, '0')}</p>
+          <h3 id={`${version.slug}-heading`} class="type-display mt-3 text-[clamp(2.5rem,4.4vw,4.5rem)] leading-[0.95]" data-reveal="rise">
+            {version.name}
+          </h3>
+          <p class="type-label mt-4 max-w-md">{version.audience}</p>
+          <p class="mt-6 max-w-lg text-[clamp(1.0625rem,1.18vw,1.1875rem)] leading-relaxed">{version.blurb}</p>
+          <p class="type-label mt-10"><span aria-hidden="true">// </span>What I look at</p>
+          <ul role="list" class="mt-3.5 max-w-xl">
+            {version.looksAt.map((item) => (
+              <li class="grid grid-cols-[2rem_1fr] items-baseline border-t border-ink/25 py-3 text-[clamp(1rem,1.12vw,1.125rem)] leading-snug">
+                <span class="inline-block h-2 w-2 bg-ink" aria-hidden="true" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>

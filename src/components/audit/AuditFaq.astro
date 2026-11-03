@@ -1,0 +1,22 @@
+---
+import { auditFaqs } from '../../content/audit'
+---
+
+<section class="bg-stone" aria-labelledby="faq-heading">
+  <div class="mx-auto grid max-w-[1600px] gap-10 px-6 py-16 md:px-12 lg:grid-cols-[1fr_1.6fr] lg:gap-[min(6vw,6rem)] lg:py-24">
+    <div>
+      <p class="type-label"><span aria-hidden="true">// </span>FAQ</p>
+      <h2 id="faq-heading" class="type-display mt-4 max-w-[10ch] text-[clamp(2.25rem,4.2vw,4.25rem)] leading-[0.95]" data-reveal="rise">Questions about the audit</h2>
+    </div>
+    <dl>
+      {
+        auditFaqs.map((faq) => (
+          <div class="grid gap-3 border-t border-ink/25 py-6 last:border-b md:grid-cols-[1fr_1.3fr] md:gap-8">
+            <dt class="text-[clamp(1.125rem,1.35vw,1.375rem)] font-semibold leading-snug">{faq.question}</dt>
+            <dd class="text-[clamp(1rem,1.12vw,1.125rem)] leading-relaxed">{faq.answer}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>

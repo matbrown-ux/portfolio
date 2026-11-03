@@ -27,14 +27,19 @@ const section = (heading: string, lines: string[]) => (lines.length > 0 ? `\n## 
 export function llmsTxt(input: {
   person: Person
   disciplines: Discipline[]
+  /** The audit offer, listed after the disciplines. */
+  audit: { title: string; path: string; summary: string }
   caseStudies: { id: string; data: { title: string; summary: string } }[]
   articles: { id: string; data: { title: string; description: string; date: Date } }[]
 }): string {
-  const { person, disciplines, caseStudies, articles } = input
+  const { person, disciplines, audit, caseStudies, articles } = input
   const where = `I'm based on ${person.location.locality}, ${person.location.region}, and work with most clients remotely.`
   return (
     `# ${person.name}\n\n> ${person.description} My full name is ${person.alternateName}. ${where}\n` +
-    section('Services', disciplines.map((discipline) => item(discipline.title, pageUrl(`/services#${discipline.slug}`), discipline.blurb))) +
+    section('Services', [
+      ...disciplines.map((discipline) => item(discipline.title, pageUrl(`/services#${discipline.slug}`), discipline.blurb)),
+      item(audit.title, pageUrl(audit.path), audit.summary),
+    ]) +
     section('Case studies', caseStudies.map((study) => item(study.data.title, pageUrl(`/work/${study.id}`), study.data.summary))) +
     section('Articles', sortArticles(articles).map((article) => item(article.data.title, articleUrl(article.id), article.data.description))) +
     section('Contact', [item('Start a project', pageUrl('/contact'), 'The enquiry form.'), item('Email', `mailto:${person.email}`, person.email)])

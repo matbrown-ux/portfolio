@@ -7,6 +7,7 @@ import {
   blogNode,
   breadcrumbNode,
   articlePageNodes,
+  auditPageNodes,
   caseStudyNode,
   caseStudyPageNodes,
   topicPageNodes,
@@ -230,6 +231,20 @@ describe('page node sets', () => {
   const study = { id: 'vamp-network', data: { title: 'Vamp Network', headline: 'A creator platform', summary: 'What I built.', date: new Date('2026-04-01'), year: '2026', tags: ['SEO/AEO'] } }
   const topic = { id: 'ux-ui-design', data: { title: 'UX/UI Design', headline: 'UX/UI design guides' } }
   const article = { id: 'ux-ui-design/button-states', data: { title: 'Button states', description: 'A guide.', date: new Date('2026-05-31') } }
+
+  it('gives the audit a page, a service with its price and a Services, audit breadcrumb', () => {
+    const [page, service, crumbs] = auditPageNodes({ title: 'AI and website audit', headline: 'AI automation and website audits', summary: 'A two week audit.', path: '/services/audit', price: 3500 })
+    expect(page).toMatchObject({ '@type': 'WebPage', url: 'https://matbrown.io/services/audit', name: 'AI automation and website audits', mainEntity: { '@id': service['@id'] } })
+    expect(service).toMatchObject({
+      '@type': 'Service',
+      '@id': 'https://matbrown.io/services/audit#service',
+      name: 'AI and website audit',
+      description: 'A two week audit.',
+      provider: { '@id': PERSON_ID },
+      offers: { '@type': 'Offer', price: '3500', priceCurrency: 'USD' },
+    })
+    expect((crumbs.itemListElement as { name: string }[]).map((item) => item.name)).toEqual(['Services', 'AI and website audit'])
+  })
 
   it('gives a case study its work node and a Work, study breadcrumb', () => {
     const [work, crumbs] = caseStudyPageNodes(study)
