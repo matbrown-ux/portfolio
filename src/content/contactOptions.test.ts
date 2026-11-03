@@ -11,8 +11,8 @@ describe('contact options', () => {
     expect(new Set(budgetRanges).size).toBe(budgetRanges.length)
   })
 
-  it('states the one published price, a software build starting at $10,000, without dashes', () => {
-    expect(PRICING_NOTE).toBe('Software builds start at $10,000. Everything else is priced to your business after a free call.')
+  it('states the published prices, audits from $3,500 and software builds from $10,000, without dashes', () => {
+    expect(PRICING_NOTE).toBe('Audits start at $3,500, and the fee counts toward a build. Software builds start at $10,000. Everything else is priced to your business after a free call.')
     expect(PRICING_NOTE).not.toMatch(/[-\u2013\u2014]/)
   })
 

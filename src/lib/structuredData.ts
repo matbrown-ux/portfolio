@@ -172,3 +172,21 @@ export function articlePageNodes(article: Parameters<typeof articleNode>[0], top
     breadcrumbNode(path, [{ name: 'Blog', path: '/blog' }, { name: topic.data.title, path: `/blog/${topic.id}` }, { name: article.data.title, path }]),
   ]
 }
+
+/** The audit page: the page, the audit as a service with its price, then the Services, audit breadcrumb. */
+export function auditPageNodes(audit: { title: string; headline: string; summary: string; path: string; price: number }): Node[] {
+  const service: Node = {
+    '@type': 'Service',
+    '@id': `${pageUrl(audit.path)}#service`,
+    name: audit.title,
+    description: audit.summary,
+    url: pageUrl(audit.path),
+    provider: { '@id': PERSON_ID },
+    offers: { '@type': 'Offer', price: String(audit.price), priceCurrency: 'USD' },
+  }
+  return [
+    webPageNode('WebPage', audit.path, audit.headline, { mainEntity: { '@id': service['@id'] } }),
+    service,
+    breadcrumbNode(audit.path, [{ name: 'Services', path: '/services' }, { name: audit.title, path: audit.path }]),
+  ]
+}

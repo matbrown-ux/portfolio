@@ -2,6 +2,7 @@
 import Arrow from '../ui/Arrow.astro'
 import { PAGE_ENTRANCE } from '../../lib/heroEntrance'
 import Confirmation from './Confirmation.astro'
+import { audit } from '../../content/audit'
 import { disciplines } from '../../content/disciplines'
 import { budgetRanges, MULTIPLE_SERVICES, PRICING_NOTE } from '../../content/contactOptions'
 import { FALLBACK_SUBJECT } from '../../lib/contactSubject'
@@ -74,6 +75,7 @@ const required = 'text-vermilion'
         <select id="projectType" name="projectType" required class:list={select}>
           <option value="">Select a service</option>
           {disciplines.map((d) => <option value={d.title} data-slug={d.slug}>{d.title}</option>)}
+          <option value={audit.title} data-slug={audit.slug}>{audit.title}</option>
           <option value={MULTIPLE_SERVICES}>{MULTIPLE_SERVICES}</option>
         </select>
         <span class={caret} aria-hidden="true">▾</span>

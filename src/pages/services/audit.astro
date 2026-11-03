@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import AuditHeader from '../../components/audit/AuditHeader.astro'
+import AuditGlance from '../../components/audit/AuditGlance.astro'
+import AuditIntro from '../../components/audit/AuditIntro.astro'
+import AuditVersions from '../../components/audit/AuditVersions.astro'
+import AuditDeliverables from '../../components/audit/AuditDeliverables.astro'
+import AuditSteps from '../../components/audit/AuditSteps.astro'
+import AuditProof from '../../components/audit/AuditProof.astro'
+import AuditFaq from '../../components/audit/AuditFaq.astro'
+import ContactBand from '../../components/sections/ContactBand.astro'
+import { audit } from '../../content/audit'
+import { auditPageNodes } from '../../lib/structuredData'
+---
+
+<BaseLayout
+  title="AI Automation & Website Audits"
+  description="Two weeks, from $3,500, for startups and tourism and hospitality businesses. You get a plan that ranks every fix by what pays you back first, and the fee comes off the build."
+  schema={auditPageNodes(audit)}
+>
+  <AuditHeader />
+  <AuditGlance />
+  <AuditIntro />
+  <AuditVersions />
+  <AuditDeliverables />
+  <AuditSteps />
+  <AuditProof />
+  <AuditFaq />
+  <ContactBand heading="Want the audit?" href={`/contact?service=${audit.slug}`} label="Book a free call" />
+</BaseLayout>

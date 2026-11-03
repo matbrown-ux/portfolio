@@ -1,0 +1,33 @@
+---
+import Arrow from '../ui/Arrow.astro'
+import { auditProof } from '../../content/audit'
+---
+
+<section class="bg-ivory" aria-labelledby="proof-heading">
+  <div class="mx-auto max-w-[1600px] px-6 py-16 md:px-12 lg:py-24">
+    <p class="type-label"><span aria-hidden="true">// </span>Proof</p>
+    <h2 id="proof-heading" class="type-display mt-4 max-w-[16ch] text-[clamp(2.25rem,4.2vw,4.25rem)] leading-[0.95]" data-reveal="rise">
+      AI systems and automations I've built
+    </h2>
+    <ul role="list" class="mt-10 grid gap-5 lg:mt-14 lg:grid-cols-3">
+      {
+        auditProof.map((item, i) => (
+          <li data-reveal="rise" data-reveal-index={i} data-reveal-step="0.1">
+            <a
+              href={item.href}
+              class="group flex h-full flex-col border-2 border-ink p-6 transition-colors duration-200 hover:bg-ink hover:text-ivory focus-visible:bg-ink focus-visible:text-ivory focus-visible:outline-ink motion-reduce:transition-none lg:p-8"
+            >
+              <span class="type-label">{item.kind}</span>
+              <span class="type-display mt-3 block text-[clamp(1.75rem,2.3vw,2.5rem)] leading-none">{item.title}</span>
+              <span class="mt-4 block flex-1 text-[clamp(1rem,1.12vw,1.125rem)] leading-relaxed">{item.text}</span>
+              <span class="mt-8 flex items-center justify-between border-t border-current pt-4">
+                <span class="type-label">{item.cta}</span>
+                <span class="text-2xl" aria-hidden="true"><Arrow /></span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

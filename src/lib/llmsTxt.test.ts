@@ -4,6 +4,7 @@ import { articleUrl, llmsTxt, robotsTxt } from './llmsTxt'
 
 const disciplines = [{ number: '02', slug: 'seo-aeo', title: 'SEO/AEO', blurb: 'I fix the technical foundations.', deliverables: [], cta: '', skills: [] }]
 const caseStudies = [{ id: 'aiwi-waffles', data: { title: "'Aiwi Waffles", summary: 'A brand and a storefront that ranks #1 locally.' } }]
+const audit = { title: 'AI and website audit', path: '/services/audit', summary: 'A two week audit.' }
 const articles = [
   { id: 'ux-ui-design/older', data: { title: 'Older', description: 'First.', date: new Date('2026-01-01') } },
   { id: 'ux-ui-design/newer', data: { title: 'Newer [draft]', description: 'Second\nline.', date: new Date('2026-05-31') } },
@@ -22,7 +23,7 @@ describe('articleUrl', () => {
 })
 
 describe('llmsTxt', () => {
-  const text = llmsTxt({ person, disciplines, caseStudies, articles })
+  const text = llmsTxt({ person, disciplines, audit, caseStudies, articles })
 
   it('opens with the name and a summary in a quote block', () => {
     expect(text.startsWith("# Mat Brown\n\n> I'm Mat Brown, a freelance UX/UI engineer, SEO/AEO specialist and agentic workflow developer. My full name is Mathew Brown. I'm based on O'ahu, Hawai'i, and work with most clients remotely.\n")).toBe(true)
@@ -30,6 +31,10 @@ describe('llmsTxt', () => {
 
   it('lists the services with their section links', () => {
     expect(text).toContain('## Services\n\n- [SEO/AEO](https://matbrown.io/services#seo-aeo): I fix the technical foundations.\n')
+  })
+
+  it('lists the audit after the services', () => {
+    expect(text).toContain('I fix the technical foundations.\n- [AI and website audit](https://matbrown.io/services/audit): A two week audit.\n')
   })
 
   it('lists the case studies with their summaries', () => {
@@ -44,7 +49,7 @@ describe('llmsTxt', () => {
 
   it('keeps angle brackets, ampersands and quotes readable', () => {
     const odd = [{ id: 'ux-ui-design/odd', data: { title: 'A < B & "C"', description: "It's <b>fine</b> & more.", date: new Date('2026-06-01') } }]
-    expect(llmsTxt({ person, disciplines, caseStudies, articles: odd })).toContain(
+    expect(llmsTxt({ person, disciplines, audit, caseStudies, articles: odd })).toContain(
       '- [A < B & "C"](https://matbrown.io/blog/ux-ui-design/odd): It\'s <b>fine</b> & more.\n',
     )
   })
@@ -54,7 +59,7 @@ describe('llmsTxt', () => {
   })
 
   it('leaves out a section that would be empty', () => {
-    expect(llmsTxt({ person, disciplines, caseStudies, articles: [] })).not.toContain('## Articles')
+    expect(llmsTxt({ person, disciplines, audit, caseStudies, articles: [] })).not.toContain('## Articles')
   })
 
   it('has no em or en dash', () => {

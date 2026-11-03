@@ -1,0 +1,17 @@
+---
+import { auditIntro } from '../../content/audit'
+---
+
+<section class="bg-ivory" aria-labelledby="intro-heading">
+  <div class="mx-auto grid max-w-[1600px] gap-8 px-6 pb-16 pt-16 md:px-12 lg:grid-cols-[1.05fr_1fr] lg:gap-[min(5vw,5rem)] lg:pb-24 lg:pt-24">
+    <div>
+      <p class="type-label"><span aria-hidden="true">// </span>Why start here</p>
+      <h2 id="intro-heading" class="type-display mt-4 max-w-[13ch] text-[clamp(2.75rem,5.6vw,5.75rem)] leading-[0.95]" data-reveal="rise">
+        Know what to build before you spend the money
+      </h2>
+    </div>
+    <div class="space-y-5 self-end text-[clamp(1.0625rem,1.22vw,1.25rem)] leading-relaxed lg:max-w-[34rem]" data-reveal="rise" data-reveal-delay="0.1">
+      {auditIntro.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </div>
+</section>
