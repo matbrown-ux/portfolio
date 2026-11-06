@@ -551,7 +551,7 @@
     {
       "order": 8,
       "planned_run": "2026-10-30",
-      "status": "in-review",
+      "status": "published",
       "branch": "article/brand-strategy-for-small-business",
       "topic": "brand-strategy",
       "cluster": "Strategy foundations",
@@ -598,7 +598,7 @@
     {
       "order": 9,
       "planned_run": "2026-11-02",
-      "status": "in-review",
+      "status": "published",
       "branch": "article/react-admin-dashboard-supabase",
       "topic": "saas-development",
       "cluster": "Internal tools and dashboards",
@@ -648,8 +648,8 @@
     {
       "order": 10,
       "planned_run": "2026-11-04",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/design-handoff-guide",
       "topic": "ux-ui-design",
       "cluster": "Design to code handoff",
       "role": "pillar",
