@@ -50,3 +50,6 @@ auth.json
 # Playwright MCP output
 .playwright-mcp/
 .email-signature/
+
+# Headshot references (generated portraits, hair references of other people: never commit)
+.references/
