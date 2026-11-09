@@ -698,7 +698,7 @@
     {
       "order": 11,
       "planned_run": "2026-11-06",
-      "status": "in-review",
+      "status": "published",
       "branch": "article/how-to-rank-in-chatgpt-local-business",
       "topic": "answer-engine-optimization",
       "cluster": "AEO foundations",
@@ -748,8 +748,8 @@
     {
       "order": 12,
       "planned_run": "2026-11-09",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/technical-seo-checklist-small-business-websites",
       "topic": "technical-seo",
       "cluster": "Foundations",
       "role": "pillar",
