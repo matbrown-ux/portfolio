@@ -1,0 +1,147 @@
+---
+title: Technical SEO checklist for small business websites
+seoTitle: Technical SEO checklist for small business sites
+description: "A fix-it order for owners and developers with a site under 50 pages, so you spend your first hour on the problems that can keep you out of Google."
+date: "2026-11-09"
+keywords: ["technical seo checklist", "technical seo for small business", "technical seo audit checklist", "what is technical seo"]
+---
+
+Technical SEO is the work that lets Google find, read and index your pages, so the content you wrote can show up in search at all. For a small site the checklist is short: let Google reach your pages, confirm they are indexed, give each page one address, add a sitemap, then check mobile, speed, titles and structured data in that order.
+
+{/* Sources read in this run: Google Search Central (SEO starter guide, sitemaps overview, robots.txt intro, consolidate duplicate URLs, 301 redirects, mobile-first indexing, JavaScript SEO basics, structured data policies), Search Console Help (URL Inspection tool), web.dev (Core Web Vitals). */}
+
+## What is technical SEO?
+
+Technical SEO is everything on the site itself that decides whether a search engine can crawl a page (fetch it), render it (run the code and see what a visitor sees) and index it (store it so it can be returned for a search). It is separate from the words on the page and from the links other sites point at you.
+
+I find it easiest to think of it as plumbing. Nobody walks into a restaurant and says "great pipes," but when the water doesn't run, the whole place closes. Google explains the same order in its <a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" target="_blank" rel="noopener" aria-label="Google's SEO starter guide, opens in a new tab">SEO starter guide</a>: crawlers explore the web, and Google finds most new pages through links from pages it already crawled.
+
+There's so much information out there on this topic that it gets overwhelming, and a lot of it is written for very large sites. If you have fewer than 50 pages, you can skip the 100-point audits and fix the handful of things that decide whether you exist in search.
+
+![A thick ink pipe runs from a wireframe web page on the left to a vermilion search box on the right, with one joint in the middle.](./images/technical-seo-checklist-small-business-websites-1.png)
+
+## Why is technical SEO important?
+
+Because nothing else you do in SEO works if Google can't reach or index the page. A page that is blocked, broken or not indexed gets no impressions, however good the copy is. Technical problems are also some of the cheapest to fix, because many of them cost an afternoon and nothing else.
+
+That's why I look at the technical side before anything else. Writing ten new articles for a site that has a stray `noindex` tag on its home page is a very expensive way to learn what a `noindex` tag is.
+
+## How do I do technical SEO on a small site?
+
+Work in the order below. Each step depends on the one before it, so a fix in step six is wasted if step one is broken. Spend your first hour on steps one to three and the rest of the week on the others.
+
+| Step | The question | Where to check |
+| --- | --- | --- |
+| 1 | Can Google reach the page? | robots.txt, status codes, links |
+| 2 | Is the page indexed? | Search Console, URL Inspection |
+| 3 | Does each page have one address? | Canonicals, redirects |
+| 4 | Does Google know all your pages exist? | Sitemap |
+| 5 | Does the phone version match? | Mobile-first indexing |
+| 6 | Is it fast enough? | Core Web Vitals |
+| 7 | Does each page say what it is? | Titles, descriptions, headings |
+| 8 | Does the markup match the page? | Structured data |
+
+### Step 1: Can Google reach your pages?
+
+Open `yourdomain.com/robots.txt` in a browser and read it. That file tells crawlers which URLs they may fetch. Google's <a href="https://developers.google.com/search/docs/crawling-indexing/robots/intro" target="_blank" rel="noopener" aria-label="Google's robots.txt introduction, opens in a new tab">robots.txt introduction</a> says its main job is managing crawler traffic. It is a request that well-behaved crawlers follow, and it is not a way to hide a page.
+
+The mistake I would look for first is a leftover `Disallow: /` from when the site was being built. It tells every crawler to stay out of the entire site, and it can get carried over to the live site by accident. It looks harmless in the file, since it's one short line, and it quietly closes the whole shop.
+
+Then check three more things that stop a crawl:
+
+- **Status codes.** A page that exists should answer with 200, and a page that is gone should answer with 404. Google's <a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" target="_blank" rel="noopener" aria-label="Google's JavaScript SEO basics, opens in a new tab">JavaScript SEO basics</a> says Googlebot uses status codes to decide whether a page can be crawled or indexed.
+- **Real links.** Google finds links in `<a>` elements with an `href`. A button that runs JavaScript to change the page is invisible as a link.
+- **Blocked files.** If your CSS or JavaScript is blocked, Google may not understand the page, because it wants the same resources a visitor's browser gets.
+
+On a site built with a JavaScript framework, that last point is where small sites get hurt most often. Google's guide still calls server-side rendering or pre-rendering a great idea, because it makes the site faster for users and crawlers, and not all bots can run JavaScript. This portfolio is built on Astro with static output, so each page is plain HTML before any JavaScript runs.
+
+### Step 2: Is the page indexed?
+
+Search `site:yourdomain.com` in Google. If results come back, you're in the index. If your most important page isn't there, don't guess: open Google Search Console, the free tool that shows how Google sees your site, and paste the page address into the URL Inspection tool.
+
+Per Google's <a href="https://support.google.com/webmasters/answer/9012289" target="_blank" rel="noopener" aria-label="Search Console's URL Inspection tool help page, opens in a new tab">URL Inspection help page</a>, it tells you whether the URL is on Google, when it was last crawled, whether crawling and indexing were allowed, and which canonical address Google picked. A live test fetches the page right now, which is the way to confirm a fix worked. It doesn't guarantee the page gets indexed, and indexing usually takes about a day but can take longer.
+
+A page can be kept out of the index on purpose with a `noindex` directive. Google's robots.txt page says that's the right tool, and that blocking in robots.txt is not, because a blocked URL can still appear in results if other pages link to it. So if a page you want is missing, search the page's source for `noindex` before you touch anything else.
+
+![A wireframe web page sits between a vermilion padlock and a blank stop sign, with a dashed line running across the page toward the sign.](./images/technical-seo-checklist-small-business-websites-2.png)
+
+### Step 3: Does each page have exactly one address?
+
+The same page can load at several addresses: with and without `www`, with `http` and `https`, with a tracking parameter on the end, with or without a trailing slash. To you that is one page. To a crawler it can look like four near-identical pages, and Google has to guess which one to show.
+
+Google's page on <a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" target="_blank" rel="noopener" aria-label="Google's guide to consolidating duplicate URLs, opens in a new tab">consolidating duplicate URLs</a> lists the tools in order of strength. A redirect is the strongest signal. A `rel="canonical"` link in the page's `<head>`, the tag that says "this is the preferred address," is also a strong signal. Listing the address in your sitemap is a weak one. Google also recommends a self-referential canonical, which means each page names itself as its own preferred address.
+
+Pick one form of your address and send the rest there with a permanent redirect. Google's <a href="https://developers.google.com/search/docs/crawling-indexing/301-redirects" target="_blank" rel="noopener" aria-label="Google's guide to permanent redirects, opens in a new tab">redirect guide</a> says to use permanent redirects when you're sure they won't be reverted, and prefers a server-side 301 or 308 over a JavaScript redirect, because rendering may fail and Google might never see the redirect.
+
+My own portfolio is strict about this. It is set to never end an address in a slash, each page is built as a file named for its route, and the build fails if an indexable page has a canonical that is not its own address. The build checks that, so I don't have to remember it.
+
+### Step 4: Does Google know all your pages exist?
+
+A sitemap is a file that lists the URLs you care about. Google's <a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview" target="_blank" rel="noopener" aria-label="Google's sitemaps overview, opens in a new tab">sitemaps overview</a> says you might not need one if your site has roughly 500 pages or fewer and every important page is reachable by following links from the home page. It also says most sites still benefit from having one.
+
+You probably have a sitemap already, because platforms like WordPress, Wix and Blogger often make one automatically. Open `yourdomain.com/sitemap.xml` and check three things: it lists the pages you want indexed, it leaves out the ones you don't, and it matches what your pages say about themselves. A page marked `noindex` that sits in your sitemap is sending Google two opposite messages.
+
+Then submit the sitemap in Search Console. Google says a sitemap doesn't guarantee that every listed item gets crawled and indexed, but for a new site with few links pointing at it, a sitemap is the cheapest way to say "these pages exist."
+
+### Step 5: Does the phone version match?
+
+Google uses the mobile version of your content for indexing and ranking. That's called mobile-first indexing. Google's <a href="https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing" target="_blank" rel="noopener" aria-label="Google's mobile-first indexing guide, opens in a new tab">mobile-first indexing guide</a> says the mobile site should contain the same content as the desktop one, with the same headings, titles, descriptions, structured data and image alt text.
+
+If your site is responsive, which means one page that rearranges itself to fit the screen, the guide notes that the content and metadata are already the same on both. That covers most small sites. The thing to check is a mobile layout that hides important text behind a click or a swipe the crawler won't do. Google says to avoid lazy-loading primary content behind those actions. Open your own site on a real phone and ask whether a stranger could find the address, the hours and the main offer without hunting.
+
+### Step 6: Is it fast enough?
+
+Google measures this with three numbers called Core Web Vitals. The <a href="https://web.dev/articles/vitals" target="_blank" rel="noopener" aria-label="web.dev's Core Web Vitals page, opens in a new tab">web.dev page</a> gives the targets, each measured at the 75th percentile of page loads, which means three out of four real visits should hit them.
+
+| Metric | What it measures | Good target |
+| --- | --- | --- |
+| Largest Contentful Paint (LCP) | How long the biggest thing on screen takes to appear | 2.5 seconds or less |
+| Interaction to Next Paint (INP) | How long the page takes to respond after a tap or click | 200 milliseconds or less |
+| Cumulative Layout Shift (CLS) | How much the page jumps around while loading | 0.1 or less |
+
+You can think of these as three small complaints a visitor would make out loud: "it's slow to show up," "it's slow to answer me," and "it moved right when I tapped it." A restaurant site with a four-megabyte hero photo and a menu PDF fails the first one before the customer sees a single waffle.
+
+Test your three most important pages, usually the home page, your main service or menu page and your contact page, and fix the worst offender first. Compress the one big image before you touch anything fancier.
+
+### Step 7: Does each page say what it is?
+
+Every page needs its own title, its own description and one clear `h1`. Google's starter guide says a good title is unique to the page, clear and concise, and accurately describes the contents. A good description is short, unique to the page and includes its most relevant points. It also says Google doesn't use the keywords meta tag, so skip that one.
+
+A common small-site slip is the same title on every page, usually the business name. It's the SEO version of every employee wearing the same name tag. Search your site for repeated titles and give each page a title that says what that page is about.
+
+![Three blank page wireframes in a row, each with a vermilion bar of a different length at the top and a matching ink bar below.](./images/technical-seo-checklist-small-business-websites-3.png)
+
+### Step 8: Does the markup match the page?
+
+Structured data is a block of code that labels what a page is, such as a business, an article or a product. Google's <a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies" target="_blank" rel="noopener" aria-label="Google's structured data policies, opens in a new tab">structured data policies</a> say not to mark up content that readers of the page can't see, and that the markup must be a true representation of the page.
+
+So add only what is on the page. If your page shows an address and hours, label the address and hours. Don't add review stars to a page that has no visible reviews. Google adds that correct markup doesn't guarantee a rich result, and that a violation can make the page lose eligibility for them.
+
+## How do I perform a technical SEO audit?
+
+Run the eight steps above in order on your home page and your two or three most important pages, write down what fails, and fix one thing at a time. A technical SEO audit on a small site is a morning of looking, not a paid report with 100 findings.
+
+Here is the shape I'd use:
+
+1. Read your robots.txt and check the status of your key pages.
+2. Inspect each key page in Search Console and note any that are not on Google.
+3. Check which addresses load the same page, then add redirects and canonicals.
+4. Open your sitemap and compare it to the pages you want indexed.
+5. Load the site on a phone and compare it with the desktop version.
+6. Test your three most important pages for speed.
+7. Check titles, descriptions and the `h1` on each page.
+8. Compare structured data to what the page shows.
+
+Fix in that order too. A blocked home page hurts far more than a broken sitemap, and an unindexed page costs you more than a slow image does.
+
+## What does a technical SEO checklist include?
+
+A small-site checklist includes crawl access, indexing, one address per page, a sitemap, a matching mobile version, passing Core Web Vitals, unique titles and descriptions and honest structured data. Everything else, such as log files or crawl budget (how many pages Google will fetch from your site in a visit), is for much larger sites.
+
+I'd add one habit that most lists skip: check again after every redesign. A new theme, a new host or a rebuilt site is when a stray `noindex` or a `Disallow: /` sneaks back in. On this portfolio I made the build do that checking. It fails when a page has no title, no description, more or fewer than one `h1`, a canonical that isn't its own address, or a `noindex` that disagrees with the sitemap. I wanted a broken page to cost me an error message in the terminal and nothing in rankings.
+
+## What did this look like on my side?
+
+For 'Aiwi Waffles I built the Shopify storefront and I handle the local SEO and the Google Business Profile, and the shop ranks #1 on Google for multiple local searches. The full story is in the <a href="/work/aiwi-waffles">'Aiwi Waffles case study</a>, and my write-up of <a href="/blog/technical-seo/local-seo-case-study-aiwi-waffles">what I did for the shop's local ranking</a> shows the order I worked in. For the creator portfolio sites in Portfolio Optimization, I build each one on Astro with a basic SEO and AEO setup. This portfolio has the checks above running on every build.
+
+If you own a business and you're thinking "cool, but I just need people to find my site," this is the foundation for that. A technical problem can keep a good site out of Google, and fixing one is some of the cheapest work in an SEO budget. It's also why a proper build costs more than a $1,000 template: the plumbing is part of the work. If you're a designer or developer, run steps one to three on your last launch before you ship the next one. If you want your own site dialed in, take a look at my <a href="/services">services</a> and get in touch. You can find more posts under <a href="/blog/technical-seo">Technical SEO</a>.
