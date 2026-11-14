@@ -748,7 +748,7 @@
     {
       "order": 12,
       "planned_run": "2026-11-09",
-      "status": "in-review",
+      "status": "published",
       "branch": "article/technical-seo-checklist-small-business-websites",
       "topic": "technical-seo",
       "cluster": "Foundations",
@@ -799,8 +799,8 @@
     {
       "order": 13,
       "planned_run": "2026-11-11",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/ai-automation-pricing",
       "topic": "ai-automation",
       "cluster": "Foundations",
       "role": "spoke",
