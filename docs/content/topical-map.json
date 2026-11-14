@@ -844,8 +844,8 @@
     {
       "order": 14,
       "planned_run": "2026-11-13",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/design-tokens-explained",
       "topic": "design-systems",
       "cluster": "Design tokens",
       "role": "pillar",
