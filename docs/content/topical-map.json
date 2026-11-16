@@ -895,8 +895,8 @@
     {
       "order": 15,
       "planned_run": "2026-11-16",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/one-component-base-many-brands",
       "topic": "design-systems",
       "cluster": "Design systems for small teams",
       "role": "spoke",
