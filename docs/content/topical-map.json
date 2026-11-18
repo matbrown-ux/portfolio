@@ -943,8 +943,8 @@
     {
       "order": 16,
       "planned_run": "2026-11-18",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/aeo-vs-seo",
       "topic": "answer-engine-optimization",
       "cluster": "AEO foundations",
       "role": "spoke",
