@@ -1,0 +1,117 @@
+---
+title: "AEO vs SEO vs GEO: what changes and what stays the same"
+seoTitle: "AEO vs SEO vs GEO: What Actually Changes"
+description: "Agencies throw three acronyms at you. I sort them by where your customer asks the question, then lay out what a small business should do first."
+date: "2026-11-18"
+keywords: ["aeo vs seo", "geo vs seo", "geo vs aeo", "aeo vs geo", "seo vs aeo"]
+---
+
+SEO (search engine optimization) gets your pages ranked in a list of links. AEO (answer engine optimization) and GEO (generative engine optimization) are two names for getting your business named inside an AI-written answer. The work overlaps a lot. For a small business, good SEO comes first, and the AI-specific habits sit on top of it.
+
+## What is the difference between AEO, GEO and SEO?
+
+SEO is about ranking in the classic results, AEO is about being the answer a tool picks, and GEO is about being one of the sources cited inside a generated response. Writers disagree on where one ends and the next begins, and some use AEO and GEO as the same word.
+
+There's so much information out there that it gets overwhelming, and every agency defines the terms a little differently. Three acronyms for one job is a lot, so I read three pages that rank for this search to see where they agree.
+
+<Terms>
+<Term name="SEO">
+
+Mo Agency defines it as "the practice of ranking web pages within the traditional ranked results of search engines." You want the click.
+
+</Term>
+<Term name="AEO">
+
+The same piece says it is about structuring content "so that it is selected as the direct answer by an answer engine." It adds that the term predates AI and first covered voice assistants and Google's featured answers.
+
+</Term>
+<Term name="GEO">
+
+Mo Agency says "GEO is about being one of several cited sources inside a synthesised response." NetBranding describes it as optimizing for generative platforms like ChatGPT, Google AI Overviews and Perplexity.
+
+</Term>
+</Terms>
+
+Here is where they disagree. Mo Agency notes that many practitioners now use AEO as an umbrella that includes AI Overviews and ChatGPT, and that Profound argues AEO and GEO are one strategy. NEURONwriter, which sells content tools, says the three are "three layers of the same underlying work." All three pages come from companies that sell this, so my reading is that the content work overlaps while the surfaces and measurement differ.
+
+## Is AEO just SEO with a new name?
+
+For the foundation, mostly yes. Google says that to appear in its AI Overviews and AI Mode there are "no additional requirements" beyond being indexed and eligible to show in Search with a snippet. The name is new, but the work underneath is the same. What changes is the surface where the answer appears.
+
+Google's page on <a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener" aria-label="Google's AI features and your website page, opens in a new tab">AI features and your website</a> also says there's no special schema.org structured data you need to add, and that markup should match the visible text on the page. It adds that both may use "query fan-out," meaning they run several related searches across subtopics before writing the answer. The new part is that an answer can quote you without anyone clicking.
+
+## Do I need separate strategies for Google and ChatGPT?
+
+You need one content plan and separate checkups. The pages you write can be the same, but the crawlers, the controls and the way you check results differ between Google and ChatGPT.
+
+A comparison by surface is easier to use than one by acronym, so here is that:
+
+| | Classic Google results | Google AI Overviews and AI Mode | ChatGPT search | Perplexity |
+| --- | --- | --- | --- | --- |
+| What shows up | A ranked list of links | A written answer with links to sources | A written answer with sources | A written answer with sources |
+| What gets you in | Indexed, crawlable, relevant pages | The same: indexed and eligible to show with a snippet | Not blocking OAI-SearchBot | Not blocking PerplexityBot |
+| Special markup needed | No | No, per Google | None documented | None documented |
+| Where you measure it | Search Console | Included in Search Console's Web performance report | Your own manual checks | Your own manual checks |
+
+The table comes from the documentation. OpenAI's <a href="https://developers.openai.com/api/docs/bots" target="_blank" rel="noopener" aria-label="OpenAI's bots page, opens in a new tab">bots page</a> says "sites that are opted out of OAI-SearchBot will not be shown in ChatGPT search answers." It also says disallowing GPTBot only means your content should not be used for training, so the two settings are separate. ChatGPT-User, it says, "is not used to determine whether content may appear in Search."
+
+Perplexity's <a href="https://docs.perplexity.ai/guides/bots" target="_blank" rel="noopener" aria-label="Perplexity's bots guide, opens in a new tab">guide</a> works the same way: PerplexityBot is "designed to surface and link websites in search results on Perplexity." Perplexity-User, which fetches a page when a person asks, generally ignores robots.txt rules.
+
+A robots.txt that allows both search crawlers and still says no to training looks like this:
+
+```txt
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: GPTBot
+Disallow: /
+```
+
+Blocking training is your call. Blocking search by accident is what to avoid, because a security plugin can do it quietly.
+
+![One stack of page blocks feeds three separate lanes: a list of link bars, a single answer card with a vermilion tab, and a chat bubble.](./images/aeo-vs-seo-1.png)
+
+## Where does the work overlap and where does it split?
+
+The overlap is the page itself: crawlable, indexed, with the answer near the top and honest detail below. The split comes after publishing, in mentions elsewhere, your Business Profile and how you check results.
+
+### What stays the same
+
+- Pages that can be crawled and indexed, with the important content in real text.
+- A plain answer up top, then the detail, so a skimming person and a passage-pulling tool both get a clean one.
+- First-hand experience: something only you could write, like a real example or a photo you took.
+
+### What changes
+
+- Off-site mentions matter more. Mo Agency argues that GEO covers things like third-party mentions, directories, review platforms and editorial citations, and that off-platform authority is what most brands get wrong. The agency doesn't show data for that, so treat it as a sensible habit: honest reviews and a consistent description of your business everywhere.
+- Measurement works differently. Google reports AI Overview and AI Mode links in the overall Search traffic in Search Console, under the Web search type. ChatGPT and Perplexity don't hand you a report like that, so you run your own questions by hand and write down the date, because the answers shift by person, place and day.
+- Click behavior changes. Mo Agency says SEO expects the click, while AEO and GEO often end without one, with brand visibility as the payoff. So the top of your page has to carry your name and a clear answer.
+
+![A wide base slab with two thinner layers stacked on top, the top layer filled vermilion.](./images/aeo-vs-seo-2.png)
+
+## Which one should a small business focus on first?
+
+Start with SEO, the foundation the other two sit on. Then fix your Business Profile, rewrite the top of your main page to answer one real question, and check a few AI tools by hand. A separate "AEO project" can wait until the basics are clean.
+
+Your site is a bit like a plant: it does fine when you feed it and check on it. Here is the order I would work in:
+
+1. Make sure your important pages are indexed and your robots.txt isn't blocking search crawlers.
+2. Fix your Google Business Profile, the free listing on Maps with your hours, photos and reviews. Wrong hours there become wrong answers everywhere.
+3. Rewrite the first two or three sentences of your main service or location page so they answer the question a customer would ask.
+4. Add one thing only you could write: a real example, a photo you took, a number you can source.
+5. Ask the same three questions in Google, ChatGPT and Perplexity every month, and write down whether you're named.
+
+If an agency tells you GEO is a separate service that costs extra, ask what they do differently from SEO. The pitch "we'll get you into ChatGPT" looks great, honestly, right up until you ask how and get a lot of confident hand-waving. Nobody controls what an AI tool says.
+
+My <a href="/blog/answer-engine-optimization/answer-engine-optimization-guide">AEO guide for small businesses</a> sorts tactics by evidence, and <a href="/blog/answer-engine-optimization/how-to-rank-in-chatgpt-local-business">how to rank in ChatGPT as a local business</a> goes deeper on that one engine.
+
+## How does this look on a real project?
+
+On 'Aiwi Waffles, a waffle shop in Waikiki, I did the SEO work first: the site, the Business Profile and the local search basics. Then I checked the AI tools. On October 16, 2026, around 7:30pm Hawai'i time, I ran "best waffles in Waikiki," "best gluten-free breakfast in Honolulu" and "where can I get gluten-free waffles on Oahu" in Google AI Mode, ChatGPT, Gemini and Perplexity, logged out. 'Aiwi appeared in all 12 answers and was first in 8. That was a one-evening snapshot, so I'd run it again before leaning on it. The rest is in the <a href="/work/aiwi-waffles">'Aiwi Waffles case study</a>.
+
+If you own a business and you're thinking "cool, but I just need people to find me," that is the whole point. You don't have to buy three acronyms as three projects. The work costs more than a $1,000 template because the careful part is what shows up in the answers, and it keeps paying you back each time a customer finds you without an ad. If you want it dialed in for your business, look at my <a href="/services">services</a> and get in touch.
+
+If you're a designer or developer, check your client's robots.txt and keep structured data matching the page. More posts live under <a href="/blog/answer-engine-optimization">Answer Engine Optimization</a>.
