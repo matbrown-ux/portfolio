@@ -990,8 +990,8 @@
     {
       "order": 17,
       "planned_run": "2026-11-20",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/logo-design-cost-freelancer",
       "topic": "brand-identity",
       "cluster": "Identity foundations",
       "role": "spoke",
