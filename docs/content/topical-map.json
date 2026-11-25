@@ -799,7 +799,7 @@
     {
       "order": 13,
       "planned_run": "2026-11-11",
-      "status": "in-review",
+      "status": "published",
       "branch": "article/ai-automation-pricing",
       "topic": "ai-automation",
       "cluster": "Foundations",
@@ -844,7 +844,7 @@
     {
       "order": 14,
       "planned_run": "2026-11-13",
-      "status": "in-review",
+      "status": "published",
       "branch": "article/design-tokens-explained",
       "topic": "design-systems",
       "cluster": "Design tokens",
@@ -1081,8 +1081,8 @@
     {
       "order": 19,
       "planned_run": "2026-11-25",
-      "status": "planned",
-      "branch": null,
+      "status": "in-review",
+      "branch": "article/custom-software-development-cost-small-business",
       "topic": "saas-development",
       "cluster": "Internal tools and dashboards",
       "role": "spoke",
